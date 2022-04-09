@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         spielBeitreten=findViewById(R.id.button);
         spielBeitreten.setOnClickListener(view -> joinGame());
 
+        hint=findViewById(R.id.button4);
 
     }
     public void createGame(){
