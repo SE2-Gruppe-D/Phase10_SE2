@@ -18,9 +18,13 @@ public class MainActivity extends AppCompatActivity {
         spielErstellen=findViewById(R.id.button2);
         spielErstellen.setOnClickListener(view -> createGame());
 
+        spielBeitreten=findViewById(R.id.button);
+        spielBeitreten.setOnClickListener(view -> joinGame());
 
 
     }
     public void createGame(){
+    }
+    public void joinGame(){
     }
 }
