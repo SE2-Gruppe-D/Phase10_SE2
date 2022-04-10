@@ -26,6 +26,6 @@ public class MainActivity extends AppCompatActivity {
     }
     public void createGame(){
     }
-    public void joinGame(){
+    public void joinGame() {
     }
 }
