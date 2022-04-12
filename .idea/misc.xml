@@ -3,13 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-Serververbindung
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.16041666666666668" />
-      </map>
-    </option>
-  </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
-
+        <entry key="..\:/Programme/Git/GitHub/Phase10_SE2/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2275" />
+        <entry key="..\:/Programme/Git/GitHub/Phase10_SE2/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2275" />
+        <entry key="..\:/Programme/Git/GitHub/Phase10_SE2/app/src/main/res/layout/activity_main.xml" value="0.2028985507246377" />
+        <entry key="..\:/Programme/Git/GitHub/Phase10_SE2/app/src/main/res/layout/activity_play_rules.xml" value="0.2028985507246377" />
+        <entry key="..\:/Programme/Git/GitHub/Phase10_SE2/app/src/main/res/layout/activity_playboard.xml" value="0.17831813576494426" />
+        <entry key="..\:/Programme/Git/GitHub/Phase10_SE2/app/src/main/res/layout/activity_playfield.xml" value="0.25" />
+        <entry key="..\:/Programme/Git/GitHub/Phase10_SE2/app/src/main/res/layout/game_window.xml" value="0.33" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.222" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.222" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.35487518310546884" />
@@ -19,7 +19,6 @@ Serververbindung
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
- main
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

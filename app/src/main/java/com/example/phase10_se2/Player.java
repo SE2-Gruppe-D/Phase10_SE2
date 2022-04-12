@@ -9,16 +9,30 @@ enum PlayerColor {
     RED, BLUE, YELLOW, GREEN
 }
 
+enum FieldColor{
+    BLUE, GREY, GREEN, ORANGE, RED, PURPLE, PINK
+}
+
 public class Player {
     private final String name;
     private final PlayerColor color;
     private int startingOrder;
     private PlayerState state;
     private int currentPosition;
+    private int positionX, positionY;
+    final private FieldColor [] colorField = new FieldColor [] {FieldColor.BLUE, FieldColor.GREY, FieldColor.GREEN,
+            FieldColor.ORANGE, FieldColor.GREY, FieldColor.RED, FieldColor.GREY, FieldColor.PURPLE, FieldColor.PINK,
+            FieldColor.BLUE, FieldColor.GREY, FieldColor.ORANGE, FieldColor.GREEN, FieldColor.GREY, FieldColor.RED,
+            FieldColor.PINK};
 
-    public Player(String name, PlayerColor color) {
+
+
+
+    public Player(String name, PlayerColor color, int positionX, int positionY) {
         this.name = name;
         this.color = color;
+        this.positionX = positionX;
+        this.positionY = positionY;
 
         currentPosition = 0;
         startingOrder = -1;
