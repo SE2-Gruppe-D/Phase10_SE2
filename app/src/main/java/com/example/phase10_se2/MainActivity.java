@@ -10,6 +10,7 @@ public class MainActivity extends AppCompatActivity {
     Button spielErstellen;
     Button spielBeitreten;
     Button hint;
+    Button toPlayfield;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
         hint=findViewById(R.id.button4);
         hint.setOnClickListener(view -> showPlayRules());
 
+        //vorläufiger Button um auf das Spielfeld zu gelangen
+        toPlayfield=findViewById(R.id.btn_playfield);
+        toPlayfield.setOnClickListener(view -> showPlayField());
+
     }
     public void createGame(){
     }
@@ -33,5 +38,9 @@ public class MainActivity extends AppCompatActivity {
     public void showPlayRules(){
         Intent intent= new Intent(this, PlayRules.class);
         startActivity(intent);
+    }
+    public void showPlayField(){
+        Intent i= new Intent(MainActivity.this, Playfield.class);
+        startActivity(i);
     }
 }
