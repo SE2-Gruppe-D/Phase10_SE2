@@ -1,58 +1,74 @@
 package com.example.phase10_se2;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import java.util.Random;
 
-public class DiceActivity extends AppCompatActivity implements SensorEventListener {
+
+public class DiceFragment extends Fragment implements SensorEventListener{
+
     private float shakeThreshold;  //Threshold for the acceleration sensor to trigger dice generation
     private ImageView diceView;
     private Dice dice;
     private SensorManager sensorManager;
     private Sensor accelerometer;
+    private Player player;
+
+
+    public static DiceFragment newInstance() {
+        return new DiceFragment();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dice);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.dice_fragment, container, false);
+        return view;
+    }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         dice = new Dice();
         initViews();
         initAccelerometer();
     }
 
     //onResume() register the accelerometer for listening the events
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     //onPause() unregister the accelerometer for stop listening the events
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         sensorManager.unregisterListener(this);
     }
 
     private void initViews() {
-        this.diceView = findViewById(R.id.imageView);
+        this.diceView = (ImageView) getView().findViewById(R.id.DiceView);
     }
 
     private void initAccelerometer() {
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) { //if an accelerator got created
             accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
             sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-            shakeThreshold = accelerometer.getMaximumRange() / 3;
+            shakeThreshold = accelerometer.getMaximumRange() / 10;
         }
     }
 
@@ -67,8 +83,9 @@ public class DiceActivity extends AppCompatActivity implements SensorEventListen
         float z = event.values[2];
 
         float acceleration = (float) (Math.sqrt(x*x + y*y + z*z) - SensorManager.GRAVITY_EARTH);
+        Log.i("DiceActivity", (player!= null) + " " + acceleration + "  " + shakeThreshold);
 
-        if (acceleration > shakeThreshold) {
+        if (acceleration > shakeThreshold && player != null && player.getStartingOrder() == -1) {
             Log.i("DiceActivity", "sensor has been activated. Trying to set dice image");
 
             switch(dice.roll()) {
@@ -92,5 +109,11 @@ public class DiceActivity extends AppCompatActivity implements SensorEventListen
                     break;
             }
         }
+    }
+
+
+    //Setter
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }
