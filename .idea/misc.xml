@@ -3,17 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Programme/Git/GitHub/Phase10_SE2/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2275" />
-        <entry key="..\:/Programme/Git/GitHub/Phase10_SE2/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2275" />
-        <entry key="..\:/Programme/Git/GitHub/Phase10_SE2/app/src/main/res/layout/activity_main.xml" value="0.2028985507246377" />
-        <entry key="..\:/Programme/Git/GitHub/Phase10_SE2/app/src/main/res/layout/activity_play_rules.xml" value="0.2028985507246377" />
-        <entry key="..\:/Programme/Git/GitHub/Phase10_SE2/app/src/main/res/layout/activity_playboard.xml" value="0.17831813576494426" />
-        <entry key="..\:/Programme/Git/GitHub/Phase10_SE2/app/src/main/res/layout/activity_playfield.xml" value="0.25" />
-        <entry key="..\:/Programme/Git/GitHub/Phase10_SE2/app/src/main/res/layout/game_window.xml" value="0.33" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.222" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.222" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.35487518310546884" />
         <entry key="app/src/main/res/layout/activity_play_rules.xml" value="0.1345565749235474" />
+        <entry key="app/src/main/res/layout/activity_playfield.xml" value="0.375" />
         <entry key="app/src/main/res/layout/playrules.xml" value="0.2916256101660453" />
       </map>
     </option>
@@ -23,5 +17,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.375" />
+      </ProjectState>
+    </option>
   </component>
 </project>
