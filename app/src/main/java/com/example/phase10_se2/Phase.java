@@ -25,6 +25,9 @@ public class Phase {
     }
 
     //Phase 2: 6 Karten einer Farbe
+    private boolean checkPhase2(List<Card> list1){
+        return list1.size()==6 && checkEqualsCholor(list1);
+    }
 
 
     //Phase 3: 1 Vierling + 1 Viererfolge
@@ -34,7 +37,9 @@ public class Phase {
 
 
     //Phase 5: 7 Karten einer Farbe
-
+    private boolean checkPhase5(List<Card> list1){
+        return list1.size()==7 && checkEqualsCholor(list1);
+    }
 
     //Phase 6: 1 Neunerfolge
 
@@ -82,6 +87,15 @@ public class Phase {
        return true;
    }
 
+   //check equals cholor
+    private boolean checkEqualsCholor(List<Card> list1){
+        for (int i = 0; i < list1.size() - 1; i++) {
+            if (!list1.get(i).getColor().equals(list1.get(i + 1).getColor())) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 
 
