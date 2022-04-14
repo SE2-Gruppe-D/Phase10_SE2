@@ -19,7 +19,9 @@ public class Phase {
 
 
     //Phase 3: 1 Vierling + 1 Viererfolge
-
+    private boolean checkPhase3(List<Card> list1, List<Card> list2){
+        return checkSetOf4(list1) && (list2.size()==4 && checkRunOfX(list2));
+    }
 
     //Phase 4: 1 Achterfolge
     private boolean checkPhase4(List<Card> list1){
@@ -45,7 +47,9 @@ public class Phase {
 
 
     //Phase 8: 1 Viererfolge einer Farbe + 1 Drilling
-
+    private boolean checkPhase8(List<Card> list1, List<Card> list2){
+        return ((list1.size()==4 && checkRunOfX(list1) && checkEqualsCholor(list1)) && checkSetOf3(list2));
+    }
 
     //Phase 9: 1 Fünfling + 1 Drilling
     private boolean checkPhase9(List<Card> list1, List<Card> list2){
@@ -53,6 +57,9 @@ public class Phase {
     }
 
     //Phase 10: 1 Fünfling + 1 Dreierfolge einer Farbe
+    private boolean checkPhase10(List<Card> list1, List<Card> list2){
+        return (checkSetOf5(list1) && (list2.size()==3 && checkRunOfX(list2) && checkEqualsCholor(list2)));
+    }
 
 
     //check sets of 2,3,4,5
