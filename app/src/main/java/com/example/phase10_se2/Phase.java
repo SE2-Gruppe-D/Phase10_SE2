@@ -8,14 +8,14 @@ public class Phase {
 
     /*
     Phase 2: 6 Karten einer Farbe
-    Phase 3: 1 Vierling + 1 Viererfolge
-    Phase 4: 1 Achterfolge
-    Phase 5: 7 Karten einer Farbe
-    Phase 6: 1 Neunerfolge
-    Phase 7: 2 Vierlinge
-    Phase 8: 1 Viererfolge einer Farbe + 1 Drilling
-    Phase 9: 1 Fünfling + 1 Drilling
-    Phase 10: 1 Fünfling + 1 Dreierfolge einer Farbe
+
+    //Phase 4: 1 Achterfolge
+    //Phase 5: 7 Karten einer Farbe
+    //Phase 6: 1 Neunerfolge
+    //Phase 7: 2 Vierlinge
+    //Phase 8: 1 Viererfolge einer Farbe + 1 Drilling
+    //Phase 9: 1 Fünfling + 1 Drilling
+    //Phase 10: 1 Fünfling + 1 Dreierfolge einer Farbe
      */
 
     //check Phase 1 - 10
@@ -23,6 +23,36 @@ public class Phase {
     private boolean checkPhase1(List<Card> list1, List<Card> list2, List<Card> list3, List<Card> list4){
         return checkSetOf2(list1) && checkSetOf2(list2) && checkSetOf2(list3) && checkSetOf2(list4);
     }
+
+    //Phase 2: 6 Karten einer Farbe
+
+
+    //Phase 3: 1 Vierling + 1 Viererfolge
+
+
+    //Phase 4: 1 Achterfolge
+
+
+    //Phase 5: 7 Karten einer Farbe
+
+
+    //Phase 6: 1 Neunerfolge
+
+
+    //Phase 7: 2 Vierlinge
+    private boolean checkPhase7(List<Card> list1, List<Card> list2){
+        return checkSetOf4(list1) && checkSetOf4(list2);
+    }
+
+
+    //Phase 8: 1 Viererfolge einer Farbe + 1 Drilling
+
+
+    //Phase 9: 1 Fünfling + 1 Drilling
+
+
+    //Phase 10: 1 Fünfling + 1 Dreierfolge einer Farbe
+
 
     //check sets of 2,3,4,5
    private boolean checkSetOf2(List<Card> list1){
@@ -49,6 +79,8 @@ public class Phase {
        }
        return true;
    }
+
+
 
 
 
