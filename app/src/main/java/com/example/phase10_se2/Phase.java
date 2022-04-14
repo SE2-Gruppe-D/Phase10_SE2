@@ -29,6 +29,18 @@ public class Phase {
        return list1.size() == 2 && checkEqualsValue(list1);
    }
 
+    private boolean checkSetOf3(List<Card> list1){
+        return list1.size() == 3 && checkEqualsValue(list1);
+    }
+
+    private boolean checkSetOf4(List<Card> list1){
+        return list1.size() == 4 && checkEqualsValue(list1);
+    }
+
+    private boolean checkSetOf5(List<Card> list1){
+        return list1.size() == 5 && checkEqualsValue(list1);
+    }
+
    private boolean checkEqualsValue(List<Card> list1){
        for (int i = 0; i < list1.size() - 1; i++) {
            if (list1.get(i).getValue() != list1.get(i+1).getValue()) {
@@ -37,6 +49,8 @@ public class Phase {
        }
        return true;
    }
+
+
 
 
 
