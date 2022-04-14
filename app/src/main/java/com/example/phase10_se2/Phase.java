@@ -49,7 +49,9 @@ public class Phase {
 
 
     //Phase 9: 1 Fünfling + 1 Drilling
-
+    private boolean checkPhase9(List<Card> list1, List<Card> list2){
+        return checkSetOf5(list1) && checkSetOf3(list2);
+    }
 
     //Phase 10: 1 Fünfling + 1 Dreierfolge einer Farbe
 
