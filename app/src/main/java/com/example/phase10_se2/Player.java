@@ -37,6 +37,7 @@ public class Player {
         this.name = name;
         this.color = color;
         this.room = room;
+    }
 
     public Player(String name, PlayerColor color, int positionX, int positionY) {
         this.name = name;

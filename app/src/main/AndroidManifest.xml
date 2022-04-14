@@ -16,7 +16,8 @@
             android:name=".CreateGameActivity"
             android:exported="false" />
 
-            android:name=".Playfield"
+            <activity
+                android:name=".Playfield"
             android:exported="false"
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden"/>
@@ -24,9 +25,11 @@
         <activity
             android:name=".PlayRules"
             android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
