@@ -1,20 +1,29 @@
 package com.example.phase10_se2;
 
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Phase {
 
+    //Platzhalter Handkarten
+    Card c1;
+
+    public Phase(Card c1) {
+        this.c1 = c1;
+    }
+
     //check Phase 1 - 10
     //Phase 1: 4 Zwillinge
-    private boolean checkPhase1(List<Card> list1, List<Card> list2, List<Card> list3, List<Card> list4){
+    public boolean checkPhase1(List<Card> list1, List<Card> list2, List<Card> list3, List<Card> list4){
         return checkSetOf2(list1) && checkSetOf2(list2) && checkSetOf2(list3) && checkSetOf2(list4);
     }
 
+
+
     //Phase 2: 6 Karten einer Farbe
     private boolean checkPhase2(List<Card> list1){
-        return list1.size()==6 && checkEqualsCholor(list1);
+        return list1.size()==6 && checkEqualsColor(list1);
     }
 
 
@@ -31,7 +40,7 @@ public class Phase {
 
     //Phase 5: 7 Karten einer Farbe
     private boolean checkPhase5(List<Card> list1){
-        return list1.size()==7 && checkEqualsCholor(list1);
+        return list1.size()==7 && checkEqualsColor(list1);
     }
 
     //Phase 6: 1 Neunerfolge
@@ -48,7 +57,7 @@ public class Phase {
 
     //Phase 8: 1 Viererfolge einer Farbe + 1 Drilling
     private boolean checkPhase8(List<Card> list1, List<Card> list2){
-        return ((list1.size()==4 && checkRunOfX(list1) && checkEqualsCholor(list1)) && checkSetOf3(list2));
+        return ((list1.size()==4 && checkRunOfX(list1) && checkEqualsColor(list1)) && checkSetOf3(list2));
     }
 
     //Phase 9: 1 Fünfling + 1 Drilling
@@ -58,12 +67,12 @@ public class Phase {
 
     //Phase 10: 1 Fünfling + 1 Dreierfolge einer Farbe
     private boolean checkPhase10(List<Card> list1, List<Card> list2){
-        return (checkSetOf5(list1) && (list2.size()==3 && checkRunOfX(list2) && checkEqualsCholor(list2)));
+        return (checkSetOf5(list1) && (list2.size()==3 && checkRunOfX(list2) && checkEqualsColor(list2)));
     }
 
 
     //check sets of 2,3,4,5
-   private boolean checkSetOf2(List<Card> list1){
+   public boolean checkSetOf2(List<Card> list1){
        return list1.size() == 2 && checkEqualsValue(list1);
    }
 
@@ -79,7 +88,7 @@ public class Phase {
         return list1.size() == 5 && checkEqualsValue(list1);
     }
 
-   private boolean checkEqualsValue(List<Card> list1){
+   public boolean checkEqualsValue(List<Card> list1){
        for (int i = 0; i < list1.size() - 1; i++) {
            if (list1.get(i).getValue() != list1.get(i+1).getValue()) {
                return false;
@@ -88,8 +97,8 @@ public class Phase {
        return true;
    }
 
-   //check equals cholor
-    private boolean checkEqualsCholor(List<Card> list1){
+   //check equals color
+    private boolean checkEqualsColor(List<Card> list1){
         for (int i = 0; i < list1.size() - 1; i++) {
             if (!list1.get(i).getColor().equals(list1.get(i + 1).getColor())) {
                 return false;
