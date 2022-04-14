@@ -10,20 +10,27 @@ enum PlayerColor {
 }
 
 public class Player {
-    private final String name;
-    private final PlayerColor color;
+    private  String name;
+    private  PlayerColor color;
+    private  String room;
     private int startingOrder;
     private PlayerState state;
     private int currentPosition;
 
-    public Player(String name, PlayerColor color) {
+    // no-argument constructor
+    public Player(){
+    }
+
+    public Player(String name, PlayerColor color, String room) {
         this.name = name;
         this.color = color;
+        this.room = room;
 
         currentPosition = 0;
         startingOrder = -1;
         state = PlayerState.WAITING;
     }
+
 
 
     //GETTER AND SETTER
@@ -59,5 +66,9 @@ public class Player {
 
     public PlayerColor getColor() {
         return color;
+    }
+
+    public String getRoom() {
+        return room;
     }
 }
