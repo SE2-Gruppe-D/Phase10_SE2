@@ -6,18 +6,6 @@ import java.util.List;
 
 public class Phase {
 
-    /*
-    Phase 2: 6 Karten einer Farbe
-
-    //Phase 4: 1 Achterfolge
-    //Phase 5: 7 Karten einer Farbe
-    //Phase 6: 1 Neunerfolge
-    //Phase 7: 2 Vierlinge
-    //Phase 8: 1 Viererfolge einer Farbe + 1 Drilling
-    //Phase 9: 1 Fünfling + 1 Drilling
-    //Phase 10: 1 Fünfling + 1 Dreierfolge einer Farbe
-     */
-
     //check Phase 1 - 10
     //Phase 1: 4 Zwillinge
     private boolean checkPhase1(List<Card> list1, List<Card> list2, List<Card> list3, List<Card> list4){
@@ -34,6 +22,9 @@ public class Phase {
 
 
     //Phase 4: 1 Achterfolge
+    private boolean checkPhase4(List<Card> list1){
+        return list1.size()==8 && checkRunOfX(list1);
+    }
 
 
     //Phase 5: 7 Karten einer Farbe
@@ -42,6 +33,9 @@ public class Phase {
     }
 
     //Phase 6: 1 Neunerfolge
+    private boolean checkPhase6(List<Card> list1){
+        return list1.size()==9 && checkRunOfX(list1);
+    }
 
 
     //Phase 7: 2 Vierlinge
@@ -91,6 +85,16 @@ public class Phase {
     private boolean checkEqualsCholor(List<Card> list1){
         for (int i = 0; i < list1.size() - 1; i++) {
             if (!list1.get(i).getColor().equals(list1.get(i + 1).getColor())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //check run of X
+    private boolean checkRunOfX(List<Card> list1){
+        for (int i = 0; i < list1.size() - 1; i++) {
+            if ((list1.get(i).getValue())+1 != list1.get(i+1).getValue()) {
                 return false;
             }
         }
