@@ -10,16 +10,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Phase10_SE2">
         <activity
-            android:name=".Playfield"
+            android:name=".FindGameActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateGameActivity"
+            android:exported="false" />
+
+            <activity
+                android:name=".Playfield"
             android:exported="false"
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden"/>
+
         <activity
             android:name=".PlayRules"
             android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
