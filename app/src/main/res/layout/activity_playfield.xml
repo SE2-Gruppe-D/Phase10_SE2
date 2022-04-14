@@ -109,7 +109,7 @@
             android:layout_width="35dp"
             android:layout_height="match_parent"
             android:scaleType="centerInside"
-            android:rotation="180"
+
             app:srcCompat="@drawable/deckblatt" />
 
         <ImageView
@@ -117,7 +117,7 @@
             android:layout_width="35dp"
             android:layout_height="match_parent"
             android:scaleType="centerInside"
-            android:rotation="180"
+
             app:srcCompat="@drawable/deckblatt" />
 
         <ImageView
@@ -125,7 +125,7 @@
             android:layout_width="35dp"
             android:layout_height="match_parent"
             android:scaleType="centerInside"
-            android:rotation="180"
+
             app:srcCompat="@drawable/deckblatt" />
 
         <ImageView
@@ -133,7 +133,7 @@
             android:layout_width="35dp"
             android:layout_height="match_parent"
             android:scaleType="centerInside"
-            android:rotation="180"
+
             app:srcCompat="@drawable/deckblatt" />
 
         <ImageView
@@ -141,7 +141,7 @@
             android:layout_width="35dp"
             android:layout_height="match_parent"
             android:scaleType="centerInside"
-            android:rotation="180"
+
             app:srcCompat="@drawable/deckblatt" />
 
         <ImageView
@@ -149,7 +149,7 @@
             android:layout_width="35dp"
             android:layout_height="match_parent"
             android:scaleType="centerInside"
-            android:rotation="180"
+
             app:srcCompat="@drawable/deckblatt" />
 
         <ImageView
@@ -157,7 +157,7 @@
             android:layout_width="35dp"
             android:layout_height="match_parent"
             android:scaleType="centerInside"
-            android:rotation="180"
+
             app:srcCompat="@drawable/deckblatt" />
 
         <ImageView
@@ -165,7 +165,7 @@
             android:layout_width="35dp"
             android:layout_height="match_parent"
             android:scaleType="centerInside"
-            android:rotation="180"
+
             app:srcCompat="@drawable/deckblatt" />
 
         <ImageView
@@ -173,7 +173,7 @@
             android:layout_width="35dp"
             android:layout_height="match_parent"
             android:scaleType="centerInside"
-            android:rotation="180"
+
             app:srcCompat="@drawable/deckblatt" />
 
 
@@ -182,7 +182,7 @@
             android:layout_width="35dp"
             android:layout_height="match_parent"
             android:scaleType="centerInside"
-            android:rotation="180"
+
             app:srcCompat="@drawable/deckblatt" />
     </LinearLayout>
 
@@ -196,6 +196,7 @@
         android:orientation="vertical"
         android:weightSum="10"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
         tools:ignore="MissingConstraints">
 
