@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -220,6 +221,15 @@ public class Playfield extends AppCompatActivity {
         cardID(cards.get(38), card39);
         cardID(cards.get(39), card40);
 
+        //Karte vergroeßern
+        card1.setOnClickListener(view ->{
+            resizeCards();
+        });
+    }
+    //neue groeße einer Karte
+    public void resizeCards(){
+        LinearLayout.LayoutParams size = new LinearLayout.LayoutParams(150, 500);
+        card1.setLayoutParams(size);
     }
     //ID zuweisung Karten
     public void cardID(int card, ImageView image) {

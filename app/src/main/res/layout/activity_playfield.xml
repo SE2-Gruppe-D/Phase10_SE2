@@ -10,9 +10,10 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="360dp"
-        android:layout_height="43dp"
+        android:layout_height="200dp"
         android:layout_marginStart="11dp"
         android:layout_marginEnd="334dp"
+        android:layout_marginBottom="30dp"
         android:orientation="horizontal"
         android:weightSum="10"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,7 +24,8 @@
         <ImageView
             android:id="@+id/card1"
             android:layout_width="35dp"
-            android:layout_height="match_parent"
+            android:layout_height="43dp"
+            android:layout_gravity="bottom"
             android:scaleType="centerInside"
 
             app:srcCompat="@drawable/deckblatt" />
@@ -31,56 +33,64 @@
         <ImageView
             android:id="@+id/card2"
             android:layout_width="35dp"
-            android:layout_height="match_parent"
+            android:layout_height="43dp"
+            android:layout_gravity="bottom"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/deckblatt" />
 
         <ImageView
             android:id="@+id/card3"
             android:layout_width="35dp"
-            android:layout_height="match_parent"
+            android:layout_height="43dp"
+            android:layout_gravity="bottom"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/deckblatt" />
 
         <ImageView
             android:id="@+id/card4"
             android:layout_width="35dp"
-            android:layout_height="match_parent"
+            android:layout_height="43dp"
+            android:layout_gravity="bottom"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/deckblatt" />
 
         <ImageView
             android:id="@+id/card5"
             android:layout_width="35dp"
-            android:layout_height="match_parent"
+            android:layout_height="43dp"
+            android:layout_gravity="bottom"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/deckblatt" />
 
         <ImageView
             android:id="@+id/card6"
             android:layout_width="35dp"
-            android:layout_height="match_parent"
+            android:layout_height="43dp"
+            android:layout_gravity="bottom"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/deckblatt" />
 
         <ImageView
             android:id="@+id/card7"
             android:layout_width="35dp"
-            android:layout_height="match_parent"
+            android:layout_height="43dp"
+            android:layout_gravity="bottom"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/deckblatt" />
 
         <ImageView
             android:id="@+id/card8"
             android:layout_width="35dp"
-            android:layout_height="match_parent"
+            android:layout_height="43dp"
+            android:layout_gravity="bottom"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/deckblatt" />
 
         <ImageView
             android:id="@+id/card9"
             android:layout_width="35dp"
-            android:layout_height="match_parent"
+            android:layout_height="43dp"
+            android:layout_gravity="bottom"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/deckblatt" />
 
@@ -88,7 +98,8 @@
         <ImageView
             android:id="@+id/card10"
             android:layout_width="35dp"
-            android:layout_height="match_parent"
+            android:layout_height="43dp"
+            android:layout_gravity="bottom"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/deckblatt" />
     </LinearLayout>
@@ -192,10 +203,10 @@
         android:layout_width="45dp"
         android:layout_height="351dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="70dp"
         android:orientation="vertical"
         android:weightSum="10"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
         tools:ignore="MissingConstraints">
