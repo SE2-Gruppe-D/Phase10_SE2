@@ -12,27 +12,27 @@ import java.util.Collections;
 public class Playfield extends AppCompatActivity {
     ImageView card1, card2,card3, card4, card5, card6, card7, card8 ,card9 ,card10 ,card11, card12,card13, card14, card15, card16, card17, card18, card19, card20, card21,card22, card23, card24, card25, card26, card27, card28, card29, card30, card31, card32, card33, card34,card35,card36, card37, card38, card39, card40;
 
-    ArrayList<cards> cardlist;
+    ArrayList<Cards> cardlist;
     ArrayList<ImageView> Imagelist;
 
-    ArrayList<cards> player1Hand;
-    ArrayList<cards> player2Hand;
-    ArrayList<cards> player3Hand;
-    ArrayList<cards> player4Hand;
+    ArrayList<Cards> player1Hand;
+    ArrayList<Cards> player2Hand;
+    ArrayList<Cards> player3Hand;
+    ArrayList<Cards> player4Hand;
 
-    public ArrayList<cards> getPlayer1Hand() {
+    public ArrayList<Cards> getPlayer1Hand() {
         return player1Hand;
     }
 
-    public ArrayList<cards> getPlayer2Hand() {
+    public ArrayList<Cards> getPlayer2Hand() {
         return player2Hand;
     }
 
-    public ArrayList<cards> getPlayer3Hand() {
+    public ArrayList<Cards> getPlayer3Hand() {
         return player3Hand;
     }
 
-    public ArrayList<cards> getPlayer4Hand() {
+    public ArrayList<Cards> getPlayer4Hand() {
         return player4Hand;
     }
 
@@ -56,22 +56,22 @@ public class Playfield extends AppCompatActivity {
         //alle 96 Karten werden in eine ArrayList gespeichert
         //erstelle alle Blauen Karten
         for (int i = 0; i < 24; i++) {
-            cards card = new cards("blue", (i % 12) + 1, null);  //%12 weil, es wird bei 0 gestartet und immer +1 gerechnet & somit wird jeder Karte doppelt eingefügt
+            Cards card = new Cards("blue", (i % 12) + 1, null);  //%12 weil, es wird bei 0 gestartet und immer +1 gerechnet & somit wird jeder Karte doppelt eingefügt
             cardlist.add(card);
         }
         //erstelle alle Roten Karten
         for (int i = 0; i < 24; i++) {
-            cards card = new cards("red", (i % 12) + 1, null);
+            Cards card = new Cards("red", (i % 12) + 1, null);
             cardlist.add(card);
         }
         //erstelle alle Gelben Karten
         for (int i = 0; i < 24; i++) {
-            cards card = new cards("yellow", (i % 12) + 1, null);
+            Cards card = new Cards("yellow", (i % 12) + 1, null);
             cardlist.add(card);
         }
         //erstelle alle Gruenen Karte
         for (int i = 0; i < 24; i++) {
-            cards card = new cards("green", (i % 12) + 1, null);
+            Cards card = new Cards("green", (i % 12) + 1, null);
             cardlist.add(card);
         }
 
@@ -135,7 +135,7 @@ public class Playfield extends AppCompatActivity {
         }
     }
 
-    private void setCardImage(cards cards, ImageView image){        //Kartenobjekt + Imageview
+    private void setCardImage(Cards cards, ImageView image){        //Kartenobjekt + Imageview
         cards.setCardUI(image);         //Imageview in card setzen
         int Id=0;       //grafik von Imageview setzen
 
