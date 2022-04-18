@@ -2,14 +2,13 @@ package com.example.phase10_se2;
 
 import android.util.Log;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 public class Dice {
     private static final int SIDES = 6;
 
     protected int roll() {
-        Random random = new Random();
-        random.setSeed(System.currentTimeMillis()); //to assure randomness
+        SecureRandom random = new SecureRandom();
         int randomValue = random.nextInt(SIDES) + 1;
 
         if (true) {
