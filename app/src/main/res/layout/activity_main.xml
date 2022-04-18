@@ -6,13 +6,108 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="195dp"
+        android:layout_height="162dp"
+        android:layout_marginBottom="180dp"
+        android:background="#159E1B"
+        android:text="HINT"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.961"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/joinGameBtn"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/createGameBtn"
+        android:layout_width="189dp"
+        android:layout_height="164dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="114dp"
+        android:background="#2CC9F1"
+        android:text="Spiel erstellen"
+        app:layout_constraintEnd_toStartOf="@+id/joinGameBtn"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/joinGameBtn"
+        android:layout_width="195dp"
+        android:layout_height="152dp"
+        android:layout_marginBottom="172dp"
+        android:background="#EC4444"
+        android:text="Spiel beitreten"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.962"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.405" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="198dp"
+        android:layout_height="66dp"
+        android:text="Phase"
+        android:textColor="@color/black"
+        android:textSize="60sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.453"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.058" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="190dp"
+        android:layout_height="172dp"
+        android:layout_marginTop="259dp"
+        android:layout_marginEnd="194dp"
+        android:layout_marginBottom="180dp"
+        android:background="#F8E118"
+        android:gravity="fill_vertical"
+        android:text="Credits: "
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/button4"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/createGameBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.727" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="134dp"
+        android:layout_height="139dp"
+        android:src="@drawable/phase10"
+        android:translationZ="90dp"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.447" />
+
+    <Button
+        android:id="@+id/btn_playfield"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="67dp"
+        android:layout_marginEnd="295dp"
+        android:layout_marginBottom="69dp"
+        android:text="Playfield"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

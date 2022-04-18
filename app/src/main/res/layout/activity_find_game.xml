@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FindGameActivity">
+
+    <EditText
+        android:id="@+id/usernameJoinGame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="Username"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"/>
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_below="@id/usernameJoinGame"        >
+
+        <RadioButton
+            android:id="@+id/radioButtonRed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:minHeight="48dp"
+            android:paddingEnd="20dp"
+            android:text="RED"
+            tools:layout_editor_absoluteX="139dp"
+            tools:layout_editor_absoluteY="285dp" />
+
+        <RadioButton
+            android:id="@+id/radioButtonBlue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:paddingEnd="20dp"
+            android:text="BLUE"
+            tools:layout_editor_absoluteX="139dp"
+            tools:layout_editor_absoluteY="285dp" />
+
+        <RadioButton
+            android:id="@+id/radioButtonYellow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:paddingEnd="20dp"
+            android:text="YELLOW"
+            tools:layout_editor_absoluteX="139dp"
+            tools:layout_editor_absoluteY="285dp" />
+
+        <RadioButton
+            android:id="@+id/radioButtonGreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:paddingEnd="20dp"
+            android:text="GREEN"
+            tools:layout_editor_absoluteX="139dp"
+            tools:layout_editor_absoluteY="285dp" />
+
+    </RadioGroup>
+
+    <ListView
+        android:id="@+id/roomList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp"
+        android:layout_above="@id/joinRoomBtn"
+        android:layout_below="@id/radioGroup"
+       >
+
+
+    </ListView>
+    <Button
+        android:id="@+id/joinRoomBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="JOIN ROOM" />
+
+</RelativeLayout>

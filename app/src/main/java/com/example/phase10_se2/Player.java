@@ -9,16 +9,41 @@ enum PlayerColor {
     RED, BLUE, YELLOW, GREEN
 }
 
+enum FieldColor{
+    BLUE, GREY, GREEN, ORANGE, RED, PURPLE, PINK
+}
+
 public class Player {
     private final String name;
     private final PlayerColor color;
+    private final String room;
     private int startingOrder;
     private PlayerState state;
     private int currentPosition;
+    private int positionX, positionY;
+    final private FieldColor [] colorField = new FieldColor [] {FieldColor.BLUE, FieldColor.GREY, FieldColor.GREEN,
+            FieldColor.ORANGE, FieldColor.GREY, FieldColor.RED, FieldColor.GREY, FieldColor.PURPLE, FieldColor.PINK,
+            FieldColor.BLUE, FieldColor.GREY, FieldColor.ORANGE, FieldColor.GREEN, FieldColor.GREY, FieldColor.RED,
+            FieldColor.PINK};
 
-    public Player(String name, PlayerColor color) {
+
+
+
+    // no-argument constructor
+    public Player(){
+    }
+
+    public Player(String name, PlayerColor color, String room) {
         this.name = name;
         this.color = color;
+        this.room = room;
+    }
+
+    public Player(String name, PlayerColor color, int positionX, int positionY) {
+        this.name = name;
+        this.color = color;
+        this.positionX = positionX;
+        this.positionY = positionY;
 
         currentPosition = 0;
         startingOrder = -1;
@@ -60,4 +85,9 @@ public class Player {
     public PlayerColor getColor() {
         return color;
     }
+
+    public String getRoom() {
+        return room;
+    }
+
 }
