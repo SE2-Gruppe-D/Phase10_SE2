@@ -14,9 +14,9 @@ enum FieldColor{
 }
 
 public class Player {
-    private final String name;
-    private final PlayerColor color;
-    private final String room;
+    private String name;
+    private PlayerColor color;
+    private String room;
     private int startingOrder;
     private PlayerState state;
     private int currentPosition;
