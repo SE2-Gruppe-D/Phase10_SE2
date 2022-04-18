@@ -55,8 +55,6 @@ public class FindGameActivity extends AppCompatActivity {
         final String[] color = new String[1];
 
         ArrayList<String> takenColors = new ArrayList<>();
-        List<PlayerColor> availableColors = new ArrayList<>();
-
         adapter = new ArrayAdapter<>(FindGameActivity.this, android.R.layout.simple_list_item_1, gameRoomsList);
 
 
@@ -87,9 +85,11 @@ public class FindGameActivity extends AppCompatActivity {
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                view.setBackgroundColor(Color.GRAY);
+
+                listView.setItemChecked(position, true);
                 roomName[0] = gameRoomsList.get(position);
                 database.collection("users")
                         .whereEqualTo("Room", roomName[0])
@@ -115,36 +115,40 @@ public class FindGameActivity extends AppCompatActivity {
                                 if (takenColors.contains("YELLOW")) {
                                     radioYellow.setEnabled(false);
                                 }
+                            adapter.notifyDataSetChanged();
                             }
+
                         });
 
 
 
-                color[0] = ((RadioButton) findViewById(radioGroup.getCheckedRadioButtonId())).getText().toString();
-                PlayerColor playerColor = null;
-                if (!color[0].equals("")) {
-                    switch (color[0]) {
-                        case "RED":
-                            playerColor = PlayerColor.RED;
-                            break;
-                        case "BLUE":
-                            playerColor = PlayerColor.BLUE;
-                            break;
-                        case "YELLOW":
-                            playerColor = PlayerColor.YELLOW;
-                            break;
-                        default:
-                            playerColor = PlayerColor.GREEN;
-                            break;
-                    }
-                }
-
-                String playerName = editTextName.getText().toString();
-                Player player = new Player(playerName, playerColor, roomName[0]);
-
                 joinRoom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        color[0] = ((RadioButton) findViewById(radioGroup.getCheckedRadioButtonId())).getText().toString();
+                        PlayerColor playerColor = null;
+                        if (!color[0].equals("")) {
+                            switch (color[0]) {
+                                case "RED":
+                                    playerColor = PlayerColor.RED;
+                                    break;
+                                case "BLUE":
+                                    playerColor = PlayerColor.BLUE;
+                                    break;
+                                case "YELLOW":
+                                    playerColor = PlayerColor.YELLOW;
+                                    break;
+                                case "GREEN":
+                                    playerColor = PlayerColor.GREEN;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        String playerName = editTextName.getText().toString();
+                        Player player = new Player(playerName, playerColor, roomName[0]);
+
+
                         //create user
                         Map<String, Object> user = new HashMap<>();
                         user.put("Name", player.getName());
