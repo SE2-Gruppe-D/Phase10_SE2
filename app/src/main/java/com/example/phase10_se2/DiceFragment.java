@@ -26,7 +26,6 @@ public class DiceFragment extends Fragment implements SensorEventListener{
     private Dice dice;
     private SensorManager sensorManager;
     private Sensor accelerometer;
-    private Player player;
 
 
     public static DiceFragment newInstance() {
@@ -83,9 +82,8 @@ public class DiceFragment extends Fragment implements SensorEventListener{
         float z = event.values[2];
 
         float acceleration = (float) (Math.sqrt(x*x + y*y + z*z) - SensorManager.GRAVITY_EARTH);
-        Log.i("DiceActivity", (player!= null) + " " + acceleration + "  " + shakeThreshold);
 
-        if (acceleration > shakeThreshold && player != null && player.getStartingOrder() == -1) {
+        if (acceleration > shakeThreshold) {
             Log.i("DiceActivity", "sensor has been activated. Trying to set dice image");
 
             switch(dice.roll()) {
@@ -109,11 +107,5 @@ public class DiceFragment extends Fragment implements SensorEventListener{
                     break;
             }
         }
-    }
-
-
-    //Setter
-    public void setPlayer(Player player) {
-        this.player = player;
     }
 }
