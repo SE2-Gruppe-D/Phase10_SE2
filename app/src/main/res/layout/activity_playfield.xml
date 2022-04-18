@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:visibility="visible"
     tools:context=".Playfield">
 
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="360dp"
-        android:layout_height="200dp"
+        android:layout_width="357dp"
+        android:layout_height="45dp"
         android:layout_marginStart="11dp"
         android:layout_marginEnd="334dp"
         android:layout_marginBottom="10dp"
@@ -390,21 +391,25 @@
 
     <FrameLayout
         android:id="@+id/fl_playfield"
-        android:layout_width="291dp"
-        android:layout_height="409dp"
+        android:layout_width="216dp"
+        android:layout_height="390dp"
         android:layout_marginBottom="1dp"
-        android:foreground="@drawable/konzept_playfield"
+
+        android:background="@drawable/konzept_playfield"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
-        <View
-            android:id="@+id/view_playfield_bg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#110E2C">
 
-        </View>
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="48dp"
+            android:layout_height="158dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:foreground="@drawable/deckblatt"
+            tools:visibility="visible" />
     </FrameLayout>
 
 

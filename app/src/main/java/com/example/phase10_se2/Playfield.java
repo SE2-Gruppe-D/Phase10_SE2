@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -121,7 +122,7 @@ public class Playfield extends AppCompatActivity {
 
         //Handkarten
         for (int i = 0; i < 10; i++) {
-            player1Hand.add(cardlist.get(i));       //Handkarten austeilen
+            player1Hand.add(cardlist.get(i));//Handkarten austeilen
             setCardImage(cardlist.get(i), Imagelist.get(i));        //Image setzen
 
             player2Hand.add(cardlist.get(i + 10));
