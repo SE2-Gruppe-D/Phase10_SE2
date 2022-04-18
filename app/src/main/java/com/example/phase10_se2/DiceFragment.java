@@ -35,8 +35,7 @@ public class DiceFragment extends Fragment implements SensorEventListener{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dice_fragment, container, false);
-        return view;
+        return inflater.inflate(R.layout.dice_fragment, container, false);
     }
 
     @Override
@@ -47,12 +46,14 @@ public class DiceFragment extends Fragment implements SensorEventListener{
     }
 
     //onResume() register the accelerometer for listening the events
+    @Override
     public void onResume() {
         super.onResume();
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     //onPause() unregister the accelerometer for stop listening the events
+    @Override
     public void onPause() {
         super.onPause();
         sensorManager.unregisterListener(this);
@@ -87,9 +88,6 @@ public class DiceFragment extends Fragment implements SensorEventListener{
             Log.i("DiceActivity", "sensor has been activated. Trying to set dice image");
 
             switch(dice.roll()) {
-                case(1):
-                    diceView.setImageResource(R.drawable.dice_1);
-                    break;
                 case(2):
                     diceView.setImageResource(R.drawable.dice_2);
                     break;
@@ -104,6 +102,9 @@ public class DiceFragment extends Fragment implements SensorEventListener{
                     break;
                 case(6):
                     diceView.setImageResource(R.drawable.dice_6);
+                    break;
+                default:
+                    diceView.setImageResource(R.drawable.dice_1);
                     break;
             }
         }
