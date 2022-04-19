@@ -1,5 +1,6 @@
 package com.example.phase10_se2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -91,6 +92,7 @@ public class CreateGameActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 Toast.makeText(CreateGameActivity.this, "creating new game...", Toast.LENGTH_SHORT).show();
+                                goToPlayField();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -105,5 +107,10 @@ public class CreateGameActivity extends AppCompatActivity {
 
 
         });
+
+    }
+    public void goToPlayField(){
+        Intent intent = new Intent(CreateGameActivity.this, Playfield.class);
+        startActivity(intent);
     }
 }
