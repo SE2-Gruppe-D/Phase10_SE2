@@ -26,7 +26,6 @@ public class Playfield extends AppCompatActivity {
 
     Button btn_showAktionskarte;
     FrameLayout fl_showAktionskarte;
-    ImageView iv_showAktionskarte;
 
     public ArrayList<cards> getPlayer1Hand() {
         return player1Hand;
@@ -56,11 +55,17 @@ public class Playfield extends AppCompatActivity {
 
         btn_showAktionskarte=findViewById(R.id.btn_Ak);
         fl_showAktionskarte=findViewById(R.id.fL_Ak);
-        iv_showAktionskarte=findViewById(R.id.iv_Ak);
         btn_showAktionskarte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fl_showAktionskarte.setVisibility(View.VISIBLE);
+                boolean visible=true;
+                if(!visible) {
+                    fl_showAktionskarte.setVisibility(View.VISIBLE);
+                    visible = true;
+                }else {
+                    fl_showAktionskarte.setVisibility(View.INVISIBLE);
+                    visible=false;
+                }
             }
         });
 
