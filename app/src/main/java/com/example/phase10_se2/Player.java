@@ -9,11 +9,15 @@ enum PlayerColor {
     RED, BLUE, YELLOW, GREEN
 }
 
-enum FieldColor{
+enum FieldColor {
     BLUE, GREY, GREEN, ORANGE, RED, PURPLE, PINK
 }
 
 public class Player {
+    final private FieldColor[] colorField = new FieldColor[]{FieldColor.BLUE, FieldColor.GREY, FieldColor.GREEN,
+            FieldColor.ORANGE, FieldColor.GREY, FieldColor.RED, FieldColor.GREY, FieldColor.PURPLE, FieldColor.PINK,
+            FieldColor.BLUE, FieldColor.GREY, FieldColor.ORANGE, FieldColor.GREEN, FieldColor.GREY, FieldColor.RED,
+            FieldColor.PINK};
     private String name;
     private PlayerColor color;
     private String room;
@@ -21,22 +25,22 @@ public class Player {
     private PlayerState state;
     private int currentPosition;
     private int positionX, positionY;
-    final private FieldColor [] colorField = new FieldColor [] {FieldColor.BLUE, FieldColor.GREY, FieldColor.GREEN,
-            FieldColor.ORANGE, FieldColor.GREY, FieldColor.RED, FieldColor.GREY, FieldColor.PURPLE, FieldColor.PINK,
-            FieldColor.BLUE, FieldColor.GREY, FieldColor.ORANGE, FieldColor.GREEN, FieldColor.GREY, FieldColor.RED,
-            FieldColor.PINK};
-
-
 
 
     // no-argument constructor
-    public Player(){
+    public Player() {
     }
 
     public Player(String name, PlayerColor color, String room) {
         this.name = name;
         this.color = color;
         this.room = room;
+
+        positionX = 0;
+        positionY = 0;
+        currentPosition = 0;
+        startingOrder = -1;
+        state = PlayerState.WAITING;
     }
 
     public Player(String name, PlayerColor color, int positionX, int positionY) {
@@ -48,6 +52,35 @@ public class Player {
         currentPosition = 0;
         startingOrder = -1;
         state = PlayerState.WAITING;
+    }
+
+    public Player(String name, PlayerColor color) {
+        this.name = name;
+        this.color = color;
+
+        positionX = 0;
+        positionY = 0;
+        currentPosition = 0;
+        startingOrder = -1;
+        state = PlayerState.WAITING;
+    }
+
+    public void move(int diceValue) {
+        currentPosition = (currentPosition + diceValue) % 16;
+
+        if (currentPosition < 5) {
+            positionX = currentPosition;
+            positionY = 0;
+        } else if (currentPosition < 9) {
+            positionX = 4;
+            positionY = currentPosition % 4;
+        } else if (currentPosition < 13) {
+            positionX = 4 - currentPosition % 4;
+            positionY = 4;
+        } else {
+            positionX = 0;
+            positionY = 4 - currentPosition % 4;
+        }
     }
 
 
@@ -88,6 +121,14 @@ public class Player {
 
     public String getRoom() {
         return room;
+    }
+
+    public int getPositionX() {
+        return positionX;
+    }
+
+    public int getPositionY() {
+        return positionY;
     }
 
 }
