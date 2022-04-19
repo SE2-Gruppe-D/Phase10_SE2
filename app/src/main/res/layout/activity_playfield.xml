@@ -23,6 +23,21 @@
         app:layout_constraintStart_toStartOf="@+id/fl_playfield"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/btn_AkHide"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="241dp"
+        android:layout_marginBottom="359dp"
+        android:background="#4D000000"
+        android:text="Hide"
+        android:textColor="#80FFFFFF"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/fl_playfield"
+        app:layout_constraintEnd_toEndOf="@+id/btn_AkShow"
+        app:layout_constraintStart_toStartOf="@+id/fl_playfield"
+        app:layout_constraintTop_toTopOf="@+id/btn_AkShow" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="360dp"
@@ -444,16 +459,6 @@
             android:visibility="invisible"
             app:srcCompat="@drawable/aktionskarten" />
     </FrameLayout>
-
-    <Button
-        android:id="@+id/btn_AkHide"
-        android:layout_width="46dp"
-        android:layout_height="46dp"
-        android:background="#4D000000"
-        android:text="Hide"
-        android:textColor="#80FFFFFF"
-        tools:layout_editor_absoluteX="683dp"
-        tools:layout_editor_absoluteY="61dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

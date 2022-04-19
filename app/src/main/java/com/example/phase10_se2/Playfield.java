@@ -64,6 +64,8 @@ public class Playfield extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 iv_ShowAktionskarte.setVisibility(View.VISIBLE);
+                btn_HideAktionskarte.setVisibility(View.VISIBLE);
+                btn_ShowAktionskarte.setVisibility(View.GONE);
             }
         });
 
@@ -71,6 +73,8 @@ public class Playfield extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 iv_ShowAktionskarte.setVisibility(View.INVISIBLE);
+                btn_HideAktionskarte.setVisibility(View.GONE);
+                btn_ShowAktionskarte.setVisibility(View.VISIBLE);
             }
         });
 
