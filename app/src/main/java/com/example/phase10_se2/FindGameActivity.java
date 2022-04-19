@@ -5,7 +5,7 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,15 +22,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.protobuf.Empty;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class FindGameActivity extends AppCompatActivity {
@@ -54,7 +51,6 @@ public class FindGameActivity extends AppCompatActivity {
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
         final String[] color = new String[1];
 
-        ArrayList<String> takenColors = new ArrayList<>();
         adapter = new ArrayAdapter<>(FindGameActivity.this, android.R.layout.simple_list_item_1, gameRoomsList);
 
 
@@ -88,9 +84,18 @@ public class FindGameActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
                 listView.setItemChecked(position, true);
                 roomName[0] = gameRoomsList.get(position);
+                ArrayList<String> takenColors = new ArrayList<>();
+
+                //reactivate all radio buttons so it is reset if more than one item is clicked
+                radioRed.setEnabled(true);
+                radioBlue.setEnabled(true);
+                radioGreen.setEnabled(true);
+                radioYellow.setEnabled(true);
+
+                adapter.notifyDataSetChanged(); //update LV
+
                 database.collection("users")
                         .whereEqualTo("Room", roomName[0])
                         .get()
@@ -161,12 +166,18 @@ public class FindGameActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {
                                         Toast.makeText(FindGameActivity.this, "joining game...", Toast.LENGTH_SHORT).show();
+                                        goToPlayField();
                                     }
                                 }).addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
                     }
+
                 });
             }
         });
+    }
+    public void goToPlayField(){
+        Intent intent = new Intent(FindGameActivity.this, Playfield.class);
+        startActivity(intent);
     }
 }
 
