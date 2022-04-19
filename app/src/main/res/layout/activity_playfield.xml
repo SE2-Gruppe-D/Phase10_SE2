@@ -7,6 +7,21 @@
     tools:context=".Playfield">
 
 
+    <Button
+        android:id="@+id/btn_Ak"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="238dp"
+        android:layout_marginBottom="354dp"
+        android:background="#4D000000"
+        android:text="Event"
+        android:textColor="#80FFFFFF"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/fl_playfield"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/fl_playfield"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="360dp"
@@ -386,6 +401,7 @@
             android:rotation="-90"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/deckblatt" />
+
     </LinearLayout>
 
     <FrameLayout
@@ -393,7 +409,6 @@
         android:layout_width="291dp"
         android:layout_height="409dp"
         android:layout_marginBottom="1dp"
-        android:foreground="@drawable/konzept_playfield"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -402,9 +417,31 @@
             android:id="@+id/view_playfield_bg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#110E2C">
+            android:background="@drawable/konzept_playfield">
 
         </View>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fL_Ak"
+        android:layout_width="270dp"
+        android:layout_height="411dp"
+        android:layout_marginEnd="8dp"
+        android:foreground="@drawable/Aktionskarte"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fl_playfield"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:id="@+id/iv_Ak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/Aktionskarte" />
     </FrameLayout>
 
 

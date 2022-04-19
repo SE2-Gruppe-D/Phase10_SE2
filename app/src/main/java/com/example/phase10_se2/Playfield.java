@@ -4,8 +4,12 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -19,6 +23,10 @@ public class Playfield extends AppCompatActivity {
     ArrayList<cards> player2Hand;
     ArrayList<cards> player3Hand;
     ArrayList<cards> player4Hand;
+
+    Button btn_showAktionskarte;
+    FrameLayout fl_showAktionskarte;
+    ImageView iv_showAktionskarte;
 
     public ArrayList<cards> getPlayer1Hand() {
         return player1Hand;
@@ -45,6 +53,17 @@ public class Playfield extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.hide();
+
+        btn_showAktionskarte=findViewById(R.id.btn_Ak);
+        fl_showAktionskarte=findViewById(R.id.fL_Ak);
+        iv_showAktionskarte=findViewById(R.id.iv_Ak);
+        btn_showAktionskarte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fl_showAktionskarte.setVisibility(View.VISIBLE);
+            }
+        });
+
 
         cardlist = new ArrayList<>();
         Imagelist = new ArrayList<>();
