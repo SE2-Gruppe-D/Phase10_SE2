@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -24,8 +23,11 @@ public class Playfield extends AppCompatActivity {
     ArrayList<cards> player3Hand;
     ArrayList<cards> player4Hand;
 
-    Button btn_showAktionskarte;
-    FrameLayout fl_showAktionskarte;
+    Button btn_HideAktionskarte;
+    Button btn_ShowAktionskarte;
+    ImageView iv_ShowAktionskarte;
+    FrameLayout fl_ShowAktionskarte;
+
 
     public ArrayList<cards> getPlayer1Hand() {
         return player1Hand;
@@ -53,21 +55,25 @@ public class Playfield extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.hide();
 
-        btn_showAktionskarte=findViewById(R.id.btn_Ak);
-        fl_showAktionskarte=findViewById(R.id.fL_Ak);
-        btn_showAktionskarte.setOnClickListener(new View.OnClickListener() {
+        btn_HideAktionskarte=findViewById(R.id.btn_AkHide);
+        btn_ShowAktionskarte=findViewById(R.id.btn_AkShow);
+        fl_ShowAktionskarte=findViewById(R.id.fL_Ak);
+        iv_ShowAktionskarte=findViewById(R.id.iv_Ak);
+
+        btn_ShowAktionskarte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean visible=true;
-                if(!visible) {
-                    fl_showAktionskarte.setVisibility(View.VISIBLE);
-                    visible = true;
-                }else {
-                    fl_showAktionskarte.setVisibility(View.INVISIBLE);
-                    visible=false;
-                }
+                iv_ShowAktionskarte.setVisibility(View.VISIBLE);
             }
         });
+
+        btn_HideAktionskarte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                iv_ShowAktionskarte.setVisibility(View.INVISIBLE);
+            }
+        });
+
 
 
         cardlist = new ArrayList<>();
