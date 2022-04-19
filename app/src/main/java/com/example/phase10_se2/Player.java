@@ -14,9 +14,9 @@ enum FieldColor{
 }
 
 public class Player {
-    private  String name;
-    private  PlayerColor color;
-    private  String room;
+    private String name;
+    private PlayerColor color;
+    private String room;
     private int startingOrder;
     private PlayerState state;
     private int currentPosition;
@@ -49,7 +49,6 @@ public class Player {
         startingOrder = -1;
         state = PlayerState.WAITING;
     }
-
 
 
     //GETTER AND SETTER
@@ -90,4 +89,5 @@ public class Player {
     public String getRoom() {
         return room;
     }
+
 }
