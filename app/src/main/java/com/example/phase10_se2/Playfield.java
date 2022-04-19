@@ -19,28 +19,28 @@ public class Playfield extends AppCompatActivity {
     LinearLayout layoutPlayer4;
 
 
-    ArrayList<cards> cardlist;
+    ArrayList<Cards> cardlist;
     ArrayList<ImageView> Imagelist;
-    ArrayList<cards> drawpileList;      //Ablagestapel
+    ArrayList<Cards> drawpileList;      //Ablagestapel
 
-    ArrayList<cards> player1Hand;
-    ArrayList<cards> player2Hand;
-    ArrayList<cards> player3Hand;
-    ArrayList<cards> player4Hand;
+    ArrayList<Cards> player1Hand;
+    ArrayList<Cards> player2Hand;
+    ArrayList<Cards> player3Hand;
+    ArrayList<Cards> player4Hand;
 
-    public ArrayList<cards> getPlayer1Hand() {
+    public ArrayList<Cards> getPlayer1Hand() {
         return player1Hand;
     }
 
-    public ArrayList<cards> getPlayer2Hand() {
+    public ArrayList<Cards> getPlayer2Hand() {
         return player2Hand;
     }
 
-    public ArrayList<cards> getPlayer3Hand() {
+    public ArrayList<Cards> getPlayer3Hand() {
         return player3Hand;
     }
 
-    public ArrayList<cards> getPlayer4Hand() {
+    public ArrayList<Cards> getPlayer4Hand() {
         return player4Hand;
     }
 
@@ -65,22 +65,22 @@ public class Playfield extends AppCompatActivity {
         //alle 96 Karten werden in eine ArrayList gespeichert
         //erstelle alle Blauen Karten
         for (int i = 0; i < 24; i++) {
-            cards card = new cards("blue", (i % 12) + 1, null, i+1);  //%12 weil, es wird bei 0 gestartet und immer +1 gerechnet & somit wird jeder Karte doppelt eingefügt
+            Cards card = new Cards("blue", (i % 12) + 1, null, i+1);  //%12 weil, es wird bei 0 gestartet und immer +1 gerechnet & somit wird jeder Karte doppelt eingefügt
             cardlist.add(card);
         }
         //erstelle alle Roten Karten
         for (int i = 0; i < 24; i++) {
-            cards card = new cards("red", (i % 12) + 1, null, i+25);
+            Cards card = new Cards("red", (i % 12) + 1, null, i+25);
             cardlist.add(card);
         }
         //erstelle alle Gelben Karten
         for (int i = 0; i < 24; i++) {
-            cards card = new cards("yellow", (i % 12) + 1, null, i+49);
+            Cards card = new Cards("yellow", (i % 12) + 1, null, i+49);
             cardlist.add(card);
         }
         //erstelle alle Gruenen Karte
         for (int i = 0; i < 24; i++) {
-            cards card = new cards("green", (i % 12) + 1, null, i+73);
+            Cards card = new Cards("green", (i % 12) + 1, null, i+73);
             cardlist.add(card);
         }
 
@@ -118,7 +118,7 @@ public class Playfield extends AppCompatActivity {
 
     }
     //Karten werden angeordnet
-    private void updateHand(List list, cards cards, LinearLayout linearLayout, int grad){
+    private void updateHand(List list, Cards cards, LinearLayout linearLayout, int grad){
         list.add(cards);
         linearLayout.addView(cards.getCardUI());
         //cards.getCardUI().setVisibility(View.VISIBLE);
@@ -142,7 +142,7 @@ public class Playfield extends AppCompatActivity {
         //drawpileList.removeAll(drawpileList);
     }
 
-    private ImageView createCardUI(cards cards){
+    private ImageView createCardUI(Cards cards){
         ImageView imageView= new ImageView(getApplicationContext());
         setCardImage(cards, imageView);
         LinearLayout.LayoutParams params= new LinearLayout.LayoutParams(35, 120, 1);
@@ -152,7 +152,7 @@ public class Playfield extends AppCompatActivity {
         return imageView;
     }
 
-    private void setCardImage(cards cards, ImageView image){
+    private void setCardImage(Cards cards, ImageView image){
         cards.setCardUI(image);         //Imageview in card setzen
         int Id=0;       //grafik von Imageview setzen
 
