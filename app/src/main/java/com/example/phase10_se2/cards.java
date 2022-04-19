@@ -26,10 +26,11 @@ public class cards {
         return cardUI;
     }
 
-    public cards(String color, int value, ImageView cardUI) {
+    public cards(String color, int value, ImageView cardUI, int ID) {
         this.color = color;
         this.value = value;
         this.cardUI = cardUI;
+        this.ID= ID;
     }
 
     public String getColor() {
