@@ -60,20 +60,21 @@ public class Playfield extends AppCompatActivity {
         fl_ShowAktionskarte=findViewById(R.id.fL_Ak);
         iv_ShowAktionskarte=findViewById(R.id.iv_Ak);
 
+        //Aktionskarte einblenden Show und Hide button tauschen
         btn_ShowAktionskarte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 iv_ShowAktionskarte.setVisibility(View.VISIBLE);
                 btn_HideAktionskarte.setVisibility(View.VISIBLE);
-                btn_ShowAktionskarte.setVisibility(View.GONE);
+                btn_ShowAktionskarte.setVisibility(View.INVISIBLE);
             }
         });
-
+        //Aktionskarte ausblenden Hide und Show button austauschen
         btn_HideAktionskarte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 iv_ShowAktionskarte.setVisibility(View.INVISIBLE);
-                btn_HideAktionskarte.setVisibility(View.GONE);
+                btn_HideAktionskarte.setVisibility(View.INVISIBLE);
                 btn_ShowAktionskarte.setVisibility(View.VISIBLE);
             }
         });
