@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PhaseTest {
-    private Card card1;
+    /*private Card card1;
     private Card card2;
     private Card card3;
     private Card card4;
@@ -25,6 +25,8 @@ public class PhaseTest {
     private List<Card> list3;
     private List<Card> list4;
     private Phase phase;
+
+
 
     @Test
     public void testCheckPhase1True(){
@@ -77,5 +79,7 @@ public class PhaseTest {
         list4.add(card8);
         assertFalse(phase.checkPhase1(list1,list2,list3,list4));
     }
+
+     */
 
 }

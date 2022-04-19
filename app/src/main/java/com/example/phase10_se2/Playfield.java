@@ -5,34 +5,42 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class Playfield extends AppCompatActivity {
-    ImageView card1, card2,card3, card4, card5, card6, card7, card8 ,card9 ,card10 ,card11, card12,card13, card14, card15, card16, card17, card18, card19, card20, card21,card22, card23, card24, card25, card26, card27, card28, card29, card30, card31, card32, card33, card34,card35,card36, card37, card38, card39, card40;
+    ImageView deckcard;
+    LinearLayout layoutPlayer1;
+    LinearLayout layoutPlayer2;
+    LinearLayout layoutPlayer3;
+    LinearLayout layoutPlayer4;
 
-    ArrayList<cards> cardlist;
+
+    ArrayList<Cards> cardlist;
     ArrayList<ImageView> Imagelist;
+    ArrayList<Cards> drawpileList;      //Ablagestapel
 
-    ArrayList<cards> player1Hand;
-    ArrayList<cards> player2Hand;
-    ArrayList<cards> player3Hand;
-    ArrayList<cards> player4Hand;
+    ArrayList<Cards> player1Hand;
+    ArrayList<Cards> player2Hand;
+    ArrayList<Cards> player3Hand;
+    ArrayList<Cards> player4Hand;
 
-    public ArrayList<cards> getPlayer1Hand() {
+    public ArrayList<Cards> getPlayer1Hand() {
         return player1Hand;
     }
 
-    public ArrayList<cards> getPlayer2Hand() {
+    public ArrayList<Cards> getPlayer2Hand() {
         return player2Hand;
     }
 
-    public ArrayList<cards> getPlayer3Hand() {
+    public ArrayList<Cards> getPlayer3Hand() {
         return player3Hand;
     }
 
-    public ArrayList<cards> getPlayer4Hand() {
+    public ArrayList<Cards> getPlayer4Hand() {
         return player4Hand;
     }
 
@@ -46,6 +54,7 @@ public class Playfield extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.hide();
 
+        drawpileList= new ArrayList<>();
         cardlist = new ArrayList<>();
         Imagelist = new ArrayList<>();
         player1Hand = new ArrayList<>();
@@ -56,86 +65,94 @@ public class Playfield extends AppCompatActivity {
         //alle 96 Karten werden in eine ArrayList gespeichert
         //erstelle alle Blauen Karten
         for (int i = 0; i < 24; i++) {
-            cards card = new cards("blue", (i % 12) + 1, null);  //%12 weil, es wird bei 0 gestartet und immer +1 gerechnet & somit wird jeder Karte doppelt eingefügt
+            Cards card = new Cards("blue", (i % 12) + 1, null, i+1);  //%12 weil, es wird bei 0 gestartet und immer +1 gerechnet & somit wird jeder Karte doppelt eingefügt
             cardlist.add(card);
         }
         //erstelle alle Roten Karten
         for (int i = 0; i < 24; i++) {
-            cards card = new cards("red", (i % 12) + 1, null);
+            Cards card = new Cards("red", (i % 12) + 1, null, i+25);
             cardlist.add(card);
         }
         //erstelle alle Gelben Karten
         for (int i = 0; i < 24; i++) {
-            cards card = new cards("yellow", (i % 12) + 1, null);
+            Cards card = new Cards("yellow", (i % 12) + 1, null, i+49);
             cardlist.add(card);
         }
         //erstelle alle Gruenen Karte
         for (int i = 0; i < 24; i++) {
-            cards card = new cards("green", (i % 12) + 1, null);
+            Cards card = new Cards("green", (i % 12) + 1, null, i+73);
             cardlist.add(card);
         }
 
-        Imagelist.add(card1 = findViewById(R.id.card1));
-        Imagelist.add(card2 = findViewById(R.id.card2));
-        Imagelist.add(card3 = findViewById(R.id.card3));
-        Imagelist.add(card4 = findViewById(R.id.card4));
-        Imagelist.add(card5 = findViewById(R.id.card5));
-        Imagelist.add(card6 = findViewById(R.id.card6));
-        Imagelist.add(card7 = findViewById(R.id.card7));
-        Imagelist.add(card8 = findViewById(R.id.card8));
-        Imagelist.add(card9 = findViewById(R.id.card9));
-        Imagelist.add(card10 = findViewById(R.id.card10));
-        Imagelist.add(card11 = findViewById(R.id.card11));
-        Imagelist.add(card12 = findViewById(R.id.card12));
-        Imagelist.add(card13 = findViewById(R.id.card13));
-        Imagelist.add(card14 = findViewById(R.id.card14));
-        Imagelist.add(card15 = findViewById(R.id.card15));
-        Imagelist.add(card16 = findViewById(R.id.card16));
-        Imagelist.add(card17 = findViewById(R.id.card17));
-        Imagelist.add(card18 = findViewById(R.id.card18));
-        Imagelist.add(card19 = findViewById(R.id.card19));
-        Imagelist.add(card20 = findViewById(R.id.card20));
-        Imagelist.add(card21 = findViewById(R.id.card21));
-        Imagelist.add(card22 = findViewById(R.id.card22));
-        Imagelist.add(card23 = findViewById(R.id.card23));
-        Imagelist.add(card24 = findViewById(R.id.card24));
-        Imagelist.add(card25 = findViewById(R.id.card25));
-        Imagelist.add(card26 = findViewById(R.id.card26));
-        Imagelist.add(card27 = findViewById(R.id.card27));
-        Imagelist.add(card28 = findViewById(R.id.card28));
-        Imagelist.add(card29 = findViewById(R.id.card29));
-        Imagelist.add(card30 = findViewById(R.id.card30));
-        Imagelist.add(card31 = findViewById(R.id.card31));
-        Imagelist.add(card32 = findViewById(R.id.card32));
-        Imagelist.add(card33 = findViewById(R.id.card33));
-        Imagelist.add(card34 = findViewById(R.id.card34));
-        Imagelist.add(card35 = findViewById(R.id.card35));
-        Imagelist.add(card36 = findViewById(R.id.card36));
-        Imagelist.add(card37 = findViewById(R.id.card37));
-        Imagelist.add(card38 = findViewById(R.id.card38));
-        Imagelist.add(card39 = findViewById(R.id.card39));
-        Imagelist.add(card40 = findViewById(R.id.card40));
+        //dynamisches erstellen der Karten ImageViews
+        for(int i=0; i<96; i++){
+            cardlist.get(i).setCardUI(createCardUI(cardlist.get(i)));
+        }
+
+        drawpileList.addAll(cardlist);
+
+        deckcard= findViewById(R.id.deckblatt);
+        layoutPlayer1=findViewById(R.id.player1);
+        layoutPlayer2=findViewById(R.id.player2);
+        layoutPlayer3=findViewById(R.id.player3);
+        layoutPlayer4=findViewById(R.id.player4);
 
         //Karten werden gemischt
         Collections.shuffle(cardlist);
 
         //Handkarten
-        for (int i = 0; i < 10; i++) {
-            player1Hand.add(cardlist.get(i));       //Handkarten austeilen
-            setCardImage(cardlist.get(i), Imagelist.get(i));        //Image setzen
+        for(int i = 0; i<10;i++){
+            updateHand(player1Hand, cardlist.get(0), layoutPlayer1,0);
 
-            player2Hand.add(cardlist.get(i + 10));
-            setCardImage(cardlist.get(i + 10), Imagelist.get(i + 10));
+            updateHand(player2Hand, cardlist.get(0), layoutPlayer2, 0);
 
-            player3Hand.add(cardlist.get(i + 20));
-            setCardImage(cardlist.get(i + 20), Imagelist.get(i + 20));
+            updateHand(player3Hand, cardlist.get(0), layoutPlayer3, 90);
 
-            player4Hand.add(cardlist.get(i + 30));
-            setCardImage(cardlist.get(i + 30), Imagelist.get(i + 30));
+            updateHand(player4Hand, cardlist.get(0), layoutPlayer4, -90);
         }
+
+        //Player Blue, Red, Yellow, Green
+        deckcard.setOnClickListener(view -> {
+            addCard();
+        });
+
+    }
+    //Karten werden angeordnet
+    private void updateHand(List list, Cards cards, LinearLayout linearLayout, int grad){
+        list.add(cards);
+        linearLayout.addView(cards.getCardUI());
+        //cards.getCardUI().setVisibility(View.VISIBLE);
+        drawpileList.add(cardlist.get(0));
+        cardlist.remove(0);
+        cards.getCardUI().setRotation(grad);
     }
 
-    private void setCardImage(cards cards, ImageView image){        //Kartenobjekt + Imageview
+    //Karte ziehen
+    private void addCard(){
+        updateHand(player1Hand, cardlist.get(0), layoutPlayer1,0);
+        updateHand(player2Hand, cardlist.get(0), layoutPlayer2,0);
+        updateHand(player3Hand, cardlist.get(0), layoutPlayer3,90);
+        updateHand(player4Hand, cardlist.get(0), layoutPlayer4,-90);
+    }
+
+    //Stapel leer
+    private void resetDrawPile(){
+        cardlist.addAll(drawpileList);
+        Collections.shuffle(cardlist);
+        //drawpileList.removeAll(drawpileList);
+    }
+
+    private ImageView createCardUI(Cards cards){
+        ImageView imageView= new ImageView(getApplicationContext());
+        setCardImage(cards, imageView);
+        LinearLayout.LayoutParams params= new LinearLayout.LayoutParams(35, 120, 1);
+        imageView.setLayoutParams(params);
+        imageView.setTag("c"+ cards.getID());
+        //imageView.setVisibility(View.INVISIBLE);
+        return imageView;
+    }
+
+    private void setCardImage(Cards cards, ImageView image){
         cards.setCardUI(image);         //Imageview in card setzen
         int Id=0;       //grafik von Imageview setzen
 
