@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FindGameActivity extends AppCompatActivity {
+    final String[] roomName = {""};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,6 @@ public class FindGameActivity extends AppCompatActivity {
         ArrayList<String> gameRoomsList = new ArrayList<>();
         EditText editTextName = findViewById(R.id.usernameJoinGame);
         Button joinRoom = findViewById(R.id.joinRoomBtn);
-        final String[] roomName = {""};
         FirebaseFirestore database;
         ArrayAdapter<String> adapter;
         RadioButton radioRed = findViewById(R.id.radioButtonRed);
@@ -177,6 +177,7 @@ public class FindGameActivity extends AppCompatActivity {
     }
     public void goToPlayField(){
         Intent intent = new Intent(FindGameActivity.this, Playfield.class);
+        intent.putExtra("CurrentRoom", roomName[0]);
         startActivity(intent);
     }
 }

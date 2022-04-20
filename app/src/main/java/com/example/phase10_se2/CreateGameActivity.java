@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CreateGameActivity extends AppCompatActivity {
-
+    String roomName = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +75,7 @@ public class CreateGameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //convert content of editTexts to String using getText().toString() for right value in firestore
                 String playerName = editTextName.getText().toString();
-                String roomName = editTextRoom.getText().toString();
+                roomName = editTextRoom.getText().toString();
 
                 //create player with given input
                 Player player = new Player (playerName, playerColor[0], roomName);
@@ -111,6 +111,7 @@ public class CreateGameActivity extends AppCompatActivity {
     }
     public void goToPlayField(){
         Intent intent = new Intent(CreateGameActivity.this, Playfield.class);
+        intent.putExtra("CurrentRoom", roomName);
         startActivity(intent);
     }
 }
