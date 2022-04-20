@@ -1,15 +1,25 @@
 package com.example.phase10_se2;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class Playfield extends AppCompatActivity {
     ImageView deckcard;
@@ -44,10 +54,76 @@ public class Playfield extends AppCompatActivity {
         return player4Hand;
     }
 
+    Player playerGreen;
+    Player playerRed;
+    Player playerYellow;
+    Player playerBlue;
+    Player primaryPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playfield);
+
+        String currentRoom= getIntent().getExtras().getString("CurrentRoom");
+        String userColor= getIntent().getExtras().getString("Color");
+        Log.i("-------------------------------------------", userColor);
+
+        FirebaseFirestore database;
+        database = FirebaseFirestore.getInstance();    //verknuepfung
+        database.collection("users")
+                .whereEqualTo("Room", currentRoom)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for (QueryDocumentSnapshot documentSnapshot:task.getResult()) {
+                                if (Objects.equals(documentSnapshot.getString("Color"), userColor)){
+                                    switch (userColor){
+                                        case "RED":
+                                            playerRed=new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom);
+                                            primaryPlayer=playerRed;
+                                            break;
+                                        case "BLUE":
+                                            playerBlue=new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom);
+                                            primaryPlayer=playerBlue;
+                                            break;
+                                        case "YELLOW":
+                                            playerYellow=new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom);
+                                            primaryPlayer=playerYellow;
+                                            break;
+                                        case "GREEN":
+                                            playerGreen=new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom);
+                                            primaryPlayer=playerGreen;
+                                            break;
+                                        default:
+                                            break;
+
+                                    }
+                                    Log.i("-------------------------------------------", "Color: "+ primaryPlayer.getColor());
+
+                                }
+
+                                if (Objects.equals(documentSnapshot.getString("Color"), "RED")){
+                                    playerRed=new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom);
+                                }
+                                if (Objects.equals(documentSnapshot.getString("Color"), "BLUE")){
+                                    playerBlue=new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom);
+                                }
+                                if (Objects.equals(documentSnapshot.getString("Color"), "YELLOW")){
+                                    playerYellow=new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom);
+                                }
+                                if (Objects.equals(documentSnapshot.getString("Color"), "GREEN")){
+                                    playerGreen=new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom);
+                                }
+
+                            }
+                        }
+                    }
+                });
+
+
 
         //entfernt die label Leiste (Actionbar) auf dem Playfield
         ActionBar actionBar = getSupportActionBar();

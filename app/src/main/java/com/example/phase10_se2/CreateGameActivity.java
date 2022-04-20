@@ -114,7 +114,7 @@ public class CreateGameActivity extends AppCompatActivity {
     public void goToPlayField(){
         Intent intent = new Intent(CreateGameActivity.this, Playfield.class);
         intent.putExtra("CurrentRoom", roomName);
-        intent.putExtra("Color", color);
+        intent.putExtra("Color", color[0]);
         startActivity(intent);
     }
 }
