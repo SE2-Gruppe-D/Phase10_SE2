@@ -23,6 +23,9 @@ import java.util.Map;
 
 public class CreateGameActivity extends AppCompatActivity {
     String roomName = "";
+    final String[] color = {""};
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +38,6 @@ public class CreateGameActivity extends AppCompatActivity {
         RadioGroup rg =  findViewById(R.id.radioGroup);
         Button createGame = findViewById(R.id.createGameRoomBtn);
 
-        final String[] color = {""};
         final PlayerColor[] playerColor = {null};
 
 
@@ -112,6 +114,7 @@ public class CreateGameActivity extends AppCompatActivity {
     public void goToPlayField(){
         Intent intent = new Intent(CreateGameActivity.this, Playfield.class);
         intent.putExtra("CurrentRoom", roomName);
+        intent.putExtra("Color", color);
         startActivity(intent);
     }
 }
