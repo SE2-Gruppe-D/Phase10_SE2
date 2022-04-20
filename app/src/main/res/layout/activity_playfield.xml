@@ -437,6 +437,13 @@
 
         </View>
 
+        <TextView
+            android:id="@+id/tv_Phase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#32000000"
+            android:text="Phasentext" />
+
     </FrameLayout>
 
     <FrameLayout

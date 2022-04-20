@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,6 +28,7 @@ public class Playfield extends AppCompatActivity {
     Button btn_ShowAktionskarte;
     ImageView iv_ShowAktionskarte;
     FrameLayout fl_ShowAktionskarte;
+    TextView tv_AktuellePhase;
 
 
     public ArrayList<cards> getPlayer1Hand() {
@@ -59,6 +61,7 @@ public class Playfield extends AppCompatActivity {
         btn_ShowAktionskarte=findViewById(R.id.btn_AkShow);
         fl_ShowAktionskarte=findViewById(R.id.fL_Ak);
         iv_ShowAktionskarte=findViewById(R.id.iv_Ak);
+        tv_AktuellePhase=findViewById(R.id.tv_Phase);
 
         //Aktionskarte einblenden Show und Hide button tauschen
         btn_ShowAktionskarte.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +81,11 @@ public class Playfield extends AppCompatActivity {
                 btn_ShowAktionskarte.setVisibility(View.VISIBLE);
             }
         });
+
+
+
+
+
 
 
 
@@ -384,6 +392,50 @@ public class Playfield extends AppCompatActivity {
 
             case (412):
                 image.setImageResource(R.drawable.rot12);
+                break;
+
+        }
+    }
+    private void phasenText(int phase) {
+        switch (phase) {
+            case (1):
+                tv_AktuellePhase.setText("4 Zwillinge");
+                break;
+
+            case (2):
+                tv_AktuellePhase.setText("6 Karten einer Farbe");
+                break;
+
+            case (3):
+                tv_AktuellePhase.setText("1 Vierling + 1 Viererfolge");
+                break;
+
+            case (4):
+                tv_AktuellePhase.setText("1 Achterfolge");
+                break;
+
+            case (5):
+                tv_AktuellePhase.setText("7 Karten einer Farbe");
+                break;
+
+            case (6):
+                tv_AktuellePhase.setText("1 Neunerfolge");
+                break;
+
+            case (7):
+                tv_AktuellePhase.setText("2 Vierlinge");
+                break;
+
+            case (8):
+                tv_AktuellePhase.setText("1 Viererfolge einer Farbe + 1 Drilling");
+                break;
+
+            case (9):
+                tv_AktuellePhase.setText("1 Fünfling + 1 Drilling");
+                break;
+
+            case (10):
+                tv_AktuellePhase.setText("1 Fünfling + 1 Dreierfolge einer Farbe");
                 break;
 
         }
