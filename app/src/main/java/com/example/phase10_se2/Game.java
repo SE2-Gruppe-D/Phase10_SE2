@@ -29,6 +29,23 @@ public class Game {
         }
     }
 
+    public void throwingDice(Player player) {
+        int diceValue = -1;
+
+        diceFragment.register();
+
+        while (diceFragment.getAcceleration() < 1) { //wait for sensor to be activated
+            sleep(100);
+        }
+        while (diceFragment.getAcceleration() > 1) {
+            diceValue = diceFragment.getLastDiceValue();
+        }
+
+        diceFragment.unregister();
+
+        player.move(diceValue);
+    }
+
     public SortedMap<Integer, Player> decideStartingOrder() {
         diceFragment = new DiceFragment();
         SortedMap<Integer, Player> sm = new TreeMap<>();
