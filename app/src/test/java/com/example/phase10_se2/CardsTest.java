@@ -2,6 +2,7 @@ package com.example.phase10_se2;
 
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,11 +10,12 @@ import java.util.ArrayList;
 
 public class CardsTest {
     Playfield playfield;
+    ArrayList<Cards> cardlist= new ArrayList<>(95);
 
     @Before
     public void setup(){
         playfield= new Playfield();
-        ArrayList<Cards> cardlist= new ArrayList<>(95);
+
         Cards cards1= new Cards("blue", 1, null, 1);
         Cards cards2= new Cards("red", 1, null, 2);
         Cards cards3= new Cards("yellow", 1, null, 3);
@@ -34,7 +36,9 @@ public class CardsTest {
 
     @Test
     public void testNumberMaxTwice(){
-
+        Cards testblue= new Cards("blue", 1, null, 1);
+        cardlist.add(testblue);
+        //Assert.assertTrue();
     }
 
 

@@ -6,9 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -33,25 +33,26 @@ public class Playfield extends AppCompatActivity {
     ArrayList<ImageView> Imagelist;
     ArrayList<Cards> drawpileList;      //Ablagestapel
 
-    ArrayList<Cards> player1Hand;
-    ArrayList<Cards> player2Hand;
-    ArrayList<Cards> player3Hand;
-    ArrayList<Cards> player4Hand;
+
+    ArrayList<Cards> player1HandBlue;
+    ArrayList<Cards> player2HandRed;
+    ArrayList<Cards> player3HandYellow;
+    ArrayList<Cards> player4HandGreen;
 
     public ArrayList<Cards> getPlayer1Hand() {
-        return player1Hand;
+        return player1HandBlue;
     }
 
-    public ArrayList<Cards> getPlayer2Hand() {
-        return player2Hand;
+    public ArrayList<Cards> getPlayer2HandRed() {
+        return player2HandRed;
     }
 
-    public ArrayList<Cards> getPlayer3Hand() {
-        return player3Hand;
+    public ArrayList<Cards> getPlayer3HandYellow() {
+        return player3HandYellow;
     }
 
-    public ArrayList<Cards> getPlayer4Hand() {
-        return player4Hand;
+    public ArrayList<Cards> getPlayer4HandGreen() {
+        return player4HandGreen;
     }
 
     Player playerGreen;
@@ -133,10 +134,10 @@ public class Playfield extends AppCompatActivity {
         drawpileList= new ArrayList<>();
         cardlist = new ArrayList<>();
         Imagelist = new ArrayList<>();
-        player1Hand = new ArrayList<>();
-        player2Hand = new ArrayList<>();
-        player3Hand = new ArrayList<>();
-        player4Hand = new ArrayList<>();
+        player1HandBlue = new ArrayList<>();
+        player2HandRed = new ArrayList<>();
+        player3HandYellow = new ArrayList<>();
+        player4HandGreen = new ArrayList<>();
 
         //alle 96 Karten werden in eine ArrayList gespeichert
         //erstelle alle Blauen Karten
@@ -177,14 +178,15 @@ public class Playfield extends AppCompatActivity {
         Collections.shuffle(cardlist);
 
         //Handkarten
+
         for(int i = 0; i<10;i++){
-            updateHand(player1Hand, cardlist.get(0), layoutPlayer1,0);
+            updateHand(player1HandBlue, cardlist.get(0), layoutPlayer1,0);
 
-            updateHand(player2Hand, cardlist.get(0), layoutPlayer2, 0);
+            updateHand(player2HandRed, cardlist.get(0), layoutPlayer2, 0);
 
-            updateHand(player3Hand, cardlist.get(0), layoutPlayer3, 90);
+            updateHand(player3HandYellow, cardlist.get(0), layoutPlayer3, 90);
 
-            updateHand(player4Hand, cardlist.get(0), layoutPlayer4, -90);
+            updateHand(player4HandGreen, cardlist.get(0), layoutPlayer4, -90);
         }
 
         //Player Blue, Red, Yellow, Green
@@ -197,7 +199,9 @@ public class Playfield extends AppCompatActivity {
     private void updateHand(List list, Cards cards, LinearLayout linearLayout, int grad){
         list.add(cards);
         linearLayout.addView(cards.getCardUI());
-        //cards.getCardUI().setVisibility(View.VISIBLE);
+        //if(primaryPlayer.getColor().equals(PlayerColor.BLUE)&& list.equals(player1HandBlue)){
+        //}
+        cards.getCardUI().setVisibility(View.VISIBLE);      //Aktueller Spieler sichtbar
         drawpileList.add(cardlist.get(0));
         cardlist.remove(0);
         cards.getCardUI().setRotation(grad);
@@ -205,10 +209,10 @@ public class Playfield extends AppCompatActivity {
 
     //Karte ziehen
     private void addCard(){
-        updateHand(player1Hand, cardlist.get(0), layoutPlayer1,0);
-        updateHand(player2Hand, cardlist.get(0), layoutPlayer2,0);
-        updateHand(player3Hand, cardlist.get(0), layoutPlayer3,90);
-        updateHand(player4Hand, cardlist.get(0), layoutPlayer4,-90);
+        updateHand(player1HandBlue, cardlist.get(0), layoutPlayer1,0);
+        updateHand(player2HandRed, cardlist.get(0), layoutPlayer2,0);
+        updateHand(player3HandYellow, cardlist.get(0), layoutPlayer3,90);
+        updateHand(player4HandGreen, cardlist.get(0), layoutPlayer4,-90);
     }
 
     //Stapel leer
@@ -224,7 +228,7 @@ public class Playfield extends AppCompatActivity {
         LinearLayout.LayoutParams params= new LinearLayout.LayoutParams(35, 120, 1);
         imageView.setLayoutParams(params);
         imageView.setTag("c"+ cards.getID());
-        //imageView.setVisibility(View.INVISIBLE);
+        imageView.setVisibility(View.INVISIBLE);
         return imageView;
     }
 
