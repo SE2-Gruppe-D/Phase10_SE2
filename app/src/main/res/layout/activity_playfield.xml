@@ -100,5 +100,26 @@
             tools:visibility="visible" />
     </FrameLayout>
 
+    <Button
+        android:id="@+id/btnShowAk"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:background="#4D000000"
+        android:text="Show"
+        android:textColor="#80000000"
+        tools:layout_editor_absoluteX="679dp"
+        tools:layout_editor_absoluteY="5dp" />
+
+    <Button
+        android:id="@+id/btnHideAk"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:background="#4D000000"
+        android:text="Hide"
+        android:textColor="#80000000"
+        android:visibility="invisible"
+        tools:layout_editor_absoluteX="679dp"
+        tools:layout_editor_absoluteY="5dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
