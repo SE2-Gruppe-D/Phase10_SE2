@@ -32,6 +32,7 @@ import java.util.Map;
 
 public class FindGameActivity extends AppCompatActivity {
     final String[] roomName = {""};
+    final String[] color = new String[1];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class FindGameActivity extends AppCompatActivity {
         RadioButton radioGreen = findViewById(R.id.radioButtonGreen);
         RadioButton radioYellow = findViewById(R.id.radioButtonYellow);
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
-        final String[] color = new String[1];
+
 
         adapter = new ArrayAdapter<>(FindGameActivity.this, android.R.layout.simple_list_item_1, gameRoomsList);
 
@@ -178,6 +179,7 @@ public class FindGameActivity extends AppCompatActivity {
     public void goToPlayField(){
         Intent intent = new Intent(FindGameActivity.this, Playfield.class);
         intent.putExtra("CurrentRoom", roomName[0]);
+        intent.putExtra("Color", color);
         startActivity(intent);
     }
 }
