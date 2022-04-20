@@ -2,6 +2,7 @@ package com.example.phase10_se2;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import java.util.Collections;
 
 public class Playfield extends AppCompatActivity {
     ImageView card1, card2,card3, card4, card5, card6, card7, card8 ,card9 ,card10 ,card11, card12,card13, card14, card15, card16, card17, card18, card19, card20, card21,card22, card23, card24, card25, card26, card27, card28, card29, card30, card31, card32, card33, card34,card35,card36, card37, card38, card39, card40;
+    DiceFragment diceFragment;
 
     ArrayList<cards> cardlist;
     ArrayList<ImageView> Imagelist;
@@ -45,6 +47,14 @@ public class Playfield extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.hide();
+
+        //show dice
+        diceFragment = DiceFragment.newInstance();
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction()
+                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                .show(diceFragment)
+                .commit();
 
         cardlist = new ArrayList<>();
         Imagelist = new ArrayList<>();
