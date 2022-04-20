@@ -179,7 +179,7 @@ public class FindGameActivity extends AppCompatActivity {
     public void goToPlayField(){
         Intent intent = new Intent(FindGameActivity.this, Playfield.class);
         intent.putExtra("CurrentRoom", roomName[0]);
-        intent.putExtra("Color", color);
+        intent.putExtra("Color", color[0]);
         startActivity(intent);
     }
 }
