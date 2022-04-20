@@ -6,6 +6,12 @@ plugins {
 
 android {
     compileSdk 32
+   
+    sourceSets {
+        test.java.srcDirs += 'src/test/java/com.example.phase10_se2'
+        androidTest.java.srcDirs += 'src/androidTest/java/com.example.phase10_se2'
+    }
+
 
     defaultConfig {
         applicationId "com.example.phase10_se2"
@@ -28,6 +34,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
+
 
 dependencies {
 
