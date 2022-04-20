@@ -5,10 +5,13 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -38,6 +41,11 @@ public class Playfield extends AppCompatActivity {
     ArrayList<Cards> player2HandRed;
     ArrayList<Cards> player3HandYellow;
     ArrayList<Cards> player4HandGreen;
+
+    Button btnHideAktionskarte;
+    Button btnShowAktionskarte;
+    ImageView ivShowAktionskarte;
+    TextView tvAktuellePhase;
 
     public ArrayList<Cards> getPlayer1Hand() {
         return player1HandBlue;
@@ -130,6 +138,30 @@ public class Playfield extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.hide();
+
+        btnHideAktionskarte=findViewById(R.id.btnHideAk);
+        btnShowAktionskarte=findViewById(R.id.btnShowAk);
+        ivShowAktionskarte=findViewById(R.id.ivShowAk);
+        tvAktuellePhase=findViewById(R.id.tvAP);
+
+        //Aktionskarte einblenden Show und Hide button tauschen
+        btnShowAktionskarte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ivShowAktionskarte.setVisibility(View.VISIBLE);
+                btnHideAktionskarte.setVisibility(View.VISIBLE);
+                btnShowAktionskarte.setVisibility(View.INVISIBLE);
+            }
+        });
+        //Aktionskarte ausblenden Hide und Show button austauschen
+        btnHideAktionskarte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ivShowAktionskarte.setVisibility(View.INVISIBLE);
+                btnHideAktionskarte.setVisibility(View.INVISIBLE);
+                btnShowAktionskarte.setVisibility(View.VISIBLE);
+            }
+        });
 
         drawpileList= new ArrayList<>();
         cardlist = new ArrayList<>();
@@ -446,6 +478,50 @@ public class Playfield extends AppCompatActivity {
 
             case (412):
                 image.setImageResource(R.drawable.rot12);
+                break;
+
+        }
+    }
+    private void setPhasenText(int phase) {
+        switch (phase) {
+            case (1):
+                tvAktuellePhase.setText("4 Zwillinge");
+                break;
+
+            case (2):
+                tvAktuellePhase.setText("6 Karten einer Farbe");
+                break;
+
+            case (3):
+                tvAktuellePhase.setText("1 Vierling + 1 Viererfolge");
+                break;
+
+            case (4):
+                tvAktuellePhase.setText("1 Achterfolge");
+                break;
+
+            case (5):
+                tvAktuellePhase.setText("7 Karten einer Farbe");
+                break;
+
+            case (6):
+                tvAktuellePhase.setText("1 Neunerfolge");
+                break;
+
+            case (7):
+                tvAktuellePhase.setText("2 Vierlinge");
+                break;
+
+            case (8):
+                tvAktuellePhase.setText("1 Viererfolge einer Farbe + 1 Drilling");
+                break;
+
+            case (9):
+                tvAktuellePhase.setText("1 Fünfling + 1 Drilling");
+                break;
+
+            case (10):
+                tvAktuellePhase.setText("1 Fünfling + 1 Dreierfolge einer Farbe");
                 break;
 
         }
