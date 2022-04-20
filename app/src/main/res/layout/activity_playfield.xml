@@ -142,13 +142,12 @@
         android:layout_width="266dp"
         android:layout_height="414dp"
         android:layout_marginEnd="249dp"
-        android:foreground="@drawable/aktionskarten"
+        android:foreground="@drawable/aktionskarte"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/fl_playfield"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/aktionskarten" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
