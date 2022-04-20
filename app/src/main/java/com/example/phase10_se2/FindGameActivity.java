@@ -39,6 +39,8 @@ public class FindGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_game);
 
+        Log.i("TAG", "Helloo");
+
         ListView listView = findViewById(R.id.roomList);
         ArrayList<String> gameRoomsList = new ArrayList<>();
         EditText editTextName = findViewById(R.id.usernameJoinGame);
@@ -179,7 +181,7 @@ public class FindGameActivity extends AppCompatActivity {
     public void goToPlayField(){
         Intent intent = new Intent(FindGameActivity.this, Playfield.class);
         intent.putExtra("CurrentRoom", roomName[0]);
-        intent.putExtra("Color", color);
+        intent.putExtra("Color", color[0]);
         startActivity(intent);
     }
 }

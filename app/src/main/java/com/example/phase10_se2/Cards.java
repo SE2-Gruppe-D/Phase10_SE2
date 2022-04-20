@@ -1,5 +1,6 @@
 package com.example.phase10_se2;
 
+import android.util.Log;
 import android.widget.ImageView;
 
 public class Cards {
@@ -40,6 +41,5 @@ public class Cards {
     public int getValue() {
         return value;
     }
-
 
 }
