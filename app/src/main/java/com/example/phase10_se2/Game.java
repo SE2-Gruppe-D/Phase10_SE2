@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
@@ -71,18 +72,18 @@ public class Game {
         //set starting order in player class
         Set<Map.Entry<Integer, Player>> s = sm.entrySet();
         Iterator<Map.Entry<Integer, Player>> i = s.iterator();
-        String startingOrderToastText = "";
+        StringBuilder startingOrderToastText = new StringBuilder();
         int j = 1;
         while (i.hasNext()) {
-            Map.Entry m = (Map.Entry) i.next();
+            Map.Entry<Integer, Player> m = i.next();
 
             Player p = (Player) m.getValue();
             p.setStartingOrder(j);
-            startingOrderToastText += j + ": " + ((Player) m.getValue()).getName();
+            startingOrderToastText.append(j).append(": ").append(((Player) m.getValue()).getName());
             j++;
         }
 
-        Toast.makeText(diceFragment.getActivity().getApplicationContext(), startingOrderToastText, Toast.LENGTH_LONG).show();
+        Toast.makeText(diceFragment.getActivity().getApplicationContext(), startingOrderToastText.toString(), Toast.LENGTH_LONG).show();
 
         return sm; //return sorted map with players and starting diceValues
     }
@@ -93,7 +94,7 @@ public class Game {
         return room;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
