@@ -108,6 +108,17 @@
             android:textColor="#FFFFFF" />
     </FrameLayout>
 
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="com.example.phase10_se2.DiceFragment"
+        android:layout_width="94dp"
+        android:layout_height="92dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fl_playfield"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/btnShowAk"
         android:layout_width="46dp"

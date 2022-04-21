@@ -3,6 +3,7 @@ package com.example.phase10_se2;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.view.View;
@@ -25,12 +26,13 @@ import java.util.List;
 import java.util.Objects;
 
 public class Playfield extends AppCompatActivity {
+    DiceFragment diceFragment;
     ImageView deckcard;
     LinearLayout layoutPlayer1;
     LinearLayout layoutPlayer2;
     LinearLayout layoutPlayer3;
     LinearLayout layoutPlayer4;
-
+  
 
     ArrayList<Cards> cardlist;
     ArrayList<ImageView> Imagelist;
@@ -138,6 +140,15 @@ public class Playfield extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.hide();
+
+        //show dice
+        diceFragment = DiceFragment.newInstance();
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction()
+                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                .show(diceFragment)
+                .commit();
+      
 
         btnHideAktionskarte=findViewById(R.id.btnHideAk);
         btnShowAktionskarte=findViewById(R.id.btnShowAk);
