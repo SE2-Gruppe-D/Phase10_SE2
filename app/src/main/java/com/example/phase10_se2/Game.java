@@ -77,9 +77,9 @@ public class Game {
         while (i.hasNext()) {
             Map.Entry<Integer, Player> m = i.next();
 
-            Player p = (Player) m.getValue();
+            Player p = m.getValue();
             p.setStartingOrder(j);
-            startingOrderToastText.append(j).append(": ").append(((Player) m.getValue()).getName());
+            startingOrderToastText.append(j).append(": ").append((m.getValue()).getName());
             j++;
         }
 
