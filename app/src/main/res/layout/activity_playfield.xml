@@ -109,12 +109,12 @@
 
         <ImageButton
             android:id="@+id/defaultcard"
-            android:layout_width="70dp"
-            android:layout_height="200dp"
+            android:layout_width="47dp"
+            android:layout_height="156dp"
             android:layout_gravity="center"
             android:layout_marginLeft="-30dp"
-            android:scaleType="centerInside"
-            android:background=""
+            android:background="#00FFFFFF"
+            android:scaleType="fitXY"
             tools:visibility="visible" />
     </FrameLayout>
 
