@@ -1,6 +1,8 @@
 package com.example.phase10_se2;
 
 
+import android.widget.ImageView;
+
 enum PlayerState {
     WAITING, THROWING_DICE, PLAYING
 }
@@ -25,6 +27,7 @@ public class Player {
     private PlayerState state;
     private int currentPosition;
     private int positionX, positionY;
+    
 
 
     // no-argument constructor
