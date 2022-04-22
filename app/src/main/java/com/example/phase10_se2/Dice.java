@@ -12,6 +12,6 @@ public class Dice {
         if (true) {
             return randomValue;
         }
-        return -1; //return -1 if dice value has already been assigned
+        return -1; //return -1 if dice value has already been assigned??
     }
 }

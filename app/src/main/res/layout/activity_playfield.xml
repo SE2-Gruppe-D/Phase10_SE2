@@ -80,10 +80,10 @@
     <FrameLayout
         android:id="@+id/fl_playfield"
         android:layout_width="216dp"
-        android:layout_height="390dp"
+        android:layout_height="411dp"
         android:layout_marginBottom="1dp"
 
-        android:background="@drawable/konzept_playfield"
+        android:background="@drawable/spielbrett"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -98,7 +98,68 @@
             android:layout_marginLeft="20dp"
             android:foreground="@drawable/deckblatt"
             tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tvAP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#4D000000"
+            android:text="Phasentext"
+            android:textColor="#FFFFFF" />
     </FrameLayout>
+
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="com.example.phase10_se2.DiceFragment"
+        android:layout_width="94dp"
+        android:layout_height="92dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fl_playfield"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnShowAk"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="164dp"
+        android:layout_marginBottom="365dp"
+        android:background="#4D000000"
+        android:text="Show"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/fl_playfield"
+        app:layout_constraintEnd_toEndOf="@+id/btnHideAk"
+        app:layout_constraintStart_toStartOf="@+id/fl_playfield"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/btnHideAk"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="164dp"
+        android:layout_marginBottom="365dp"
+        android:background="#4D000000"
+        android:text="Hide"
+        android:textColor="#FFFFFF"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/fl_playfield"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/fl_playfield"
+        app:layout_constraintTop_toTopOf="@+id/btnShowAk" />
+
+    <ImageView
+        android:id="@+id/ivShowAk"
+        android:layout_width="266dp"
+        android:layout_height="414dp"
+        android:layout_marginEnd="249dp"
+        android:foreground="@drawable/aktionskarte"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fl_playfield"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
