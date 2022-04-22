@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -51,6 +50,11 @@ public class Playfield extends AppCompatActivity {
     Button btnShowAktionskarte;
     ImageView ivShowAktionskarte;
     TextView tvAktuellePhase;
+
+    ImageView ivPlayerBlue;
+    ImageView ivPlayerYellow;
+    ImageView ivPlayerGreen;
+    ImageView ivPlayerRed;
 
     public ArrayList<Cards> getPlayer1Hand() {
         return player1HandBlue;
@@ -121,22 +125,29 @@ public class Playfield extends AppCompatActivity {
 
                                 if (Objects.equals(documentSnapshot.getString("Color"), "RED")){
                                     playerRed=new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom);
+                                    ivPlayerRed=findViewById(R.id.ivPR);
+                                    ivPlayerRed.setVisibility(View.VISIBLE);
                                 }
                                 if (Objects.equals(documentSnapshot.getString("Color"), "BLUE")){
                                     playerBlue=new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom);
+                                    ivPlayerBlue=findViewById(R.id.ivPB);
+                                    ivPlayerBlue.setVisibility(View.VISIBLE);
                                 }
                                 if (Objects.equals(documentSnapshot.getString("Color"), "YELLOW")){
                                     playerYellow=new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom);
+                                    ivPlayerYellow=findViewById(R.id.ivPY);
+                                    ivPlayerYellow.setVisibility(View.VISIBLE);
                                 }
                                 if (Objects.equals(documentSnapshot.getString("Color"), "GREEN")){
                                     playerGreen=new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom);
+                                    ivPlayerGreen=findViewById(R.id.ivPG);
+                                    ivPlayerGreen.setVisibility(View.VISIBLE);
                                 }
 
                             }
                         }
                     }
                 });
-
 
 
         //entfernt die label Leiste (Actionbar) auf dem Playfield
