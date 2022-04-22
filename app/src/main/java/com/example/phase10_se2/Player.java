@@ -27,7 +27,7 @@ public class Player {
     private PlayerState state;
     private int currentPosition;
     private int positionX, positionY;
-    
+
 
 
     // no-argument constructor
@@ -95,6 +95,24 @@ public class Player {
     public void setStartingOrder(int startingPosition) {
         if (startingPosition == -1) {
             this.startingOrder = startingPosition;
+        }
+    }
+    public void updateMapPosition (Player player,ImageView playerview) {
+        if(player.color == PlayerColor.BLUE) {
+            playerview.setTranslationX(getPositionX() * 40 + 10);
+            playerview.setTranslationY(getPositionY() * 75 + 33);
+        }
+        else if(player.color == PlayerColor.YELLOW) {
+            playerview.setTranslationX(getPositionX() * 40 + 27);
+            playerview.setTranslationY(getPositionY() * 75 + 33);
+        }
+        else if(player.color == PlayerColor.RED) {
+            playerview.setTranslationX(getPositionX() * 40 + 27);
+            playerview.setTranslationY(getPositionY() * 75 + 53);
+        }
+        else if(player.color == PlayerColor.GREEN) {
+            playerview.setTranslationX(getPositionX() * 40 + 10);
+            playerview.setTranslationY(getPositionY() * 75 + 53);
         }
     }
 
