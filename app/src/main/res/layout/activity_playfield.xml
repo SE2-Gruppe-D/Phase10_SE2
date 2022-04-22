@@ -15,7 +15,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginLeft="50dp"
+        android:background="#AFAEAE"
         android:orientation="horizontal"
         android:weightSum="13"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -142,6 +142,17 @@
             android:translationY="53"
             android:visibility="invisible"
             app:srcCompat="@drawable/figurrot" />
+
+        <ImageButton
+            android:id="@+id/defaultcard"
+            android:layout_width="47dp"
+            android:layout_height="156dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="-30dp"
+            android:background="#00FFFFFF"
+            android:scaleType="fitXY"
+            tools:visibility="visible" />
+
     </FrameLayout>
 
 
@@ -196,6 +207,24 @@
         app:layout_constraintEnd_toStartOf="@+id/fl_playfield"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/player1PhaseAblegen"
+        android:layout_width="430dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="13dp"
+        android:background="#C5BBBB"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/player1"
+        app:layout_constraintEnd_toStartOf="@+id/player4"
+        app:layout_constraintStart_toEndOf="@+id/player3"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentContainerView"
+        tools:ignore="MissingConstraints">
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
