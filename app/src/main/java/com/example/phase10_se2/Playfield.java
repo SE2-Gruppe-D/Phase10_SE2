@@ -238,7 +238,7 @@ public class Playfield extends AppCompatActivity {
 
     }
     //Karten werden angeordnet
-    private void updateHand(List list, Cards cards, LinearLayout linearLayout, int grad){
+    private void updateHand(List<Cards> list, Cards cards, LinearLayout linearLayout, int grad){
         list.add(cards);
         linearLayout.addView(cards.getCardUI());
         //if(primaryPlayer.getColor().equals(PlayerColor.BLUE)&& list.equals(player1HandBlue)){
