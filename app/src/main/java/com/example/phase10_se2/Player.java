@@ -97,6 +97,7 @@ public class Player {
             this.startingOrder = startingPosition;
         }
     }
+    //bewegen des Players auf dem Spielbrett
     public void updateMapPosition (Player player,ImageView playerview) {
         if(player.color == PlayerColor.BLUE) {
             playerview.setTranslationX(getPositionX() * (float)40 + (float) 10);
