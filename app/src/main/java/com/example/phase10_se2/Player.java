@@ -1,6 +1,8 @@
 package com.example.phase10_se2;
 
 
+import android.widget.ImageView;
+
 enum PlayerState {
     WAITING, THROWING_DICE, PLAYING
 }
@@ -25,6 +27,7 @@ public class Player {
     private PlayerState state;
     private int currentPosition;
     private int positionX, positionY;
+
 
 
     // no-argument constructor
@@ -92,6 +95,25 @@ public class Player {
     public void setStartingOrder(int startingPosition) {
         if (startingPosition == -1) {
             this.startingOrder = startingPosition;
+        }
+    }
+    //bewegen des Players auf dem Spielbrett
+    public void updateMapPosition (Player player,ImageView playerview) {
+        if(player.color == PlayerColor.BLUE) {
+            playerview.setTranslationX(getPositionX() * (float)40 + (float) 10);
+            playerview.setTranslationY(getPositionY() * (float)75 + (float) 33);
+        }
+        else if(player.color == PlayerColor.YELLOW) {
+            playerview.setTranslationX(getPositionX() * (float)40 + (float)27);
+            playerview.setTranslationY(getPositionY() * (float)75 + (float)33);
+        }
+        else if(player.color == PlayerColor.RED) {
+            playerview.setTranslationX(getPositionX() * (float)40 + (float)27);
+            playerview.setTranslationY(getPositionY() * (float)75 + (float)53);
+        }
+        else if(player.color == PlayerColor.GREEN) {
+            playerview.setTranslationX(getPositionX() * (float)40 + (float)10);
+            playerview.setTranslationY(getPositionY() * (float)75 + (float)53);
         }
     }
 

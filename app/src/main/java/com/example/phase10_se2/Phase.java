@@ -1,21 +1,58 @@
 package com.example.phase10_se2;
 
 
+import android.widget.LinearLayout;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Phase {
 
-    //Platzhalter Handkarten
-    Cards c1;
+    Player player;
+    Playfield playfield;
+    ArrayList<Cards> handcards;
 
-    public Phase(Cards c1) {
-        this.c1 = c1;
+    private ArrayList<Cards> getRightHandCards (){ //!!!!Statt ID von Player über Color --> ersetzen!!!!
+        switch (player.getColor()){
+            case RED: return playfield.getPlayer1Hand();
+            case BLUE: return playfield.getPlayer2HandRed();
+            case YELLOW: return playfield.getPlayer3HandYellow();
+            case GREEN: return playfield.getPlayer4HandGreen();
+            default:return null;
+        }
+    }
+
+    private Cards layCard(Cards card){ //Methode zum Karten legen
+        return card;
     }
 
     //check Phase 1 - 10
     //Phase 1: 4 Zwillinge
     public boolean checkPhase1(List<Cards> list1, List<Cards> list2, List<Cards> list3, List<Cards> list4){
         return checkSetOf2(list1) && checkSetOf2(list2) && checkSetOf2(list3) && checkSetOf2(list4);
+    }
+
+    public void layPhase1(){
+        handcards = getRightHandCards();
+        //Karten rauslegen
+        List<Cards> cards1 = new ArrayList<>();
+        cards1.add(handcards.get(0)); //Die erste Karte, die man raus legt?????
+        cards1.add(handcards.get(1));
+        List<Cards> cards2 = new ArrayList<>();
+        cards2.add(handcards.get(2));
+        cards2.add(handcards.get(3));
+        List<Cards> cards3 = new ArrayList<>();
+        cards3.add(handcards.get(4));
+        cards3.add(handcards.get(5));
+        List<Cards> cards4 = new ArrayList<>();
+        cards4.add(handcards.get(6));
+        cards4.add(handcards.get(7));
+
+        //überprüfen, ob richtig ist
+        //mit Button
+        if(!checkPhase1(cards1,cards2,cards3,cards4)){
+            //Karten zurück zu den Handkarten
+        }
     }
 
 
