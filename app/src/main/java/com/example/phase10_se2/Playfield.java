@@ -24,10 +24,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public class Playfield extends AppCompatActivity {
     DiceFragment diceFragment;
     ImageView deckcard;
+    ImageView defaultcard;
     LinearLayout layoutPlayer1;
     LinearLayout layoutPlayer2;
     LinearLayout layoutPlayer3;
@@ -36,7 +38,8 @@ public class Playfield extends AppCompatActivity {
 
     ArrayList<Cards> cardlist;
     ArrayList<ImageView> Imagelist;
-    ArrayList<Cards> drawpileList;      //Ablagestapel
+    ArrayList<Cards> drawpileList;      //Ziehstapel
+    ArrayList<Cards> discardpileList;      //Ablagestapel
 
 
     ArrayList<Cards> player1HandBlue;
@@ -155,6 +158,7 @@ public class Playfield extends AppCompatActivity {
         ivShowAktionskarte=findViewById(R.id.ivShowAk);
         tvAktuellePhase=findViewById(R.id.tvAP);
 
+
         //Aktionskarte einblenden Show und Hide button tauschen
         btnShowAktionskarte.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,6 +179,8 @@ public class Playfield extends AppCompatActivity {
         });
 
         drawpileList= new ArrayList<>();
+        discardpileList= new ArrayList<>();
+
         cardlist = new ArrayList<>();
         Imagelist = new ArrayList<>();
         player1HandBlue = new ArrayList<>();
@@ -212,6 +218,7 @@ public class Playfield extends AppCompatActivity {
         drawpileList.addAll(cardlist);
 
         deckcard= findViewById(R.id.deckblatt);
+        defaultcard=findViewById(R.id.defaultcard);
         layoutPlayer1=findViewById(R.id.player1);
         layoutPlayer2=findViewById(R.id.player2);
         layoutPlayer3=findViewById(R.id.player3);
@@ -237,7 +244,29 @@ public class Playfield extends AppCompatActivity {
             addCard();
         });
 
+
+        //random Defaultcard
+        Random rand = new Random();
+        Cards randomCard = cardlist.get(rand.nextInt(cardlist.size()));
+        cardlist.remove(randomCard);
+        discardpileList.add(randomCard);
+        defaultcard.setImageDrawable(createCardUI(randomCard).getDrawable());
+
+
+        defaultcard.setOnClickListener(view -> {
+            addCard();
+        });
     }
+
+    private boolean addCardsDiscardpile() {
+        if (discardpileList.size() != 0) {
+            return true;
+        }return false;
+    }
+
+
+
+
     //Karten werden angeordnet
     private void updateHand(List list, Cards cards, LinearLayout linearLayout, int grad){
         list.add(cards);
@@ -272,6 +301,7 @@ public class Playfield extends AppCompatActivity {
         imageView.setLayoutParams(params);
         imageView.setTag("c"+ cards.getID());
         imageView.setVisibility(View.INVISIBLE);
+        imageView.setClickable(true);
         return imageView;
     }
 
@@ -537,4 +567,93 @@ public class Playfield extends AppCompatActivity {
 
         }
     }
-}
+
+    private Cards getActionfield(FieldColor fieldColor){
+        switch (fieldColor){
+            case GREY: return greyFieldColor();
+            case GREEN: return greenFieldColor();
+            case ORANGE: return orangeFieldColor();
+            case BLUE: return blueFieldColor();
+            case RED: return redFieldColor();
+            case PURPLE: return purpleFieldColor();
+            case PINK: return pinkFieldColor();
+            default:return null;
+            }
+        }
+
+        //GREY = nimm 2 Karten vom Aufnahme- und/oder Ablagestapel
+        //GREEN = wähle 1 Karte aus dem gesamten Ablagestapel aus
+        //ORANGE = nimm 3 Karten vom Aufnahme- und/oder Ablagestapel
+        //BLUE = rücke vor bis zu einem Feld deiner Wahl
+        //RED = Lege 2 Karten auf den Ablagestapel und nimm 3 vom Aufnahmestapel
+        //PURPLE = alle Spieler nehmen reihum 1 Karte vom Aufnahmestapel
+        //PINK = nimm 1 Karte vom Aufnahme- oder Ablagestapel. Mache einen weiteren Zug
+
+    //GREY = nimm 2 Karten vom Aufnahme- und/oder Ablagestapel
+    private Cards greyFieldColor(){
+       /* if(defaultcard.setOnClickListener(view) -> {
+            addCard();
+        })
+
+        */
+
+        return null;
+    }
+
+        //GREEN = wähle 1 Karte aus dem gesamten Ablagestapel aus
+    private Cards greenFieldColor(){
+        return null;
+    }
+
+        //ORANGE = Frage links oder rechts herum nach einer bestimmten Zahlenkarte
+    private Cards orangeFieldColor(){
+          return null;
+    }
+
+        //BLUE = benutze die oberste Karte des Aufnahmestapel als Joker (umdrehen)
+    private Cards blueFieldColor(){
+            return null;
+    }
+
+        //RED = Lege 1 - 4 Karten auf den Ablagestapel und nimm 2-5 vom Aufnahmestapel
+        private Cards redFieldColor(){
+            return null;
+        }
+
+        //PURPLE = alle Spieler nehmen reihum 1 Karte vom Aufnahmestapel
+        private Cards purpleFieldColor(){
+            return null;
+        }
+
+        //PINK = nimm 1 Karte vom Aufnahme- oder Ablagestapel. Mache einen weiteren Zug
+        private Cards pinkFieldColor(){
+            return null;
+        }
+
+
+        private boolean checkblue(FieldColor fieldColor){
+            if(fieldColor.equals(FieldColor.BLUE)){
+                //Code..
+            }
+            return true;
+        }
+
+    //Karte ziehen vom Ablagestapel
+    //ändern, sodass nicht jeder Spieler eine Karte bekommt
+    private void addCardDiscardPile(){
+        if(discardpileList.size() != 0) {
+            updateHand(player1HandBlue, discardpileList.get(0), layoutPlayer1, 0);
+            updateHand(player2HandRed, discardpileList.get(0), layoutPlayer2, 0);
+            updateHand(player3HandYellow, discardpileList.get(0), layoutPlayer3, 90);
+            updateHand(player4HandGreen, discardpileList.get(0), layoutPlayer4, -90);
+        }
+    }
+
+
+
+    //wie bekomme ich die eine freie Karte?
+
+
+    }
+
+
