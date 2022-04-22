@@ -1,8 +1,10 @@
 package com.example.phase10_se2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -20,17 +22,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CreateGameActivity extends AppCompatActivity {
+    String roomName = "";
+    final String[] color = {""};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
 
-        String playerName = findViewById(R.id.playerName).toString();
+        //have to save first as EditText to read value later
+        EditText editTextName = findViewById(R.id.playerName);
+        EditText editTextRoom = findViewById(R.id.roomName);
+
         RadioGroup rg =  findViewById(R.id.radioGroup);
         Button createGame = findViewById(R.id.createGameRoomBtn);
-        String roomName = findViewById(R.id.roomName).toString();
-        final String[] color = {""};
+
         final PlayerColor[] playerColor = {null};
 
 
@@ -68,6 +75,10 @@ public class CreateGameActivity extends AppCompatActivity {
         createGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //convert content of editTexts to String using getText().toString() for right value in firestore
+                String playerName = editTextName.getText().toString();
+                roomName = editTextRoom.getText().toString();
+
                 //create player with given input
                 Player player = new Player (playerName, playerColor[0], roomName);
 
@@ -83,6 +94,7 @@ public class CreateGameActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 Toast.makeText(CreateGameActivity.this, "creating new game...", Toast.LENGTH_SHORT).show();
+                                goToPlayField();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -97,5 +109,12 @@ public class CreateGameActivity extends AppCompatActivity {
 
 
         });
+
+    }
+    public void goToPlayField(){
+        Intent intent = new Intent(CreateGameActivity.this, Playfield.class);
+        intent.putExtra("CurrentRoom", roomName);
+        intent.putExtra("Color", color[0]);
+        startActivity(intent);
     }
 }

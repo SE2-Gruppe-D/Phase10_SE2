@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
         android:layout_marginHorizontal="40dp"
-        android:text="Username"
+        android:hint="@string/username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="92dp"
-        android:text="CREATE NEW GAME"
+        android:text="@string/create_new_game"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -46,7 +46,7 @@
             android:checked="true"
             android:minHeight="48dp"
             android:paddingEnd="20dp"
-            android:text="RED"
+            android:text="@string/red"
             tools:layout_editor_absoluteX="139dp"
             tools:layout_editor_absoluteY="285dp" />
 
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:minHeight="48dp"
             android:paddingEnd="20dp"
-            android:text="BLUE"
+            android:text="@string/blue"
             tools:layout_editor_absoluteX="139dp"
             tools:layout_editor_absoluteY="285dp" />
 
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:minHeight="48dp"
             android:paddingEnd="20dp"
-            android:text="YELLOW"
+            android:text="@string/yellow"
             tools:layout_editor_absoluteX="139dp"
             tools:layout_editor_absoluteY="285dp" />
 
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:minHeight="48dp"
             android:paddingEnd="20dp"
-            android:text="GREEN"
+            android:text="@string/green"
             tools:layout_editor_absoluteX="139dp"
             tools:layout_editor_absoluteY="285dp" />
 
@@ -87,7 +87,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="37dp"
-        android:text="Pick your color:"
+        android:text="@string/pick_your_color"
         app:layout_constraintBottom_toTopOf="@+id/radioGroup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -97,7 +97,7 @@
         android:id="@+id/roomName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Room Name"
+        android:hint="@string/room_name"
         android:layout_marginHorizontal="40dp"
         app:layout_constraintBottom_toTopOf="@+id/pickColor"
         app:layout_constraintEnd_toEndOf="parent"

@@ -10,27 +10,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PhaseTest {
-    private Cards card1;
-    private Cards card2;
-    private Cards card3;
-    private Cards card4;
-    private Cards card5;
-    private Cards card6;
-    private Cards card7;
-    private Cards card8;
-    private Cards card9;
-    private Cards card10;
-    private List<Cards> list1;
-    private List<Cards> list2;
-    private List<Cards> list3;
-    private List<Cards> list4;
+    /*private Card card1;
+    private Card card2;
+    private Card card3;
+    private Card card4;
+    private Card card5;
+    private Card card6;
+    private Card card7;
+    private Card card8;
+    private Card card9;
+    private Card card10;
+    private List<Card> list1;
+    private List<Card> list2;
+    private List<Card> list3;
+    private List<Card> list4;
     private Phase phase;
-/*
+
+
+
     @Test
     public void testCheckPhase1True(){
         phase = new Phase(card1);
-        //card1=new Cards("red", 4);
-        card2=new Cards("green", 4);
+        card1=new Card("red", 4);
+        card2=new Card("green", 4);
         list1 = new ArrayList<>();
         list1.add(card1);
         list1.add(card2);
@@ -78,6 +80,6 @@ public class PhaseTest {
         assertFalse(phase.checkPhase1(list1,list2,list3,list4));
     }
 
- */
+     */
 
 }

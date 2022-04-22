@@ -1,56 +1,15 @@
 package com.example.phase10_se2;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Phase {
 
-    ArrayList<Cards> handcards;
-    Playfield playfield;
-    Player player;
-    int phase = 1; //!!!!Statt "aktuelle Phase prüfen" --> danach ersetzen!!!!
+    //Platzhalter Handkarten
+    Cards c1;
 
-    private ArrayList<Cards> getRightHandCards (){ //!!!!Statt ID von Player über Color --> ersetzen!!!!
-        switch (player.getColor()){
-            case RED: return playfield.getPlayer1Hand();
-            case BLUE: return playfield.getPlayer2Hand();
-            case YELLOW: return playfield.getPlayer3Hand();
-            case GREEN: return playfield.getPlayer4Hand();
-            default:return null;
-        }
-    }
-
-    private List<Cards> layPhase(){
-        //!!!!aktuelle Phase prüfen -->  ersetzen!!!!
-        switch (phase) {
-            case 1:
-                return layPhase1();
-                /*
-            case 2:
-                return checkPhase2();
-            case 3:
-                return checkPhase3();
-            case 4:
-                return checkPhase4();
-            case 5:
-                return checkPhase5();
-            case 6:
-                return checkPhase6();
-            case 7:
-                return checkPhase7();
-            case 8:
-                return checkPhase8();
-            case 9:
-                return checkPhase9();
-            case 10:
-                return checkPhase10();
-
-                 */
-            default:
-                return null;
-        }
+    public Phase(Cards c1) {
+        this.c1 = c1;
     }
 
     //check Phase 1 - 10
@@ -59,35 +18,6 @@ public class Phase {
         return checkSetOf2(list1) && checkSetOf2(list2) && checkSetOf2(list3) && checkSetOf2(list4);
     }
 
-    //beginnt, sobald man eine Karte rauslegt
-    public ArrayList<Cards> layPhase1(){
-        handcards = getRightHandCards();
-        //Karten rauslegen
-        List<Cards> cards1 = new ArrayList<>();
-        cards1.add(handcards.get(0)); //Die erste Karte, die man raus legt?????
-        cards1.add(handcards.get(1));
-        List<Cards> cards2 = new ArrayList<>();
-        cards2.add(handcards.get(2));
-        cards2.add(handcards.get(3));
-        List<Cards> cards3 = new ArrayList<>();
-        cards3.add(handcards.get(4));
-        cards3.add(handcards.get(5));
-        List<Cards> cards4 = new ArrayList<>();
-        cards4.add(handcards.get(6));
-        cards4.add(handcards.get(7));
-
-        //überprüfen, ob richtig ist
-        if(checkPhase1(cards1,cards2,cards3,cards4)){
-            ArrayList<Cards> phase = new ArrayList<>();
-            phase.addAll(cards1);
-            phase.addAll(cards2);
-            phase.addAll(cards3);
-            phase.addAll(cards4);
-            return phase; //Karten bleiben liegen
-        }else{
-            return null; //Keine Karte bleibt liegen
-        }
-    }
 
 
     //Phase 2: 6 Karten einer Farbe

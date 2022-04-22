@@ -4,408 +4,162 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:visibility="visible"
     tools:context=".Playfield">
 
 
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="360dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="11dp"
-        android:layout_marginEnd="334dp"
-        android:layout_marginBottom="10dp"
+        android:id="@+id/player1"
+        android:layout_width="458dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="50dp"
         android:orientation="horizontal"
-        android:weightSum="10"
+        android:weightSum="13"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/fl_playfield"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toStartOf="@+id/player4"
+        app:layout_constraintHorizontal_bias="0.288"
+        app:layout_constraintStart_toEndOf="@+id/player3"
         tools:ignore="MissingConstraints">
 
-        <ImageView
-            android:id="@+id/card1"
-            android:layout_width="35dp"
-            android:layout_height="43dp"
-            android:layout_gravity="bottom"
-            android:scaleType="centerInside"
 
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card2"
-            android:layout_width="35dp"
-            android:layout_height="43dp"
-            android:layout_gravity="bottom"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card3"
-            android:layout_width="35dp"
-            android:layout_height="43dp"
-            android:layout_gravity="bottom"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card4"
-            android:layout_width="35dp"
-            android:layout_height="43dp"
-            android:layout_gravity="bottom"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card5"
-            android:layout_width="35dp"
-            android:layout_height="43dp"
-            android:layout_gravity="bottom"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card6"
-            android:layout_width="35dp"
-            android:layout_height="43dp"
-            android:layout_gravity="bottom"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card7"
-            android:layout_width="35dp"
-            android:layout_height="43dp"
-            android:layout_gravity="bottom"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card8"
-            android:layout_width="35dp"
-            android:layout_height="43dp"
-            android:layout_gravity="bottom"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card9"
-            android:layout_width="35dp"
-            android:layout_height="43dp"
-            android:layout_gravity="bottom"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-
-        <ImageView
-            android:id="@+id/card10"
-            android:layout_width="35dp"
-            android:layout_height="43dp"
-            android:layout_gravity="bottom"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="351dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="38dp"
+        android:id="@+id/player2"
+        android:layout_width="458dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         android:orientation="horizontal"
-        android:weightSum="10"
-        app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout3"
+        android:weightSum="13"
+        app:layout_constraintEnd_toStartOf="@+id/player4"
+        app:layout_constraintStart_toStartOf="@+id/player3"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
 
-        <ImageView
-            android:id="@+id/card11"
-            android:layout_width="35dp"
-            android:layout_height="match_parent"
-            android:scaleType="centerInside"
 
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card12"
-            android:layout_width="35dp"
-            android:layout_height="match_parent"
-            android:scaleType="centerInside"
-
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card13"
-            android:layout_width="35dp"
-            android:layout_height="match_parent"
-            android:scaleType="centerInside"
-
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card14"
-            android:layout_width="35dp"
-            android:layout_height="match_parent"
-            android:scaleType="centerInside"
-
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card15"
-            android:layout_width="35dp"
-            android:layout_height="match_parent"
-            android:scaleType="centerInside"
-
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card16"
-            android:layout_width="35dp"
-            android:layout_height="match_parent"
-            android:scaleType="centerInside"
-
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card17"
-            android:layout_width="35dp"
-            android:layout_height="match_parent"
-            android:scaleType="centerInside"
-
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card18"
-            android:layout_width="35dp"
-            android:layout_height="match_parent"
-            android:scaleType="centerInside"
-
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card19"
-            android:layout_width="35dp"
-            android:layout_height="match_parent"
-            android:scaleType="centerInside"
-
-            app:srcCompat="@drawable/deckblatt" />
-
-
-        <ImageView
-            android:id="@+id/card20"
-            android:layout_width="35dp"
-            android:layout_height="match_parent"
-            android:scaleType="centerInside"
-
-            app:srcCompat="@drawable/deckblatt" />
     </LinearLayout>
 
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="45dp"
-        android:layout_height="351dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="70dp"
+        android:id="@+id/player3"
+        android:layout_width="50dp"
+        android:layout_height="374dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="40dp"
         android:orientation="vertical"
-        android:weightSum="10"
+        android:weightSum="13"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/player2"
         tools:ignore="MissingConstraints">
 
-        <ImageView
-            android:id="@+id/card21"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:rotation="90"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
 
-        <ImageView
-            android:id="@+id/card22"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:rotation="90"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card23"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:rotation="90"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card24"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:rotation="90"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card25"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:rotation="90"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card26"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:rotation="90"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card27"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:rotation="90"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card28"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:rotation="90"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card29"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:rotation="90"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-
-        <ImageView
-            android:id="@+id/card30"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:rotation="90"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="42dp"
-        android:layout_height="354dp"
-        android:layout_marginEnd="8dp"
+        android:id="@+id/player4"
+        android:layout_width="50dp"
+        android:layout_height="360dp"
+        android:layout_marginBottom="40dp"
         android:orientation="vertical"
-        android:weightSum="10"
+        android:weightSum="13"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/fl_playfield"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="45dp">
-
-        <ImageView
-            android:id="@+id/card31"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:rotation="-90"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card32"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:rotation="-90"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card33"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:rotation="-90"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card34"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:rotation="-90"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card35"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:rotation="-90"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card36"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:rotation="-90"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card37"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:rotation="-90"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card38"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:rotation="-90"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
-
-        <ImageView
-            android:id="@+id/card39"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:rotation="-90"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
+        app:layout_constraintTop_toBottomOf="@+id/player2"
+        tools:ignore="MissingConstraints">
 
 
-        <ImageView
-            android:id="@+id/card40"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:rotation="-90"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/deckblatt" />
     </LinearLayout>
 
     <FrameLayout
         android:id="@+id/fl_playfield"
-        android:layout_width="291dp"
-        android:layout_height="409dp"
+        android:layout_width="216dp"
+        android:layout_height="411dp"
         android:layout_marginBottom="1dp"
-        android:foreground="@drawable/konzept_playfield"
+
+        android:background="@drawable/spielbrett"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
-        <View
-            android:id="@+id/view_playfield_bg"
-            android:layout_width="match_parent"
+
+        <ImageButton
+            android:id="@+id/deckblatt"
+            android:layout_width="48dp"
+            android:layout_height="158dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:foreground="@drawable/deckblatt"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tvAP"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#110E2C">
-
-        </View>
+            android:background="#4D000000"
+            android:text="Phasentext"
+            android:textColor="#FFFFFF" />
     </FrameLayout>
+
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="com.example.phase10_se2.DiceFragment"
+        android:layout_width="94dp"
+        android:layout_height="92dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fl_playfield"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnShowAk"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="164dp"
+        android:layout_marginBottom="365dp"
+        android:background="#4D000000"
+        android:text="Show"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/fl_playfield"
+        app:layout_constraintEnd_toEndOf="@+id/btnHideAk"
+        app:layout_constraintStart_toStartOf="@+id/fl_playfield"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/btnHideAk"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="164dp"
+        android:layout_marginBottom="365dp"
+        android:background="#4D000000"
+        android:text="Hide"
+        android:textColor="#FFFFFF"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/fl_playfield"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/fl_playfield"
+        app:layout_constraintTop_toTopOf="@+id/btnShowAk" />
+
+    <ImageView
+        android:id="@+id/ivShowAk"
+        android:layout_width="266dp"
+        android:layout_height="414dp"
+        android:layout_marginEnd="249dp"
+        android:foreground="@drawable/aktionskarte"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fl_playfield"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
