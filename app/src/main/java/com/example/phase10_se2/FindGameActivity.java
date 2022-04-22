@@ -39,8 +39,6 @@ public class FindGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_game);
 
-        Log.i("TAG", "Helloo");
-
         ListView listView = findViewById(R.id.roomList);
         ArrayList<String> gameRoomsList = new ArrayList<>();
         EditText editTextName = findViewById(R.id.usernameJoinGame);
