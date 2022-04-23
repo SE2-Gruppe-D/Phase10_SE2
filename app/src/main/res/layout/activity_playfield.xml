@@ -122,8 +122,8 @@
             android:id="@+id/ivPB"
             android:layout_width="19dp"
             android:layout_height="19dp"
-            android:translationX="10dp"
-            android:translationY="33dp"
+            android:translationX="16dp"
+            android:translationY="63dp"
             android:visibility="invisible"
             app:srcCompat="@drawable/figurblau" />
 
@@ -131,8 +131,8 @@
             android:id="@+id/ivPY"
             android:layout_width="19dp"
             android:layout_height="19dp"
-            android:translationX="27dp"
-            android:translationY="33dp"
+            android:translationX="35dp"
+            android:translationY="63dp"
             android:visibility="invisible"
             app:srcCompat="@drawable/figurgelb" />
 
@@ -140,8 +140,8 @@
             android:id="@+id/ivPG"
             android:layout_width="19dp"
             android:layout_height="19dp"
-            android:translationX="10dp"
-            android:translationY="53dp"
+            android:translationX="16dp"
+            android:translationY="82dp"
             android:visibility="invisible"
             app:srcCompat="@drawable/figurgruen" />
 
@@ -149,8 +149,8 @@
             android:id="@+id/ivPR"
             android:layout_width="19dp"
             android:layout_height="19dp"
-            android:translationX="27dp"
-            android:translationY="53dp"
+            android:translationX="35dp"
+            android:translationY="82dp"
             android:visibility="invisible"
             app:srcCompat="@drawable/figurrot" />
 

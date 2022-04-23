@@ -100,20 +100,20 @@ public class Player {
     //bewegen des Players auf dem Spielbrett
     public void updateMapPosition (Player player,ImageView playerview) {
         if(player.color == PlayerColor.BLUE) {
-            playerview.setTranslationX(getPositionX() * (float)40 + (float) 10);
-            playerview.setTranslationY(getPositionY() * (float)75 + (float) 33);
+            playerview.setTranslationX(getPositionX() * (float)47 + (float) 16);
+            playerview.setTranslationY(getPositionY() * (float)54 + (float) 63);
         }
         else if(player.color == PlayerColor.YELLOW) {
-            playerview.setTranslationX(getPositionX() * (float)40 + (float)27);
-            playerview.setTranslationY(getPositionY() * (float)75 + (float)33);
+            playerview.setTranslationX(getPositionX() * (float)47 + (float)35);
+            playerview.setTranslationY(getPositionY() * (float)54 + (float)63);
         }
         else if(player.color == PlayerColor.RED) {
-            playerview.setTranslationX(getPositionX() * (float)40 + (float)27);
-            playerview.setTranslationY(getPositionY() * (float)75 + (float)53);
+            playerview.setTranslationX(getPositionX() * (float)47 + (float)35);
+            playerview.setTranslationY(getPositionY() * (float)54 + (float)82);
         }
         else if(player.color == PlayerColor.GREEN) {
-            playerview.setTranslationX(getPositionX() * (float)40 + (float)10);
-            playerview.setTranslationY(getPositionY() * (float)75 + (float)53);
+            playerview.setTranslationX(getPositionX() * (float)47 + (float)16);
+            playerview.setTranslationY(getPositionY() * (float)54 + (float)82);
         }
     }
 
