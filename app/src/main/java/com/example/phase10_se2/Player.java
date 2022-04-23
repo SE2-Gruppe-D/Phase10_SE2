@@ -97,22 +97,23 @@ public class Player {
             this.startingOrder = startingPosition;
         }
     }
+    //bewegen des Players auf dem Spielbrett
     public void updateMapPosition (Player player,ImageView playerview) {
         if(player.color == PlayerColor.BLUE) {
-            playerview.setTranslationX(getPositionX() * 40 + 10);
-            playerview.setTranslationY(getPositionY() * 75 + 33);
+            playerview.setTranslationX(getPositionX() * (float)40 + (float) 10);
+            playerview.setTranslationY(getPositionY() * (float)75 + (float) 33);
         }
         else if(player.color == PlayerColor.YELLOW) {
-            playerview.setTranslationX(getPositionX() * 40 + 27);
-            playerview.setTranslationY(getPositionY() * 75 + 33);
+            playerview.setTranslationX(getPositionX() * (float)40 + (float)27);
+            playerview.setTranslationY(getPositionY() * (float)75 + (float)33);
         }
         else if(player.color == PlayerColor.RED) {
-            playerview.setTranslationX(getPositionX() * 40 + 27);
-            playerview.setTranslationY(getPositionY() * 75 + 53);
+            playerview.setTranslationX(getPositionX() * (float)40 + (float)27);
+            playerview.setTranslationY(getPositionY() * (float)75 + (float)53);
         }
         else if(player.color == PlayerColor.GREEN) {
-            playerview.setTranslationX(getPositionX() * 40 + 10);
-            playerview.setTranslationY(getPositionY() * 75 + 53);
+            playerview.setTranslationX(getPositionX() * (float)40 + (float)10);
+            playerview.setTranslationY(getPositionY() * (float)75 + (float)53);
         }
     }
 

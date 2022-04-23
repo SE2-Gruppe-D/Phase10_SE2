@@ -122,35 +122,35 @@
             android:id="@+id/ivPB"
             android:layout_width="19dp"
             android:layout_height="19dp"
-            android:translationX="10"
-            android:translationY="33"
+            android:translationX="10dp"
+            android:translationY="33dp"
             android:visibility="invisible"
             app:srcCompat="@drawable/figurblau" />
 
         <ImageView
             android:id="@+id/ivPY"
-            android:layout_width="19"
-            android:layout_height="19"
-            android:translationX="27"
-            android:translationY="33"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:translationX="27dp"
+            android:translationY="33dp"
             android:visibility="invisible"
             app:srcCompat="@drawable/figurgelb" />
 
         <ImageView
             android:id="@+id/ivPG"
-            android:layout_width="19"
-            android:layout_height="19"
-            android:translationX="10"
-            android:translationY="53"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:translationX="10dp"
+            android:translationY="53dp"
             android:visibility="invisible"
             app:srcCompat="@drawable/figurgruen" />
 
         <ImageView
             android:id="@+id/ivPR"
-            android:layout_width="19"
-            android:layout_height="19"
-            android:translationX="27"
-            android:translationY="53"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:translationX="27dp"
+            android:translationY="53dp"
             android:visibility="invisible"
             app:srcCompat="@drawable/figurrot" />
 
