@@ -39,6 +39,7 @@ public class Playfield extends AppCompatActivity {
     ArrayList<ImageView> Imagelist;
     ArrayList<Cards> drawpileList;      //Ziehstapel
     ArrayList<Cards> discardpileList;      //Ablagestapel
+    TextView leererAblagestapel;
 
 
     ArrayList<Cards> player1HandBlue;
@@ -230,6 +231,7 @@ public class Playfield extends AppCompatActivity {
 
         deckcard= findViewById(R.id.deckblatt);
         defaultcard=findViewById(R.id.defaultcard);
+        leererAblagestapel=findViewById(R.id.leererStapel);
         layoutPlayer1=findViewById(R.id.player1);
         layoutPlayer2=findViewById(R.id.player2);
         layoutPlayer3=findViewById(R.id.player3);
@@ -259,7 +261,6 @@ public class Playfield extends AppCompatActivity {
         //random Defaultcard
         Random rand = new Random();
         Cards randomCard = cardlist.get(rand.nextInt(cardlist.size()));
-        randomCard.getCardUI().setRotation(-90);
         cardlist.remove(randomCard);
         discardpileList.add(randomCard);
         defaultcard.setImageDrawable(createCardUI(randomCard).getDrawable());
@@ -267,15 +268,20 @@ public class Playfield extends AppCompatActivity {
 
 
         defaultcard.setOnClickListener(view -> {
-            addCard();
+            addCardsDiscardpile();
         });
     }
 
-    private boolean addCardsDiscardpile() {
+    //Momentan kann nur der player1 eine Karte ziehen
+    private void addCardsDiscardpile() {
         if (discardpileList.size() != 0) {
-            return true;
-        }return false;
+            updateHand(player1HandBlue, discardpileList.get(0), layoutPlayer1,0);
+            discardpileList.remove(0);
+        }else{
+            leererAblagestapel.setVisibility(View.VISIBLE);
+        }
     }
+
 
 
 
