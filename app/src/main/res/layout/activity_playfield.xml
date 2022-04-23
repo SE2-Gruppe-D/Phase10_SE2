@@ -103,11 +103,12 @@
 
         <ImageButton
             android:id="@+id/deckblatt"
-            android:layout_width="48dp"
-            android:layout_height="158dp"
+            android:layout_width="41dp"
+            android:layout_height="87dp"
             android:layout_gravity="center"
-            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="-40dp"
             android:foreground="@drawable/deckblatt"
+            android:rotation="90"
             tools:visibility="visible" />
 
         <TextView
@@ -156,11 +157,12 @@
 
         <ImageButton
             android:id="@+id/defaultcard"
-            android:layout_width="47dp"
-            android:layout_height="156dp"
+            android:layout_width="41dp"
+            android:layout_height="87dp"
             android:layout_gravity="center"
-            android:layout_marginLeft="-30dp"
+            android:layout_marginTop="-40dp"
             android:background="#00FFFFFF"
+            android:rotation="90"
             android:scaleType="fitXY"
             tools:visibility="visible" />
 

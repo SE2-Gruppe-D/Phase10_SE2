@@ -259,9 +259,11 @@ public class Playfield extends AppCompatActivity {
         //random Defaultcard
         Random rand = new Random();
         Cards randomCard = cardlist.get(rand.nextInt(cardlist.size()));
+        randomCard.getCardUI().setRotation(-90);
         cardlist.remove(randomCard);
         discardpileList.add(randomCard);
         defaultcard.setImageDrawable(createCardUI(randomCard).getDrawable());
+
 
 
         defaultcard.setOnClickListener(view -> {
