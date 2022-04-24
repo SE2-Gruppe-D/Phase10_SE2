@@ -4,6 +4,8 @@ package com.example.phase10_se2;
 import android.media.Image;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+
 enum PlayerState {
     WAITING, THROWING_DICE, PLAYING
 }
@@ -29,6 +31,7 @@ public class Player {
     private int currentPosition;
     private int positionX, positionY;
     private ImageView playerview;
+    private ArrayList<Cards> playerHand;
 
 
 
@@ -46,6 +49,7 @@ public class Player {
         currentPosition = 0;
         startingOrder = -1;
         state = PlayerState.WAITING;
+        playerHand = new ArrayList<Cards>();
     }
 
     public Player(String name, PlayerColor color, int positionX, int positionY) {
@@ -57,6 +61,7 @@ public class Player {
         currentPosition = 0;
         startingOrder = -1;
         state = PlayerState.WAITING;
+        playerHand = new ArrayList<Cards>();
     }
 
     public Player(String name, PlayerColor color) {
@@ -68,6 +73,7 @@ public class Player {
         currentPosition = 0;
         startingOrder = -1;
         state = PlayerState.WAITING;
+        playerHand = new ArrayList<Cards>();
     }
 
     public void move(int diceValue) {
@@ -165,4 +171,11 @@ public class Player {
         return playerview;
     }
 
+    public ArrayList<Cards> getPlayerHand() {
+        return playerHand;
+    }
+
+    public void setPlayerHand(ArrayList<Cards> playerHand) {
+        this.playerHand = playerHand;
+    }
 }

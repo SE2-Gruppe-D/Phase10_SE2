@@ -41,37 +41,10 @@ public class Playfield extends AppCompatActivity {
     ArrayList<Cards> discardpileList;      //Ablagestapel
     TextView leererAblagestapel;
 
-
-    ArrayList<Cards> player1HandBlue;
-    ArrayList<Cards> player2HandRed;
-    ArrayList<Cards> player3HandYellow;
-    ArrayList<Cards> player4HandGreen;
-
     Button btnHideAktionskarte;
     Button btnShowAktionskarte;
     ImageView ivShowAktionskarte;
     TextView tvAktuellePhase;
-
-    ImageView ivPlayerBlue;
-    ImageView ivPlayerYellow;
-    ImageView ivPlayerGreen;
-    ImageView ivPlayerRed;
-
-    public ArrayList<Cards> getPlayer1Hand() {
-        return player1HandBlue;
-    }
-
-    public ArrayList<Cards> getPlayer2HandRed() {
-        return player2HandRed;
-    }
-
-    public ArrayList<Cards> getPlayer3HandYellow() {
-        return player3HandYellow;
-    }
-
-    public ArrayList<Cards> getPlayer4HandGreen() {
-        return player4HandGreen;
-    }
 
     Player playerGreen;
     Player playerRed;
@@ -195,10 +168,6 @@ public class Playfield extends AppCompatActivity {
 
         cardlist = new ArrayList<>();
         Imagelist = new ArrayList<>();
-        player1HandBlue = new ArrayList<>();
-        player2HandRed = new ArrayList<>();
-        player3HandYellow = new ArrayList<>();
-        player4HandGreen = new ArrayList<>();
 
         //alle 96 Karten werden in eine ArrayList gespeichert
         //erstelle alle Blauen Karten
@@ -243,13 +212,13 @@ public class Playfield extends AppCompatActivity {
         //Handkarten
 
         for(int i = 0; i<10;i++){
-            updateHand(player1HandBlue, cardlist.get(0), layoutPlayer1,0);
+            updateHand(playerBlue.getPlayerHand(), cardlist.get(0), layoutPlayer1,0);
 
-            updateHand(player2HandRed, cardlist.get(0), layoutPlayer2, 0);
+            updateHand(playerRed.getPlayerHand(), cardlist.get(0), layoutPlayer2, 0);
 
-            updateHand(player3HandYellow, cardlist.get(0), layoutPlayer3, 90);
+            updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer3, 90);
 
-            updateHand(player4HandGreen, cardlist.get(0), layoutPlayer4, -90);
+            updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer4, -90);
         }
 
         //Player Blue, Red, Yellow, Green
@@ -275,7 +244,7 @@ public class Playfield extends AppCompatActivity {
     //Momentan kann nur der player1 eine Karte ziehen
     private void addCardsDiscardpile() {
         if (discardpileList.size() != 0) {
-            updateHand(player1HandBlue, discardpileList.get(0), layoutPlayer1,0);
+            updateHand(playerBlue.getPlayerHand(), discardpileList.get(0), layoutPlayer1,0);
             discardpileList.remove(0);
         }else{
             leererAblagestapel.setVisibility(View.VISIBLE);
@@ -300,10 +269,12 @@ public class Playfield extends AppCompatActivity {
 
     //Karte ziehen
     private void addCard(){
-        updateHand(player1HandBlue, cardlist.get(0), layoutPlayer1,0);
-        updateHand(player2HandRed, cardlist.get(0), layoutPlayer2,0);
-        updateHand(player3HandYellow, cardlist.get(0), layoutPlayer3,90);
-        updateHand(player4HandGreen, cardlist.get(0), layoutPlayer4,-90);
+        updateHand(playerBlue.getPlayerHand(), cardlist.get(0), layoutPlayer1,0);
+        updateHand(playerRed.getPlayerHand(), cardlist.get(0), layoutPlayer2,0);
+        updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer3,90);
+        updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer4,-90);
+
+        playerBlue.move(1);
     }
 
     //Stapel leer
@@ -661,10 +632,10 @@ public class Playfield extends AppCompatActivity {
     //ändern, sodass nicht jeder Spieler eine Karte bekommt
     private void addCardDiscardPile(){
         if(discardpileList.size() != 0) {
-            updateHand(player1HandBlue, discardpileList.get(0), layoutPlayer1, 0);
-            updateHand(player2HandRed, discardpileList.get(0), layoutPlayer2, 0);
-            updateHand(player3HandYellow, discardpileList.get(0), layoutPlayer3, 90);
-            updateHand(player4HandGreen, discardpileList.get(0), layoutPlayer4, -90);
+            updateHand(playerBlue.getPlayerHand(), discardpileList.get(0), layoutPlayer1, 0);
+            updateHand(playerRed.getPlayerHand(), discardpileList.get(0), layoutPlayer2, 0);
+            updateHand(playerYellow.getPlayerHand(), discardpileList.get(0), layoutPlayer3, 90);
+            updateHand(playerGreen.getPlayerHand(), discardpileList.get(0), layoutPlayer4, -90);
         }
     }
 
@@ -672,7 +643,21 @@ public class Playfield extends AppCompatActivity {
 
     //wie bekomme ich die eine freie Karte?
 
-
+    public Player getPlayerGreen() {
+        return playerGreen;
     }
+
+    public Player getPlayerBlue() {
+        return playerBlue;
+    }
+
+    public Player getPlayerRed() {
+        return playerRed;
+    }
+
+    public Player getPlayerYellow() {
+        return playerYellow;
+    }
+}
 
 
