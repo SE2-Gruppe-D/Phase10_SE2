@@ -73,18 +73,18 @@ public class Player {
     public void move(int diceValue) {
         currentPosition = (currentPosition + diceValue) % 16;
 
-        if (currentPosition < 5) {
+        if (currentPosition <= 3) {
             positionX = currentPosition;
             positionY = 0;
-        } else if (currentPosition < 9) {
-            positionX = 4;
-            positionY = currentPosition % 4;
-        } else if (currentPosition < 13) {
-            positionX = 4 - currentPosition % 4;
-            positionY = 4;
+        } else if (currentPosition <= 8) {
+            positionX = 3;
+            positionY = currentPosition-3;
+        } else if (currentPosition <= 11) {
+            positionX = 12 - currentPosition;
+            positionY = 5;
         } else {
             positionX = 0;
-            positionY = 4 - currentPosition % 4;
+            positionY = 16 - currentPosition;
         }
 
         updateMapPosition();
@@ -103,19 +103,19 @@ public class Player {
     }
     //bewegen des Players auf dem Spielbrett
     public void updateMapPosition () {
-        if(this.color == PlayerColor.BLUE) {
+        if(this.color == PlayerColor.BLUE && this.playerview != null) {
             this.playerview.setTranslationX(getPositionX() * (float)47 + (float) 16);
             this.playerview.setTranslationY(getPositionY() * (float)54 + (float) 63);
         }
-        else if(this.color == PlayerColor.YELLOW) {
+        else if(this.color == PlayerColor.YELLOW && this.playerview != null) {
             this.playerview.setTranslationX(getPositionX() * (float)47 + (float)35);
             this.playerview.setTranslationY(getPositionY() * (float)54 + (float)63);
         }
-        else if(this.color == PlayerColor.RED) {
+        else if(this.color == PlayerColor.RED && this.playerview != null) {
             this.playerview.setTranslationX(getPositionX() * (float)47 + (float)35);
             this.playerview.setTranslationY(getPositionY() * (float)54 + (float)82);
         }
-        else if(this.color == PlayerColor.GREEN) {
+        else if(this.color == PlayerColor.GREEN && this.playerview != null) {
             this.playerview.setTranslationX(getPositionX() * (float)47 + (float)16);
             this.playerview.setTranslationY(getPositionY() * (float)54 + (float)82);
         }
