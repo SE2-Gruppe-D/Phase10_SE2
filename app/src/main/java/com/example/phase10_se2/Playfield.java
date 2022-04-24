@@ -1,5 +1,7 @@
 package com.example.phase10_se2;
 
+import static android.os.SystemClock.sleep;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -21,9 +24,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class Playfield extends AppCompatActivity {
     DiceFragment diceFragment;
@@ -41,37 +49,10 @@ public class Playfield extends AppCompatActivity {
     ArrayList<Cards> discardpileList;      //Ablagestapel
     TextView leererAblagestapel;
 
-
-    ArrayList<Cards> player1HandBlue;
-    ArrayList<Cards> player2HandRed;
-    ArrayList<Cards> player3HandYellow;
-    ArrayList<Cards> player4HandGreen;
-
     Button btnHideAktionskarte;
     Button btnShowAktionskarte;
     ImageView ivShowAktionskarte;
     TextView tvAktuellePhase;
-
-    ImageView ivPlayerBlue;
-    ImageView ivPlayerYellow;
-    ImageView ivPlayerGreen;
-    ImageView ivPlayerRed;
-
-    public ArrayList<Cards> getPlayer1Hand() {
-        return player1HandBlue;
-    }
-
-    public ArrayList<Cards> getPlayer2HandRed() {
-        return player2HandRed;
-    }
-
-    public ArrayList<Cards> getPlayer3HandYellow() {
-        return player3HandYellow;
-    }
-
-    public ArrayList<Cards> getPlayer4HandGreen() {
-        return player4HandGreen;
-    }
 
     Player playerGreen;
     Player playerRed;
@@ -126,23 +107,23 @@ public class Playfield extends AppCompatActivity {
 
                                 if (Objects.equals(documentSnapshot.getString("Color"), "RED")){
                                     playerRed=new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom);
-                                    ivPlayerRed=findViewById(R.id.ivPR);
-                                    ivPlayerRed.setVisibility(View.VISIBLE);
+                                    playerRed.setPlayerview(findViewById(R.id.ivPR));
+                                    playerRed.getPlayerview().setVisibility(View.VISIBLE);
                                 }
                                 if (Objects.equals(documentSnapshot.getString("Color"), "BLUE")){
                                     playerBlue=new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom);
-                                    ivPlayerBlue=findViewById(R.id.ivPB);
-                                    ivPlayerBlue.setVisibility(View.VISIBLE);
+                                    playerBlue.setPlayerview(findViewById(R.id.ivPB));
+                                    playerBlue.getPlayerview().setVisibility(View.VISIBLE);
                                 }
                                 if (Objects.equals(documentSnapshot.getString("Color"), "YELLOW")){
                                     playerYellow=new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom);
-                                    ivPlayerYellow=findViewById(R.id.ivPY);
-                                    ivPlayerYellow.setVisibility(View.VISIBLE);
+                                    playerYellow.setPlayerview(findViewById(R.id.ivPY));
+                                    playerYellow.getPlayerview().setVisibility(View.VISIBLE);
                                 }
                                 if (Objects.equals(documentSnapshot.getString("Color"), "GREEN")){
                                     playerGreen=new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom);
-                                    ivPlayerGreen=findViewById(R.id.ivPG);
-                                    ivPlayerGreen.setVisibility(View.VISIBLE);
+                                    playerGreen.setPlayerview(findViewById(R.id.ivPG));
+                                    playerGreen.getPlayerview().setVisibility(View.VISIBLE);
                                 }
 
                             }
@@ -195,10 +176,6 @@ public class Playfield extends AppCompatActivity {
 
         cardlist = new ArrayList<>();
         Imagelist = new ArrayList<>();
-        player1HandBlue = new ArrayList<>();
-        player2HandRed = new ArrayList<>();
-        player3HandYellow = new ArrayList<>();
-        player4HandGreen = new ArrayList<>();
 
         //alle 96 Karten werden in eine ArrayList gespeichert
         //erstelle alle Blauen Karten
@@ -243,13 +220,18 @@ public class Playfield extends AppCompatActivity {
         //Handkarten
 
         for(int i = 0; i<10;i++){
-            updateHand(player1HandBlue, cardlist.get(0), layoutPlayer1,0);
-
-            updateHand(player2HandRed, cardlist.get(0), layoutPlayer2, 0);
-
-            updateHand(player3HandYellow, cardlist.get(0), layoutPlayer3, 90);
-
-            updateHand(player4HandGreen, cardlist.get(0), layoutPlayer4, -90);
+            if (playerBlue != null) {
+                updateHand(playerBlue.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
+            }
+            if (playerRed != null) {
+                updateHand(playerRed.getPlayerHand(), cardlist.get(0), layoutPlayer2, 0);
+            }
+            if (playerYellow != null) {
+                updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer3, 90);
+            }
+            if (playerGreen != null) {
+                updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer4, -90);
+            }
         }
 
         //Player Blue, Red, Yellow, Green
@@ -275,7 +257,7 @@ public class Playfield extends AppCompatActivity {
     //Momentan kann nur der player1 eine Karte ziehen
     private void addCardsDiscardpile() {
         if (discardpileList.size() != 0) {
-            updateHand(player1HandBlue, discardpileList.get(0), layoutPlayer1,0);
+            updateHand(playerBlue.getPlayerHand(), discardpileList.get(0), layoutPlayer1,0);
             discardpileList.remove(0);
         }else{
             leererAblagestapel.setVisibility(View.VISIBLE);
@@ -300,10 +282,18 @@ public class Playfield extends AppCompatActivity {
 
     //Karte ziehen
     private void addCard(){
-        updateHand(player1HandBlue, cardlist.get(0), layoutPlayer1,0);
-        updateHand(player2HandRed, cardlist.get(0), layoutPlayer2,0);
-        updateHand(player3HandYellow, cardlist.get(0), layoutPlayer3,90);
-        updateHand(player4HandGreen, cardlist.get(0), layoutPlayer4,-90);
+        if (playerBlue != null) {
+            updateHand(playerBlue.getPlayerHand(), cardlist.get(0), layoutPlayer1,0);
+        }
+        if (playerRed != null) {
+            updateHand(playerRed.getPlayerHand(), cardlist.get(0), layoutPlayer2,0);
+        }
+        if (playerYellow != null) {
+            updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer3,90);
+        }
+        if (playerGreen != null) {
+            updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer4,-90);
+        }
     }
 
     //Stapel leer
@@ -661,10 +651,10 @@ public class Playfield extends AppCompatActivity {
     //ändern, sodass nicht jeder Spieler eine Karte bekommt
     private void addCardDiscardPile(){
         if(discardpileList.size() != 0) {
-            updateHand(player1HandBlue, discardpileList.get(0), layoutPlayer1, 0);
-            updateHand(player2HandRed, discardpileList.get(0), layoutPlayer2, 0);
-            updateHand(player3HandYellow, discardpileList.get(0), layoutPlayer3, 90);
-            updateHand(player4HandGreen, discardpileList.get(0), layoutPlayer4, -90);
+            updateHand(playerBlue.getPlayerHand(), discardpileList.get(0), layoutPlayer1, 0);
+            updateHand(playerRed.getPlayerHand(), discardpileList.get(0), layoutPlayer2, 0);
+            updateHand(playerYellow.getPlayerHand(), discardpileList.get(0), layoutPlayer3, 90);
+            updateHand(playerGreen.getPlayerHand(), discardpileList.get(0), layoutPlayer4, -90);
         }
     }
 
@@ -673,6 +663,86 @@ public class Playfield extends AppCompatActivity {
     //wie bekomme ich die eine freie Karte?
 
 
+
+    public void decideStartingPlayer() {
+        //get array of active players
+        ArrayList<Player> activePlayers = getActivePlayers();
+        SortedMap<Integer, Player> startingDiceValues = new TreeMap<>();
+
+        for (Player player : activePlayers) {
+            int lastDiceValue = 0;
+
+            Toast.makeText(getApplicationContext(), player.getName() + "'s turn", Toast.LENGTH_LONG);
+            if (player.equals(primaryPlayer)) {
+                diceFragment.register();
+
+                while (diceFragment.getAcceleration() < 0) {
+                    sleep(10);
+                }
+                while (diceFragment.getAcceleration() > 1) {
+                    lastDiceValue = diceFragment.getLastDiceValue();
+                    sleep(10);
+                }
+
+                player.move(lastDiceValue);
+            }
+            Toast.makeText(getApplicationContext(), "Player " + player.getName() + " threw: " + lastDiceValue, Toast.LENGTH_LONG);
+
+            startingDiceValues.put(lastDiceValue, player);
+        }
+
+        //set starting order in player class
+        Set<Map.Entry<Integer, Player>> s = startingDiceValues.entrySet();
+        Iterator<Map.Entry<Integer, Player>> i = s.iterator();
+        StringBuilder startingOrderToastText = new StringBuilder();
+        int j = 1;
+        while (i.hasNext()) {
+            Map.Entry<Integer, Player> m = i.next();
+
+            Player p = m.getValue();
+            p.setStartingOrder(j);
+            startingOrderToastText.append(j).append(": ").append((m.getValue()).getName());
+            j++;
+        }
+
+        Toast.makeText(diceFragment.getActivity().getApplicationContext(), startingOrderToastText.toString(), Toast.LENGTH_LONG).show();
     }
+
+
+    //Getter und Setter
+    public Player getPlayerGreen() {
+        return playerGreen;
+    }
+
+    public Player getPlayerBlue() {
+        return playerBlue;
+    }
+
+    public Player getPlayerRed() {
+        return playerRed;
+    }
+
+    public Player getPlayerYellow() {
+        return playerYellow;
+    }
+
+    public ArrayList<Player> getActivePlayers() {
+        ArrayList<Player> activePlayers = new ArrayList<>();
+        if (playerYellow != null) {
+            activePlayers.add(playerYellow);
+        }
+        if (playerGreen != null) {
+            activePlayers.add(playerGreen);
+        }
+        if (playerBlue != null) {
+            activePlayers.add(playerBlue);
+        }
+        if (playerRed != null) {
+            activePlayers.add(playerRed);
+        }
+
+        return activePlayers;
+    }
+}
 
 

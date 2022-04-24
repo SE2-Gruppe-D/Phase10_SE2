@@ -2,6 +2,8 @@ package com.example.phase10_se2;
 
 import static org.junit.Assert.assertEquals;
 
+import android.widget.ImageView;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,8 +20,8 @@ public class PlayerTest {
     public void testMove_simple1() {
         player.move(5);
         assertEquals(5, player.getCurrentPosition());
-        assertEquals(4, player.getPositionX());
-        assertEquals(1, player.getPositionY());
+        assertEquals(3, player.getPositionX());
+        assertEquals(2, player.getPositionY());
     }
 
     @Test
