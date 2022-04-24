@@ -1,5 +1,7 @@
 package com.example.phase10_se2;
 
+import static android.os.SystemClock.sleep;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -21,9 +24,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class Playfield extends AppCompatActivity {
     DiceFragment diceFragment;
@@ -212,13 +220,18 @@ public class Playfield extends AppCompatActivity {
         //Handkarten
 
         for(int i = 0; i<10;i++){
-            updateHand(playerBlue.getPlayerHand(), cardlist.get(0), layoutPlayer1,0);
-
-            updateHand(playerRed.getPlayerHand(), cardlist.get(0), layoutPlayer2, 0);
-
-            updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer3, 90);
-
-            updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer4, -90);
+            if (playerBlue != null) {
+                updateHand(playerBlue.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
+            }
+            if (playerRed != null) {
+                updateHand(playerRed.getPlayerHand(), cardlist.get(0), layoutPlayer2, 0);
+            }
+            if (playerYellow != null) {
+                updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer3, 90);
+            }
+            if (playerGreen != null) {
+                updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer4, -90);
+            }
         }
 
         //Player Blue, Red, Yellow, Green
@@ -269,12 +282,18 @@ public class Playfield extends AppCompatActivity {
 
     //Karte ziehen
     private void addCard(){
-        updateHand(playerBlue.getPlayerHand(), cardlist.get(0), layoutPlayer1,0);
-        updateHand(playerRed.getPlayerHand(), cardlist.get(0), layoutPlayer2,0);
-        updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer3,90);
-        updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer4,-90);
-
-        playerBlue.move(1);
+        if (playerBlue != null) {
+            updateHand(playerBlue.getPlayerHand(), cardlist.get(0), layoutPlayer1,0);
+        }
+        if (playerRed != null) {
+            updateHand(playerRed.getPlayerHand(), cardlist.get(0), layoutPlayer2,0);
+        }
+        if (playerYellow != null) {
+            updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer3,90);
+        }
+        if (playerGreen != null) {
+            updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer4,-90);
+        }
     }
 
     //Stapel leer
@@ -643,6 +662,54 @@ public class Playfield extends AppCompatActivity {
 
     //wie bekomme ich die eine freie Karte?
 
+
+
+    public void decideStartingPlayer() {
+        //get array of active players
+        ArrayList<Player> activePlayers = getActivePlayers();
+        SortedMap<Integer, Player> startingDiceValues = new TreeMap<>();
+
+        for (Player player : activePlayers) {
+            int lastDiceValue = 0;
+
+            Toast.makeText(getApplicationContext(), player.getName() + "'s turn", Toast.LENGTH_LONG);
+            if (player.equals(primaryPlayer)) {
+                diceFragment.register();
+
+                while (diceFragment.getAcceleration() < 0) {
+                    sleep(10);
+                }
+                while (diceFragment.getAcceleration() > 1) {
+                    lastDiceValue = diceFragment.getLastDiceValue();
+                    sleep(10);
+                }
+
+                player.move(lastDiceValue);
+            }
+            Toast.makeText(getApplicationContext(), "Player " + player.getName() + " threw: " + lastDiceValue, Toast.LENGTH_LONG);
+
+            startingDiceValues.put(lastDiceValue, player);
+        }
+
+        //set starting order in player class
+        Set<Map.Entry<Integer, Player>> s = startingDiceValues.entrySet();
+        Iterator<Map.Entry<Integer, Player>> i = s.iterator();
+        StringBuilder startingOrderToastText = new StringBuilder();
+        int j = 1;
+        while (i.hasNext()) {
+            Map.Entry<Integer, Player> m = i.next();
+
+            Player p = m.getValue();
+            p.setStartingOrder(j);
+            startingOrderToastText.append(j).append(": ").append((m.getValue()).getName());
+            j++;
+        }
+
+        Toast.makeText(diceFragment.getActivity().getApplicationContext(), startingOrderToastText.toString(), Toast.LENGTH_LONG).show();
+    }
+
+
+    //Getter und Setter
     public Player getPlayerGreen() {
         return playerGreen;
     }
@@ -657,6 +724,24 @@ public class Playfield extends AppCompatActivity {
 
     public Player getPlayerYellow() {
         return playerYellow;
+    }
+
+    public ArrayList<Player> getActivePlayers() {
+        ArrayList<Player> activePlayers = new ArrayList<>();
+        if (playerYellow != null) {
+            activePlayers.add(playerYellow);
+        }
+        if (playerGreen != null) {
+            activePlayers.add(playerGreen);
+        }
+        if (playerBlue != null) {
+            activePlayers.add(playerBlue);
+        }
+        if (playerRed != null) {
+            activePlayers.add(playerRed);
+        }
+
+        return activePlayers;
     }
 }
 
