@@ -1,6 +1,7 @@
 package com.example.phase10_se2;
 
 
+import android.media.Image;
 import android.widget.ImageView;
 
 enum PlayerState {
@@ -27,6 +28,7 @@ public class Player {
     private PlayerState state;
     private int currentPosition;
     private int positionX, positionY;
+    private ImageView playerview;
 
 
 
@@ -84,6 +86,8 @@ public class Player {
             positionX = 0;
             positionY = 4 - currentPosition % 4;
         }
+
+        updateMapPosition();
     }
 
 
@@ -98,22 +102,22 @@ public class Player {
         }
     }
     //bewegen des Players auf dem Spielbrett
-    public void updateMapPosition (Player player,ImageView playerview) {
-        if(player.color == PlayerColor.BLUE) {
-            playerview.setTranslationX(getPositionX() * (float)47 + (float) 16);
-            playerview.setTranslationY(getPositionY() * (float)54 + (float) 63);
+    public void updateMapPosition () {
+        if(this.color == PlayerColor.BLUE) {
+            this.playerview.setTranslationX(getPositionX() * (float)47 + (float) 16);
+            this.playerview.setTranslationY(getPositionY() * (float)54 + (float) 63);
         }
-        else if(player.color == PlayerColor.YELLOW) {
-            playerview.setTranslationX(getPositionX() * (float)47 + (float)35);
-            playerview.setTranslationY(getPositionY() * (float)54 + (float)63);
+        else if(this.color == PlayerColor.YELLOW) {
+            this.playerview.setTranslationX(getPositionX() * (float)47 + (float)35);
+            this.playerview.setTranslationY(getPositionY() * (float)54 + (float)63);
         }
-        else if(player.color == PlayerColor.RED) {
-            playerview.setTranslationX(getPositionX() * (float)47 + (float)35);
-            playerview.setTranslationY(getPositionY() * (float)54 + (float)82);
+        else if(this.color == PlayerColor.RED) {
+            this.playerview.setTranslationX(getPositionX() * (float)47 + (float)35);
+            this.playerview.setTranslationY(getPositionY() * (float)54 + (float)82);
         }
-        else if(player.color == PlayerColor.GREEN) {
-            playerview.setTranslationX(getPositionX() * (float)47 + (float)16);
-            playerview.setTranslationY(getPositionY() * (float)54 + (float)82);
+        else if(this.color == PlayerColor.GREEN) {
+            this.playerview.setTranslationX(getPositionX() * (float)47 + (float)16);
+            this.playerview.setTranslationY(getPositionY() * (float)54 + (float)82);
         }
     }
 
@@ -151,6 +155,14 @@ public class Player {
 
     public int getPositionY() {
         return positionY;
+    }
+
+    public void setPlayerview(ImageView playerview) {
+        this.playerview = playerview;
+    }
+
+    public ImageView getPlayerview() {
+        return playerview;
     }
 
 }

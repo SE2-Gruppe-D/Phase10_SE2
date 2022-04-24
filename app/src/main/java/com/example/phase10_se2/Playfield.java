@@ -126,23 +126,23 @@ public class Playfield extends AppCompatActivity {
 
                                 if (Objects.equals(documentSnapshot.getString("Color"), "RED")){
                                     playerRed=new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom);
-                                    ivPlayerRed=findViewById(R.id.ivPR);
-                                    ivPlayerRed.setVisibility(View.VISIBLE);
+                                    playerRed.setPlayerview(findViewById(R.id.ivPR));
+                                    playerRed.getPlayerview().setVisibility(View.VISIBLE);
                                 }
                                 if (Objects.equals(documentSnapshot.getString("Color"), "BLUE")){
                                     playerBlue=new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom);
-                                    ivPlayerBlue=findViewById(R.id.ivPB);
-                                    ivPlayerBlue.setVisibility(View.VISIBLE);
+                                    playerBlue.setPlayerview(findViewById(R.id.ivPB));
+                                    playerBlue.getPlayerview().setVisibility(View.VISIBLE);
                                 }
                                 if (Objects.equals(documentSnapshot.getString("Color"), "YELLOW")){
                                     playerYellow=new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom);
-                                    ivPlayerYellow=findViewById(R.id.ivPY);
-                                    ivPlayerYellow.setVisibility(View.VISIBLE);
+                                    playerYellow.setPlayerview(findViewById(R.id.ivPY));
+                                    playerYellow.getPlayerview().setVisibility(View.VISIBLE);
                                 }
                                 if (Objects.equals(documentSnapshot.getString("Color"), "GREEN")){
                                     playerGreen=new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom);
-                                    ivPlayerGreen=findViewById(R.id.ivPG);
-                                    ivPlayerGreen.setVisibility(View.VISIBLE);
+                                    playerGreen.setPlayerview(findViewById(R.id.ivPG));
+                                    playerGreen.getPlayerview().setVisibility(View.VISIBLE);
                                 }
 
                             }
