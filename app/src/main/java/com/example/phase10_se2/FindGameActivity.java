@@ -2,9 +2,6 @@ package com.example.phase10_se2;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +14,9 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -167,7 +167,7 @@ public class FindGameActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {
                                         Toast.makeText(FindGameActivity.this, "joining game...", Toast.LENGTH_SHORT).show();
-                                        goToPlayField();
+                                        goToFindPlayer();
                                     }
                                 }).addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
                     }
@@ -176,9 +176,9 @@ public class FindGameActivity extends AppCompatActivity {
             }
         });
     }
-    public void goToPlayField(){
-        Intent intent = new Intent(FindGameActivity.this, Playfield.class);
-        intent.putExtra("CurrentRoom", roomName[0]);
+    public void goToFindPlayer(){
+        Intent intent = new Intent(FindGameActivity.this, FindPlayer.class);
+        intent.putExtra("CurrentRoom", roomName);
         intent.putExtra("Color", color[0]);
         startActivity(intent);
     }
