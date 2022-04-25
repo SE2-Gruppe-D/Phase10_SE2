@@ -254,6 +254,8 @@ public class Playfield extends AppCompatActivity {
         });
     }
 
+
+
     //Momentan kann nur der player1 eine Karte ziehen
     private void addCardsDiscardpile() {
         if (discardpileList.size() != 0) {
@@ -278,6 +280,7 @@ public class Playfield extends AppCompatActivity {
         drawpileList.add(cardlist.get(0));
         cardlist.remove(0);
         cards.getCardUI().setRotation(grad);
+
     }
 
     //Karte ziehen
@@ -311,6 +314,7 @@ public class Playfield extends AppCompatActivity {
         imageView.setTag("c"+ cards.getID());
         imageView.setVisibility(View.INVISIBLE);
         imageView.setClickable(true);
+
         return imageView;
     }
 
@@ -646,22 +650,6 @@ public class Playfield extends AppCompatActivity {
             }
             return true;
         }
-
-    //Karte ziehen vom Ablagestapel
-    //ändern, sodass nicht jeder Spieler eine Karte bekommt
-    private void addCardDiscardPile(){
-        if(discardpileList.size() != 0) {
-            updateHand(playerBlue.getPlayerHand(), discardpileList.get(0), layoutPlayer1, 0);
-            updateHand(playerRed.getPlayerHand(), discardpileList.get(0), layoutPlayer2, 0);
-            updateHand(playerYellow.getPlayerHand(), discardpileList.get(0), layoutPlayer3, 90);
-            updateHand(playerGreen.getPlayerHand(), discardpileList.get(0), layoutPlayer4, -90);
-        }
-    }
-
-
-
-    //wie bekomme ich die eine freie Karte?
-
 
 
     public void decideStartingPlayer() {
