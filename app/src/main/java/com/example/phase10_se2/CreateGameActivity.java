@@ -40,7 +40,6 @@ public class CreateGameActivity extends AppCompatActivity {
 
         final PlayerColor[] playerColor = {null};
 
-
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         playerColor[0] = PlayerColor.RED;
 
