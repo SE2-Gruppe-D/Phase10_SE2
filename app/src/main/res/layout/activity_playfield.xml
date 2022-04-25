@@ -8,6 +8,16 @@
     tools:context=".Playfield">
 
 
+    <ImageView
+        android:id="@+id/backgroundSpielfeld"
+        android:layout_width="211dp"
+        android:layout_height="395dp"
+        android:background="#393541"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/player4"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/player1"
         android:layout_width="458dp"
@@ -77,13 +87,14 @@
 
     </LinearLayout>
 
+
     <FrameLayout
         android:id="@+id/fl_playfield"
-        android:layout_width="216dp"
-        android:layout_height="411dp"
+        android:layout_width="212dp"
+        android:layout_height="415dp"
         android:layout_marginBottom="1dp"
 
-        android:background="@drawable/spielbrett"
+        android:background="@drawable/playfieldsmall"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -92,11 +103,12 @@
 
         <ImageButton
             android:id="@+id/deckblatt"
-            android:layout_width="48dp"
-            android:layout_height="158dp"
+            android:layout_width="41dp"
+            android:layout_height="87dp"
             android:layout_gravity="center"
-            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="-40dp"
             android:foreground="@drawable/deckblatt"
+            android:rotation="90"
             tools:visibility="visible" />
 
         <TextView
@@ -111,8 +123,8 @@
             android:id="@+id/ivPB"
             android:layout_width="19dp"
             android:layout_height="19dp"
-            android:translationX="10dp"
-            android:translationY="33dp"
+            android:translationX="16dp"
+            android:translationY="63dp"
             android:visibility="invisible"
             app:srcCompat="@drawable/figurblau" />
 
@@ -120,8 +132,8 @@
             android:id="@+id/ivPY"
             android:layout_width="19dp"
             android:layout_height="19dp"
-            android:translationX="27dp"
-            android:translationY="33dp"
+            android:translationX="35dp"
+            android:translationY="63dp"
             android:visibility="invisible"
             app:srcCompat="@drawable/figurgelb" />
 
@@ -129,8 +141,8 @@
             android:id="@+id/ivPG"
             android:layout_width="19dp"
             android:layout_height="19dp"
-            android:translationX="10dp"
-            android:translationY="53dp"
+            android:translationX="16dp"
+            android:translationY="82dp"
             android:visibility="invisible"
             app:srcCompat="@drawable/figurgruen" />
 
@@ -138,20 +150,33 @@
             android:id="@+id/ivPR"
             android:layout_width="19dp"
             android:layout_height="19dp"
-            android:translationX="27dp"
-            android:translationY="53dp"
+            android:translationX="35dp"
+            android:translationY="82dp"
             android:visibility="invisible"
             app:srcCompat="@drawable/figurrot" />
 
         <ImageButton
             android:id="@+id/defaultcard"
-            android:layout_width="47dp"
-            android:layout_height="156dp"
+            android:layout_width="41dp"
+            android:layout_height="87dp"
             android:layout_gravity="center"
-            android:layout_marginLeft="-30dp"
+            android:layout_marginTop="-40dp"
             android:background="#00FFFFFF"
+            android:rotation="90"
             android:scaleType="fitXY"
             tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/leererStapel"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="-40dp"
+            android:text="leer->Ziehstapel"
+            android:textColor="#0B0B0B"
+            android:textSize="12sp"
+            android:visibility="invisible"
+            />
 
     </FrameLayout>
 

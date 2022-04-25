@@ -14,10 +14,10 @@ public class Phase {
 
     private ArrayList<Cards> getRightHandCards (){ //!!!!Statt ID von Player über Color --> ersetzen!!!!
         switch (player.getColor()){
-            case RED: return playfield.getPlayer1Hand();
-            case BLUE: return playfield.getPlayer2HandRed();
-            case YELLOW: return playfield.getPlayer3HandYellow();
-            case GREEN: return playfield.getPlayer4HandGreen();
+            case RED: return playfield.getPlayerRed().getPlayerHand();
+            case BLUE: return playfield.getPlayerBlue().getPlayerHand();
+            case YELLOW: return playfield.getPlayerYellow().getPlayerHand();
+            case GREEN: return playfield.getPlayerGreen().getPlayerHand();
             default:return null;
         }
     }
