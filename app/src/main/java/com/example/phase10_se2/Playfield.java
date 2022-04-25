@@ -3,11 +3,6 @@ package com.example.phase10_se2;
 
 import static android.os.SystemClock.sleep;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -73,8 +68,7 @@ public class Playfield extends AppCompatActivity {
 
         String currentRoom= getIntent().getExtras().getString("CurrentRoom");
         String userColor= getIntent().getExtras().getString("Color");
-        Log.i("-------------------------------------------", userColor);
-
+        Toast.makeText(this, "You are the "+userColor+" player!", Toast.LENGTH_SHORT).show();
         FirebaseFirestore database;
         database = FirebaseFirestore.getInstance();    //verknuepfung
         database.collection("users")
