@@ -40,34 +40,33 @@ public class CreateGameActivity extends AppCompatActivity {
 
         final PlayerColor[] playerColor = {null};
 
-
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         playerColor[0] = PlayerColor.RED;
 
-            rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup radioGroup, int checkedID) {
-                    color[0] = ((RadioButton) findViewById(rg.getCheckedRadioButtonId()))
-                            .getText().toString();
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedID) {
+                color[0] = ((RadioButton) findViewById(rg.getCheckedRadioButtonId()))
+                        .getText().toString();
 
 
-                    switch (color[0]) {
-                        case "RED":
-                            playerColor[0] = PlayerColor.RED;
-                            break;
-                        case "BLUE":
-                            playerColor[0] = PlayerColor.BLUE;
-                            break;
-                        case "YELLOW":
-                            playerColor[0] = PlayerColor.YELLOW;
-                            break;
-                        default:
-                            playerColor[0] = PlayerColor.GREEN;
-                            break;
+                switch (color[0]) {
+                    case "RED":
+                        playerColor[0] = PlayerColor.RED;
+                        break;
+                    case "BLUE":
+                        playerColor[0] = PlayerColor.BLUE;
+                        break;
+                    case "YELLOW":
+                        playerColor[0] = PlayerColor.YELLOW;
+                        break;
+                    default:
+                        playerColor[0] = PlayerColor.GREEN;
+                        break;
 
-                    }
                 }
-            });
+            }
+        });
 
 
 
@@ -93,8 +92,8 @@ public class CreateGameActivity extends AppCompatActivity {
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                Toast.makeText(CreateGameActivity.this, "creating new game...", Toast.LENGTH_SHORT).show();
-                                goToPlayField();
+                                Toast.makeText(CreateGameActivity.this, "creating new room...", Toast.LENGTH_SHORT).show();
+                                goToFindPlayer();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -111,8 +110,8 @@ public class CreateGameActivity extends AppCompatActivity {
         });
 
     }
-    public void goToPlayField(){
-        Intent intent = new Intent(CreateGameActivity.this, Playfield.class);
+    public void goToFindPlayer(){
+        Intent intent = new Intent(CreateGameActivity.this, FindPlayer.class);
         intent.putExtra("CurrentRoom", roomName);
         intent.putExtra("Color", color[0]);
         startActivity(intent);
