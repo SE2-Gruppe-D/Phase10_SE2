@@ -21,6 +21,7 @@ sonarqube {
     property "sonar.organization", "se2-gruppe-d"
     property "sonar.host.url", "https://sonarcloud.io"
   }
+
 }
 
 task clean(type: Delete) {
