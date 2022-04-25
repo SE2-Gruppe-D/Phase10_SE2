@@ -18,6 +18,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,30 +45,30 @@ public class CreateGameActivity extends AppCompatActivity {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         playerColor[0] = PlayerColor.RED;
 
-            rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup radioGroup, int checkedID) {
-                    color[0] = ((RadioButton) findViewById(rg.getCheckedRadioButtonId()))
-                            .getText().toString();
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedID) {
+                color[0] = ((RadioButton) findViewById(rg.getCheckedRadioButtonId()))
+                        .getText().toString();
 
 
-                    switch (color[0]) {
-                        case "RED":
-                            playerColor[0] = PlayerColor.RED;
-                            break;
-                        case "BLUE":
-                            playerColor[0] = PlayerColor.BLUE;
-                            break;
-                        case "YELLOW":
-                            playerColor[0] = PlayerColor.YELLOW;
-                            break;
-                        default:
-                            playerColor[0] = PlayerColor.GREEN;
-                            break;
+                switch (color[0]) {
+                    case "RED":
+                        playerColor[0] = PlayerColor.RED;
+                        break;
+                    case "BLUE":
+                        playerColor[0] = PlayerColor.BLUE;
+                        break;
+                    case "YELLOW":
+                        playerColor[0] = PlayerColor.YELLOW;
+                        break;
+                    default:
+                        playerColor[0] = PlayerColor.GREEN;
+                        break;
 
-                    }
                 }
-            });
+            }
+        });
 
 
 
@@ -80,7 +81,7 @@ public class CreateGameActivity extends AppCompatActivity {
                 roomName = editTextRoom.getText().toString();
 
                 //create player with given input
-                Player player = new Player (playerName, playerColor[0], roomName);
+                Player player = new Player (playerName, playerColor[0], roomName, new ArrayList<>());
 
                 //add player and room to database
                 Map<String, Object> user = new HashMap<>();

@@ -69,10 +69,10 @@ public class FindGameActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //add all available rooms to gameRoomsList
                                 if(!gameRoomsList.contains(document.getString("Room"))){
-                                gameRoomsList.add(document.getString("Room"));
+                                    gameRoomsList.add(document.getString("Room"));
 
-                                adapter.notifyDataSetChanged();
-                            }
+                                    adapter.notifyDataSetChanged();
+                                }
                             }
                         } else {
                             Log.d(TAG, "Error getting Data from Firestore: ", task.getException());
@@ -121,7 +121,7 @@ public class FindGameActivity extends AppCompatActivity {
                                 if (takenColors.contains("YELLOW")) {
                                     radioYellow.setEnabled(false);
                                 }
-                            adapter.notifyDataSetChanged();
+                                adapter.notifyDataSetChanged();
                             }
 
                         });
@@ -152,7 +152,7 @@ public class FindGameActivity extends AppCompatActivity {
                             }
                         }
                         String playerName = editTextName.getText().toString();
-                        Player player = new Player(playerName, playerColor, roomName[0]);
+                        Player player = new Player(playerName, playerColor, roomName[0], new ArrayList<Cards>());
 
 
                         //create user

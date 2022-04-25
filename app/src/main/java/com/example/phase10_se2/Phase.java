@@ -1,8 +1,6 @@
 package com.example.phase10_se2;
 
 
-import android.widget.LinearLayout;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,10 +12,10 @@ public class Phase {
 
     private ArrayList<Cards> getRightHandCards (){ //!!!!Statt ID von Player über Color --> ersetzen!!!!
         switch (player.getColor()){
-            case RED: return playfield.getPlayer1Hand();
-            case BLUE: return playfield.getPlayer2HandRed();
-            case YELLOW: return playfield.getPlayer3HandYellow();
-            case GREEN: return playfield.getPlayer4HandGreen();
+            case RED: return playfield.getPlayer1HandBlue();
+            case BLUE: return playfield.getPlayerHandRed();
+            case YELLOW: return playfield.getPlayerHandYellow();
+            case GREEN: return playfield.getPlayerHandGreen();
             default:return null;
         }
     }
@@ -152,12 +150,5 @@ public class Phase {
         }
         return true;
     }
-
-
-
-
-
-
-
 
 }
