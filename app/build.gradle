@@ -7,14 +7,7 @@ plugins {
 android {
     compileSdk 32
 
-        testOptions {
-            unitTests.includeAndroidResources = true
-            unitTests.all {
-                reports {
-                }
 
-            }
-        }
         sourceSets {
             test.java.srcDirs += 'src/test/java/com.example.phase10_se2'
             androidTest.java.srcDirs += 'src/androidTest/java/com.example.phase10_se2'
