@@ -3,7 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Programme/Git/GitHub/Phase10_SE2/app/src/main/res/layout/activity_playfield.xml" value="0.67" />
         <entry key="..\:/Users/Leon/AndroidStudioProjects/SEIIEinzelbeispiel/Phase10_SE2/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Leon/AndroidStudioProjects/SEIIEinzelbeispiel/Phase10_SE2/app/src/main/res/layout/activity_playfield.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/melan/Phase10_SE2/app/src/main/res/layout/activity_create_game.xml" value="0.1373873873873874" />
@@ -26,7 +25,8 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
