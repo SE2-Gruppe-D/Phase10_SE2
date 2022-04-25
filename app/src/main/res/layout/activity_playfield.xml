@@ -157,26 +157,28 @@
 
         <ImageButton
             android:id="@+id/defaultcard"
-            android:layout_width="41dp"
+            android:layout_width="48dp"
             android:layout_height="87dp"
             android:layout_gravity="center"
             android:layout_marginTop="-40dp"
-            android:background="#00FFFFFF"
+            android:background="#0C0C0C"
+            android:backgroundTint="#050505"
             android:rotation="90"
             android:scaleType="fitXY"
+            tools:ignore="SpeakableTextPresentCheck"
             tools:visibility="visible" />
 
         <TextView
             android:id="@+id/leererStapel"
-            android:layout_width="90dp"
+            android:layout_width="57dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="-40dp"
-            android:text="leer->Ziehstapel"
+            android:text="leer"
             android:textColor="#0B0B0B"
-            android:textSize="12sp"
-            android:visibility="invisible"
-            />
+            android:textSize="20sp"
+            android:visibility="invisible" />
+
 
     </FrameLayout>
 
