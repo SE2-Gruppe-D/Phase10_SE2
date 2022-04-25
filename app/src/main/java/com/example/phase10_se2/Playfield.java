@@ -239,7 +239,7 @@ public class Playfield extends AppCompatActivity {
 
         //Player Blue, Red, Yellow, Green
         deckcard.setOnClickListener(view -> {
-               //addCard();
+               addCard();
         });
 
 

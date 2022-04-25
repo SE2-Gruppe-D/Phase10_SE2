@@ -157,13 +157,15 @@
 
         <ImageButton
             android:id="@+id/defaultcard"
-            android:layout_width="41dp"
+            android:layout_width="48dp"
             android:layout_height="87dp"
             android:layout_gravity="center"
             android:layout_marginTop="-40dp"
-            android:background="#00FFFFFF"
+            android:background="#0C0C0C"
+            android:backgroundTint="#050505"
             android:rotation="90"
             android:scaleType="fitXY"
+            tools:ignore="SpeakableTextPresentCheck"
             tools:visibility="visible" />
 
         <TextView

@@ -22,20 +22,24 @@ public class Phase extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
 
+        ablageLayoutPlayer1= findViewById(R.id.player1PhaseAblegen);
         handcards = getRightHandCards();
-        List<Cards> cards1 = new ArrayList<>();
+        List<Cards> zwillinge = new ArrayList<>();
         final int[] id = new int[1];
         handcards.get(0).getCardUI().setOnClickListener(view -> {
             id[0] = view.getId();
         });
+
         for(int i = 0; i < handcards.size(); i++){
             if(handcards.get(i).getCardUI().getId() == id[0]){
-                cards1.add(handcards.get(i));
+                zwillinge.add(handcards.get(i));
                 handcards.remove(i);
-                ablageLayoutPlayer1.addView(cards1.get(0).getCardUI());
-                cards1.get(0).getCardUI().setVisibility(View.VISIBLE);
+                ablageLayoutPlayer1.addView(zwillinge.get(0).getCardUI());
+                zwillinge.get(0).getCardUI().setVisibility(View.VISIBLE);
             }
         }
+
+
 
         handcards.get(0).getCardUI().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,10 +49,10 @@ public class Phase extends AppCompatActivity {
         });
         for(int i = 0; i < handcards.size(); i++){
             if(handcards.get(i).getCardUI().getId() == id[0]){
-                cards1.add(handcards.get(i));
+                zwillinge.add(handcards.get(i));
                 handcards.remove(i);
-                ablageLayoutPlayer1.addView(cards1.get(0).getCardUI());
-                cards1.get(0).getCardUI().setVisibility(View.VISIBLE);
+                ablageLayoutPlayer1.addView(zwillinge.get(0).getCardUI());
+                zwillinge.get(0).getCardUI().setVisibility(View.VISIBLE);
             }
         }
     }
