@@ -7,6 +7,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -36,6 +37,7 @@ import java.util.TreeMap;
 public class Playfield extends AppCompatActivity {
     DiceFragment diceFragment;
     ImageView deckcard;
+    public static Context playfieldContext;
     LinearLayout layoutPlayer1;
     LinearLayout layoutPlayer2;
     LinearLayout layoutPlayer3;
@@ -84,6 +86,7 @@ public class Playfield extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playfield);
 
+        playfieldContext = getApplicationContext();
         String currentRoom= getIntent().getExtras().getString("CurrentRoom");
         String userColor= getIntent().getExtras().getString("Color");
         Log.i("-------------------------------------------", userColor);
@@ -244,8 +247,9 @@ public class Playfield extends AppCompatActivity {
         deckcard.setOnClickListener(view -> {
             addCard();
         });
-
     }
+
+
     //Karten werden angeordnet
     private void updateHand(List list, Cards cards, LinearLayout linearLayout, int grad){
         list.add(cards);
@@ -264,6 +268,8 @@ public class Playfield extends AppCompatActivity {
         updateHand(player2HandRed, cardlist.get(0), layoutPlayer2,0);
         updateHand(player3HandYellow, cardlist.get(0), layoutPlayer3,90);
         updateHand(player4HandGreen, cardlist.get(0), layoutPlayer4,-90);
+
+        decideStartingPlayer();
     }
 
     //Stapel leer
@@ -559,16 +565,16 @@ public class Playfield extends AppCompatActivity {
 
         diceFragment.register();
 
-        while (diceFragment.getAcceleration() < 1) { //maybe replace with threshold
-            sleep(10);
+        while (diceFragment.getAcceleration() < 1 && diceFragment.getAcceleration() > -1) { //maybe replace with threshold
+            sleep(100);
         }
-        while (diceFragment.getAcceleration() > 1) { //maybe replace with threshold
+        while (diceFragment.getAcceleration() > 1 || diceFragment.getAcceleration() < -1) { //maybe replace with threshold
             diceValue = diceFragment.getLastDiceValue();
             sleep(100);
 
             int timeSpent = 0;
             int sleepDurationInMs = 10;
-            while (diceFragment.getAcceleration() < 1 && timeSpent < 3000) { //maybe replace with threshold
+            while (diceFragment.getAcceleration() < 1 && diceFragment.getAcceleration() > -1 && timeSpent < 3000) { //maybe replace with threshold
                 sleep(sleepDurationInMs);
                 timeSpent += sleepDurationInMs;
             }
@@ -585,34 +591,48 @@ public class Playfield extends AppCompatActivity {
         ArrayList<Player> activePlayers = getActivePlayers();
         SortedMap<Integer, Player> startingDiceValues = new TreeMap<>();
 
+        Log.i("TEST", "started");
+
         for (Player player : activePlayers) {
+            Log.i("TEST", "player: " + player.getName());
+            Log.i("TEST", "is primary? " + player.getColor().equals(primaryPlayer.getColor()));
+            Log.i("TEST", "color: " + player.getColor() + "  " + primaryPlayer.getColor());
             int lastDiceValue = 0;
 
-            Toast.makeText(getApplicationContext(), player.getName() + "'s turn", Toast.LENGTH_LONG);
-            if (player.equals(primaryPlayer)) {
+            Toast.makeText(playfieldContext, player.getName() + "'s turn", Toast.LENGTH_LONG);
+            if (player.getColor().equals(primaryPlayer.getColor())) {
                 diceFragment.register();
 
-                while (diceFragment.getAcceleration() < 1) { //maybe replace with threshold
-                    sleep(10);
+                Log.i("TEST", "registered dice fragment");
+
+                while (diceFragment.getAcceleration() < 1 && diceFragment.getAcceleration() > -1) { //maybe replace with threshold
+                    Log.i("TEST", "nothing happening " + diceFragment.getAcceleration());
+                    sleep(100);
                 }
-                while (diceFragment.getAcceleration() > 1) { //maybe replace with threshold
+                while (diceFragment.getAcceleration() > 1 || diceFragment.getAcceleration() < -1) { //maybe replace with threshold
                     lastDiceValue = diceFragment.getLastDiceValue();
                     sleep(100);
 
+                    Log.i("TEST", "got value" + diceFragment.getAcceleration());
+
                     int timeSpent = 0;
                     int sleepDurationInMs = 10;
-                    while (diceFragment.getAcceleration() < 1 && timeSpent < 3000) {
+                    while (diceFragment.getAcceleration() < 1 && diceFragment.getAcceleration() > -1 && timeSpent < 3000) {
                         sleep(sleepDurationInMs);
                         timeSpent += sleepDurationInMs;
                     }
                 }
 
+                Log.i("TEST", "Value: " + lastDiceValue);
                 player.move(lastDiceValue);
             }
-            Toast.makeText(getApplicationContext(), "Player " + player.getName() + " threw: " + lastDiceValue, Toast.LENGTH_LONG);
+            Toast.makeText(playfieldContext, "Player " + player.getName() + " threw: " + lastDiceValue, Toast.LENGTH_LONG);
 
+            Log.i("TEST", "toast made");
             startingDiceValues.put(lastDiceValue, player);
         }
+
+        Log.i("TEST", "finished");
 
         //set starting order in player class
         Set<Map.Entry<Integer, Player>> s = startingDiceValues.entrySet();
@@ -628,7 +648,7 @@ public class Playfield extends AppCompatActivity {
             j++;
         }
 
-        Toast.makeText(diceFragment.getActivity().getApplicationContext(), startingOrderToastText.toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(playfieldContext, startingOrderToastText.toString(), Toast.LENGTH_LONG).show();
     }
 
 

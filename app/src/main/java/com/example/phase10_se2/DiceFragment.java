@@ -1,5 +1,7 @@
 package com.example.phase10_se2;
 
+import static com.example.phase10_se2.Playfield.playfieldContext;
+
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -74,7 +76,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
 
     private void initAccelerometer() {
         if (sensorManager == null) {
-            sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+            sensorManager = (SensorManager) playfieldContext.getSystemService(Context.SENSOR_SERVICE);
             if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) { //if an accelerator got created
                 accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
                 sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
