@@ -36,10 +36,11 @@ public class Game {
         diceFragment.register();
 
         while (diceFragment.getAcceleration() < 1) { //wait for sensor to be activated
-            sleep(100);
+            sleep(10);
         }
         while (diceFragment.getAcceleration() > 1) {
             diceValue = diceFragment.getLastDiceValue();
+
         }
 
         diceFragment.unregister();
@@ -52,6 +53,7 @@ public class Game {
         SortedMap<Integer, Player> sm = new TreeMap<>();
 
         for (Player p : players) {
+            if (p.equals(primaryPlayer)) {
             int diceValue = -1;
 
             diceFragment.register();
@@ -62,6 +64,14 @@ public class Game {
             }
             while (diceFragment.getAcceleration() > 1) {
                 diceValue = diceFragment.getLastDiceValue();
+                sleep(100);
+
+                int timeSpent = 0;
+                int sleepDurationInMs = 10;
+                while (diceFragment.getAcceleration() < 1 && timeSpent < 3000) {
+                    sleep(sleepDurationInMs);
+                    timeSpent += sleepDurationInMs;
+                }
             }
 
             diceFragment.unregister();

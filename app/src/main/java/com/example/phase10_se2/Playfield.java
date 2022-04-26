@@ -537,4 +537,125 @@ public class Playfield extends AppCompatActivity {
 
         }
     }
+
+
+        private boolean checkblue(FieldColor fieldColor){
+            if(fieldColor.equals(FieldColor.BLUE)){
+                //Code..
+            }
+            return true;
+        }
+
+    public void throwingDice(Player player) {
+        int diceValue = -1;
+
+        diceFragment.register();
+
+        while (diceFragment.getAcceleration() < 1) { //maybe replace with threshold
+            sleep(10);
+        }
+        while (diceFragment.getAcceleration() > 1) { //maybe replace with threshold
+            diceValue = diceFragment.getLastDiceValue();
+            sleep(100);
+
+            int timeSpent = 0;
+            int sleepDurationInMs = 10;
+            while (diceFragment.getAcceleration() < 1 && timeSpent < 3000) { //maybe replace with threshold
+                sleep(sleepDurationInMs);
+                timeSpent += sleepDurationInMs;
+            }
+        }
+
+        diceFragment.unregister();
+
+        player.move(diceValue);
+    }
+
+
+    public void decideStartingPlayer() { //TODO: problem: player != primary player wont get put into map
+        //get array of active players
+        ArrayList<Player> activePlayers = getActivePlayers();
+        SortedMap<Integer, Player> startingDiceValues = new TreeMap<>();
+
+        for (Player player : activePlayers) {
+            int lastDiceValue = 0;
+
+            Toast.makeText(getApplicationContext(), player.getName() + "'s turn", Toast.LENGTH_LONG);
+            if (player.equals(primaryPlayer)) {
+                diceFragment.register();
+
+                while (diceFragment.getAcceleration() < 1) { //maybe replace with threshold
+                    sleep(10);
+                }
+                while (diceFragment.getAcceleration() > 1) { //maybe replace with threshold
+                    lastDiceValue = diceFragment.getLastDiceValue();
+                    sleep(100);
+
+                    int timeSpent = 0;
+                    int sleepDurationInMs = 10;
+                    while (diceFragment.getAcceleration() < 1 && timeSpent < 3000) {
+                        sleep(sleepDurationInMs);
+                        timeSpent += sleepDurationInMs;
+                    }
+                }
+
+                player.move(lastDiceValue);
+            }
+            Toast.makeText(getApplicationContext(), "Player " + player.getName() + " threw: " + lastDiceValue, Toast.LENGTH_LONG);
+
+            startingDiceValues.put(lastDiceValue, player);
+        }
+
+        //set starting order in player class
+        Set<Map.Entry<Integer, Player>> s = startingDiceValues.entrySet();
+        Iterator<Map.Entry<Integer, Player>> i = s.iterator();
+        StringBuilder startingOrderToastText = new StringBuilder();
+        int j = 1;
+        while (i.hasNext()) {
+            Map.Entry<Integer, Player> m = i.next();
+
+            Player p = m.getValue();
+            p.setStartingOrder(j);
+            startingOrderToastText.append(j).append(": ").append((m.getValue()).getName());
+            j++;
+        }
+
+        Toast.makeText(diceFragment.getActivity().getApplicationContext(), startingOrderToastText.toString(), Toast.LENGTH_LONG).show();
+    }
+
+
+    //Getter und Setter
+    public Player getPlayerGreen() {
+        return playerGreen;
+    }
+
+    public Player getPlayerBlue() {
+        return playerBlue;
+    }
+
+    public Player getPlayerRed() {
+        return playerRed;
+    }
+
+    public Player getPlayerYellow() {
+        return playerYellow;
+    }
+
+    public ArrayList<Player> getActivePlayers() {
+        ArrayList<Player> activePlayers = new ArrayList<>();
+        if (playerYellow != null) {
+            activePlayers.add(playerYellow);
+        }
+        if (playerGreen != null) {
+            activePlayers.add(playerGreen);
+        }
+        if (playerBlue != null) {
+            activePlayers.add(playerBlue);
+        }
+        if (playerRed != null) {
+            activePlayers.add(playerRed);
+        }
+
+        return activePlayers;
+    }
 }
