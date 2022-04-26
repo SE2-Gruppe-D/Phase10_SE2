@@ -53,7 +53,6 @@ public class Game {
         SortedMap<Integer, Player> sm = new TreeMap<>();
 
         for (Player p : players) {
-            if (p.equals(primaryPlayer)) {
             int diceValue = -1;
 
             diceFragment.register();
