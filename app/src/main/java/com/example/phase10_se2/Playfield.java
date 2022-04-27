@@ -2,6 +2,11 @@ package com.example.phase10_se2;
 
 import static android.os.SystemClock.sleep;
 
+import android.content.DialogInterface;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -61,10 +67,20 @@ public class Playfield extends AppCompatActivity {
     Player playerBlue;
     Player primaryPlayer;
 
+
+    //light sensor
+    SensorManager sm;
+    SensorEventListener lightListener;
+    Sensor light;
+    AlertDialog.Builder builder;
+    float floatThreshold = 1;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playfield);
+        builder = new AlertDialog.Builder(Playfield.this);
 
         String currentRoom= getIntent().getExtras().getString("CurrentRoom");
         String userColor= getIntent().getExtras().getString("Color");
@@ -255,6 +271,50 @@ public class Playfield extends AppCompatActivity {
         defaultcard.setOnClickListener(view -> {
                 addCardsDiscardpile();
         });
+
+        //light sensor to accuse of cheating
+        sm = (SensorManager) getSystemService(SENSOR_SERVICE);
+        light = sm.getDefaultSensor(Sensor.TYPE_LIGHT);
+        lightListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+            float floatSensorValue = sensorEvent.values[0];
+                if (floatSensorValue < floatThreshold){
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i) {
+            }
+        };
+        sm.registerListener(lightListener, light, SensorManager.SENSOR_DELAY_NORMAL);
+
+
+        //Alert dialog accuse someone of cheating
+        builder.setTitle("Found a cheater?")
+        .setMessage("Are you sure, you want to accuse 'CurrentPlayer' of cheating?")
+                .setCancelable(false)
+        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //check if cheating == true
+                //give consequences
+                //if accused right:
+                Toast.makeText(Playfield.this, "PlayerXY cheated, you were right!", Toast.LENGTH_SHORT).show();
+                //if accused wrong:
+                Toast.makeText(Playfield.this, "PlayerXY did not cheat, you were wrong!", Toast.LENGTH_SHORT).show();
+            }
+        })
+           .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+               @Override
+               public void onClick(DialogInterface dialogInterface, int i) {
+                   Toast.makeText(Playfield.this, "No one got accused!", Toast.LENGTH_SHORT).show();
+               }
+           });
+
+
 
     }
 
@@ -680,6 +740,7 @@ public class Playfield extends AppCompatActivity {
 
         return activePlayers;
     }
+
 }
 
 
