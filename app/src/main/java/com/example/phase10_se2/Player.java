@@ -124,9 +124,10 @@ public class Player {
     public void updateMinusPoints (ArrayList<Cards> cards) {
         int sumMinusPoints = this.minusPoints;
         int cid;
+
+        //Fehler - find why 'card' could be null | 130 cid = card.getValue(); in Player.updateMinusPoints(ArrayList<Cards>) (filter:null)
         for(Cards card : cards){
-            cid = card.getID();
-            cid = cid % 100;
+            cid = card.getValue();
 
             switch (cid) {
 
@@ -161,6 +162,7 @@ public class Player {
             }
 
         }
+        this.minusPoints = sumMinusPoints;
 
     }
 
@@ -202,4 +204,11 @@ public class Player {
         return positionY;
     }
 
+    public int getMinusPoints() {
+        return minusPoints;
+    }
+
+    public void setMinusPoints(int minusPoints) {
+        this.minusPoints = minusPoints;
+    }
 }
