@@ -41,7 +41,6 @@ public class CreateGameActivity extends AppCompatActivity {
 
         final PlayerColor[] playerColor = {null};
 
-
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         playerColor[0] = PlayerColor.RED;
 
@@ -94,8 +93,8 @@ public class CreateGameActivity extends AppCompatActivity {
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                Toast.makeText(CreateGameActivity.this, "creating new game...", Toast.LENGTH_SHORT).show();
-                                goToPlayField();
+                                Toast.makeText(CreateGameActivity.this, "creating new room...", Toast.LENGTH_SHORT).show();
+                                goToFindPlayer();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -112,8 +111,8 @@ public class CreateGameActivity extends AppCompatActivity {
         });
 
     }
-    public void goToPlayField(){
-        Intent intent = new Intent(CreateGameActivity.this, Playfield.class);
+    public void goToFindPlayer(){
+        Intent intent = new Intent(CreateGameActivity.this, FindPlayer.class);
         intent.putExtra("CurrentRoom", roomName);
         intent.putExtra("Color", color[0]);
         startActivity(intent);

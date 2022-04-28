@@ -2,9 +2,6 @@ package com.example.phase10_se2;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +14,9 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FindGameActivity extends AppCompatActivity {
-    final String[] roomName = {""};
+    String roomName = "";
     final String[] color = new String[1];
 
     @Override
@@ -86,7 +86,7 @@ public class FindGameActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 listView.setItemChecked(position, true);
-                roomName[0] = gameRoomsList.get(position);
+                roomName = gameRoomsList.get(position);
                 ArrayList<String> takenColors = new ArrayList<>();
 
                 //reactivate all radio buttons so it is reset if more than one item is clicked
@@ -98,7 +98,7 @@ public class FindGameActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged(); //update LV
 
                 database.collection("users")
-                        .whereEqualTo("Room", roomName[0])
+                        .whereEqualTo("Room", roomName)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
@@ -152,14 +152,14 @@ public class FindGameActivity extends AppCompatActivity {
                             }
                         }
                         String playerName = editTextName.getText().toString();
-                        Player player = new Player(playerName, playerColor, roomName[0], new ArrayList<Cards>());
+                        Player player = new Player(playerName, playerColor, roomName, new ArrayList());
 
 
                         //create user
                         Map<String, Object> user = new HashMap<>();
                         user.put("Name", player.getName());
                         user.put("Color", player.getColor());
-                        user.put("Room", roomName[0]);
+                        user.put("Room", roomName);
 
                         database.collection("users")
                                 .add(user)
@@ -167,7 +167,7 @@ public class FindGameActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {
                                         Toast.makeText(FindGameActivity.this, "joining game...", Toast.LENGTH_SHORT).show();
-                                        goToPlayField();
+                                        goToFindPlayer();
                                     }
                                 }).addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
                     }
@@ -176,11 +176,10 @@ public class FindGameActivity extends AppCompatActivity {
             }
         });
     }
-    public void goToPlayField(){
-        Intent intent = new Intent(FindGameActivity.this, Playfield.class);
-        intent.putExtra("CurrentRoom", roomName[0]);
+    public void goToFindPlayer(){
+        Intent intent = new Intent(FindGameActivity.this, FindPlayer.class);
+        intent.putExtra("CurrentRoom", roomName);
         intent.putExtra("Color", color[0]);
         startActivity(intent);
     }
 }
-

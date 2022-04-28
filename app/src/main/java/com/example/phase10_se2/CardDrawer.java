@@ -51,14 +51,6 @@ public class CardDrawer {
         Collections.shuffle(initialCardsList);
     }
 
-    public void updateHand(List list, Cards cards, LinearLayout linearLayout, int grad){
-        list.add(cards);
-        linearLayout.addView(cards.getCardUI());
-        cards.getCardUI().setVisibility(View.VISIBLE);      //Aktueller Spieler sichtbar
-        initialCardsList.remove(0);
-        cards.getCardUI().setRotation(grad);
-    }
-
     //Kartenliste leer? Ablagestapel wird gemischt und zu ziehstapel gegeben
     public void isInitialCardsEmpty(){
         if (initialCardsList.isEmpty()){
