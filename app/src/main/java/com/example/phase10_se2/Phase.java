@@ -1,30 +1,85 @@
 package com.example.phase10_se2;
 
 
+import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Phase {
+public class Phase extends AppCompatActivity {
 
     Player player;
     Playfield playfield;
     ArrayList<Cards> handcards;
+    LinearLayout ablageLayoutPlayer1;
+    Cards hilfskarte;
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_create_game);
+
+        ablageLayoutPlayer1= findViewById(R.id.player1PhaseAblegen);
+        handcards = getRightHandCards();
+        List<Cards> zwillinge = new ArrayList<>();
+        final int[] id = new int[1];
+        handcards.get(0).getCardUI().setOnClickListener(view -> {
+            id[0] = view.getId();
+        });
+
+        for(int i = 0; i < handcards.size(); i++){
+            if(handcards.get(i).getCardUI().getId() == id[0]){
+                zwillinge.add(handcards.get(i));
+                handcards.remove(i);
+                ablageLayoutPlayer1.addView(zwillinge.get(0).getCardUI());
+                zwillinge.get(0).getCardUI().setVisibility(View.VISIBLE);
+            }
+        }
+
+
+
+        handcards.get(0).getCardUI().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                id[0] = view.getId();
+            }
+        });
+        for(int i = 0; i < handcards.size(); i++){
+            if(handcards.get(i).getCardUI().getId() == id[0]){
+                zwillinge.add(handcards.get(i));
+                handcards.remove(i);
+                ablageLayoutPlayer1.addView(zwillinge.get(0).getCardUI());
+                zwillinge.get(0).getCardUI().setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
 
     private ArrayList<Cards> getRightHandCards (){ //!!!!Statt ID von Player über Color --> ersetzen!!!!
         switch (player.getColor()){
-            case RED: return playfield.getPlayer1Hand();
-            case BLUE: return playfield.getPlayer2HandRed();
-            case YELLOW: return playfield.getPlayer3HandYellow();
-            case GREEN: return playfield.getPlayer4HandGreen();
+
+            case RED:  ablageLayoutPlayer1.findViewById(R.id.player1PhaseAblegen);
+                return playfield.getPlayerRed().getPlayerHand();
+            case BLUE: ablageLayoutPlayer1.findViewById(R.id.player1PhaseAblegen);
+                return playfield.getPlayerBlue().getPlayerHand();
+            case YELLOW: ablageLayoutPlayer1.findViewById(R.id.player1PhaseAblegen);
+                return playfield.getPlayerYellow().getPlayerHand();
+            case GREEN: ablageLayoutPlayer1.findViewById(R.id.player1PhaseAblegen);
+                return playfield.getPlayerGreen().getPlayerHand();
             default:return null;
         }
     }
 
-    private Cards layCard(Cards card){ //Methode zum Karten legen
-        return card;
-    }
+
+
+
+
+
+
+
 
     //check Phase 1 - 10
     //Phase 1: 4 Zwillinge
@@ -33,9 +88,12 @@ public class Phase {
     }
 
     public void layPhase1(){
+
         handcards = getRightHandCards();
+
         //Karten rauslegen
         List<Cards> cards1 = new ArrayList<>();
+
         cards1.add(handcards.get(0)); //Die erste Karte, die man raus legt?????
         cards1.add(handcards.get(1));
         List<Cards> cards2 = new ArrayList<>();
