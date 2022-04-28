@@ -30,10 +30,10 @@ public class Player {
     private PlayerState state;
     private int currentPosition;
     private int positionX, positionY;
+    private int minusPoints;
     private ImageView playerview;
     private ArrayList<Cards> playerHand;
     private String phaseText;
-
 
 
     // no-argument constructor
@@ -45,6 +45,7 @@ public class Player {
         this.color = color;
         this.room = room;
 
+        minusPoints = 0;
         positionX = 0;
         positionY = 0;
         currentPosition = 0;
@@ -128,6 +129,52 @@ public class Player {
             this.playerview.setTranslationY(getPositionY() * (float)54 + (float)82);
         }
     }
+    //übergeben der restlichen Handkarten am ende einer Runde - Zusammenfügen der Minuspunkte
+    public void updateMinusPoints (ArrayList<Cards> cards) {
+        int sumMinusPoints = this.minusPoints;
+        int cid;
+
+        //Fehler - find why 'card' could be null | 130 cid = card.getValue(); in Player.updateMinusPoints(ArrayList<Cards>) (filter:null)
+        for(Cards card : cards){
+            cid = card.getValue();
+
+            switch (cid) {
+
+                case (1):
+
+                case (2):
+
+                case (3):
+
+                case (4):
+
+                case (5):
+
+                case (6):
+
+                case (7):
+
+                case (8):
+
+                case (9):
+                    sumMinusPoints +=5;
+                    break;
+
+                case (10):
+
+                case (11):
+
+                case (12):
+                    sumMinusPoints +=10;
+                    break;
+
+            }
+
+        }
+        this.minusPoints = sumMinusPoints;
+    }
+
+
 
     public PlayerState getState() {
         return state;
@@ -163,6 +210,15 @@ public class Player {
 
     public int getPositionY() {
         return positionY;
+    }
+
+
+    public int getMinusPoints() {
+        return minusPoints;
+    }
+
+    public void setMinusPoints(int minusPoints) {
+        this.minusPoints = minusPoints;
     }
 
     public void setPlayerview(ImageView playerview) {
@@ -234,4 +290,3 @@ public class Player {
         }
 
     }
-
