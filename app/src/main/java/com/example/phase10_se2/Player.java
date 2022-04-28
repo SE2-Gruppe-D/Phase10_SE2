@@ -3,6 +3,8 @@ package com.example.phase10_se2;
 
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+
 enum PlayerState {
     WAITING, THROWING_DICE, PLAYING
 }
@@ -27,6 +29,7 @@ public class Player {
     private PlayerState state;
     private int currentPosition;
     private int positionX, positionY;
+    private int minusPoints;
 
 
 
@@ -39,6 +42,7 @@ public class Player {
         this.color = color;
         this.room = room;
 
+        minusPoints = 0;
         positionX = 0;
         positionY = 0;
         currentPosition = 0;
@@ -116,6 +120,19 @@ public class Player {
             playerview.setTranslationY(getPositionY() * (float)75 + (float)53);
         }
     }
+    public void updateMinusPoints (ArrayList<Cards> cards) {
+        int sumMinusPoints = this.minusPoints;
+        int cid;
+        for(Cards card : cards){
+            cid = card.getID();
+            cid = cid % 100;
+
+            
+
+        }
+    }
+
+
 
     public PlayerState getState() {
         return state;
