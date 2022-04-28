@@ -18,13 +18,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +39,7 @@ import java.util.TreeMap;
 
 public class Playfield extends AppCompatActivity {
     DiceFragment diceFragment;
+    boolean gameStarted = false;
     ImageView deckcard;
     public static Context playfieldContext;
     LinearLayout layoutPlayer1;
@@ -143,9 +147,29 @@ public class Playfield extends AppCompatActivity {
                             }
                         }
                     }
+                }).continueWith((Continuation<QuerySnapshot, Task<Void>>) task -> {
+                    if (!gameStarted) {
+                        startGame();
+                    }
+                    gameStarted = true;
+                    return null;
                 });
 
+        Log.i("-------------------------------------------", "before1");
+        Log.i("-------------------------------------------", "before2");
 
+
+//        while(playerGreen == null && playerYellow == null && playerRed == null && playerBlue == null) {
+//            try {
+//                Thread.sleep(100);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
+        Log.i("-------------------------------------------", "after");
+
+//        startGame();
 
         //entfernt die label Leiste (Actionbar) auf dem Playfield
         ActionBar actionBar = getSupportActionBar();
@@ -156,10 +180,11 @@ public class Playfield extends AppCompatActivity {
         diceFragment = DiceFragment.newInstance();
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
+                .setReorderingAllowed(true)
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 .show(diceFragment)
                 .commit();
-      
+
 
         btnHideAktionskarte=findViewById(R.id.btnHideAk);
         btnShowAktionskarte=findViewById(R.id.btnShowAk);
@@ -268,8 +293,6 @@ public class Playfield extends AppCompatActivity {
         updateHand(player2HandRed, cardlist.get(0), layoutPlayer2,0);
         updateHand(player3HandYellow, cardlist.get(0), layoutPlayer3,90);
         updateHand(player4HandGreen, cardlist.get(0), layoutPlayer4,-90);
-
-        decideStartingPlayer();
     }
 
     //Stapel leer
@@ -565,17 +588,18 @@ public class Playfield extends AppCompatActivity {
 
         diceFragment.register();
 
+        //TODO: move while to thread
         while (diceFragment.getAcceleration() < 1 && diceFragment.getAcceleration() > -1) { //maybe replace with threshold
-            sleep(100);
+            sleep(100); //replace ?
         }
         while (diceFragment.getAcceleration() > 1 || diceFragment.getAcceleration() < -1) { //maybe replace with threshold
             diceValue = diceFragment.getLastDiceValue();
-            sleep(100);
+            sleep(100); //replace ?
 
             int timeSpent = 0;
             int sleepDurationInMs = 10;
             while (diceFragment.getAcceleration() < 1 && diceFragment.getAcceleration() > -1 && timeSpent < 3000) { //maybe replace with threshold
-                sleep(sleepDurationInMs);
+                sleep(sleepDurationInMs); //replace ?
                 timeSpent += sleepDurationInMs;
             }
         }
@@ -586,49 +610,73 @@ public class Playfield extends AppCompatActivity {
     }
 
 
-    public void decideStartingPlayer() { //TODO: problem: player != primary player wont get put into map
+    private void startGame() {
+        Snackbar snackbar = Snackbar.make(layoutPlayer1, "Spiel startet!", Snackbar.LENGTH_LONG);
+        snackbar.show();
+
+        decideStartingPlayer();
+    }
+
+
+    private void decideStartingPlayer() { //TODO: problem: player != primary player wont get put into map
         //get array of active players
         ArrayList<Player> activePlayers = getActivePlayers();
         SortedMap<Integer, Player> startingDiceValues = new TreeMap<>();
 
-        Log.i("TEST", "started");
+//        for(int i = 0; i < activePlayers.size(); i++) {
+//            Log.i("-----------", activePlayers.get(i).getColor() + " : " + activePlayers.get(i).getName());
+//        }
 
         for (Player player : activePlayers) {
-            Log.i("TEST", "player: " + player.getName());
-            Log.i("TEST", "is primary? " + player.getColor().equals(primaryPlayer.getColor()));
-            Log.i("TEST", "color: " + player.getColor() + "  " + primaryPlayer.getColor());
             int lastDiceValue = 0;
 
-            Toast.makeText(playfieldContext, player.getName() + "'s turn", Toast.LENGTH_LONG);
             if (player.getColor().equals(primaryPlayer.getColor())) {
-                diceFragment.register();
+//                diceFragment.register();
+                Log.i("--------------------", "registered dice fragment");
 
-                Log.i("TEST", "registered dice fragment");
-
-                while (diceFragment.getAcceleration() < 1 && diceFragment.getAcceleration() > -1) { //maybe replace with threshold
-                    Log.i("TEST", "nothing happening " + diceFragment.getAcceleration());
-                    sleep(100);
-                }
-                while (diceFragment.getAcceleration() > 1 || diceFragment.getAcceleration() < -1) { //maybe replace with threshold
-                    lastDiceValue = diceFragment.getLastDiceValue();
-                    sleep(100);
-
-                    Log.i("TEST", "got value" + diceFragment.getAcceleration());
-
-                    int timeSpent = 0;
-                    int sleepDurationInMs = 10;
-                    while (diceFragment.getAcceleration() < 1 && diceFragment.getAcceleration() > -1 && timeSpent < 3000) {
-                        sleep(sleepDurationInMs);
-                        timeSpent += sleepDurationInMs;
+                Runnable checkForAccelerationStart = new Runnable() {
+                    @Override
+                    public void run() {
+                        while (diceFragment.getAcceleration() < 1 && diceFragment.getAcceleration() > -1) { //maybe replace with threshold
+                            Log.i("TEST", "nothing happening " + diceFragment.getAcceleration());
+                            try {
+                                Thread.sleep(1000); //replace ?
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
-                }
+                };
 
-                Log.i("TEST", "Value: " + lastDiceValue);
-                player.move(lastDiceValue);
+//                Runnable checkForAccelerationEnd = new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        while (diceFragment.getAcceleration() > 1 || diceFragment.getAcceleration() < -1) { //maybe replace with threshold
+//                            lastDiceValue = diceFragment.getLastDiceValue();
+//                            sleep(100); //replace ?
+//
+//                            Log.i("TEST", "got value" + diceFragment.getAcceleration());
+//
+//                            int timeSpent = 0;
+//                            int sleepDurationInMs = 10;
+//                            while (diceFragment.getAcceleration() < 1 && diceFragment.getAcceleration() > -1 && timeSpent < 3000) {
+//                                sleep(sleepDurationInMs); //replace ?
+//                                timeSpent += sleepDurationInMs;
+//                            }
+//                        }
+//                    }
+//                };
+
+                Thread accStartThread = new Thread(checkForAccelerationStart);
+//                Thread accEndThread = new Thread(checkForAccelerationEnd);
+                accStartThread.start();
+//                accEndThread.start();
+
+//                Log.i("TEST", "Value: " + lastDiceValue);
+//                player.move(lastDiceValue); //TODO: ?????
             }
-            Toast.makeText(playfieldContext, "Player " + player.getName() + " threw: " + lastDiceValue, Toast.LENGTH_LONG);
 
-            Log.i("TEST", "toast made");
+            Toast.makeText(playfieldContext, "Player " + player.getName() + " threw: " + lastDiceValue, Toast.LENGTH_LONG);
             startingDiceValues.put(lastDiceValue, player);
         }
 
