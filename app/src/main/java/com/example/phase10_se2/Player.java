@@ -40,7 +40,7 @@ public class Player {
     public Player() {
     }
 
-    public Player(String name, PlayerColor color, String room) {
+    public Player(String name, PlayerColor color, String room, ArrayList list) {
         this.name = name;
         this.color = color;
         this.room = room;

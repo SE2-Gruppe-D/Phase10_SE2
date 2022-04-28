@@ -18,6 +18,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -79,7 +80,7 @@ public class CreateGameActivity extends AppCompatActivity {
                 roomName = editTextRoom.getText().toString();
 
                 //create player with given input
-                Player player = new Player (playerName, playerColor[0], roomName);
+                Player player = new Player (playerName, playerColor[0], roomName, new ArrayList<>());
 
                 //add player and room to database
                 Map<String, Object> user = new HashMap<>();

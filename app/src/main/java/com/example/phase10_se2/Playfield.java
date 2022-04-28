@@ -41,19 +41,46 @@ public class Playfield extends AppCompatActivity {
     LinearLayout layoutPlayer2;
     LinearLayout layoutPlayer3;
     LinearLayout layoutPlayer4;
-
   
 
+    CardDrawer cardDrawer;
     ArrayList<Cards> cardlist;
+    ArrayList<Cards> discardpileList;//Ablagestapel
+
+    ArrayList<Cards> playerHandBlue;
+    ArrayList<Cards> playerHandRed;
+    ArrayList<Cards> playerHandYellow;
+    ArrayList<Cards> playerHandGreen;
     ArrayList<ImageView> Imagelist;
     ArrayList<Cards> drawpileList;      //Ziehstapel
-    ArrayList<Cards> discardpileList;      //Ablagestapel
+    //ArrayList<Cards> discardpileList;      //Ablagestapel
     TextView leererAblagestapel;
 
     Button btnHideAktionskarte;
     Button btnShowAktionskarte;
     ImageView ivShowAktionskarte;
     TextView tvAktuellePhase;
+
+    ImageView ivPlayerBlue;
+    ImageView ivPlayerYellow;
+    ImageView ivPlayerGreen;
+    ImageView ivPlayerRed;
+
+    public ArrayList<Cards> getPlayer1HandBlue() {
+        return playerHandBlue;
+    }
+
+    public ArrayList<Cards> getPlayerHandRed() {
+        return playerHandRed;
+    }
+
+    public ArrayList<Cards> getPlayerHandYellow() {
+        return playerHandYellow;
+    }
+
+    public ArrayList<Cards> getPlayerHandGreen() {
+        return playerHandGreen;
+    }
 
     Player playerGreen;
     Player playerRed;
@@ -82,19 +109,19 @@ public class Playfield extends AppCompatActivity {
                                 if (Objects.equals(documentSnapshot.getString("Color"), userColor)){
                                     switch (userColor){
                                         case "RED":
-                                            playerRed=new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom);
+                                            playerRed=new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom, playerHandRed);
                                             primaryPlayer=playerRed;
                                             break;
                                         case "BLUE":
-                                            playerBlue=new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom);
+                                            playerBlue=new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom, playerHandBlue);
                                             primaryPlayer=playerBlue;
                                             break;
                                         case "YELLOW":
-                                            playerYellow=new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom);
+                                            playerYellow=new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom, playerHandYellow);
                                             primaryPlayer=playerYellow;
                                             break;
                                         case "GREEN":
-                                            playerGreen=new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom);
+                                            playerGreen=new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom, playerHandGreen);
                                             primaryPlayer=playerGreen;
                                             break;
                                         default:
@@ -106,22 +133,22 @@ public class Playfield extends AppCompatActivity {
                                 }
 
                                 if (Objects.equals(documentSnapshot.getString("Color"), "RED")){
-                                    playerRed=new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom);
+                                    playerRed=new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom, playerHandRed);
                                     playerRed.setPlayerview(findViewById(R.id.ivPR));
                                     playerRed.getPlayerview().setVisibility(View.VISIBLE);
                                 }
                                 if (Objects.equals(documentSnapshot.getString("Color"), "BLUE")){
-                                    playerBlue=new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom);
+                                    playerBlue=new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom, playerHandBlue);
                                     playerBlue.setPlayerview(findViewById(R.id.ivPB));
                                     playerBlue.getPlayerview().setVisibility(View.VISIBLE);
                                 }
                                 if (Objects.equals(documentSnapshot.getString("Color"), "YELLOW")){
-                                    playerYellow=new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom);
+                                    playerYellow=new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom, playerHandYellow);
                                     playerYellow.setPlayerview(findViewById(R.id.ivPY));
                                     playerYellow.getPlayerview().setVisibility(View.VISIBLE);
                                 }
                                 if (Objects.equals(documentSnapshot.getString("Color"), "GREEN")){
-                                    playerGreen=new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom);
+                                    playerGreen=new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom, playerHandGreen);
                                     playerGreen.setPlayerview(findViewById(R.id.ivPG));
                                     playerGreen.getPlayerview().setVisibility(View.VISIBLE);
                                 }
@@ -171,40 +198,12 @@ public class Playfield extends AppCompatActivity {
             }
         });
 
-        drawpileList= new ArrayList<>();
         discardpileList= new ArrayList<>();
-
         cardlist = new ArrayList<>();
-        Imagelist = new ArrayList<>();
-
-        //alle 96 Karten werden in eine ArrayList gespeichert
-        //erstelle alle Blauen Karten
-        for (int i = 0; i < 24; i++) {
-            Cards card = new Cards("blue", (i % 12) + 1, null, i+1);  //%12 weil, es wird bei 0 gestartet und immer +1 gerechnet & somit wird jeder Karte doppelt eingefügt
-            cardlist.add(card);
-        }
-        //erstelle alle Roten Karten
-        for (int i = 0; i < 24; i++) {
-            Cards card = new Cards("red", (i % 12) + 1, null, i+25);
-            cardlist.add(card);
-        }
-        //erstelle alle Gelben Karten
-        for (int i = 0; i < 24; i++) {
-            Cards card = new Cards("yellow", (i % 12) + 1, null, i+49);
-            cardlist.add(card);
-        }
-        //erstelle alle Gruenen Karte
-        for (int i = 0; i < 24; i++) {
-            Cards card = new Cards("green", (i % 12) + 1, null, i+73);
-            cardlist.add(card);
-        }
-
-        //dynamisches erstellen der Karten ImageViews
-        for(int i=0; i<96; i++){
-            cardlist.get(i).setCardUI(createCardUI(cardlist.get(i)));
-        }
-
-        drawpileList.addAll(cardlist);
+        playerHandBlue = new ArrayList<>();
+        playerHandRed = new ArrayList<>();
+        playerHandYellow = new ArrayList<>();
+        playerHandGreen = new ArrayList<>();
 
         deckcard= findViewById(R.id.deckblatt);
         defaultcard=findViewById(R.id.defaultcard);
@@ -214,16 +213,23 @@ public class Playfield extends AppCompatActivity {
         layoutPlayer3=findViewById(R.id.player3);
         layoutPlayer4=findViewById(R.id.player4);
 
+        cardDrawer= new CardDrawer();
 
+        cardlist.addAll(cardDrawer.getInitialCardsList());
+        //dynamisches erstellen der Karten ImageViews
+        for(int i=0; i<96; i++){
+            cardlist.get(i).setCardUI(createCardUI(cardlist.get(i)));
+        }
 
         //Karten werden gemischt
-        Collections.shuffle(cardlist);
+        cardDrawer.shuffleCards(cardlist);
 
-        //Handkarten
+        //Ziehstapel leer?
+        cardDrawer.isInitialCardsEmpty();
 
         for(int i = 0; i<10;i++){
             if (playerBlue != null) {
-                updateHand(playerBlue.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
+               updateHand(playerBlue.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
             }
             if (playerRed != null) {
                 updateHand(playerRed.getPlayerHand(), cardlist.get(0), layoutPlayer2, 0);
@@ -251,11 +257,16 @@ public class Playfield extends AppCompatActivity {
         defaultcard.setImageDrawable(createCardUI(randomCard).getDrawable());
 
 
-
         defaultcard.setOnClickListener(view -> {
                 addCardsDiscardpile();
         });
-
+    }
+    public void updateHand(List list, Cards cards, LinearLayout linearLayout, int grad){
+        list.add(cards);
+        linearLayout.addView(cards.getCardUI());
+        cards.getCardUI().setVisibility(View.VISIBLE);      //Aktueller Spieler sichtbar
+        cardlist.remove(0);
+        cards.getCardUI().setRotation(grad);
     }
 
     //Momentan kann nur der player1 eine Karte ziehen
@@ -280,26 +291,13 @@ public class Playfield extends AppCompatActivity {
     }
 
 
-    //Karten werden angeordnet
-    private void updateHand(List list, Cards cards, LinearLayout linearLayout, int grad){
-        list.add(cards);
-        linearLayout.addView(cards.getCardUI());
-        //if(primaryPlayer.getColor().equals(PlayerColor.BLUE)&& list.equals(player1HandBlue)){
-        //}
-        cards.getCardUI().setVisibility(View.VISIBLE);      //Aktueller Spieler sichtbar
-        drawpileList.add(cardlist.get(0));
-        cardlist.remove(0);
-        cards.getCardUI().setRotation(grad);
-
-    }
-
     //Karte ziehen
     protected void addCard(){
         if (playerBlue != null) {
             updateHand(playerBlue.getPlayerHand(), cardlist.get(0), layoutPlayer1,0);
         }
         if (playerRed != null) {
-            updateHand(playerRed.getPlayerHand(), cardlist.get(0), layoutPlayer2,0);
+           updateHand(playerRed.getPlayerHand(), cardlist.get(0), layoutPlayer2,0);
         }
         if (playerYellow != null) {
             updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer3,90);
@@ -309,12 +307,6 @@ public class Playfield extends AppCompatActivity {
         }
     }
 
-    //Stapel leer
-    private void resetDrawPile(){
-        cardlist.addAll(drawpileList);
-        Collections.shuffle(cardlist);
-        //drawpileList.removeAll(drawpileList);
-    }
 
     private ImageView createCardUI(Cards cards){
         ImageView imageView= new ImageView(getApplicationContext());
@@ -324,7 +316,6 @@ public class Playfield extends AppCompatActivity {
         imageView.setTag("c"+ cards.getID());
         imageView.setVisibility(View.INVISIBLE);
         imageView.setClickable(true);
-
         return imageView;
     }
 
