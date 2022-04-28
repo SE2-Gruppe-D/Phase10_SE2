@@ -120,6 +120,7 @@ public class Player {
             playerview.setTranslationY(getPositionY() * (float)75 + (float)53);
         }
     }
+    //übergeben der restlichen Handkarten am ende einer Runde - Zusammenfügen der Minuspunkte
     public void updateMinusPoints (ArrayList<Cards> cards) {
         int sumMinusPoints = this.minusPoints;
         int cid;
@@ -127,9 +128,40 @@ public class Player {
             cid = card.getID();
             cid = cid % 100;
 
-            
+            switch (cid) {
+
+                case (1):
+
+                case (2):
+
+                case (3):
+
+                case (4):
+
+                case (5):
+
+                case (6):
+
+                case (7):
+
+                case (8):
+
+                case (9):
+                    sumMinusPoints +=5;
+                    break;
+
+                case (10):
+
+                case (11):
+
+                case (12):
+                    sumMinusPoints +=10;
+                    break;
+
+            }
 
         }
+
     }
 
 
