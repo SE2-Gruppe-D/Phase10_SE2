@@ -41,7 +41,7 @@ public class Playfield extends AppCompatActivity {
     LinearLayout layoutPlayer2;
     LinearLayout layoutPlayer3;
     LinearLayout layoutPlayer4;
-  
+
 
     CardDrawer cardDrawer;
     ArrayList<Cards> cardlist;
@@ -198,6 +198,7 @@ public class Playfield extends AppCompatActivity {
             }
         });
 
+
         discardpileList= new ArrayList<>();
         cardlist = new ArrayList<>();
         playerHandBlue = new ArrayList<>();
@@ -227,18 +228,44 @@ public class Playfield extends AppCompatActivity {
         //Ziehstapel leer?
         cardDrawer.isInitialCardsEmpty();
 
+        //Handkarten Austeilung
         for(int i = 0; i<10;i++){
             if (playerBlue != null) {
-               updateHand(playerBlue.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
+                if(playerBlue.equals(primaryPlayer)){
+                    updateHand(playerBlue.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
+                }else {
+                    updateHand(playerBlue.getPlayerHand(), cardlist.get(0), layoutPlayer2, 0);
+                }
             }
             if (playerRed != null) {
-                updateHand(playerRed.getPlayerHand(), cardlist.get(0), layoutPlayer2, 0);
+                if(playerRed.equals(primaryPlayer)){
+                    updateHand(playerRed.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
+                }else {
+                    updateHand(playerRed.getPlayerHand(), cardlist.get(0), layoutPlayer3, 0);
+                }
             }
             if (playerYellow != null) {
-                updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer3, 90);
+                if(playerYellow.equals(primaryPlayer)){
+                    updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
+                }else {
+                    updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer4, 0);
+                }
             }
             if (playerGreen != null) {
-                updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer4, -90);
+                if(playerGreen.equals(primaryPlayer)){
+                    updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
+                }else {
+                    if(playerBlue.equals(primaryPlayer)){
+                        updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer2, 0);
+
+                    }else if(playerRed.equals(primaryPlayer)) {
+                        updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer3, 0);
+
+                    }else {
+                        updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer4, 0);
+                    }
+
+                }
             }
         }
 
