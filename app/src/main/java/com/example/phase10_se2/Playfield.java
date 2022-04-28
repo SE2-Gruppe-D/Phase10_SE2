@@ -277,11 +277,12 @@ public class Playfield extends AppCompatActivity {
         light = sm.getDefaultSensor(Sensor.TYPE_LIGHT);
         lightListener = new SensorEventListener() {
             @Override
-            public void onSensorChanged(SensorEvent sensorEvent) {
+            public synchronized void onSensorChanged(SensorEvent sensorEvent) {
             float floatSensorValue = sensorEvent.values[0];
                 if (floatSensorValue < floatThreshold){
                     AlertDialog dialog = builder.create();
                     dialog.show();
+
                 }
             }
 
@@ -305,12 +306,15 @@ public class Playfield extends AppCompatActivity {
                 Toast.makeText(Playfield.this, "PlayerXY cheated, you were right!", Toast.LENGTH_SHORT).show();
                 //if accused wrong:
                 Toast.makeText(Playfield.this, "PlayerXY did not cheat, you were wrong!", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
             }
         })
            .setNegativeButton("NO", new DialogInterface.OnClickListener() {
                @Override
                public void onClick(DialogInterface dialogInterface, int i) {
                    Toast.makeText(Playfield.this, "No one got accused!", Toast.LENGTH_SHORT).show();
+                   dialogInterface.dismiss();
+
                }
            });
 
