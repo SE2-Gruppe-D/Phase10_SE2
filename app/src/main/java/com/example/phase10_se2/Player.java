@@ -32,6 +32,7 @@ public class Player {
     private int positionX, positionY;
     private ImageView playerview;
     private ArrayList<Cards> playerHand;
+    private String phaseText;
 
 
 
@@ -50,6 +51,7 @@ public class Player {
         startingOrder = -1;
         state = PlayerState.WAITING;
         playerHand = new ArrayList<Cards>();
+        phaseText = "/";
     }
 
     public Player(String name, PlayerColor color, int positionX, int positionY) {
@@ -178,4 +180,58 @@ public class Player {
     public void setPlayerHand(ArrayList<Cards> playerHand) {
         this.playerHand = playerHand;
     }
-}
+
+    public String getPhaseText() {
+        return phaseText;
+    }
+
+    public void setPhaseText(int phaseNumber) {
+
+            switch (phaseNumber) {
+
+                case (1):
+                    phaseText = "4 Zwillinge";
+                    break;
+
+                case (2):
+                    phaseText = "6 Karten einer Farbe";
+                    break;
+
+                case (3):
+                    phaseText = "1 Vierling + 1 Viererfolge";
+                    break;
+
+                case (4):
+                    phaseText = "1 Achterfolge";
+                    break;
+
+                case (5):
+                    phaseText = "7 Karten einer Farbe";
+                    break;
+
+                case (6):
+                    phaseText = "1 Neunerfolge";
+                    break;
+
+                case (7):
+                    phaseText = "2 Vierlinge";
+                    break;
+
+                case (8):
+                    phaseText = "1 Viererfolge einer Farbe + 1 Drilling";
+                    break;
+
+                case (9):
+                    phaseText = "1 Fünfling + 1 Drilling";
+                    break;
+
+                case (10):
+                    phaseText = "1 Fünfling + 1 Dreierfolge einer Farbe";
+                    break;
+
+            }
+
+        }
+
+    }
+

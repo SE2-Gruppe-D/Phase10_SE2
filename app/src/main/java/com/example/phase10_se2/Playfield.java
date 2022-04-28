@@ -546,49 +546,9 @@ public class Playfield extends AppCompatActivity {
 
         }
     }
-    private void setPhasenText(int phase) {
-        switch (phase) {
-            case (1):
-                tvAktuellePhase.setText("4 Zwillinge");
-                break;
-
-            case (2):
-                tvAktuellePhase.setText("6 Karten einer Farbe");
-                break;
-
-            case (3):
-                tvAktuellePhase.setText("1 Vierling + 1 Viererfolge");
-                break;
-
-            case (4):
-                tvAktuellePhase.setText("1 Achterfolge");
-                break;
-
-            case (5):
-                tvAktuellePhase.setText("7 Karten einer Farbe");
-                break;
-
-            case (6):
-                tvAktuellePhase.setText("1 Neunerfolge");
-                break;
-
-            case (7):
-                tvAktuellePhase.setText("2 Vierlinge");
-                break;
-
-            case (8):
-                tvAktuellePhase.setText("1 Viererfolge einer Farbe + 1 Drilling");
-                break;
-
-            case (9):
-                tvAktuellePhase.setText("1 Fünfling + 1 Drilling");
-                break;
-
-            case (10):
-                tvAktuellePhase.setText("1 Fünfling + 1 Dreierfolge einer Farbe");
-                break;
-
-        }
+    //Aktuelle in Player zugewiesene Phase wird in Textview am Spielfeld angezeigt
+    public void setPhasenTextTextView() {
+        tvAktuellePhase.setText(primaryPlayer.getPhaseText());
     }
 
 
