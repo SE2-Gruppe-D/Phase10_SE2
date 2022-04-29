@@ -12,6 +12,10 @@ public class CardDrawer {
     private ArrayList<Cards> initialCardsList=new ArrayList<>();
     private ArrayList<Cards> discardpileList=new ArrayList<>();      //Ablagestapel
 
+    public ArrayList<Cards> getDiscardpileList() {
+        return discardpileList;
+    }
+
     public CardDrawer(){
         generateInitialCards();
         shuffleCards(initialCardsList);
