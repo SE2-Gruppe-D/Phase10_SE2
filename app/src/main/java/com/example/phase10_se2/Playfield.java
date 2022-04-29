@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -47,10 +48,6 @@ public class Playfield extends AppCompatActivity {
     ArrayList<Cards> cardlist;
     ArrayList<Cards> discardpileList;//Ablagestapel
 
-    ArrayList<Cards> playerHandBlue;
-    ArrayList<Cards> playerHandRed;
-    ArrayList<Cards> playerHandYellow;
-    ArrayList<Cards> playerHandGreen;
     ArrayList<ImageView> Imagelist;
     ArrayList<Cards> drawpileList;      //Ziehstapel
     //ArrayList<Cards> discardpileList;      //Ablagestapel
@@ -65,22 +62,6 @@ public class Playfield extends AppCompatActivity {
     ImageView ivPlayerYellow;
     ImageView ivPlayerGreen;
     ImageView ivPlayerRed;
-
-    public ArrayList<Cards> getPlayer1HandBlue() {
-        return playerHandBlue;
-    }
-
-    public ArrayList<Cards> getPlayerHandRed() {
-        return playerHandRed;
-    }
-
-    public ArrayList<Cards> getPlayerHandYellow() {
-        return playerHandYellow;
-    }
-
-    public ArrayList<Cards> getPlayerHandGreen() {
-        return playerHandGreen;
-    }
 
     Player playerGreen;
     Player playerRed;
@@ -106,59 +87,19 @@ public class Playfield extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                             for (QueryDocumentSnapshot documentSnapshot:task.getResult()) {
-                                if (Objects.equals(documentSnapshot.getString("Color"), userColor)){
-                                    switch (userColor){
-                                        case "RED":
-                                            playerRed=new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom, playerHandRed);
-                                            primaryPlayer=playerRed;
-                                            break;
-                                        case "BLUE":
-                                            playerBlue=new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom, playerHandBlue);
-                                            primaryPlayer=playerBlue;
-                                            break;
-                                        case "YELLOW":
-                                            playerYellow=new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom, playerHandYellow);
-                                            primaryPlayer=playerYellow;
-                                            break;
-                                        case "GREEN":
-                                            playerGreen=new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom, playerHandGreen);
-                                            primaryPlayer=playerGreen;
-                                            break;
-                                        default:
-                                            break;
-
-                                    }
-                                    Log.i("-------------------------------------------", "Color: "+ primaryPlayer.getColor());
-
-                                }
-
-                                if (Objects.equals(documentSnapshot.getString("Color"), "RED")){
-                                    playerRed=new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom, playerHandRed);
-                                    playerRed.setPlayerview(findViewById(R.id.ivPR));
-                                    playerRed.getPlayerview().setVisibility(View.VISIBLE);
-                                }
-                                if (Objects.equals(documentSnapshot.getString("Color"), "BLUE")){
-                                    playerBlue=new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom, playerHandBlue);
-                                    playerBlue.setPlayerview(findViewById(R.id.ivPB));
-                                    playerBlue.getPlayerview().setVisibility(View.VISIBLE);
-                                }
-                                if (Objects.equals(documentSnapshot.getString("Color"), "YELLOW")){
-                                    playerYellow=new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom, playerHandYellow);
-                                    playerYellow.setPlayerview(findViewById(R.id.ivPY));
-                                    playerYellow.getPlayerview().setVisibility(View.VISIBLE);
-                                }
-                                if (Objects.equals(documentSnapshot.getString("Color"), "GREEN")){
-                                    playerGreen=new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom, playerHandGreen);
-                                    playerGreen.setPlayerview(findViewById(R.id.ivPG));
-                                    playerGreen.getPlayerview().setVisibility(View.VISIBLE);
-                                }
-
+                                initializePlayer(documentSnapshot, userColor, currentRoom);
                             }
+                            CreatePlayfield();
+
                         }
                     }
                 });
 
 
+
+    }
+
+    private void CreatePlayfield() {
         //entfernt die label Leiste (Actionbar) auf dem Playfield
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
@@ -171,7 +112,7 @@ public class Playfield extends AppCompatActivity {
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 .show(diceFragment)
                 .commit();
-      
+
 
         btnHideAktionskarte=findViewById(R.id.btnHideAk);
         btnShowAktionskarte=findViewById(R.id.btnShowAk);
@@ -201,10 +142,6 @@ public class Playfield extends AppCompatActivity {
 
         discardpileList= new ArrayList<>();
         cardlist = new ArrayList<>();
-        playerHandBlue = new ArrayList<>();
-        playerHandRed = new ArrayList<>();
-        playerHandYellow = new ArrayList<>();
-        playerHandGreen = new ArrayList<>();
 
         deckcard= findViewById(R.id.deckblatt);
         defaultcard=findViewById(R.id.defaultcard);
@@ -275,7 +212,6 @@ public class Playfield extends AppCompatActivity {
         });
 
 
-
         //random Defaultcard
         Random rand = new Random();
         Cards randomCard = cardlist.get(rand.nextInt(cardlist.size()));
@@ -288,6 +224,59 @@ public class Playfield extends AppCompatActivity {
                 addCardsDiscardpile();
         });
     }
+
+    private void initializePlayer(DocumentSnapshot documentSnapshot, String userColor, String currentRoom){
+            if (Objects.equals(documentSnapshot.getString("Color"), userColor)){
+                switch (userColor){
+                    case "RED":
+                        playerRed=new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom);
+                        primaryPlayer=playerRed;
+                        break;
+                    case "BLUE":
+                        playerBlue=new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom);
+                        primaryPlayer=playerBlue;
+                        break;
+                    case "YELLOW":
+                        playerYellow=new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom);
+                        primaryPlayer=playerYellow;
+                        break;
+                    case "GREEN":
+                        playerGreen=new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom);
+                        primaryPlayer=playerGreen;
+                        break;
+                    default:
+                        break;
+
+                }
+                Log.i("-------------------------------------------", "Color: "+ primaryPlayer.getColor());
+
+            }
+
+            if (Objects.equals(documentSnapshot.getString("Color"), "RED")){
+                playerRed=new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom);
+                playerRed.setPlayerview(findViewById(R.id.ivPR));
+                playerRed.getPlayerview().setVisibility(View.VISIBLE);
+            }
+            if (Objects.equals(documentSnapshot.getString("Color"), "BLUE")){
+                playerBlue=new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom);
+                playerBlue.setPlayerview(findViewById(R.id.ivPB));
+                playerBlue.getPlayerview().setVisibility(View.VISIBLE);
+            }
+            if (Objects.equals(documentSnapshot.getString("Color"), "YELLOW")){
+                playerYellow=new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom);
+                playerYellow.setPlayerview(findViewById(R.id.ivPY));
+                playerYellow.getPlayerview().setVisibility(View.VISIBLE);
+            }
+            if (Objects.equals(documentSnapshot.getString("Color"), "GREEN")){
+                playerGreen=new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom);
+                playerGreen.setPlayerview(findViewById(R.id.ivPG));
+                playerGreen.getPlayerview().setVisibility(View.VISIBLE);
+            }
+
+        }
+
+
+
     public void updateHand(List list, Cards cards, LinearLayout linearLayout, int grad){
         list.add(cards);
         linearLayout.addView(cards.getCardUI());
