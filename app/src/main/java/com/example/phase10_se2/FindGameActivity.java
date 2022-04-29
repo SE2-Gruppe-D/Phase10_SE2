@@ -152,7 +152,7 @@ public class FindGameActivity extends AppCompatActivity {
                             }
                         }
                         String playerName = editTextName.getText().toString();
-                        Player player = new Player(playerName, playerColor, roomName, new ArrayList());
+                        Player player = new Player(playerName, playerColor, roomName);
 
 
                         //create user

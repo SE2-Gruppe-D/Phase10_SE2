@@ -80,7 +80,7 @@ public class CreateGameActivity extends AppCompatActivity {
                 roomName = editTextRoom.getText().toString();
 
                 //create player with given input
-                Player player = new Player (playerName, playerColor[0], roomName, new ArrayList<>());
+                Player player = new Player (playerName, playerColor[0], roomName);
 
                 //add player and room to database
                 Map<String, Object> user = new HashMap<>();
