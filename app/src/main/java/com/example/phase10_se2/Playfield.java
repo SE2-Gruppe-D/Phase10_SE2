@@ -33,7 +33,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
@@ -85,10 +84,9 @@ public class Playfield extends AppCompatActivity {
 
     //Timer
     Timer classTimer;
-    private static final long startTimer_inMiliS = 120000;
-    private TextView timer;
+    private static final long startTimer_inMilliS = 120000;
     private CountDownTimer timerturn;
-    private long leftTime= startTimer_inMiliS;
+    private long leftTime= startTimer_inMilliS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -218,7 +216,7 @@ public class Playfield extends AppCompatActivity {
         });
 
         //Timer
-        timer=findViewById(R.id.Timer);
+        TextView timer = findViewById(R.id.Timer);
         classTimer= new Timer(timer, timerturn, leftTime);
         classTimer.startTimer();
         classTimer.updateCountDownText();
