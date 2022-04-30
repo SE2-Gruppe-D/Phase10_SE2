@@ -8,6 +8,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,7 +31,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +82,11 @@ public class Playfield extends AppCompatActivity {
     AlertDialog.Builder builder;
     float floatThreshold = 1;
 
+    //Timer
+    Timer classTimer;
+    private static final long startTimer = 120000;  //Timer wird in milli Skunden gestartet
+    private CountDownTimer timerturn;
+    private long leftTime= startTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -210,6 +215,12 @@ public class Playfield extends AppCompatActivity {
             addCardsDiscardpile();
         });
 
+        //Timer
+        TextView timer = findViewById(R.id.Timer);
+        classTimer= new Timer(timer, timerturn, leftTime);
+        classTimer.startTimer();
+        classTimer.updateCountDownText();
+
         //light sensor to accuse of cheating
         sm = (SensorManager) getSystemService(SENSOR_SERVICE);
         light = sm.getDefaultSensor(Sensor.TYPE_LIGHT);
@@ -255,10 +266,6 @@ public class Playfield extends AppCompatActivity {
 
                }
            });
-
-
-
-
     }
 
     private void initializePlayer(DocumentSnapshot documentSnapshot, String userColor, String currentRoom) {
@@ -310,7 +317,7 @@ public class Playfield extends AppCompatActivity {
         }
 
     }
-
+    //Karten werden den Spieler angepasst/ Handkarten-Layout
     public void updateHand(List list, Cards cards, LinearLayout linearLayout, int grad) {
         list.add(cards);
         linearLayout.addView(cards.getCardUI());
@@ -340,7 +347,6 @@ public class Playfield extends AppCompatActivity {
         }
     }
 
-
     //Karte ziehen
     protected void addCard() {
         if (playerBlue != null) {
@@ -356,7 +362,6 @@ public class Playfield extends AppCompatActivity {
             updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer4, -90);
         }
     }
-
 
     private ImageView createCardUI(Cards cards){
         ImageView imageView= new ImageView(getApplicationContext());
@@ -427,6 +432,7 @@ public class Playfield extends AppCompatActivity {
 
         Toast.makeText(diceFragment.getActivity().getApplicationContext(), startingOrderToastText.toString(), Toast.LENGTH_LONG).show();
     }
+
 
 
     //Getter und Setter
