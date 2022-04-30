@@ -6,10 +6,10 @@ import java.util.Locale;
 
 public class Timer {
     //Timer
-    private static final long startTimer_inMilliS = 120000;
+    private static final long startTimer = 120000;
     private final TextView textView;
     private CountDownTimer timerturn;
-    private long leftTime= startTimer_inMilliS;
+    private long leftTime= startTimer;
 
     public Timer(TextView textView, CountDownTimer timerturn, long leftTime) {
         this.textView = textView;

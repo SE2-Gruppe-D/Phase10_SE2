@@ -84,9 +84,9 @@ public class Playfield extends AppCompatActivity {
 
     //Timer
     Timer classTimer;
-    private static final long startTimer_inMilliS = 120000;
+    private static final long startTimer = 120000;  //Timer wird in milli Skunden gestartet
     private CountDownTimer timerturn;
-    private long leftTime= startTimer_inMilliS;
+    private long leftTime= startTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
