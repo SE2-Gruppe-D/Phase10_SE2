@@ -95,9 +95,6 @@ public class Playfield extends AppCompatActivity {
     private CountDownTimer timerturn;
     private long leftTime= startTimer;
 
-    //Phasencheck
-    Phase phase;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -173,14 +170,24 @@ public class Playfield extends AppCompatActivity {
         btnCheckPhase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    //else if false ->
-                for (int i = 0; i <= layoutPlayer1Auslegen.getChildCount(); i++) {
-                    View v = layoutPlayer1Auslegen.getChildAt(i);
-                    ViewGroup owner = (ViewGroup) v.getParent();
-                    owner.removeView(v);
-                    layoutPlayer1.addView(v);
-                    v.setVisibility(View.VISIBLE);
-                }
+                //if(checkPhase true) --> next Phase
+                //else if false ->
+                    while (layoutPlayer1Auslegen.getChildCount()!=0 ) {
+                        View v = layoutPlayer1Auslegen.getChildAt(0);
+                        ViewGroup owner = (ViewGroup) v.getParent();
+                        owner.removeView(v);
+                        layoutPlayer1.addView(v);
+                        v.setVisibility(View.VISIBLE);
+                    }
+            }
+
+                 /*
+                    List<View> list = getAllViews(layoutPlayer1Auslegen);
+                    for(int i = 0; i <=list.size(); i++){
+                        layoutPlayer1.addView(list.get(i));
+                    }
+
+
             }
                 /*
                 int count = layoutPlayer1Auslegen.getChildCount();
@@ -191,9 +198,6 @@ public class Playfield extends AppCompatActivity {
                     layoutPlayer1.addView(v);
 
                  */
-
-
-
         });
 
 
@@ -445,9 +449,6 @@ public class Playfield extends AppCompatActivity {
         }
     }
 
-
-
-
     //Class to drop
     private class ChoiceDragListener implements View.OnDragListener{
         @Override
@@ -586,16 +587,12 @@ public class Playfield extends AppCompatActivity {
     public List<View> getAllViews(ViewGroup layout){
         List<View> views = new ArrayList<>();
         for(int i =0; i< layout.getChildCount(); i++){
+
             views.add(layout.getChildAt(i));
+            layout.removeView(layout.getChildAt(i));
         }
         return views;
     }
-
-
-
-
-
-
 }
 
 
