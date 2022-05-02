@@ -3,7 +3,6 @@ package com.example.phase10_se2;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,14 +17,44 @@ public class Phase extends AppCompatActivity {
     ArrayList<Cards> handcards;
     LinearLayout ablageLayoutPlayer1;
     Cards hilfskarte;
-    Button buttonCheckPhase;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
 
+        ablageLayoutPlayer1= findViewById(R.id.player1PhaseAblegen);
+        handcards = getRightHandCards();
+        List<Cards> zwillinge = new ArrayList<>();
+        final int[] id = new int[1];
+        handcards.get(0).getCardUI().setOnClickListener(view -> {
+            id[0] = view.getId();
+        });
+
+        for(int i = 0; i < handcards.size(); i++){
+            if(handcards.get(i).getCardUI().getId() == id[0]){
+                zwillinge.add(handcards.get(i));
+                handcards.remove(i);
+                ablageLayoutPlayer1.addView(zwillinge.get(0).getCardUI());
+                zwillinge.get(0).getCardUI().setVisibility(View.VISIBLE);
+            }
+        }
 
 
+
+        handcards.get(0).getCardUI().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                id[0] = view.getId();
+            }
+        });
+        for(int i = 0; i < handcards.size(); i++){
+            if(handcards.get(i).getCardUI().getId() == id[0]){
+                zwillinge.add(handcards.get(i));
+                handcards.remove(i);
+                ablageLayoutPlayer1.addView(zwillinge.get(0).getCardUI());
+                zwillinge.get(0).getCardUI().setVisibility(View.VISIBLE);
+            }
+        }
     }
 
 
@@ -54,12 +83,8 @@ public class Phase extends AppCompatActivity {
 
     //check Phase 1 - 10
     //Phase 1: 4 Zwillinge
-   // public boolean checkPhase1(List<Cards> list1, List<Cards> list2, List<Cards> list3, List<Cards> list4){
-     //   return checkSetOf2(list1) && checkSetOf2(list2) && checkSetOf2(list3) && checkSetOf2(list4);
-    //}
-
-    public boolean checkPhase1(){
-        return true;
+    public boolean checkPhase1(List<Cards> list1, List<Cards> list2, List<Cards> list3, List<Cards> list4){
+        return checkSetOf2(list1) && checkSetOf2(list2) && checkSetOf2(list3) && checkSetOf2(list4);
     }
 
     public void layPhase1(){
@@ -83,15 +108,14 @@ public class Phase extends AppCompatActivity {
 
         //überprüfen, ob richtig ist
         //mit Button
-        //if(!checkPhase1(cards1,cards2,cards3,cards4)){
+        if(!checkPhase1(cards1,cards2,cards3,cards4)){
             //Karten zurück zu den Handkarten
         }
-
+    }
 
 
 
     //Phase 2: 6 Karten einer Farbe
-
     private boolean checkPhase2(List<Cards> list1){
         return list1.size()==6 && checkEqualsColor(list1);
     }
