@@ -323,19 +323,19 @@ public class Playfield extends AppCompatActivity {
         if (Objects.equals(documentSnapshot.getString("Color"), userColor)) {
             switch (userColor) {
                 case "RED":
-                    playerRed = new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom);
+                    playerRed = new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom,1,0,playerRed.getPlayerHand(),playerRed.getCardField());
                     primaryPlayer = playerRed;
                     break;
                 case "BLUE":
-                    playerBlue = new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom);
+                    playerBlue = new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom,1,0,playerBlue.getPlayerHand(),playerBlue.getCardField());
                     primaryPlayer = playerBlue;
                     break;
                 case "YELLOW":
-                    playerYellow = new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom);
+                    playerYellow = new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom,1,0,playerYellow.getPlayerHand(),playerYellow.getCardField());
                     primaryPlayer = playerYellow;
                     break;
                 case "GREEN":
-                    playerGreen = new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom);
+                    playerGreen = new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom,1,0,playerYellow.getPlayerHand(),playerYellow.getCardField());
                     primaryPlayer = playerGreen;
                     break;
                 default:
@@ -347,22 +347,22 @@ public class Playfield extends AppCompatActivity {
         }
 
         if (Objects.equals(documentSnapshot.getString("Color"), "RED")) {
-            playerRed = new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom);
+            playerRed = new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom,1,0,playerRed.getPlayerHand(),playerRed.getCardField());
             playerRed.setPlayerview(findViewById(R.id.ivPR));
             playerRed.getPlayerview().setVisibility(View.VISIBLE);
         }
         if (Objects.equals(documentSnapshot.getString("Color"), "BLUE")) {
-            playerBlue = new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom);
+            playerBlue = new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom,1,0,playerBlue.getPlayerHand(),playerBlue.getCardField());
             playerBlue.setPlayerview(findViewById(R.id.ivPB));
             playerBlue.getPlayerview().setVisibility(View.VISIBLE);
         }
         if (Objects.equals(documentSnapshot.getString("Color"), "YELLOW")) {
-            playerYellow = new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom);
+            playerYellow = new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom,1,0,playerYellow.getPlayerHand(),playerYellow.getCardField());
             playerYellow.setPlayerview(findViewById(R.id.ivPY));
             playerYellow.getPlayerview().setVisibility(View.VISIBLE);
         }
         if (Objects.equals(documentSnapshot.getString("Color"), "GREEN")) {
-            playerGreen = new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom);
+            playerGreen = new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom,1,0,playerYellow.getPlayerHand(),playerYellow.getCardField());
             playerGreen.setPlayerview(findViewById(R.id.ivPG));
             playerGreen.getPlayerview().setVisibility(View.VISIBLE);
         }
