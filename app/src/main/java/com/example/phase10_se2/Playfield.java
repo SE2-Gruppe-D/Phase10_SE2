@@ -276,33 +276,6 @@ public class Playfield extends AppCompatActivity {
                }
            });
 
-        layoutPlayer1Ablegen.setOnDragListener(new View.OnDragListener() {
-            @Override
-            public boolean onDrag(View v, DragEvent event) {
-                final int action = event.getAction();
-                switch (action) {
-                    case DragEvent.ACTION_DRAG_STARTED:
-                        break;
-
-                    case DragEvent.ACTION_DRAG_EXITED:
-                        break;
-
-                    case DragEvent.ACTION_DRAG_ENTERED:
-                        break;
-
-                    case DragEvent.ACTION_DROP:
-                        return true;
-
-                    case DragEvent.ACTION_DRAG_ENDED:
-                        return true;
-
-                    default:
-                        break;
-
-                }
-                return true;
-            }
-        });
 
 
 
@@ -413,6 +386,7 @@ public class Playfield extends AppCompatActivity {
         imageView.setVisibility(View.INVISIBLE);
         imageView.setClickable(true);
         imageView.setOnTouchListener(new ChoiceTouchListener());
+        imageView.setOnDragListener(new ChoiceDragListener());
         return imageView;
     }
 
@@ -427,6 +401,36 @@ public class Playfield extends AppCompatActivity {
                 view.startDragAndDrop(data, shadowBuilder, view, 0);
                 return true;
             }else return false;
+        }
+    }
+
+    private class ChoiceDragListener implements View.OnDragListener{
+
+        @Override
+        public boolean onDrag(View v, DragEvent dragEvent) {
+            switch (dragEvent.getAction()) {
+                case DragEvent.ACTION_DRAG_STARTED:
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DRAG_EXITED:
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DRAG_ENTERED:
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DROP:
+                    ImageView view = (ImageView) dragEvent.getLocalState();//the source image
+                    ((ImageView)v).setImageDrawable(getResources().getDrawable(R.drawable.deckblatt));
+                    ((ImageView)view).setImageDrawable(null);
+                   break;
+
+                case DragEvent.ACTION_DRAG_ENDED:
+                    break;
+                    }
+            return true;
         }
     }
 /*
