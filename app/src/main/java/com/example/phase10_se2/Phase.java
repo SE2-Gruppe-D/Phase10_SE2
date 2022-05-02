@@ -84,6 +84,7 @@ public class Phase extends AppCompatActivity {
     //check Phase 1 - 10
     //Phase 1: 4 Zwillinge
     public boolean checkPhase1(List<Cards> list1, List<Cards> list2, List<Cards> list3, List<Cards> list4){
+
         return checkSetOf2(list1) && checkSetOf2(list2) && checkSetOf2(list3) && checkSetOf2(list4);
     }
 

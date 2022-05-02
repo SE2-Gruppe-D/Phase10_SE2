@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,7 +50,8 @@ public class Playfield extends AppCompatActivity {
     ImageView deckcard;
     ImageView defaultcard;
     LinearLayout layoutPlayer1;
-    LinearLayout layoutPlayer1Ablegen;
+    LinearLayout layoutPlayer1Auslegen;
+    ArrayList<View> ausgelegteKarten;
     LinearLayout layoutPlayer2;
     LinearLayout layoutPlayer3;
     LinearLayout layoutPlayer4;
@@ -170,7 +172,7 @@ public class Playfield extends AppCompatActivity {
         defaultcard = findViewById(R.id.defaultcard);
         leererAblagestapel = findViewById(R.id.leererStapel);
         layoutPlayer1 = findViewById(R.id.player1);
-        layoutPlayer1Ablegen = findViewById(R.id.player1PhaseAblegen);
+        layoutPlayer1Auslegen = findViewById(R.id.player1PhaseAblegen);
         layoutPlayer2 = findViewById(R.id.player2);
         layoutPlayer3 = findViewById(R.id.player3);
         layoutPlayer4 = findViewById(R.id.player4);
@@ -385,6 +387,7 @@ public class Playfield extends AppCompatActivity {
         imageView.setTag("c"+ cards.getID());
         imageView.setVisibility(View.INVISIBLE);
         imageView.setClickable(true);
+        imageView.setFocusable(true);
         imageView.setOnTouchListener(new ChoiceTouchListener());
         imageView.setOnDragListener(new ChoiceDragListener());
         return imageView;
@@ -404,10 +407,11 @@ public class Playfield extends AppCompatActivity {
         }
     }
 
+    //Class to drop
     private class ChoiceDragListener implements View.OnDragListener{
 
         @Override
-        public boolean onDrag(View v, DragEvent dragEvent) {
+        public boolean onDrag(View view, DragEvent dragEvent) {
             switch (dragEvent.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED:
                     //no action necessary
@@ -422,40 +426,37 @@ public class Playfield extends AppCompatActivity {
                     break;
 
                 case DragEvent.ACTION_DROP:
+                    //Item item =  dragEvent.getClipData().getItemAt(0);//the source image
+                    //ImageView item2 =  (ImageView) dragEvent.getClipData().getItemAt(0);//the source image
+                    //View dragData = item.text;
+
+                    view.invalidate();
+
+                    //löschen
+                    View v = (View) dragEvent.getLocalState();
+                    ViewGroup owner = (ViewGroup) v.getParent();
+
+                    owner.removeView(v);
+
+                    layoutPlayer1Auslegen.addView(v);
+                    v.setVisibility(View.VISIBLE);
+
+                    return true;
+                    /*
                     ImageView view = (ImageView) dragEvent.getLocalState();//the source image
                     ((ImageView)v).setImageDrawable(getResources().getDrawable(R.drawable.deckblatt));
                     ((ImageView)view).setImageDrawable(null);
-                   break;
+
+                     */
+
 
                 case DragEvent.ACTION_DRAG_ENDED:
-                    break;
+                    view.invalidate();
+                    return true;
                     }
             return true;
         }
     }
-/*
-    private ImageView getOneHandcard(){
-        ArrayList<Cards> handcards = primaryPlayer.getPlayerHand();
-        ImageView view;
-
-        if()
-        for(int i =0; i <handcards.size(); i++ ){
-            Ca
-        }
-        switch (()
-        handcards.get(0).getCardUI().setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                id[0] = view.getId();
-            }
-        });
-    }
-
- */
-
-
-
 
     //Aktuelle in Player zugewiesene Phase wird in Textview am Spielfeld angezeigt
     public void setPhasenTextTextView() {
