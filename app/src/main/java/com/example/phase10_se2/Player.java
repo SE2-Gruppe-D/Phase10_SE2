@@ -4,6 +4,7 @@ package com.example.phase10_se2;
 import android.media.Image;
 import android.widget.ImageView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 enum PlayerState {
@@ -34,18 +35,22 @@ public class Player {
     private ImageView playerview;
     private ArrayList<Cards> playerHand;
     private String phaseText;
+    private int phasenumber;
+    //für das Auslegen der Karten
+    private ArrayList<Cards> cardField;
+
 
 
     // no-argument constructor
     public Player() {
     }
 
-    public Player(String name, PlayerColor color, String room) {
+    public Player(String name, PlayerColor color, String room, int phasenumber, int minusPoints, ArrayList<Cards> cards, ArrayList<Cards> cardField) {
         this.name = name;
         this.color = color;
         this.room = room;
 
-
+        this.phasenumber=phasenumber;
         positionX = 0;
         positionY = 0;
         minusPoints = 0;
@@ -54,6 +59,7 @@ public class Player {
         state = PlayerState.WAITING;
         playerHand = new ArrayList<Cards>();
         phaseText = "/";
+        this.cardField=cardField;
     }
 
     public Player(String name, PlayerColor color, int positionX, int positionY) {
@@ -297,4 +303,19 @@ public class Player {
 
         }
 
+    public int getPhasenumber() {
+        return phasenumber;
     }
+
+    public void setPhasenumber(int phasenumber) {
+        this.phasenumber = phasenumber;
+    }
+
+    public ArrayList<Cards> getCardField() {
+        return cardField;
+    }
+
+    public void setCardField(ArrayList<Cards> cardField) {
+        this.cardField = cardField;
+    }
+}

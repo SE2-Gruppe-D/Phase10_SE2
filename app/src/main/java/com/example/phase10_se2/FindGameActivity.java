@@ -152,7 +152,7 @@ public class FindGameActivity extends AppCompatActivity {
                             }
                         }
                         String playerName = editTextName.getText().toString();
-                        Player player = new Player(playerName, playerColor, roomName);
+                        Player player = new Player(playerName, playerColor, roomName, 1,0,new ArrayList<>(),new ArrayList<>());
 
 
                         //create user
@@ -160,6 +160,10 @@ public class FindGameActivity extends AppCompatActivity {
                         user.put("Name", player.getName());
                         user.put("Color", player.getColor());
                         user.put("Room", roomName);
+                        user.put("Phase", player.getPhasenumber());
+                        user.put("Points", player.getMinusPoints());
+                        user.put("Handcards", player.getPlayerHand());
+                        user.put("CardsField", player.getCardField());
 
                         database.collection("users")
                                 .add(user)
