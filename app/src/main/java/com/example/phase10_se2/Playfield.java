@@ -2,6 +2,7 @@ package com.example.phase10_se2;
 
 import static android.os.SystemClock.sleep;
 
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -10,6 +11,8 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -45,6 +48,7 @@ public class Playfield extends AppCompatActivity {
     ImageView deckcard;
     ImageView defaultcard;
     LinearLayout layoutPlayer1;
+    LinearLayout layoutPlayer1Ablegen;
     LinearLayout layoutPlayer2;
     LinearLayout layoutPlayer3;
     LinearLayout layoutPlayer4;
@@ -113,6 +117,8 @@ public class Playfield extends AppCompatActivity {
                         }
                     }
                 });
+
+
     }
 
     private void CreatePlayfield() {
@@ -162,6 +168,7 @@ public class Playfield extends AppCompatActivity {
         defaultcard = findViewById(R.id.defaultcard);
         leererAblagestapel = findViewById(R.id.leererStapel);
         layoutPlayer1 = findViewById(R.id.player1);
+        layoutPlayer1Ablegen = findViewById(R.id.player1PhaseAblegen);
         layoutPlayer2 = findViewById(R.id.player2);
         layoutPlayer3 = findViewById(R.id.player3);
         layoutPlayer4 = findViewById(R.id.player4);
@@ -266,6 +273,37 @@ public class Playfield extends AppCompatActivity {
 
                }
            });
+
+        layoutPlayer1Ablegen.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View v, DragEvent event) {
+                final int action = event.getAction();
+                switch (action) {
+                    case DragEvent.ACTION_DRAG_STARTED:
+                        break;
+
+                    case DragEvent.ACTION_DRAG_EXITED:
+                        break;
+
+                    case DragEvent.ACTION_DRAG_ENTERED:
+                        break;
+
+                    case DragEvent.ACTION_DROP:
+                        return true;
+
+                    case DragEvent.ACTION_DRAG_ENDED:
+                        return true;
+
+                    default:
+                        break;
+
+                }
+                return true;
+            }
+        });
+
+
+
     }
 
     private void initializePlayer(DocumentSnapshot documentSnapshot, String userColor, String currentRoom) {
@@ -371,6 +409,15 @@ public class Playfield extends AppCompatActivity {
         imageView.setTag("c"+ cards.getID());
         imageView.setVisibility(View.INVISIBLE);
         imageView.setClickable(true);
+        imageView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                ClipData data = ClipData.newPlainText("","");
+                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(layoutPlayer1Ablegen);
+                view.startDrag(data,shadowBuilder,null,0);
+                return false;
+            }
+        });
         return imageView;
     }
 
