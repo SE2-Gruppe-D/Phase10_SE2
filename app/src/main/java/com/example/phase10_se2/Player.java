@@ -53,7 +53,7 @@ public class Player {
         this.phasenumber=phasenumber;
         positionX = 0;
         positionY = 0;
-        minusPoints = 0;
+        this.minusPoints = minusPoints;
         currentPosition = 0;
         startingOrder = -1;
         state = PlayerState.WAITING;
