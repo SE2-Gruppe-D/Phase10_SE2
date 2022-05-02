@@ -2,6 +2,7 @@ package com.example.phase10_se2;
 
 import static android.os.SystemClock.sleep;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.hardware.Sensor;
@@ -121,6 +122,7 @@ public class Playfield extends AppCompatActivity {
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void CreatePlayfield() {
         //entfernt die label Leiste (Actionbar) auf dem Playfield
         ActionBar actionBar = getSupportActionBar();
@@ -304,6 +306,7 @@ public class Playfield extends AppCompatActivity {
 
 
 
+
     }
 
     private void initializePlayer(DocumentSnapshot documentSnapshot, String userColor, String currentRoom) {
@@ -409,17 +412,46 @@ public class Playfield extends AppCompatActivity {
         imageView.setTag("c"+ cards.getID());
         imageView.setVisibility(View.INVISIBLE);
         imageView.setClickable(true);
-        imageView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                ClipData data = ClipData.newPlainText("","");
-                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(layoutPlayer1Ablegen);
-                view.startDrag(data,shadowBuilder,null,0);
-                return false;
-            }
-        });
+        imageView.setOnTouchListener(new ChoiceTouchListener());
         return imageView;
     }
+
+    //Class allows us to drag view
+    private final class ChoiceTouchListener implements View.OnTouchListener{
+
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && ((ImageView)view).getDrawable() !=null) {
+                ClipData data = ClipData.newPlainText("", "");
+                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+                view.startDragAndDrop(data, shadowBuilder, view, 0);
+                return true;
+            }else return false;
+        }
+    }
+/*
+    private ImageView getOneHandcard(){
+        ArrayList<Cards> handcards = primaryPlayer.getPlayerHand();
+        ImageView view;
+
+        if()
+        for(int i =0; i <handcards.size(); i++ ){
+            Ca
+        }
+        switch (()
+        handcards.get(0).getCardUI().setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                id[0] = view.getId();
+            }
+        });
+    }
+
+ */
+
+
+
 
     //Aktuelle in Player zugewiesene Phase wird in Textview am Spielfeld angezeigt
     public void setPhasenTextTextView() {
