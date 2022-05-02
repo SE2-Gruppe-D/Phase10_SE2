@@ -282,6 +282,9 @@ public class Playfield extends AppCompatActivity {
 
 
 
+
+
+
     }
 
     private void initializePlayer(DocumentSnapshot documentSnapshot, String userColor, String currentRoom) {
@@ -340,6 +343,8 @@ public class Playfield extends AppCompatActivity {
         cards.getCardUI().setVisibility(View.VISIBLE);      //Aktueller Spieler sichtbar
         cardlist.remove(0);
         cards.getCardUI().setRotation(grad);
+        cards.getCardUI().setOnTouchListener(new ChoiceTouchListener());
+        cards.getCardUI().setOnDragListener(new ChoiceDragListener());
     }
 
     //Momentan kann nur der player1 eine Karte ziehen
@@ -388,10 +393,11 @@ public class Playfield extends AppCompatActivity {
         imageView.setVisibility(View.INVISIBLE);
         imageView.setClickable(true);
         imageView.setFocusable(true);
-        imageView.setOnTouchListener(new ChoiceTouchListener());
-        imageView.setOnDragListener(new ChoiceDragListener());
+
         return imageView;
     }
+
+
 
     //Class allows us to drag view
     private final class ChoiceTouchListener implements View.OnTouchListener{
@@ -406,6 +412,9 @@ public class Playfield extends AppCompatActivity {
             }else return false;
         }
     }
+
+
+
 
     //Class to drop
     private class ChoiceDragListener implements View.OnDragListener{
@@ -426,21 +435,21 @@ public class Playfield extends AppCompatActivity {
                     break;
 
                 case DragEvent.ACTION_DROP:
-                    //Item item =  dragEvent.getClipData().getItemAt(0);//the source image
+                    ClipData.Item item =  dragEvent.getClipData().getItemAt(0);//the source image
+
                     //ImageView item2 =  (ImageView) dragEvent.getClipData().getItemAt(0);//the source image
                     //View dragData = item.text;
 
-                    view.invalidate();
+                    //view.invalidate();
 
                     //löschen
                     View v = (View) dragEvent.getLocalState();
                     ViewGroup owner = (ViewGroup) v.getParent();
 
-                    owner.removeView(v);
 
+                    owner.removeView(v);
                     layoutPlayer1Auslegen.addView(v);
                     v.setVisibility(View.VISIBLE);
-
                     return true;
                     /*
                     ImageView view = (ImageView) dragEvent.getLocalState();//the source image
@@ -457,6 +466,7 @@ public class Playfield extends AppCompatActivity {
             return true;
         }
     }
+
 
     //Aktuelle in Player zugewiesene Phase wird in Textview am Spielfeld angezeigt
     public void setPhasenTextTextView() {
