@@ -2,6 +2,8 @@ package com.example.phase10_se2;
 
 import static android.os.SystemClock.sleep;
 
+import android.annotation.SuppressLint;
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -10,7 +12,10 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,6 +50,7 @@ public class Playfield extends AppCompatActivity {
     ImageView deckcard;
     ImageView defaultcard;
     LinearLayout layoutPlayer1;
+    LinearLayout layoutPlayer1Auslegen;
     LinearLayout layoutPlayer2;
     LinearLayout layoutPlayer3;
     LinearLayout layoutPlayer4;
@@ -60,6 +66,7 @@ public class Playfield extends AppCompatActivity {
 
     Button btnHideAktionskarte;
     Button btnShowAktionskarte;
+    Button btnCheckPhase;
     ImageView ivShowAktionskarte;
     TextView tvAktuellePhase;
 
@@ -88,6 +95,9 @@ public class Playfield extends AppCompatActivity {
     private CountDownTimer timerturn;
     private long leftTime= startTimer;
 
+    //Phasencheck
+    Phase phase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,8 +123,11 @@ public class Playfield extends AppCompatActivity {
                         }
                     }
                 });
+
+
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void CreatePlayfield() {
         //entfernt die label Leiste (Actionbar) auf dem Playfield
         ActionBar actionBar = getSupportActionBar();
@@ -134,6 +147,7 @@ public class Playfield extends AppCompatActivity {
         btnShowAktionskarte = findViewById(R.id.btnShowAk);
         ivShowAktionskarte = findViewById(R.id.ivShowAk);
         tvAktuellePhase = findViewById(R.id.tvAP);
+        btnCheckPhase = findViewById(R.id.buttonCheckPhase);
 
 
         //Aktionskarte einblenden Show und Hide button tauschen
@@ -155,6 +169,34 @@ public class Playfield extends AppCompatActivity {
             }
         });
 
+        //Button, um zu überprüfen, ob die Phase richtig ist
+        btnCheckPhase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    //else if false ->
+                for (int i = 0; i <= layoutPlayer1Auslegen.getChildCount(); i++) {
+                    View v = layoutPlayer1Auslegen.getChildAt(i);
+                    ViewGroup owner = (ViewGroup) v.getParent();
+                    owner.removeView(v);
+                    layoutPlayer1.addView(v);
+                    v.setVisibility(View.VISIBLE);
+                }
+            }
+                /*
+                int count = layoutPlayer1Auslegen.getChildCount();
+                View v = null;
+                for(int i=0; i<count; i++) {
+                    v = layoutPlayer1Auslegen.getChildAt(i);
+                    layoutPlayer1Auslegen.removeView(v);
+                    layoutPlayer1.addView(v);
+
+                 */
+
+
+
+        });
+
+
         discardpileList = new ArrayList<>();
         cardlist = new ArrayList<>();
 
@@ -162,6 +204,7 @@ public class Playfield extends AppCompatActivity {
         defaultcard = findViewById(R.id.defaultcard);
         leererAblagestapel = findViewById(R.id.leererStapel);
         layoutPlayer1 = findViewById(R.id.player1);
+        layoutPlayer1Auslegen = findViewById(R.id.player1PhaseAblegen);
         layoutPlayer2 = findViewById(R.id.player2);
         layoutPlayer3 = findViewById(R.id.player3);
         layoutPlayer4 = findViewById(R.id.player4);
@@ -266,6 +309,14 @@ public class Playfield extends AppCompatActivity {
 
                }
            });
+
+
+
+
+
+
+
+
     }
 
     private void initializePlayer(DocumentSnapshot documentSnapshot, String userColor, String currentRoom) {
@@ -324,6 +375,8 @@ public class Playfield extends AppCompatActivity {
         cards.getCardUI().setVisibility(View.VISIBLE);      //Aktueller Spieler sichtbar
         cardlist.remove(0);
         cards.getCardUI().setRotation(grad);
+        cards.getCardUI().setOnTouchListener(new ChoiceTouchListener());
+        cards.getCardUI().setOnDragListener(new ChoiceDragListener());
     }
 
     //Momentan kann nur der player1 eine Karte ziehen
@@ -371,8 +424,66 @@ public class Playfield extends AppCompatActivity {
         imageView.setTag("c"+ cards.getID());
         imageView.setVisibility(View.INVISIBLE);
         imageView.setClickable(true);
+        imageView.setFocusable(true);
+
         return imageView;
     }
+
+
+
+    //Class allows us to drag view
+    private final class ChoiceTouchListener implements View.OnTouchListener{
+
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && ((ImageView)view).getDrawable() !=null) {
+                ClipData data = ClipData.newPlainText("", "");
+                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+                view.startDragAndDrop(data, shadowBuilder, view, 0);
+                return true;
+            }else return false;
+        }
+    }
+
+
+
+
+    //Class to drop
+    private class ChoiceDragListener implements View.OnDragListener{
+        @Override
+        public boolean onDrag(View view, DragEvent dragEvent) {
+            switch (dragEvent.getAction()) {
+                case DragEvent.ACTION_DRAG_STARTED:
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DRAG_EXITED:
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DRAG_ENTERED:
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DROP:
+                    ClipData.Item item =  dragEvent.getClipData().getItemAt(0);//the source image
+                    //view.invalidate();
+                    //löschen im altem Layout
+                    View v = (View) dragEvent.getLocalState();
+                    ViewGroup owner = (ViewGroup) v.getParent();
+                    owner.removeView(v);
+                    layoutPlayer1Auslegen.addView(v);
+                    v.setVisibility(View.VISIBLE);
+                    return true;
+
+                case DragEvent.ACTION_DRAG_ENDED:
+                    view.invalidate();
+                    return true;
+                    }
+            return true;
+        }
+    }
+
 
     //Aktuelle in Player zugewiesene Phase wird in Textview am Spielfeld angezeigt
     public void setPhasenTextTextView() {
@@ -469,6 +580,21 @@ public class Playfield extends AppCompatActivity {
 
         return activePlayers;
     }
+
+
+    //get all views from any type of layout
+    public List<View> getAllViews(ViewGroup layout){
+        List<View> views = new ArrayList<>();
+        for(int i =0; i< layout.getChildCount(); i++){
+            views.add(layout.getChildAt(i));
+        }
+        return views;
+    }
+
+
+
+
+
 
 }
 
