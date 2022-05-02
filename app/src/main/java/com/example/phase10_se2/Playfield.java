@@ -51,7 +51,6 @@ public class Playfield extends AppCompatActivity {
     ImageView defaultcard;
     LinearLayout layoutPlayer1;
     LinearLayout layoutPlayer1Auslegen;
-    ArrayList<View> ausgelegteKarten;
     LinearLayout layoutPlayer2;
     LinearLayout layoutPlayer3;
     LinearLayout layoutPlayer4;
@@ -591,6 +590,10 @@ public class Playfield extends AppCompatActivity {
         }
         return views;
     }
+
+
+
+
 
 
 }
