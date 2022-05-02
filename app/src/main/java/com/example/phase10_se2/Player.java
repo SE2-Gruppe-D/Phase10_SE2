@@ -61,6 +61,7 @@ public class Player {
         this.positionX = positionX;
         this.positionY = positionY;
 
+        minusPoints = 0;
         currentPosition = 0;
         startingOrder = -1;
         state = PlayerState.WAITING;
@@ -134,42 +135,45 @@ public class Player {
         int sumMinusPoints = this.minusPoints;
         int cid;
 
-        //Fehler - find why 'card' could be null | 130 cid = card.getValue(); in Player.updateMinusPoints(ArrayList<Cards>) (filter:null)
-        for(Cards card : cards){
-            cid = card.getValue();
 
-            switch (cid) {
+        for(Cards card : cards) {
+            if (!cards.isEmpty() && card != null) {
 
-                case (1):
+                cid = card.getValue();
 
-                case (2):
+                switch (cid) {
 
-                case (3):
+                    case (1):
 
-                case (4):
+                    case (2):
 
-                case (5):
+                    case (3):
 
-                case (6):
+                    case (4):
 
-                case (7):
+                    case (5):
 
-                case (8):
+                    case (6):
 
-                case (9):
-                    sumMinusPoints +=5;
-                    break;
+                    case (7):
 
-                case (10):
+                    case (8):
 
-                case (11):
+                    case (9):
+                        sumMinusPoints += 5;
+                        break;
 
-                case (12):
-                    sumMinusPoints +=10;
-                    break;
+                    case (10):
+
+                    case (11):
+
+                    case (12):
+                        sumMinusPoints += 10;
+                        break;
+
+                }
 
             }
-
         }
         this.minusPoints = sumMinusPoints;
     }
