@@ -33,6 +33,7 @@ public class Player {
     private int minusPoints;
     private ImageView playerview;
     private ArrayList<Cards> playerHand;
+    private ArrayList<Cards> playerAusgelegteKarten;
     private String phaseText;
 
 
@@ -52,6 +53,7 @@ public class Player {
         startingOrder = -1;
         state = PlayerState.WAITING;
         playerHand = new ArrayList<Cards>();
+        playerAusgelegteKarten = new ArrayList<Cards>();
         phaseText = "/";
     }
 
@@ -65,6 +67,7 @@ public class Player {
         startingOrder = -1;
         state = PlayerState.WAITING;
         playerHand = new ArrayList<Cards>();
+        playerAusgelegteKarten = new ArrayList<Cards>();
     }
 
     public Player(String name, PlayerColor color) {
@@ -77,6 +80,7 @@ public class Player {
         startingOrder = -1;
         state = PlayerState.WAITING;
         playerHand = new ArrayList<Cards>();
+        playerAusgelegteKarten = new ArrayList<Cards>();
     }
 
     public void move(int diceValue) {
@@ -235,6 +239,14 @@ public class Player {
 
     public void setPlayerHand(ArrayList<Cards> playerHand) {
         this.playerHand = playerHand;
+    }
+
+    public ArrayList<Cards> getPlayerAusgelegteKarten() {
+        return playerAusgelegteKarten;
+    }
+
+    public void setPlayerAusgelegteKarten(ArrayList<Cards> ausgelegteKarten) {
+        this.playerAusgelegteKarten = ausgelegteKarten;
     }
 
     public String getPhaseText() {

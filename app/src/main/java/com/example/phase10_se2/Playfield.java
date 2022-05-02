@@ -67,6 +67,7 @@ public class Playfield extends AppCompatActivity {
 
     Button btnHideAktionskarte;
     Button btnShowAktionskarte;
+    Button btnCheckPhase;
     ImageView ivShowAktionskarte;
     TextView tvAktuellePhase;
 
@@ -94,6 +95,9 @@ public class Playfield extends AppCompatActivity {
     private static final long startTimer = 120000;  //Timer wird in milli Skunden gestartet
     private CountDownTimer timerturn;
     private long leftTime= startTimer;
+
+    //Phasencheck
+    Phase phase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,6 +148,7 @@ public class Playfield extends AppCompatActivity {
         btnShowAktionskarte = findViewById(R.id.btnShowAk);
         ivShowAktionskarte = findViewById(R.id.ivShowAk);
         tvAktuellePhase = findViewById(R.id.tvAP);
+        btnCheckPhase = findViewById(R.id.buttonCheckPhase);
 
 
         //Aktionskarte einblenden Show und Hide button tauschen
@@ -164,6 +169,34 @@ public class Playfield extends AppCompatActivity {
                 btnShowAktionskarte.setVisibility(View.VISIBLE);
             }
         });
+
+        //Button, um zu überprüfen, ob die Phase richtig ist
+        btnCheckPhase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    //else if false ->
+                for (int i = 0; i <= layoutPlayer1Auslegen.getChildCount(); i++) {
+                    View v = layoutPlayer1Auslegen.getChildAt(i);
+                    ViewGroup owner = (ViewGroup) v.getParent();
+                    owner.removeView(v);
+                    layoutPlayer1.addView(v);
+                    v.setVisibility(View.VISIBLE);
+                }
+            }
+                /*
+                int count = layoutPlayer1Auslegen.getChildCount();
+                View v = null;
+                for(int i=0; i<count; i++) {
+                    v = layoutPlayer1Auslegen.getChildAt(i);
+                    layoutPlayer1Auslegen.removeView(v);
+                    layoutPlayer1.addView(v);
+
+                 */
+
+
+
+        });
+
 
         discardpileList = new ArrayList<>();
         cardlist = new ArrayList<>();
@@ -418,7 +451,6 @@ public class Playfield extends AppCompatActivity {
 
     //Class to drop
     private class ChoiceDragListener implements View.OnDragListener{
-
         @Override
         public boolean onDrag(View view, DragEvent dragEvent) {
             switch (dragEvent.getAction()) {
@@ -436,28 +468,14 @@ public class Playfield extends AppCompatActivity {
 
                 case DragEvent.ACTION_DROP:
                     ClipData.Item item =  dragEvent.getClipData().getItemAt(0);//the source image
-
-                    //ImageView item2 =  (ImageView) dragEvent.getClipData().getItemAt(0);//the source image
-                    //View dragData = item.text;
-
                     //view.invalidate();
-
-                    //löschen
+                    //löschen im altem Layout
                     View v = (View) dragEvent.getLocalState();
                     ViewGroup owner = (ViewGroup) v.getParent();
-
-
                     owner.removeView(v);
                     layoutPlayer1Auslegen.addView(v);
                     v.setVisibility(View.VISIBLE);
                     return true;
-                    /*
-                    ImageView view = (ImageView) dragEvent.getLocalState();//the source image
-                    ((ImageView)v).setImageDrawable(getResources().getDrawable(R.drawable.deckblatt));
-                    ((ImageView)view).setImageDrawable(null);
-
-                     */
-
 
                 case DragEvent.ACTION_DRAG_ENDED:
                     view.invalidate();
@@ -563,6 +581,17 @@ public class Playfield extends AppCompatActivity {
 
         return activePlayers;
     }
+
+
+    //get all views from any type of layout
+    public List<View> getAllViews(ViewGroup layout){
+        List<View> views = new ArrayList<>();
+        for(int i =0; i< layout.getChildCount(); i++){
+            views.add(layout.getChildAt(i));
+        }
+        return views;
+    }
+
 
 }
 
