@@ -45,9 +45,10 @@ public class Player {
         this.color = color;
         this.room = room;
 
-        minusPoints = 0;
+
         positionX = 0;
         positionY = 0;
+        minusPoints = 0;
         currentPosition = 0;
         startingOrder = -1;
         state = PlayerState.WAITING;
@@ -66,6 +67,7 @@ public class Player {
         startingOrder = -1;
         state = PlayerState.WAITING;
         playerHand = new ArrayList<Cards>();
+        phaseText = "/";
     }
 
     public Player(String name, PlayerColor color) {
@@ -74,10 +76,12 @@ public class Player {
 
         positionX = 0;
         positionY = 0;
+        minusPoints = 0;
         currentPosition = 0;
         startingOrder = -1;
         state = PlayerState.WAITING;
         playerHand = new ArrayList<Cards>();
+        phaseText = "/";
     }
 
     public void move(int diceValue) {
