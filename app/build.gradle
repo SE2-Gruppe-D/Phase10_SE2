@@ -58,3 +58,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'de.hdodenhof:circleimageview:3.1.0' //circle ImageView Phase10
 }
+
+android {
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
+    }
+}
