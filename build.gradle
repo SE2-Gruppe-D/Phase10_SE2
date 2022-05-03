@@ -6,15 +6,13 @@ buildscript {
 
     dependencies {
         classpath 'com.google.gms:google-services:4.3.10'  // Google Services plugin
-
     }
 }
+
 plugins {
     id 'com.android.application' version '7.1.2' apply false
     id 'com.android.library' version '7.1.2' apply false
     id "org.sonarqube" version "3.3"
-    id 'java'
-    id 'jacoco'
 }
 
 sonarqube {
@@ -25,9 +23,6 @@ sonarqube {
   }
 }
 
-jacocoTestReport {
-    reports {
-        xml.enabled true
-    }
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
-
