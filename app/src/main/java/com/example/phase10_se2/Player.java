@@ -73,6 +73,7 @@ public class Player {
         startingOrder = -1;
         state = PlayerState.WAITING;
         playerHand = new ArrayList<Cards>();
+
         phaseText = "/";
     }
 
@@ -87,6 +88,7 @@ public class Player {
         startingOrder = -1;
         state = PlayerState.WAITING;
         playerHand = new ArrayList<Cards>();
+
         phaseText = "/";
     }
 
