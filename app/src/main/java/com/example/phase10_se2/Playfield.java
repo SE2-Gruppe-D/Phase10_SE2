@@ -2,8 +2,6 @@ package com.example.phase10_se2;
 
 import static android.os.SystemClock.sleep;
 
-import android.annotation.SuppressLint;
-import android.content.ClipData;
 import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -12,10 +10,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.DragEvent;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,7 +45,6 @@ public class Playfield extends AppCompatActivity {
     ImageView deckcard;
     ImageView defaultcard;
     LinearLayout layoutPlayer1;
-    LinearLayout layoutPlayer1Auslegen;
     LinearLayout layoutPlayer2;
     LinearLayout layoutPlayer3;
     LinearLayout layoutPlayer4;
@@ -66,7 +60,6 @@ public class Playfield extends AppCompatActivity {
 
     Button btnHideAktionskarte;
     Button btnShowAktionskarte;
-    Button btnCheckPhase;
     ImageView ivShowAktionskarte;
     TextView tvAktuellePhase;
 
@@ -120,11 +113,8 @@ public class Playfield extends AppCompatActivity {
                         }
                     }
                 });
-
-
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private void CreatePlayfield() {
         //entfernt die label Leiste (Actionbar) auf dem Playfield
         ActionBar actionBar = getSupportActionBar();
@@ -144,7 +134,6 @@ public class Playfield extends AppCompatActivity {
         btnShowAktionskarte = findViewById(R.id.btnShowAk);
         ivShowAktionskarte = findViewById(R.id.ivShowAk);
         tvAktuellePhase = findViewById(R.id.tvAP);
-        btnCheckPhase = findViewById(R.id.buttonCheckPhase);
 
 
         //Aktionskarte einblenden Show und Hide button tauschen
@@ -166,6 +155,7 @@ public class Playfield extends AppCompatActivity {
             }
         });
 
+<<<<<<< HEAD
         //Button, um zu überprüfen, ob die Phase richtig ist
         btnCheckPhase.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,6 +173,8 @@ public class Playfield extends AppCompatActivity {
         });
 
 
+=======
+>>>>>>> main
         discardpileList = new ArrayList<>();
         cardlist = new ArrayList<>();
 
@@ -190,7 +182,6 @@ public class Playfield extends AppCompatActivity {
         defaultcard = findViewById(R.id.defaultcard);
         leererAblagestapel = findViewById(R.id.leererStapel);
         layoutPlayer1 = findViewById(R.id.player1);
-        layoutPlayer1Auslegen = findViewById(R.id.player1PhaseAblegen);
         layoutPlayer2 = findViewById(R.id.player2);
         layoutPlayer3 = findViewById(R.id.player3);
         layoutPlayer4 = findViewById(R.id.player4);
@@ -295,33 +286,25 @@ public class Playfield extends AppCompatActivity {
 
                }
            });
-
-
-
-
-
-
-
-
     }
 
     private void initializePlayer(DocumentSnapshot documentSnapshot, String userColor, String currentRoom) {
         if (Objects.equals(documentSnapshot.getString("Color"), userColor)) {
             switch (userColor) {
                 case "RED":
-                    playerRed = new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom);
+                    playerRed = new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom,1,0,playerRed.getPlayerHand(),playerRed.getCardField());
                     primaryPlayer = playerRed;
                     break;
                 case "BLUE":
-                    playerBlue = new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom);
+                    playerBlue = new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom,1,0,playerBlue.getPlayerHand(),playerBlue.getCardField());
                     primaryPlayer = playerBlue;
                     break;
                 case "YELLOW":
-                    playerYellow = new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom);
+                    playerYellow = new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom,1,0,playerYellow.getPlayerHand(),playerYellow.getCardField());
                     primaryPlayer = playerYellow;
                     break;
                 case "GREEN":
-                    playerGreen = new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom);
+                    playerGreen = new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom,1,0,playerYellow.getPlayerHand(),playerYellow.getCardField());
                     primaryPlayer = playerGreen;
                     break;
                 default:
@@ -333,22 +316,22 @@ public class Playfield extends AppCompatActivity {
         }
 
         if (Objects.equals(documentSnapshot.getString("Color"), "RED")) {
-            playerRed = new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom);
+            playerRed = new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom,1,0,playerRed.getPlayerHand(),playerRed.getCardField());
             playerRed.setPlayerview(findViewById(R.id.ivPR));
             playerRed.getPlayerview().setVisibility(View.VISIBLE);
         }
         if (Objects.equals(documentSnapshot.getString("Color"), "BLUE")) {
-            playerBlue = new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom);
+            playerBlue = new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom,1,0,playerBlue.getPlayerHand(),playerBlue.getCardField());
             playerBlue.setPlayerview(findViewById(R.id.ivPB));
             playerBlue.getPlayerview().setVisibility(View.VISIBLE);
         }
         if (Objects.equals(documentSnapshot.getString("Color"), "YELLOW")) {
-            playerYellow = new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom);
+            playerYellow = new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom,1,0,playerYellow.getPlayerHand(),playerYellow.getCardField());
             playerYellow.setPlayerview(findViewById(R.id.ivPY));
             playerYellow.getPlayerview().setVisibility(View.VISIBLE);
         }
         if (Objects.equals(documentSnapshot.getString("Color"), "GREEN")) {
-            playerGreen = new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom);
+            playerGreen = new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom,1,0,playerYellow.getPlayerHand(),playerYellow.getCardField());
             playerGreen.setPlayerview(findViewById(R.id.ivPG));
             playerGreen.getPlayerview().setVisibility(View.VISIBLE);
         }
@@ -361,8 +344,6 @@ public class Playfield extends AppCompatActivity {
         cards.getCardUI().setVisibility(View.VISIBLE);      //Aktueller Spieler sichtbar
         cardlist.remove(0);
         cards.getCardUI().setRotation(grad);
-        cards.getCardUI().setOnTouchListener(new ChoiceTouchListener());
-        cards.getCardUI().setOnDragListener(new ChoiceDragListener());
     }
 
     //Momentan kann nur der player1 eine Karte ziehen
@@ -410,6 +391,7 @@ public class Playfield extends AppCompatActivity {
         imageView.setTag("c"+ cards.getID());
         imageView.setVisibility(View.INVISIBLE);
         imageView.setClickable(true);
+<<<<<<< HEAD
         imageView.setFocusable(true);
         return imageView;
     }
@@ -467,6 +449,11 @@ public class Playfield extends AppCompatActivity {
     }
 
 
+=======
+        return imageView;
+    }
+
+>>>>>>> main
     //Aktuelle in Player zugewiesene Phase wird in Textview am Spielfeld angezeigt
     public void setPhasenTextTextView() {
         tvAktuellePhase.setText(primaryPlayer.getPhaseText());
@@ -563,6 +550,7 @@ public class Playfield extends AppCompatActivity {
         return activePlayers;
     }
 
+<<<<<<< HEAD
 
     //get all views from any type of layout
     public List<View> getAllViews(ViewGroup layout){
@@ -577,6 +565,8 @@ public class Playfield extends AppCompatActivity {
         Object ia = views.get(1).getTag();
         return views;
     }
+=======
+>>>>>>> main
 }
 
 
