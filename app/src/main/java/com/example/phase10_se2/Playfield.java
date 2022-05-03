@@ -52,6 +52,7 @@ public class Playfield extends AppCompatActivity {
     LinearLayout layoutPlayer2;
     LinearLayout layoutPlayer3;
     LinearLayout layoutPlayer4;
+    LinearLayout layoutPlayer1CardField;
 
     CardUIManager cardUIManager;
     CardDrawer cardDrawer;
@@ -66,6 +67,8 @@ public class Playfield extends AppCompatActivity {
     Button btnShowAktionskarte;
     ImageView ivShowAktionskarte;
     TextView tvAktuellePhase;
+    Button btnCheckPhase;
+
 
     ImageView ivPlayerBlue;
     ImageView ivPlayerYellow;
@@ -138,6 +141,7 @@ public class Playfield extends AppCompatActivity {
         btnShowAktionskarte = findViewById(R.id.btnShowAk);
         ivShowAktionskarte = findViewById(R.id.ivShowAk);
         tvAktuellePhase = findViewById(R.id.tvAP);
+        btnCheckPhase = findViewById(R.id.buttonCheckPhase);
 
 
         //Aktionskarte einblenden Show und Hide button tauschen
@@ -160,14 +164,14 @@ public class Playfield extends AppCompatActivity {
         });
 
         //Button, um zu überprüfen, ob die Phase richtig ist
-        /*
+
         btnCheckPhase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //if(checkPhase true) --> next Phase
                 //else if false ->
-                    while (layoutPlayer1Auslegen.getChildCount()!=0 ) {
-                        View v = layoutPlayer1Auslegen.getChildAt(0);
+                    while (layoutPlayer1CardField.getChildCount()!=0 ) {
+                        View v = layoutPlayer1CardField.getChildAt(0);
                         ViewGroup owner = (ViewGroup) v.getParent();
                         owner.removeView(v);
                         layoutPlayer1.addView(v);
@@ -176,7 +180,7 @@ public class Playfield extends AppCompatActivity {
             }
         });
 
-         */
+
 
 
         discardpileList = new ArrayList<>();
@@ -189,6 +193,7 @@ public class Playfield extends AppCompatActivity {
         layoutPlayer2 = findViewById(R.id.player2);
         layoutPlayer3 = findViewById(R.id.player3);
         layoutPlayer4 = findViewById(R.id.player4);
+        layoutPlayer1CardField = findViewById(R.id.player1PhaseAblegen);
 
         cardUIManager = new CardUIManager();
         cardDrawer = new CardDrawer();
@@ -349,6 +354,8 @@ public class Playfield extends AppCompatActivity {
         cards.getCardUI().setVisibility(View.VISIBLE);      //Aktueller Spieler sichtbar
         cardlist.remove(0);
         cards.getCardUI().setRotation(grad);
+        cards.getCardUI().setOnTouchListener(new ChoiceTouchListener());
+        cards.getCardUI().setOnDragListener(new ChoiceDragListener());
     }
 
     //Momentan kann nur der player1 eine Karte ziehen
@@ -439,7 +446,7 @@ public class Playfield extends AppCompatActivity {
                     View v = (View) dragEvent.getLocalState();
                     ViewGroup owner = (ViewGroup) v.getParent();
                     owner.removeView(v);
-                   // layoutPlayer1Auslegen.addView(v);
+                    layoutPlayer1CardField.addView(v);
                     v.setVisibility(View.VISIBLE);
                     return true;
 
@@ -450,9 +457,7 @@ public class Playfield extends AppCompatActivity {
             return true;
         }
     }
-       // return imageView;
 
-   // }
 
     //Aktuelle in Player zugewiesene Phase wird in Textview am Spielfeld angezeigt
     public void setPhasenTextTextView() {
