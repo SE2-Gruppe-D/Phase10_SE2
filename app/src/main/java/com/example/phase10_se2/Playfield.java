@@ -2,6 +2,7 @@ package com.example.phase10_se2;
 
 import static android.os.SystemClock.sleep;
 
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -10,7 +11,10 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -86,7 +90,7 @@ public class Playfield extends AppCompatActivity {
     Timer classTimer;
     private static final long startTimer = 120000;  //Timer wird in milli Skunden gestartet
     private CountDownTimer timerturn;
-    private long leftTime= startTimer;
+    private long leftTime = startTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,6 +160,7 @@ public class Playfield extends AppCompatActivity {
         });
 
         //Button, um zu überprüfen, ob die Phase richtig ist
+        /*
         btnCheckPhase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -171,6 +176,7 @@ public class Playfield extends AppCompatActivity {
             }
         });
 
+         */
 
 
         discardpileList = new ArrayList<>();
@@ -210,7 +216,7 @@ public class Playfield extends AppCompatActivity {
             if (playerYellow != null) {
                 updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer3, 90);
             }
-            if (playerGreen != null){
+            if (playerGreen != null) {
                 updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer4, -90);
             }
         }
@@ -235,7 +241,7 @@ public class Playfield extends AppCompatActivity {
 
         //Timer
         TextView timer = findViewById(R.id.Timer);
-        classTimer= new Timer(timer, timerturn, leftTime);
+        classTimer = new Timer(timer, timerturn, leftTime);
         classTimer.startTimer();
         classTimer.updateCountDownText();
 
@@ -245,8 +251,8 @@ public class Playfield extends AppCompatActivity {
         lightListener = new SensorEventListener() {
             @Override
             public synchronized void onSensorChanged(SensorEvent sensorEvent) {
-            float floatSensorValue = sensorEvent.values[0];
-                if (floatSensorValue < floatThreshold){
+                float floatSensorValue = sensorEvent.values[0];
+                if (floatSensorValue < floatThreshold) {
                     AlertDialog dialog = builder.create();
                     dialog.show();
 
@@ -262,47 +268,47 @@ public class Playfield extends AppCompatActivity {
 
         //Alert dialog accuse someone of cheating
         builder.setTitle("Found a cheater?")
-        .setMessage("Are you sure, you want to accuse 'CurrentPlayer' of cheating?")
+                .setMessage("Are you sure, you want to accuse 'CurrentPlayer' of cheating?")
                 .setCancelable(false)
-        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //check if cheating == true
-                //give consequences
-                //if accused right:
-                Toast.makeText(Playfield.this, "PlayerXY cheated, you were right!", Toast.LENGTH_SHORT).show();
-                //if accused wrong:
-                Toast.makeText(Playfield.this, "PlayerXY did not cheat, you were wrong!", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            }
-        })
-           .setNegativeButton("NO", new DialogInterface.OnClickListener() {
-               @Override
-               public void onClick(DialogInterface dialogInterface, int i) {
-                   Toast.makeText(Playfield.this, "No one got accused!", Toast.LENGTH_SHORT).show();
-                   dialogInterface.dismiss();
+                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //check if cheating == true
+                        //give consequences
+                        //if accused right:
+                        Toast.makeText(Playfield.this, "PlayerXY cheated, you were right!", Toast.LENGTH_SHORT).show();
+                        //if accused wrong:
+                        Toast.makeText(Playfield.this, "PlayerXY did not cheat, you were wrong!", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(Playfield.this, "No one got accused!", Toast.LENGTH_SHORT).show();
+                        dialogInterface.dismiss();
 
-               }
-           });
+                    }
+                });
     }
 
     private void initializePlayer(DocumentSnapshot documentSnapshot, String userColor, String currentRoom) {
         if (Objects.equals(documentSnapshot.getString("Color"), userColor)) {
             switch (userColor) {
                 case "RED":
-                    playerRed = new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom,1,0,new ArrayList<>(),new ArrayList<>());
+                    playerRed = new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom, 1, 0, new ArrayList<>(), new ArrayList<>());
                     primaryPlayer = playerRed;
                     break;
                 case "BLUE":
-                    playerBlue = new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom,1,0,new ArrayList<>(),new ArrayList<>());
+                    playerBlue = new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom, 1, 0, new ArrayList<>(), new ArrayList<>());
                     primaryPlayer = playerBlue;
                     break;
                 case "YELLOW":
-                    playerYellow = new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom,1,0,new ArrayList<>(),new ArrayList<>());
+                    playerYellow = new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom, 1, 0, new ArrayList<>(), new ArrayList<>());
                     primaryPlayer = playerYellow;
                     break;
                 case "GREEN":
-                    playerGreen = new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom,1,0,new ArrayList<>(),new ArrayList<>());
+                    playerGreen = new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom, 1, 0, new ArrayList<>(), new ArrayList<>());
                     primaryPlayer = playerGreen;
                     break;
                 default:
@@ -314,27 +320,28 @@ public class Playfield extends AppCompatActivity {
         }
 
         if (Objects.equals(documentSnapshot.getString("Color"), "RED")) {
-            playerRed = new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom,1,0,new ArrayList<>(),new ArrayList<>());
+            playerRed = new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom, 1, 0, new ArrayList<>(), new ArrayList<>());
             playerRed.setPlayerview(findViewById(R.id.ivPR));
             playerRed.getPlayerview().setVisibility(View.VISIBLE);
         }
         if (Objects.equals(documentSnapshot.getString("Color"), "BLUE")) {
-            playerBlue = new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom,1,0,new ArrayList<>(),new ArrayList<>());
+            playerBlue = new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom, 1, 0, new ArrayList<>(), new ArrayList<>());
             playerBlue.setPlayerview(findViewById(R.id.ivPB));
             playerBlue.getPlayerview().setVisibility(View.VISIBLE);
         }
         if (Objects.equals(documentSnapshot.getString("Color"), "YELLOW")) {
-            playerYellow = new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom,1,0,new ArrayList<>(),new ArrayList<>());
+            playerYellow = new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom, 1, 0, new ArrayList<>(), new ArrayList<>());
             playerYellow.setPlayerview(findViewById(R.id.ivPY));
             playerYellow.getPlayerview().setVisibility(View.VISIBLE);
         }
         if (Objects.equals(documentSnapshot.getString("Color"), "GREEN")) {
-            playerGreen = new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom,1,0,new ArrayList<>(),new ArrayList<>());
+            playerGreen = new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom, 1, 0, new ArrayList<>(), new ArrayList<>());
             playerGreen.setPlayerview(findViewById(R.id.ivPG));
             playerGreen.getPlayerview().setVisibility(View.VISIBLE);
         }
 
     }
+
     //Karten werden den Spieler angepasst/ Handkarten-Layout
     public void updateHand(List list, Cards cards, LinearLayout linearLayout, int grad) {
         list.add(cards);
@@ -376,42 +383,40 @@ public class Playfield extends AppCompatActivity {
         } else if (playerYellow != null) {
             updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer3, 90);
 
-        } else if (playerGreen != null){
+        } else if (playerGreen != null) {
             updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer4, -90);
         }
     }
 
-    private ImageView createCardUI(Cards cards){
-        ImageView imageView= new ImageView(getApplicationContext());
+    private ImageView createCardUI(Cards cards) {
+        ImageView imageView = new ImageView(getApplicationContext());
         cardUIManager.setCardImage(cards, imageView);
-        LinearLayout.LayoutParams params= new LinearLayout.LayoutParams(35, 120, 1);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(35, 120, 1);
         imageView.setLayoutParams(params);
-        imageView.setTag("c"+ cards.getID());
+        imageView.setTag("c" + cards.getID());
         imageView.setVisibility(View.INVISIBLE);
         imageView.setClickable(true);
-<<<<<<< HEAD
         imageView.setFocusable(true);
         return imageView;
     }
 
 
-
     //Class allows us to drag view
-    private final class ChoiceTouchListener implements View.OnTouchListener{
+    private final class ChoiceTouchListener implements View.OnTouchListener {
 
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            if((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && ((ImageView)view).getDrawable() !=null) {
+            if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && ((ImageView) view).getDrawable() != null) {
                 ClipData data = ClipData.newPlainText("", "");
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
                 view.startDragAndDrop(data, shadowBuilder, view, 0);
                 return true;
-            }else return false;
+            } else return false;
         }
     }
 
     //Class to drop
-    private class ChoiceDragListener implements View.OnDragListener{
+    private class ChoiceDragListener implements View.OnDragListener {
         @Override
         public boolean onDrag(View view, DragEvent dragEvent) {
             switch (dragEvent.getAction()) {
@@ -428,30 +433,27 @@ public class Playfield extends AppCompatActivity {
                     break;
 
                 case DragEvent.ACTION_DROP:
-                    ClipData.Item item =  dragEvent.getClipData().getItemAt(0);//the source image
+                    ClipData.Item item = dragEvent.getClipData().getItemAt(0);//the source image
                     //view.invalidate();
                     //löschen im altem Layout
                     View v = (View) dragEvent.getLocalState();
                     ViewGroup owner = (ViewGroup) v.getParent();
                     owner.removeView(v);
-                    layoutPlayer1Auslegen.addView(v);
+                   // layoutPlayer1Auslegen.addView(v);
                     v.setVisibility(View.VISIBLE);
                     return true;
 
                 case DragEvent.ACTION_DRAG_ENDED:
                     view.invalidate();
                     return true;
-                    }
+            }
             return true;
         }
     }
+       // return imageView;
 
+   // }
 
-=======
-        return imageView;
-    }
-
->>>>>>> main
     //Aktuelle in Player zugewiesene Phase wird in Textview am Spielfeld angezeigt
     public void setPhasenTextTextView() {
         tvAktuellePhase.setText(primaryPlayer.getPhaseText());
@@ -548,7 +550,7 @@ public class Playfield extends AppCompatActivity {
         return activePlayers;
     }
 
-<<<<<<< HEAD
+
 
     //get all views from any type of layout
     public List<View> getAllViews(ViewGroup layout){
@@ -563,8 +565,7 @@ public class Playfield extends AppCompatActivity {
         Object ia = views.get(1).getTag();
         return views;
     }
-=======
->>>>>>> main
+
 }
 
 
