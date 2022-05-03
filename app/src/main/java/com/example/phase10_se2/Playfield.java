@@ -180,24 +180,6 @@ public class Playfield extends AppCompatActivity {
                         v.setVisibility(View.VISIBLE);
                     }
             }
-
-                 /*
-                    List<View> list = getAllViews(layoutPlayer1Auslegen);
-                    for(int i = 0; i <=list.size(); i++){
-                        layoutPlayer1.addView(list.get(i));
-                    }
-
-
-            }
-                /*
-                int count = layoutPlayer1Auslegen.getChildCount();
-                View v = null;
-                for(int i=0; i<count; i++) {
-                    v = layoutPlayer1Auslegen.getChildAt(i);
-                    layoutPlayer1Auslegen.removeView(v);
-                    layoutPlayer1.addView(v);
-
-                 */
         });
 
 
@@ -429,7 +411,6 @@ public class Playfield extends AppCompatActivity {
         imageView.setVisibility(View.INVISIBLE);
         imageView.setClickable(true);
         imageView.setFocusable(true);
-
         return imageView;
     }
 
@@ -591,6 +572,9 @@ public class Playfield extends AppCompatActivity {
             views.add(layout.getChildAt(i));
             layout.removeView(layout.getChildAt(i));
         }
+
+        int i = views.get(1).getId();
+        Object ia = views.get(1).getTag();
         return views;
     }
 }
