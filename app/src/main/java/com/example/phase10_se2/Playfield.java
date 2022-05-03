@@ -155,7 +155,6 @@ public class Playfield extends AppCompatActivity {
             }
         });
 
-<<<<<<< HEAD
         //Button, um zu überprüfen, ob die Phase richtig ist
         btnCheckPhase.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,8 +172,7 @@ public class Playfield extends AppCompatActivity {
         });
 
 
-=======
->>>>>>> main
+
         discardpileList = new ArrayList<>();
         cardlist = new ArrayList<>();
 
