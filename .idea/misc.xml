@@ -3,14 +3,23 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Programme/Git/GitHub/Phase10_SE2/app/src/main/res/layout/activity_playfield.xml" value="0.25" />
+        <entry key="..\:/Users/Leon/AndroidStudioProjects/SEIIEinzelbeispiel/Phase10_SE2/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Leon/AndroidStudioProjects/SEIIEinzelbeispiel/Phase10_SE2/app/src/main/res/layout/activity_playfield.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/melan/Phase10_SE2/app/src/main/res/layout/activity_create_game.xml" value="0.1373873873873874" />
+        <entry key="..\:/Users/melan/Phase10_SE2/app/src/main/res/layout/activity_find_game.xml" value="0.1373873873873874" />
+        <entry key="..\:/Users/melan/Phase10_SE2/app/src/main/res/layout/activity_main.xml" value="0.1373873873873874" />
+        <entry key="..\:/Users/melan/Phase10_SE2/app/src/main/res/layout/activity_play_rules.xml" value="0.1373873873873874" />
+        <entry key="..\:/Users/melan/Phase10_SE2/app/src/main/res/layout/activity_playfield.xml" value="0.264" />
+        <entry key="..\:/Users/melan/Phase10_SE2/app/src/main/res/layout/dice_fragment.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.222" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.222" />
         <entry key="app/src/main/res/layout/activity_create_game.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/activity_find_game.xml" value="0.24270833333333333" />
-        <entry key="app/src/main/res/layout/activity_find_player.xml" value="0.19895833333333332" />
+        <entry key="app/src/main/res/layout/activity_find_player.xml" value="0.2375" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.35487518310546884" />
         <entry key="app/src/main/res/layout/activity_play_rules.xml" value="0.1345565749235474" />
-        <entry key="app/src/main/res/layout/activity_playfield.xml" value="0.48360655737704916" />
+        <entry key="app/src/main/res/layout/activity_playfield.xml" value="0.375" />
         <entry key="app/src/main/res/layout/addcards.xml" value="0.6723739624023438" />
         <entry key="app/src/main/res/layout/addcardsplayer3.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/addcardsplayer4.xml" value="0.3333333333333333" />
