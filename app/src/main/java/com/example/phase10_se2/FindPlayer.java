@@ -74,10 +74,12 @@ public class FindPlayer extends AppCompatActivity {
             public void onClick(View view) {
                 if(playerList.size()<2){
                     startGame.setEnabled(false);
+                    adapter.notifyDataSetChanged();
                     Toast.makeText(FindPlayer.this, "Not enough players...", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     startGame.setEnabled(true);
+                    adapter.notifyDataSetChanged();
                     Toast.makeText(FindPlayer.this, "Starting game with "+ playerList.size()+" players...", Toast.LENGTH_SHORT).show();
                     goToPlayfield();
                 }
