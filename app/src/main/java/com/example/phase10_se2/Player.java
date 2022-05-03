@@ -73,10 +73,8 @@ public class Player {
         startingOrder = -1;
         state = PlayerState.WAITING;
         playerHand = new ArrayList<Cards>();
-<<<<<<< HEAD
-=======
+
         phaseText = "/";
->>>>>>> main
     }
 
     public Player(String name, PlayerColor color) {
@@ -90,10 +88,8 @@ public class Player {
         startingOrder = -1;
         state = PlayerState.WAITING;
         playerHand = new ArrayList<Cards>();
-<<<<<<< HEAD
-=======
+
         phaseText = "/";
->>>>>>> main
     }
 
     public void move(int diceValue) {
