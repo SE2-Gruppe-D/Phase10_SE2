@@ -4,6 +4,7 @@ package com.example.phase10_se2;
 import android.media.Image;
 import android.widget.ImageView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 enum PlayerState {
@@ -34,25 +35,31 @@ public class Player {
     private ImageView playerview;
     private ArrayList<Cards> playerHand;
     private String phaseText;
+    private int phasenumber;
+    //für das Auslegen der Karten
+    private ArrayList<Cards> cardField;
+
 
 
     // no-argument constructor
     public Player() {
     }
 
-    public Player(String name, PlayerColor color, String room) {
+    public Player(String name, PlayerColor color, String room, int phasenumber, int minusPoints, ArrayList<Cards> cards, ArrayList<Cards> cardField) {
         this.name = name;
         this.color = color;
         this.room = room;
 
-        minusPoints = 0;
+        this.phasenumber=phasenumber;
         positionX = 0;
         positionY = 0;
+        this.minusPoints = minusPoints;
         currentPosition = 0;
         startingOrder = -1;
         state = PlayerState.WAITING;
         playerHand = new ArrayList<Cards>();
         phaseText = "/";
+        this.cardField=cardField;
     }
 
     public Player(String name, PlayerColor color, int positionX, int positionY) {
@@ -61,10 +68,12 @@ public class Player {
         this.positionX = positionX;
         this.positionY = positionY;
 
+        minusPoints = 0;
         currentPosition = 0;
         startingOrder = -1;
         state = PlayerState.WAITING;
         playerHand = new ArrayList<Cards>();
+        phaseText = "/";
     }
 
     public Player(String name, PlayerColor color) {
@@ -73,10 +82,12 @@ public class Player {
 
         positionX = 0;
         positionY = 0;
+        minusPoints = 0;
         currentPosition = 0;
         startingOrder = -1;
         state = PlayerState.WAITING;
         playerHand = new ArrayList<Cards>();
+        phaseText = "/";
     }
 
     public void move(int diceValue) {
@@ -134,42 +145,45 @@ public class Player {
         int sumMinusPoints = this.minusPoints;
         int cid;
 
-        //Fehler - find why 'card' could be null | 130 cid = card.getValue(); in Player.updateMinusPoints(ArrayList<Cards>) (filter:null)
-        for(Cards card : cards){
-            cid = card.getValue();
 
-            switch (cid) {
+        for(Cards card : cards) {
+            if (!cards.isEmpty() && card != null) {
 
-                case (1):
+                cid = card.getValue();
 
-                case (2):
+                switch (cid) {
 
-                case (3):
+                    case (1):
 
-                case (4):
+                    case (2):
 
-                case (5):
+                    case (3):
 
-                case (6):
+                    case (4):
 
-                case (7):
+                    case (5):
 
-                case (8):
+                    case (6):
 
-                case (9):
-                    sumMinusPoints +=5;
-                    break;
+                    case (7):
 
-                case (10):
+                    case (8):
 
-                case (11):
+                    case (9):
+                        sumMinusPoints += 5;
+                        break;
 
-                case (12):
-                    sumMinusPoints +=10;
-                    break;
+                    case (10):
+
+                    case (11):
+
+                    case (12):
+                        sumMinusPoints += 10;
+                        break;
+
+                }
 
             }
-
         }
         this.minusPoints = sumMinusPoints;
     }
@@ -289,4 +303,19 @@ public class Player {
 
         }
 
+    public int getPhasenumber() {
+        return phasenumber;
     }
+
+    public void setPhasenumber(int phasenumber) {
+        this.phasenumber = phasenumber;
+    }
+
+    public ArrayList<Cards> getCardField() {
+        return cardField;
+    }
+
+    public void setCardField(ArrayList<Cards> cardField) {
+        this.cardField = cardField;
+    }
+}
