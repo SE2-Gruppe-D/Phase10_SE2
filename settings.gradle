@@ -18,5 +18,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Phase10_SE2"
 include ':app'
+include 'java'
 
 
