@@ -4,6 +4,7 @@ import static android.os.SystemClock.sleep;
 
 import android.content.ClipData;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -63,6 +64,7 @@ public class Playfield extends AppCompatActivity {
     ArrayList<Cards> drawpileList;      //Ziehstapel
     TextView leererAblagestapel;
 
+    Button exitGame;        //Spiel verlassen Button
     Button btnHideAktionskarte;
     Button btnShowAktionskarte;
     ImageView ivShowAktionskarte;
@@ -180,9 +182,6 @@ public class Playfield extends AppCompatActivity {
             }
         });
 
-
-
-
         discardpileList = new ArrayList<>();
         cardlist = new ArrayList<>();
 
@@ -295,6 +294,14 @@ public class Playfield extends AppCompatActivity {
 
                     }
                 });
+
+        //Spiel verlassen
+        exitGame= findViewById(R.id.leaveGame);
+        exitGame.setOnClickListener(view -> leaveGame());
+    }
+    public void leaveGame(){
+        Intent intent= new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     private void initializePlayer(DocumentSnapshot documentSnapshot, String userColor, String currentRoom) {

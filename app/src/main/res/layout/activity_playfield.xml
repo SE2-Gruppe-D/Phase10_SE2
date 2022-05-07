@@ -207,6 +207,16 @@
             android:textSize="20sp"
             android:visibility="invisible" />
 
+        <Button
+            android:id="@+id/leaveGame"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_gravity="top"
+            android:layout_marginTop="20dp"
+            android:background="#4D000000"
+            android:text="Spiel verlassen"
+            android:textColor="#FBEEEE" />
+
 
     </FrameLayout>
 
