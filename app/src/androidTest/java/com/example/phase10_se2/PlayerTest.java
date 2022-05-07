@@ -6,11 +6,18 @@ import android.widget.ImageView;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
+
+import android.content.Context;
+
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
-
+@RunWith(AndroidJUnit4.class)
 public class PlayerTest {
     Player player;
     Cards card1;
@@ -19,7 +26,7 @@ public class PlayerTest {
     ArrayList<Cards> cards;
     ImageView a;
 
-    @BeforeEach
+    @Before
     public void init() {
         player = new Player("Test-Player", PlayerColor.GREEN, 0,0);
         Cards card1 = new Cards("blue",7,a,7);
