@@ -1,8 +1,20 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.vanniktech:gradle-android-junit-jacoco-plugin:0.6.0'
+    }
+}
+
 plugins {
     id 'com.android.application'
     id 'jacoco'
     id 'com.google.gms.google-services'  // Google Services plugin'
 }
+
+
+apply plugin: 'com.vanniktech.android.junit.jacoco'
 
 android {
     compileSdk 32
