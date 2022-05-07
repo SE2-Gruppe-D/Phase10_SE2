@@ -142,9 +142,11 @@
         <TextView
             android:id="@+id/tvAP"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:background="#4D000000"
             android:text="Phasentext"
+            android:layout_gravity="top"
+            android:layout_marginTop="21dp"
             android:textColor="#FFFFFF" />
 
         <ImageView
@@ -210,12 +212,10 @@
         <Button
             android:id="@+id/leaveGame"
             android:layout_width="wrap_content"
-            android:layout_height="38dp"
-            android:layout_gravity="top"
-            android:layout_marginTop="20dp"
+            android:layout_height="20dp"
             android:background="#4D000000"
             android:text="Spiel verlassen"
-            android:textColor="#FBEEEE" />
+            android:textColor="#FFFFFF" />
 
 
     </FrameLayout>
