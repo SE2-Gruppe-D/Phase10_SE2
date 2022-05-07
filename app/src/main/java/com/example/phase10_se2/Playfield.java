@@ -46,6 +46,7 @@ import java.util.TreeMap;
 
 public class Playfield extends AppCompatActivity {
     DiceFragment diceFragment;
+    String currentRoom;
     ImageView deckcard;
     ImageView defaultcard;
     LinearLayout layoutPlayer1;
@@ -75,6 +76,7 @@ public class Playfield extends AppCompatActivity {
     ImageView ivPlayerGreen;
     ImageView ivPlayerRed;
 
+    String userColor;
     Player playerGreen;
     Player playerRed;
     Player playerYellow;
@@ -101,8 +103,8 @@ public class Playfield extends AppCompatActivity {
         setContentView(R.layout.activity_playfield);
         builder = new AlertDialog.Builder(Playfield.this);
 
-        String currentRoom = getIntent().getExtras().getString("CurrentRoom");
-        String userColor = getIntent().getExtras().getString("Color");
+        currentRoom = getIntent().getExtras().getString("CurrentRoom");
+        userColor = getIntent().getExtras().getString("Color");
         Toast.makeText(this, "YOU ARE THE " + userColor + " PLAYER!", Toast.LENGTH_SHORT).show();
         FirebaseFirestore database;
         database = FirebaseFirestore.getInstance();    //verknuepfung
@@ -571,6 +573,13 @@ public class Playfield extends AppCompatActivity {
         return views;
     }
 
+    public String getCurrentRoom() {
+        return currentRoom;
+    }
+
+    public String getUserColor() {
+        return userColor;
+    }
 }
 
 
