@@ -105,7 +105,7 @@ public class Playfield extends AppCompatActivity {
 
         String currentRoom = getIntent().getExtras().getString("CurrentRoom");
         String userColor = getIntent().getExtras().getString("Color");
-        Toast.makeText(this, "YOU ARE THE " + userColor + " PLAYER!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "YOU ARE THE " + userColor + " PLAYER!", Toast.LENGTH_LONG).show();
         FirebaseFirestore database;
         database = FirebaseFirestore.getInstance();    //verknuepfung
         database.collection("users")
