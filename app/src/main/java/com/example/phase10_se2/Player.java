@@ -1,10 +1,8 @@
 package com.example.phase10_se2;
 
 
-import android.media.Image;
 import android.widget.ImageView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 enum PlayerState {
@@ -40,7 +38,6 @@ public class Player {
     private ArrayList<Cards> cardField;
 
 
-
     // no-argument constructor
     public Player() {
     }
@@ -50,7 +47,7 @@ public class Player {
         this.color = color;
         this.room = room;
 
-        this.phasenumber=phasenumber;
+        this.phasenumber = phasenumber;
         positionX = 0;
         positionY = 0;
         this.minusPoints = minusPoints;
@@ -59,7 +56,7 @@ public class Player {
         state = PlayerState.WAITING;
         playerHand = new ArrayList<Cards>();
         phaseText = "/";
-        this.cardField=cardField;
+        this.cardField = cardField;
     }
 
     public Player(String name, PlayerColor color, int positionX, int positionY) {
@@ -100,7 +97,7 @@ public class Player {
             positionY = 0;
         } else if (currentPosition <= 7) {
             positionX = 3;
-            positionY = currentPosition-3;
+            positionY = currentPosition - 3;
         } else if (currentPosition <= 11) {
             positionX = 11 - currentPosition;
             positionY = 5;
@@ -123,33 +120,32 @@ public class Player {
             this.startingOrder = startingPosition;
         }
     }
+
     //bewegen des Players auf dem Spielbrett
-    public void updateMapPosition () {
-        if(this.color.equals(PlayerColor.BLUE) && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)127 + (float) 44);
-            this.playerview.setTranslationY(getPositionY() * (float)150 + (float) 173);
+    public void updateMapPosition() {
+        if (this.color.equals(PlayerColor.BLUE) && this.playerview != null) {
+            this.playerview.setTranslationX(getPositionX() * (float) 127 + (float) 44);
+            this.playerview.setTranslationY(getPositionY() * (float) 150 + (float) 173);
+        } else if (this.color.equals(PlayerColor.YELLOW) && this.playerview != null) {
+            this.playerview.setTranslationX(getPositionX() * (float) 127 + (float) 95);
+            this.playerview.setTranslationY(getPositionY() * (float) 150 + (float) 173);
+        } else if (this.color.equals(PlayerColor.RED) && this.playerview != null) {
+            this.playerview.setTranslationX(getPositionX() * (float) 127 + (float) 95);
+            this.playerview.setTranslationY(getPositionY() * (float) 150 + (float) 225);
+        } else if (this.color.equals(PlayerColor.GREEN) && this.playerview != null) {
+            this.playerview.setTranslationX(getPositionX() * (float) 127 + (float) 44);
+            this.playerview.setTranslationY(getPositionY() * (float) 150 + (float) 225);
         }
-        else if(this.color.equals(PlayerColor.YELLOW) && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)127 + (float)95);
-            this.playerview.setTranslationY(getPositionY() * (float)150 + (float)173);
-        }
-        else if(this.color.equals(PlayerColor.RED) && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)127 + (float)95);
-            this.playerview.setTranslationY(getPositionY() * (float)150 + (float)225);
-        }
-        else if(this.color.equals(PlayerColor.GREEN) && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)127 + (float)44);
-            this.playerview.setTranslationY(getPositionY() * (float)150 + (float)225);
-        }
-        System.out.println((getPositionX() * (float)47 + (float) 16) + " : " + (getPositionY() * (float)54 + (float) 63));
+        System.out.println((getPositionX() * (float) 47 + (float) 16) + " : " + (getPositionY() * (float) 54 + (float) 63));
     }
+
     //übergeben der restlichen Handkarten am ende einer Runde - Zusammenfügen der Minuspunkte
-    public void updateMinusPoints (ArrayList<Cards> cards) {
+    public void updateMinusPoints(ArrayList<Cards> cards) {
         int sumMinusPoints = this.minusPoints;
         int cid;
 
 
-        for(Cards card : cards) {
+        for (Cards card : cards) {
             if (!cards.isEmpty() && card != null) {
 
                 cid = card.getValue();
@@ -190,7 +186,6 @@ public class Player {
         }
         this.minusPoints = sumMinusPoints;
     }
-
 
 
     public PlayerState getState() {
@@ -238,12 +233,12 @@ public class Player {
         this.minusPoints = minusPoints;
     }
 
-    public void setPlayerview(ImageView playerview) {
-        this.playerview = playerview;
-    }
-
     public ImageView getPlayerview() {
         return playerview;
+    }
+
+    public void setPlayerview(ImageView playerview) {
+        this.playerview = playerview;
     }
 
     public ArrayList<Cards> getPlayerHand() {
@@ -260,51 +255,51 @@ public class Player {
 
     public void setPhaseText(int phaseNumber) {
 
-            switch (phaseNumber) {
+        switch (phaseNumber) {
 
-                case (1):
-                    phaseText = "4 Zwillinge";
-                    break;
+            case (1):
+                phaseText = "4 Zwillinge";
+                break;
 
-                case (2):
-                    phaseText = "6 Karten einer Farbe";
-                    break;
+            case (2):
+                phaseText = "6 Karten einer Farbe";
+                break;
 
-                case (3):
-                    phaseText = "1 Vierling + 1 Viererfolge";
-                    break;
+            case (3):
+                phaseText = "1 Vierling + 1 Viererfolge";
+                break;
 
-                case (4):
-                    phaseText = "1 Achterfolge";
-                    break;
+            case (4):
+                phaseText = "1 Achterfolge";
+                break;
 
-                case (5):
-                    phaseText = "7 Karten einer Farbe";
-                    break;
+            case (5):
+                phaseText = "7 Karten einer Farbe";
+                break;
 
-                case (6):
-                    phaseText = "1 Neunerfolge";
-                    break;
+            case (6):
+                phaseText = "1 Neunerfolge";
+                break;
 
-                case (7):
-                    phaseText = "2 Vierlinge";
-                    break;
+            case (7):
+                phaseText = "2 Vierlinge";
+                break;
 
-                case (8):
-                    phaseText = "1 Viererfolge einer Farbe + 1 Drilling";
-                    break;
+            case (8):
+                phaseText = "1 Viererfolge einer Farbe + 1 Drilling";
+                break;
 
-                case (9):
-                    phaseText = "1 Fünfling + 1 Drilling";
-                    break;
+            case (9):
+                phaseText = "1 Fünfling + 1 Drilling";
+                break;
 
-                case (10):
-                    phaseText = "1 Fünfling + 1 Dreierfolge einer Farbe";
-                    break;
-
-            }
+            case (10):
+                phaseText = "1 Fünfling + 1 Dreierfolge einer Farbe";
+                break;
 
         }
+
+    }
 
     public int getPhasenumber() {
         return phasenumber;
