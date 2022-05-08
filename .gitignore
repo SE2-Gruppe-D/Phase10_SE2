@@ -13,4 +13,4 @@
 .externalNativeBuild
 .cxx
 local.properties
-/functions/node_modules/.bin
+/functions/node_modules
