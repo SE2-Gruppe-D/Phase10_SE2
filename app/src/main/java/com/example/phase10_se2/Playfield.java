@@ -10,6 +10,9 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
@@ -297,6 +300,11 @@ public class Playfield extends AppCompatActivity {
 
                     }
                 });
+
+        //TODO: delete button and move function to game start
+        findViewById(R.id.button).setOnClickListener(view -> {
+            throwingDice(primaryPlayer);
+        });
     }
 
     private void initializePlayer(DocumentSnapshot documentSnapshot, String userColor, String currentRoom) {
@@ -467,16 +475,39 @@ public class Playfield extends AppCompatActivity {
     }
 
 
-
-        private boolean checkblue(FieldColor fieldColor){
-            if(fieldColor.equals(FieldColor.BLUE)){
-                //Code..
-            }
-            return true;
+    private boolean checkblue(FieldColor fieldColor){
+        if(fieldColor.equals(FieldColor.BLUE)){
+            //Code..
         }
+        return true;
+    }
 
+    public void throwingDice(Player player) {
+        int diceValue = 1;
 
-    public void decideStartingPlayer() {
+//        while (diceFragment.getAcceleration() < 1) { //maybe replace with threshold
+//            sleep(10);
+//        }
+//
+//
+//        while (diceFragment.getAcceleration() > 1) { //maybe replace with threshold
+//            diceValue = diceFragment.getLastDiceValue();
+//            sleep(100);
+//
+//            int timeSpent = 0;
+//            int sleepDurationInMs = 10;
+//            while (diceFragment.getAcceleration() < 1 && timeSpent < 3000) { //maybe replace with threshold
+//                sleep(sleepDurationInMs);
+//                timeSpent += sleepDurationInMs;
+//            }
+//        }
+
+//TODO: CANT MOVE BECAUSE PLAYERVIEW == NULL?!
+
+        player.move(diceValue);
+    }
+
+    public void decideStartingPlayer() { //TODO: problem: player != primary player wont get put into map
         //get array of active players
         ArrayList<Player> activePlayers = getActivePlayers();
         SortedMap<Integer, Player> startingDiceValues = new TreeMap<>();
@@ -488,12 +519,19 @@ public class Playfield extends AppCompatActivity {
             if (player.equals(primaryPlayer)) {
                 diceFragment.register();
 
-                while (diceFragment.getAcceleration() < 0) {
+                while (diceFragment.getAcceleration() < 1) { //maybe replace with threshold
                     sleep(10);
                 }
-                while (diceFragment.getAcceleration() > 1) {
+                while (diceFragment.getAcceleration() > 1) { //maybe replace with threshold
                     lastDiceValue = diceFragment.getLastDiceValue();
-                    sleep(10);
+                    sleep(100);
+
+                    int timeSpent = 0;
+                    int sleepDurationInMs = 10;
+                    while (diceFragment.getAcceleration() < 1 && timeSpent < 3000) {
+                        sleep(sleepDurationInMs);
+                        timeSpent += sleepDurationInMs;
+                    }
                 }
 
                 player.move(lastDiceValue);
@@ -581,5 +619,3 @@ public class Playfield extends AppCompatActivity {
         return userColor;
     }
 }
-
-
