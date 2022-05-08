@@ -59,6 +59,7 @@ public class Playfield extends AppCompatActivity {
     CardDrawer cardDrawer;
     ArrayList<Cards> cardlist;
     ArrayList<Cards> discardpileList;//Ablagestapel
+    ArrayList<Cards> cardfieldCardlist;
 
     ArrayList<ImageView> Imagelist;
     ArrayList<Cards> drawpileList;      //Ziehstapel
@@ -82,6 +83,7 @@ public class Playfield extends AppCompatActivity {
     Player playerYellow;
     Player playerBlue;
     Player primaryPlayer;
+
 
 
     //light sensor
@@ -170,7 +172,7 @@ public class Playfield extends AppCompatActivity {
         btnCheckPhase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //if(checkPhase true) --> next Phase
+                if(checkPhase) --> next Phase
                 //else if false ->
                     while (layoutPlayer1CardField.getChildCount()!=0 ) {
                         View v = layoutPlayer1CardField.getChildAt(0);
@@ -184,6 +186,7 @@ public class Playfield extends AppCompatActivity {
 
         discardpileList = new ArrayList<>();
         cardlist = new ArrayList<>();
+        cardfieldCardlist = new ArrayList<>();
 
         deckcard = findViewById(R.id.deckblatt);
         defaultcard = findViewById(R.id.defaultcard);
@@ -452,9 +455,20 @@ public class Playfield extends AppCompatActivity {
                     //löschen im altem Layout
                     View v = (View) dragEvent.getLocalState();
                     ViewGroup owner = (ViewGroup) v.getParent();
+
+                    //Array mit den ausgelegten Karten befüllen
+                    //primaryPlayer an farbe anpassen, weil primaryPlayer.getHand = null
+                    primaryPlayer = playerBlue;
+                    for(int i = 0; i < primaryPlayer.getPlayerHand().size(); i++){
+                        if(v.equals(primaryPlayer.getPlayerHand().get(i).getCardUI())){
+                            cardfieldCardlist.add(primaryPlayer.getPlayerHand().get(i));
+                            primaryPlayer.getPlayerHand().remove(primaryPlayer.getPlayerHand().get(i));
+                        }
+                    }
                     owner.removeView(v);
                     layoutPlayer1CardField.addView(v);
                     v.setVisibility(View.VISIBLE);
+
                     return true;
 
                 case DragEvent.ACTION_DRAG_ENDED:
@@ -561,23 +575,6 @@ public class Playfield extends AppCompatActivity {
 
         return activePlayers;
     }
-
-
-
-    //get all views from any type of layout
-    public List<View> getAllViews(ViewGroup layout){
-        List<View> views = new ArrayList<>();
-        for(int i =0; i< layout.getChildCount(); i++){
-
-            views.add(layout.getChildAt(i));
-            layout.removeView(layout.getChildAt(i));
-        }
-
-        int i = views.get(1).getId();
-        Object ia = views.get(1).getTag();
-        return views;
-    }
-
 }
 
 

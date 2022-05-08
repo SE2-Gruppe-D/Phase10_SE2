@@ -21,7 +21,8 @@ public class Phase extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
-
+    }
+/*
         ablageLayoutPlayer1= findViewById(R.id.player1PhaseAblegen);
         handcards = getRightHandCards();
         List<Cards> zwillinge = new ArrayList<>();
@@ -57,7 +58,8 @@ public class Phase extends AppCompatActivity {
         }
     }
 
-
+ */
+    /*
     private ArrayList<Cards> getRightHandCards (){ //!!!!Statt ID von Player über Color --> ersetzen!!!!
         switch (player.getColor()){
 
@@ -73,13 +75,33 @@ public class Phase extends AppCompatActivity {
         }
     }
 
+     */
+
+    public List<Cards> getRightPhase(ArrayList<Cards> cardfieldCardlist){
+        int phase = 1;
+        List<Cards> list1 = new ArrayList<>();
+        List<Cards> list2 = new ArrayList<>();
+        List<Cards> list3 = new ArrayList<>();
+        List<Cards> list4 = new ArrayList<>();
+
+        switch (phase){
+            case 1: list1.add(cardfieldCardlist.get(0));
+                list1.add(cardfieldCardlist.get(1));
+                cardfieldCardlist.removeAll(list1);
+                list2.add(cardfieldCardlist.get(2));
+                list2.add(cardfieldCardlist.get(3));
+                cardfieldCardlist.removeAll(list2);
+                list3.add(cardfieldCardlist.get(4));
+                list3.add(cardfieldCardlist.get(5));
+                cardfieldCardlist.removeAll(list3);
+                list4.add(cardfieldCardlist.get(6));
+                list4.add(cardfieldCardlist.get(7));
+                cardfieldCardlist.removeAll(list4);
+               return list1; list2;list3,list4;
 
 
-
-
-
-
-
+        }
+    }
 
     //check Phase 1 - 10
     //Phase 1: 4 Zwillinge
