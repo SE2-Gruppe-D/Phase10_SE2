@@ -98,11 +98,11 @@ public class Player {
         if (currentPosition <= 3) {
             positionX = currentPosition;
             positionY = 0;
-        } else if (currentPosition <= 8) {
+        } else if (currentPosition <= 7) {
             positionX = 3;
             positionY = currentPosition-3;
         } else if (currentPosition <= 11) {
-            positionX = 12 - currentPosition;
+            positionX = 11 - currentPosition;
             positionY = 5;
         } else {
             positionX = 0;
@@ -125,22 +125,23 @@ public class Player {
     }
     //bewegen des Players auf dem Spielbrett
     public void updateMapPosition () {
-        if(this.color == PlayerColor.BLUE && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)47 + (float) 16);
-            this.playerview.setTranslationY(getPositionY() * (float)54 + (float) 63);
+        if(this.color.equals(PlayerColor.BLUE) && this.playerview != null) {
+            this.playerview.setTranslationX(getPositionX() * (float)127 + (float) 44);
+            this.playerview.setTranslationY(getPositionY() * (float)150 + (float) 173);
         }
-        else if(this.color == PlayerColor.YELLOW && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)47 + (float)35);
-            this.playerview.setTranslationY(getPositionY() * (float)54 + (float)63);
+        else if(this.color.equals(PlayerColor.YELLOW) && this.playerview != null) {
+            this.playerview.setTranslationX(getPositionX() * (float)127 + (float)95);
+            this.playerview.setTranslationY(getPositionY() * (float)150 + (float)173);
         }
-        else if(this.color == PlayerColor.RED && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)47 + (float)35);
-            this.playerview.setTranslationY(getPositionY() * (float)54 + (float)82);
+        else if(this.color.equals(PlayerColor.RED) && this.playerview != null) {
+            this.playerview.setTranslationX(getPositionX() * (float)127 + (float)95);
+            this.playerview.setTranslationY(getPositionY() * (float)150 + (float)225);
         }
-        else if(this.color == PlayerColor.GREEN && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)47 + (float)16);
-            this.playerview.setTranslationY(getPositionY() * (float)54 + (float)82);
+        else if(this.color.equals(PlayerColor.GREEN) && this.playerview != null) {
+            this.playerview.setTranslationX(getPositionX() * (float)127 + (float)44);
+            this.playerview.setTranslationY(getPositionY() * (float)150 + (float)225);
         }
+        System.out.println((getPositionX() * (float)47 + (float) 16) + " : " + (getPositionY() * (float)54 + (float) 63));
     }
     //übergeben der restlichen Handkarten am ende einer Runde - Zusammenfügen der Minuspunkte
     public void updateMinusPoints (ArrayList<Cards> cards) {

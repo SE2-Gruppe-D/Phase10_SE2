@@ -27,6 +27,7 @@ import java.util.Objects;
 
 
 public class DiceFragment extends Fragment implements SensorEventListener {
+    private final boolean TESTMODE = true; //TODO: remove or set to false when multiplayer is implemented
 
     private float shakeThreshold;  //Threshold for the acceleration sensor to trigger dice generation
     private ImageView diceView;
@@ -54,7 +55,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
         playerColor = definePlayerColor(playfield.getUserColor());
         database = createDBConnection();
 
-        getCurrentPlayerFromDatabase();
+//        getCurrentPlayerFromDatabase();
 
         return inflater.inflate(R.layout.dice_fragment, container, false);
     }
@@ -110,7 +111,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (getCurrentPlayerFromDatabase().equals(playerColor)) {
+        if (TESTMODE || getCurrentPlayerFromDatabase().equals(playerColor)) {
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
