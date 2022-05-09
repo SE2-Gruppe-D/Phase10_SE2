@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible"
+    tools:context=".Playfield">
+
+    <TextView
+        android:id="@+id/Timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:text="2:00"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/backgroundSpielfeld"
+        android:layout_width="211dp"
+        android:layout_height="395dp"
+        android:background="#393541"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/player4"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/player1"
+        android:layout_width="458dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="16dp"
+        android:background="#AFAEAE"
+        android:orientation="horizontal"
+        android:weightSum="13"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/player4"
+        app:layout_constraintHorizontal_bias="0.288"
+        app:layout_constraintStart_toEndOf="@+id/player3"
+        tools:ignore="MissingConstraints">
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/player2"
+        android:layout_width="458dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="horizontal"
+        android:weightSum="13"
+        app:layout_constraintEnd_toStartOf="@+id/player4"
+        app:layout_constraintStart_toStartOf="@+id/player3"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/player3"
+        android:layout_width="48dp"
+        android:layout_height="347dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="40dp"
+        android:orientation="vertical"
+        android:weightSum="13"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player2"
+        tools:ignore="MissingConstraints">
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/player4"
+        android:layout_width="50dp"
+        android:layout_height="360dp"
+        android:layout_marginBottom="40dp"
+        android:orientation="vertical"
+        android:weightSum="13"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fl_playfield"
+        app:layout_constraintTop_toBottomOf="@+id/player2"
+        tools:ignore="MissingConstraints">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/player1PhaseAblegen"
+        android:layout_width="430dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="13dp"
+        android:background="#C5BBBB"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/player1"
+        app:layout_constraintEnd_toStartOf="@+id/player4"
+        app:layout_constraintStart_toEndOf="@+id/player3"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentContainerView"
+        tools:ignore="MissingConstraints">
+
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:id="@+id/fl_playfield"
+        android:layout_width="204dp"
+        android:layout_height="378dp"
+        android:layout_marginBottom="1dp"
+
+        android:background="@drawable/playfieldsmall"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+
+        <ImageButton
+            android:id="@+id/deckblatt"
+            android:layout_width="41dp"
+            android:layout_height="87dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="-40dp"
+            android:foreground="@drawable/deckblatt"
+            android:rotation="90"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tvAP"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_gravity="top"
+            android:layout_marginTop="21dp"
+            android:background="#4D000000"
+            android:text="Phasentext"
+            android:textColor="#FFFFFF" />
+
+        <ImageView
+            android:id="@+id/ivPB"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:translationX="15dp"
+            android:translationY="56dp"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/figurblau" />
+
+        <ImageView
+            android:id="@+id/ivPY"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:translationX="34dp"
+            android:translationY="56dp"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/figurgelb" />
+
+        <ImageView
+            android:id="@+id/ivPG"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:translationX="15dp"
+            android:translationY="75dp"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/figurgruen" />
+
+        <ImageView
+            android:id="@+id/ivPR"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:translationX="34dp"
+            android:translationY="75dp"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/figurrot" />
+
+        <ImageButton
+            android:id="@+id/defaultcard"
+            android:layout_width="48dp"
+            android:layout_height="87dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="-40dp"
+            android:background="#0C0C0C"
+            android:backgroundTint="#050505"
+            android:rotation="90"
+            android:scaleType="fitXY"
+            tools:ignore="SpeakableTextPresentCheck"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/leererStapel"
+            android:layout_width="57dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="-40dp"
+            android:text="leer"
+            android:textColor="#0B0B0B"
+            android:textSize="20sp"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/leaveGame"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:background="#4D000000"
+            android:text="Spiel verlassen"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btnShowAk"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="164dp"
+            android:layout_marginBottom="365dp"
+            android:background="#4D000000"
+            android:text="Show"
+            android:textColor="#FFFFFF"
+            android:visibility="visible"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <Button
+            android:id="@+id/btnHideAk"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="164dp"
+            android:layout_marginBottom="365dp"
+            android:background="#4D000000"
+            android:text="Hide"
+            android:textColor="#FFFFFF"
+            android:visibility="invisible" />
+
+
+    </FrameLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="com.example.phase10_se2.DiceFragment"
+        android:layout_width="94dp"
+        android:layout_height="92dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fl_playfield"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivShowAk"
+        android:layout_width="266dp"
+        android:layout_height="414dp"
+        android:layout_marginEnd="249dp"
+        android:foreground="@drawable/aktionskarte"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fl_playfield"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonCheckPhase"
+        android:layout_width="84dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="82dp"
+        android:layout_marginTop="187dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginBottom="3dp"
+        android:text="check"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/player1PhaseAblegen"
+        app:layout_constraintEnd_toStartOf="@+id/player4"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/fragmentContainerView"
+        app:layout_constraintTop_toBottomOf="@+id/player2"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="8dp"
+        android:text="Button"
+        app:layout_constraintStart_toEndOf="@+id/player3"
+        app:layout_constraintTop_toBottomOf="@+id/player2" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

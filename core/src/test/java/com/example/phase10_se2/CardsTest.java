@@ -1,10 +1,5 @@
 package com.example.phase10_se2;
 
-import android.graphics.Color;
-import android.media.Image;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

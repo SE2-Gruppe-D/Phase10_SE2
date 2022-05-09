@@ -1,12 +1,5 @@
 package com.example.phase10_se2;
 
-import android.widget.ImageView;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
 public class CardUITest {
     /*CardUIManager cardUIManager;
     Cards cards1;
