@@ -516,8 +516,8 @@ public class Playfield extends AppCompatActivity {
 //            }
 //        }
 
-//TODO: CANT MOVE BECAUSE PLAYERVIEW == NULL?!
-
+        //TODO: CANT MOVE BECAUSE PLAYERVIEW == NULL?!
+        //TODO: FIX PLAYERVIEW
         playerRed.move(diceValue);
     }
 

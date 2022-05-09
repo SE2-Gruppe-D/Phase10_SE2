@@ -124,22 +124,21 @@ public class Player {
     //bewegen des Players auf dem Spielbrett
     public void updateMapPosition () {
         if(this.color == PlayerColor.BLUE && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)45 + (float) 15);
-            this.playerview.setTranslationY(getPositionY() * (float)49 + (float) 56);
+            this.playerview.setTranslationX(getPositionX() * (float)122 + (float) 42);
+            this.playerview.setTranslationY(getPositionY() * (float)135 + (float) 153);
         }
         else if(this.color == PlayerColor.YELLOW && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)45 + (float)34);
-            this.playerview.setTranslationY(getPositionY() * (float)49 + (float)56);
+            this.playerview.setTranslationX(getPositionX() * (float)122 + (float)94);
+            this.playerview.setTranslationY(getPositionY() * (float)135 + (float)153);
         }
         else if(this.color == PlayerColor.RED && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)45 + (float)15);
-            this.playerview.setTranslationY(getPositionY() * (float)49 + (float)75);
+            this.playerview.setTranslationX(getPositionX() * (float)122 + (float)94);
+            this.playerview.setTranslationY(getPositionY() * (float)135 + (float)206);
         }
         else if(this.color == PlayerColor.GREEN && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)45 + (float)34);
-            this.playerview.setTranslationY(getPositionY() * (float)49 + (float)75);
+            this.playerview.setTranslationX(getPositionX() * (float)122 + (float)42);
+            this.playerview.setTranslationY(getPositionY() * (float)135 + (float)207);
         }
-        System.out.println((getPositionX() * (float) 47 + (float) 16) + " : " + (getPositionY() * (float) 54 + (float) 63));
     }
 
     //übergeben der restlichen Handkarten am ende einer Runde - Zusammenfügen der Minuspunkte
