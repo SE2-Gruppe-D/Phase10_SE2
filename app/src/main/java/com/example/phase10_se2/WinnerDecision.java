@@ -10,7 +10,7 @@ public class WinnerDecision
     Player playerBlue = null;
     Player playerYellow = null;
     Player playerGreen = null;
-    ArrayList<Player> actualPlayer;
+    ArrayList<Player> actualPlayers;
 
     public WinnerDecision(ArrayList<Player> playerList)
     {
@@ -19,22 +19,22 @@ public class WinnerDecision
             if (p.getColor().equals("RED"))
             {
                 playerRed = p;
-                actualPlayer.add(playerRed);
+                actualPlayers.add(playerRed);
             }
             else if (p.getColor().equals("BLUE"))
             {
                 playerBlue = p;
-                actualPlayer.add(playerBlue;
+                actualPlayers.add(playerBlue);
             }
             else if (p.getColor().equals("YELLOW"))
             {
                 playerYellow = p;
-                actualPlayer.add(playerYellow);
+                actualPlayers.add(playerYellow);
             }
             else if (p.getColor().equals("GREEN"))
             {
                 playerGreen = p;
-                actualPlayer.add(playerGreen);
+                actualPlayers.add(playerGreen);
             }
         }
     }
@@ -46,7 +46,7 @@ public class WinnerDecision
         int minusPointsCheck = -1;
         Player temporaryWinner = null;
         int Winnernumber = 0;
-        for (Player p : actualPlayer)
+        for (Player p : actualPlayers)
         {
             if(p.getPhasenumber() > phaseCheck && minusPointsCheck == -1)
             {
@@ -70,7 +70,7 @@ public class WinnerDecision
         }
         else if (Winnernumber != 0)
         {
-            for (Player p : actualPlayer)
+            for (Player p : actualPlayers)
             {
                 if (p.getMinusPoints() == minusPointsCheck)
                 {
