@@ -174,7 +174,7 @@ public class Playfield extends AppCompatActivity {
         btnCheckPhase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (phase.checkSetOf2(cardfieldCardlist)) {
+                if (phase.checkPhase1(cardfieldCardlist)) {
                         int phase = 2;
                 } else {
                     while (layoutPlayer1CardField.getChildCount() != 0) {
