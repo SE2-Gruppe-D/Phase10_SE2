@@ -313,7 +313,7 @@ public class Playfield extends AppCompatActivity {
 
         //TODO: delete button and move function to game start
         findViewById(R.id.button).setOnClickListener(view -> {
-            throwingDice(primaryPlayer);
+            throwingDice(player);
         });
 
         //Spiel verlassen
@@ -627,7 +627,7 @@ public class Playfield extends AppCompatActivity {
 
         return activePlayers;
     }
-}
+
 
     public String getCurrentRoom() {
         return currentRoom;
