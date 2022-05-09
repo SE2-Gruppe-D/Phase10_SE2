@@ -126,20 +126,20 @@ public class Player {
     //bewegen des Players auf dem Spielbrett
     public void updateMapPosition () {
         if(this.color == PlayerColor.BLUE && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)47 + (float) 16);
-            this.playerview.setTranslationY(getPositionY() * (float)54 + (float) 63);
+            this.playerview.setTranslationX(getPositionX() * (float)45 + (float) 15);
+            this.playerview.setTranslationY(getPositionY() * (float)49 + (float) 56);
         }
         else if(this.color == PlayerColor.YELLOW && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)47 + (float)35);
-            this.playerview.setTranslationY(getPositionY() * (float)54 + (float)63);
+            this.playerview.setTranslationX(getPositionX() * (float)45 + (float)34);
+            this.playerview.setTranslationY(getPositionY() * (float)49 + (float)56);
         }
         else if(this.color == PlayerColor.RED && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)47 + (float)35);
-            this.playerview.setTranslationY(getPositionY() * (float)54 + (float)82);
+            this.playerview.setTranslationX(getPositionX() * (float)45 + (float)15);
+            this.playerview.setTranslationY(getPositionY() * (float)49 + (float)75);
         }
         else if(this.color == PlayerColor.GREEN && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)47 + (float)16);
-            this.playerview.setTranslationY(getPositionY() * (float)54 + (float)82);
+            this.playerview.setTranslationX(getPositionX() * (float)45 + (float)34);
+            this.playerview.setTranslationY(getPositionY() * (float)49 + (float)75);
         }
     }
     //übergeben der restlichen Handkarten am ende einer Runde - Zusammenfügen der Minuspunkte
