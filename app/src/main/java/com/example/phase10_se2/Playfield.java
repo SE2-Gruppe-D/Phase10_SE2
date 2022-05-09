@@ -50,7 +50,7 @@ import java.util.TreeMap;
 
 public class Playfield extends AppCompatActivity {
     DiceFragment diceFragment;
-    String currentRoom;
+    String currentRoom = "";
     ImageView deckcard;
     ImageView defaultcard;
     LinearLayout layoutPlayer1;
@@ -104,7 +104,6 @@ public class Playfield extends AppCompatActivity {
 
 
     FirebaseFirestore database;
-    String currentRoom = "";
     ArrayList<String> playerList = new ArrayList();
 
     @Override
@@ -114,7 +113,7 @@ public class Playfield extends AppCompatActivity {
         builder = new AlertDialog.Builder(Playfield.this);
 
         currentRoom = getIntent().getExtras().getString("CurrentRoom");
-        String userColor = getIntent().getExtras().getString("Color");
+        userColor = getIntent().getExtras().getString("Color");
         Toast.makeText(this, "YOU ARE THE " + userColor + " PLAYER!", Toast.LENGTH_LONG).show();
         database = FirebaseFirestore.getInstance();    //verknuepfung
         database.collection("users")
@@ -518,7 +517,7 @@ public class Playfield extends AppCompatActivity {
 
 //TODO: CANT MOVE BECAUSE PLAYERVIEW == NULL?!
 
-        player.move(diceValue);
+        playerRed.move(diceValue);
     }
 
     public void decideStartingPlayer() { //TODO: problem: player != primary player wont get put into map
@@ -631,7 +630,7 @@ public class Playfield extends AppCompatActivity {
     public String getUserColor() {
         return userColor;
     }
-}
+
 
     public void getPlayerListFromDatabase() {
         database.collection("users")
