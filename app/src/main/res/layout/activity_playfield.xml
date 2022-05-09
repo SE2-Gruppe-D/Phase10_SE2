@@ -14,8 +14,8 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:text="2:00"
-        android:textSize="15dp"
         android:textColor="@android:color/holo_red_dark"
+        android:textSize="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -97,6 +97,7 @@
         tools:ignore="MissingConstraints">
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/player1PhaseAblegen"
         android:layout_width="430dp"
@@ -118,8 +119,8 @@
 
     <FrameLayout
         android:id="@+id/fl_playfield"
-        android:layout_width="212dp"
-        android:layout_height="415dp"
+        android:layout_width="204dp"
+        android:layout_height="378dp"
         android:layout_marginBottom="1dp"
 
         android:background="@drawable/playfieldsmall"
@@ -143,18 +144,18 @@
             android:id="@+id/tvAP"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:background="#4D000000"
-            android:text="Phasentext"
             android:layout_gravity="top"
             android:layout_marginTop="21dp"
+            android:background="#4D000000"
+            android:text="Phasentext"
             android:textColor="#FFFFFF" />
 
         <ImageView
             android:id="@+id/ivPB"
             android:layout_width="19dp"
             android:layout_height="19dp"
-            android:translationX="16dp"
-            android:translationY="63dp"
+            android:translationX="15dp"
+            android:translationY="56dp"
             android:visibility="invisible"
             app:srcCompat="@drawable/figurblau" />
 
@@ -162,8 +163,8 @@
             android:id="@+id/ivPY"
             android:layout_width="19dp"
             android:layout_height="19dp"
-            android:translationX="35dp"
-            android:translationY="63dp"
+            android:translationX="34dp"
+            android:translationY="56dp"
             android:visibility="invisible"
             app:srcCompat="@drawable/figurgelb" />
 
@@ -171,8 +172,8 @@
             android:id="@+id/ivPG"
             android:layout_width="19dp"
             android:layout_height="19dp"
-            android:translationX="16dp"
-            android:translationY="82dp"
+            android:translationX="15dp"
+            android:translationY="75dp"
             android:visibility="invisible"
             app:srcCompat="@drawable/figurgruen" />
 
@@ -180,8 +181,8 @@
             android:id="@+id/ivPR"
             android:layout_width="19dp"
             android:layout_height="19dp"
-            android:translationX="35dp"
-            android:translationY="82dp"
+            android:translationX="34dp"
+            android:translationY="75dp"
             android:visibility="invisible"
             app:srcCompat="@drawable/figurrot" />
 
@@ -217,9 +218,31 @@
             android:text="Spiel verlassen"
             android:textColor="#FFFFFF" />
 
+        <Button
+            android:id="@+id/btnShowAk"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="164dp"
+            android:layout_marginBottom="365dp"
+            android:background="#4D000000"
+            android:text="Show"
+            android:textColor="#FFFFFF"
+            android:visibility="visible"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <Button
+            android:id="@+id/btnHideAk"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="164dp"
+            android:layout_marginBottom="365dp"
+            android:background="#4D000000"
+            android:text="Hide"
+            android:textColor="#FFFFFF"
+            android:visibility="invisible" />
+
 
     </FrameLayout>
-
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
@@ -230,36 +253,6 @@
         app:layout_constraintEnd_toStartOf="@+id/fl_playfield"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnShowAk"
-        android:layout_width="46dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="164dp"
-        android:layout_marginBottom="365dp"
-        android:background="#4D000000"
-        android:text="Show"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/fl_playfield"
-        app:layout_constraintEnd_toEndOf="@+id/btnHideAk"
-        app:layout_constraintStart_toStartOf="@+id/fl_playfield"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="TouchTargetSizeCheck" />
-
-    <Button
-        android:id="@+id/btnHideAk"
-        android:layout_width="46dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="164dp"
-        android:layout_marginBottom="365dp"
-        android:background="#4D000000"
-        android:text="Hide"
-        android:textColor="#FFFFFF"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/fl_playfield"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/fl_playfield"
-        app:layout_constraintTop_toTopOf="@+id/btnShowAk" />
 
     <ImageView
         android:id="@+id/ivShowAk"
@@ -291,7 +284,15 @@
         app:layout_constraintVertical_bias="1.0" />
 
 
-
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="8dp"
+        android:text="Button"
+        app:layout_constraintStart_toEndOf="@+id/player3"
+        app:layout_constraintTop_toBottomOf="@+id/player2" />
 
 
 
