@@ -11,6 +11,9 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
@@ -47,6 +50,7 @@ import java.util.TreeMap;
 
 public class Playfield extends AppCompatActivity {
     DiceFragment diceFragment;
+    String currentRoom = "";
     ImageView deckcard;
     ImageView defaultcard;
     LinearLayout layoutPlayer1;
@@ -77,6 +81,7 @@ public class Playfield extends AppCompatActivity {
     ImageView ivPlayerGreen;
     ImageView ivPlayerRed;
 
+    String userColor;
     Player playerGreen;
     Player playerRed;
     Player playerYellow;
@@ -99,7 +104,6 @@ public class Playfield extends AppCompatActivity {
 
 
     FirebaseFirestore database;
-    String currentRoom = "";
     ArrayList<String> playerList = new ArrayList();
 
     @Override
@@ -109,7 +113,7 @@ public class Playfield extends AppCompatActivity {
         builder = new AlertDialog.Builder(Playfield.this);
 
         currentRoom = getIntent().getExtras().getString("CurrentRoom");
-        String userColor = getIntent().getExtras().getString("Color");
+        userColor = getIntent().getExtras().getString("Color");
         Toast.makeText(this, "YOU ARE THE " + userColor + " PLAYER!", Toast.LENGTH_LONG).show();
         database = FirebaseFirestore.getInstance();    //verknuepfung
         database.collection("users")
@@ -299,6 +303,12 @@ public class Playfield extends AppCompatActivity {
                     }
                 });
 
+
+        //TODO: delete button and move function to game start
+        findViewById(R.id.button).setOnClickListener(view -> {
+            throwingDice(primaryPlayer);
+        });
+
         //Spiel verlassen
         exitGame = findViewById(R.id.leaveGame);
         exitGame.setOnClickListener(view -> leaveGame());
@@ -477,15 +487,41 @@ public class Playfield extends AppCompatActivity {
     }
 
 
-    private boolean checkblue(FieldColor fieldColor) {
-        if (fieldColor.equals(FieldColor.BLUE)) {
+
+    private boolean checkblue(FieldColor fieldColor){
+        if(fieldColor.equals(FieldColor.BLUE)){
+
             //Code..
         }
         return true;
     }
 
+    public void throwingDice(Player player) {
+        int diceValue = 1;
 
-    public void decideStartingPlayer() {
+//        while (diceFragment.getAcceleration() < 1) { //maybe replace with threshold
+//            sleep(10);
+//        }
+//
+//
+//        while (diceFragment.getAcceleration() > 1) { //maybe replace with threshold
+//            diceValue = diceFragment.getLastDiceValue();
+//            sleep(100);
+//
+//            int timeSpent = 0;
+//            int sleepDurationInMs = 10;
+//            while (diceFragment.getAcceleration() < 1 && timeSpent < 3000) { //maybe replace with threshold
+//                sleep(sleepDurationInMs);
+//                timeSpent += sleepDurationInMs;
+//            }
+//        }
+
+        //TODO: CANT MOVE BECAUSE PLAYERVIEW == NULL?!
+        //TODO: FIX PLAYERVIEW
+        playerRed.move(diceValue);
+    }
+
+    public void decideStartingPlayer() { //TODO: problem: player != primary player wont get put into map
         //get array of active players
         ArrayList<Player> activePlayers = getActivePlayers();
         SortedMap<Integer, Player> startingDiceValues = new TreeMap<>();
@@ -497,12 +533,19 @@ public class Playfield extends AppCompatActivity {
             if (player.equals(primaryPlayer)) {
                 diceFragment.register();
 
-                while (diceFragment.getAcceleration() < 0) {
+                while (diceFragment.getAcceleration() < 1) { //maybe replace with threshold
                     sleep(10);
                 }
-                while (diceFragment.getAcceleration() > 1) {
+                while (diceFragment.getAcceleration() > 1) { //maybe replace with threshold
                     lastDiceValue = diceFragment.getLastDiceValue();
-                    sleep(10);
+                    sleep(100);
+
+                    int timeSpent = 0;
+                    int sleepDurationInMs = 10;
+                    while (diceFragment.getAcceleration() < 1 && timeSpent < 3000) {
+                        sleep(sleepDurationInMs);
+                        timeSpent += sleepDurationInMs;
+                    }
                 }
 
                 player.move(lastDiceValue);
@@ -581,6 +624,16 @@ public class Playfield extends AppCompatActivity {
     }
 
 
+    public String getCurrentRoom() {
+        return currentRoom;
+    }
+
+    public String getUserColor() {
+        return userColor;
+    }
+
+
+
     public void getPlayerListFromDatabase() {
         database.collection("users")
                 .whereEqualTo("Room", currentRoom)
@@ -599,6 +652,4 @@ public class Playfield extends AppCompatActivity {
                 });
     }
 }
-
-
 
