@@ -50,7 +50,7 @@ import java.util.TreeMap;
 
 public class Playfield extends AppCompatActivity {
     DiceFragment diceFragment;
-    String currentRoom;
+    String currentRoom = "";
     ImageView deckcard;
     ImageView defaultcard;
     LinearLayout layoutPlayer1;
@@ -104,7 +104,6 @@ public class Playfield extends AppCompatActivity {
 
 
     FirebaseFirestore database;
-    String currentRoom = "";
     ArrayList<String> playerList = new ArrayList();
 
     @Override
@@ -519,7 +518,7 @@ public class Playfield extends AppCompatActivity {
 
 //TODO: CANT MOVE BECAUSE PLAYERVIEW == NULL?!
 
-        player.move(diceValue);
+        playerRed.move(diceValue);
     }
 
     public void decideStartingPlayer() { //TODO: problem: player != primary player wont get put into map
