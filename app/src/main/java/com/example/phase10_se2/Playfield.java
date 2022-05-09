@@ -580,6 +580,7 @@ public class Playfield extends AppCompatActivity {
         return views;
     }
 
+
     public void getPlayerListFromDatabase() {
         database.collection("users")
                 .whereEqualTo("Room", currentRoom)
