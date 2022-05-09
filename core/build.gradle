@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'jacoco'
+    id "org.sonarqube" version "3.3"
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "SE2-Gruppe-D_Phase10_SE2"
+        property "sonar.organization", "se2-gruppe-d"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property 'sonar.coverage.jacoco.xmlReportPaths', '${project.buildDir}/reports/jacoco.xml'
+    }
+}
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+    testImplementation('org.assertj:assertj-core:3.22.0')
+    implementation "org.java-websocket:Java-WebSocket:1.5.1"
+    implementation("com.google.code.gson:gson:2.9.0")
+    testImplementation "org.mockito:mockito-core:4.0.0"
+
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
+}
+
+test{
+    useJUnitPlatform()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}

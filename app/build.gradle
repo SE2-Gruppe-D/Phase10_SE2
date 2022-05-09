@@ -1,16 +1,11 @@
 plugins {
-    id 'com.android.application'
-    id 'jacoco'
-    id 'com.google.gms.google-services'  // Google Services plugin'
+    id 'com.android.application'// version '7.1.2' apply false
+//    id 'com.android.library'
 }
 
 android {
     compileSdk 32
-   
-    sourceSets {
-        test.java.srcDirs += 'src/test/java/com.example.phase10_se2'
-        androidTest.java.srcDirs += 'src/androidTest/java/com.example.phase10_se2'
-    }
+    buildToolsVersion "32.0.0"
 
 
     defaultConfig {
@@ -19,6 +14,7 @@ android {
         targetSdk 32
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -29,6 +25,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -52,6 +49,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
+    implementation project(':core')
     implementation platform('com.google.firebase:firebase-bom:29.3.0')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-auth'
