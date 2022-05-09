@@ -38,8 +38,10 @@ public class WinnerDecision
             }
         }
     }
-    public PlayerColor getWinner()
+    public String getWinner()
     {
+        StringBuilder sB = new StringBuilder();
+        String colorString = "";
         int phaseCheck = 10;
         int minusPointsCheck = -1;
         Player temporaryWinner = null;
@@ -63,12 +65,26 @@ public class WinnerDecision
         }
         if (Winnernumber == 0)
         {
-            return temporaryWinner.getColor();
+            colorString = temporaryWinner.getColor().toString();
+            return colorString;
         }
         else if (Winnernumber != 0)
         {
-            
+            for (Player p : actualPlayer)
+            {
+                if (p.getMinusPoints() == minusPointsCheck)
+                {
+                    if (sB.toString().isEmpty())
+                    {
+                        sB.append(p.getColor().toString());
+                    }
+
+                    sB.append(" " + p.getColor().toString());
+                }
+            }
+            colorString = sB.toString();
+            return colorString;
         }
-            return temporaryWinner.getColor();
+            return colorString;
     }
 }
