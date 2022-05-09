@@ -6,13 +6,14 @@ import java.util.ArrayList;
 
 public class WinnerDecision
 {
-    
+
     Player playerRed = null;
     Player playerBlue = null;
     Player playerYellow = null;
     Player playerGreen = null;
     ArrayList<Player> actualPlayers;
 
+    //Konstruktor für WinnerDecision, speichern der Spieler in eigene Variablen + einer Sammlung(ArrayList) von Spielern(Spielerliste)
     public WinnerDecision(ArrayList<Player> playerList)
     {
         for (Player p : playerList)
@@ -43,6 +44,7 @@ public class WinnerDecision
         }
     }
 
+    //gibt einen String aus wer Gewonnen hat
     public String getWinner()
     {
         StringBuilder sB = new StringBuilder();
@@ -73,6 +75,7 @@ public class WinnerDecision
             colorString = temporaryWinner.getColor().toString();
             return colorString;
         }
+        //für den Fall das mehrere Gewonnen haben, String kann daraufhin durch trennzeichen aufgeteilt werden wodurch wir separat die einzelnen Spieler haben
         else if (Winnernumber != 0)
         {
             for (Player p : actualPlayers)
