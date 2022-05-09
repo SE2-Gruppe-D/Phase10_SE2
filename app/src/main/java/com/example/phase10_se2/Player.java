@@ -122,19 +122,22 @@ public class Player {
     }
 
     //bewegen des Players auf dem Spielbrett
-    public void updateMapPosition() {
-        if (this.color.equals(PlayerColor.BLUE) && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float) 127 + (float) 44);
-            this.playerview.setTranslationY(getPositionY() * (float) 150 + (float) 173);
-        } else if (this.color.equals(PlayerColor.YELLOW) && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float) 127 + (float) 95);
-            this.playerview.setTranslationY(getPositionY() * (float) 150 + (float) 173);
-        } else if (this.color.equals(PlayerColor.RED) && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float) 127 + (float) 95);
-            this.playerview.setTranslationY(getPositionY() * (float) 150 + (float) 225);
-        } else if (this.color.equals(PlayerColor.GREEN) && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float) 127 + (float) 44);
-            this.playerview.setTranslationY(getPositionY() * (float) 150 + (float) 225);
+    public void updateMapPosition () {
+        if(this.color == PlayerColor.BLUE && this.playerview != null) {
+            this.playerview.setTranslationX(getPositionX() * (float)45 + (float) 15);
+            this.playerview.setTranslationY(getPositionY() * (float)49 + (float) 56);
+        }
+        else if(this.color == PlayerColor.YELLOW && this.playerview != null) {
+            this.playerview.setTranslationX(getPositionX() * (float)45 + (float)34);
+            this.playerview.setTranslationY(getPositionY() * (float)49 + (float)56);
+        }
+        else if(this.color == PlayerColor.RED && this.playerview != null) {
+            this.playerview.setTranslationX(getPositionX() * (float)45 + (float)15);
+            this.playerview.setTranslationY(getPositionY() * (float)49 + (float)75);
+        }
+        else if(this.color == PlayerColor.GREEN && this.playerview != null) {
+            this.playerview.setTranslationX(getPositionX() * (float)45 + (float)34);
+            this.playerview.setTranslationY(getPositionY() * (float)49 + (float)75);
         }
         System.out.println((getPositionX() * (float) 47 + (float) 16) + " : " + (getPositionY() * (float) 54 + (float) 63));
     }
