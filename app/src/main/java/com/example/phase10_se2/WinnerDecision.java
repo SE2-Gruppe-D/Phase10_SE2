@@ -16,28 +16,32 @@ public class WinnerDecision
     {
         for (Player p : playerList)
         {
-            if (p.getColor().equals("RED"))
+            if (p != null)
             {
-                playerRed = p;
-                actualPlayers.add(playerRed);
-            }
-            else if (p.getColor().equals("BLUE"))
-            {
-                playerBlue = p;
-                actualPlayers.add(playerBlue);
-            }
-            else if (p.getColor().equals("YELLOW"))
-            {
-                playerYellow = p;
-                actualPlayers.add(playerYellow);
-            }
-            else if (p.getColor().equals("GREEN"))
-            {
-                playerGreen = p;
-                actualPlayers.add(playerGreen);
+                if (p.getColor().equals("RED"))
+                {
+                    playerRed = p;
+                    actualPlayers.add(playerRed);
+                }
+                else if (p.getColor().equals("BLUE"))
+                {
+                    playerBlue = p;
+                    actualPlayers.add(playerBlue);
+                }
+                else if (p.getColor().equals("YELLOW"))
+                {
+                    playerYellow = p;
+                    actualPlayers.add(playerYellow);
+                }
+                else if (p.getColor().equals("GREEN"))
+                {
+                    playerGreen = p;
+                    actualPlayers.add(playerGreen);
+                }
             }
         }
     }
+
     public String getWinner()
     {
         StringBuilder sB = new StringBuilder();
