@@ -82,8 +82,9 @@ public class Playfield extends AppCompatActivity {
     Player playerRed;
     Player playerYellow;
     Player playerBlue;
-    Player primaryPlayer;
+    Player player;
 
+    Phase phase;
 
 
     //light sensor
@@ -168,25 +169,28 @@ public class Playfield extends AppCompatActivity {
         });
 
         //Button, um zu überprüfen, ob die Phase richtig ist
-
+        cardfieldCardlist = new ArrayList<>();
+        phase = new Phase();
         btnCheckPhase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkPhase) --> next Phase
-                //else if false ->
-                    while (layoutPlayer1CardField.getChildCount()!=0 ) {
+                if (phase.checkSetOf2(cardfieldCardlist)) {
+                        int phase = 2;
+                } else {
+                    while (layoutPlayer1CardField.getChildCount() != 0) {
                         View v = layoutPlayer1CardField.getChildAt(0);
                         ViewGroup owner = (ViewGroup) v.getParent();
                         owner.removeView(v);
                         layoutPlayer1.addView(v);
                         v.setVisibility(View.VISIBLE);
                     }
+                }
             }
         });
 
         discardpileList = new ArrayList<>();
         cardlist = new ArrayList<>();
-        cardfieldCardlist = new ArrayList<>();
+
 
         deckcard = findViewById(R.id.deckblatt);
         defaultcard = findViewById(R.id.defaultcard);
@@ -312,25 +316,25 @@ public class Playfield extends AppCompatActivity {
             switch (userColor) {
                 case "RED":
                     playerRed = new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom, 1, 0, new ArrayList<>(), new ArrayList<>());
-                    primaryPlayer = playerRed;
+                    player = playerRed;
                     break;
                 case "BLUE":
                     playerBlue = new Player(documentSnapshot.getString("Name"), PlayerColor.BLUE, currentRoom, 1, 0, new ArrayList<>(), new ArrayList<>());
-                    primaryPlayer = playerBlue;
+                    player = playerBlue;
                     break;
                 case "YELLOW":
                     playerYellow = new Player(documentSnapshot.getString("Name"), PlayerColor.YELLOW, currentRoom, 1, 0, new ArrayList<>(), new ArrayList<>());
-                    primaryPlayer = playerYellow;
+                    player = playerYellow;
                     break;
                 case "GREEN":
                     playerGreen = new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom, 1, 0, new ArrayList<>(), new ArrayList<>());
-                    primaryPlayer = playerGreen;
+                    player = playerGreen;
                     break;
                 default:
                     break;
 
             }
-            Log.i("-------------------------------------------", "Color: " + primaryPlayer.getColor());
+            Log.i("-------------------------------------------", "Color: " + player.getColor());
 
         }
 
@@ -457,14 +461,16 @@ public class Playfield extends AppCompatActivity {
                     ViewGroup owner = (ViewGroup) v.getParent();
 
                     //Array mit den ausgelegten Karten befüllen
-                    //primaryPlayer an farbe anpassen, weil primaryPlayer.getHand = null
-                    primaryPlayer = playerBlue;
-                    for(int i = 0; i < primaryPlayer.getPlayerHand().size(); i++){
-                        if(v.equals(primaryPlayer.getPlayerHand().get(i).getCardUI())){
-                            cardfieldCardlist.add(primaryPlayer.getPlayerHand().get(i));
-                            primaryPlayer.getPlayerHand().remove(primaryPlayer.getPlayerHand().get(i));
+                    //primaryPlayer an farbe anpassen, weil primaryPlayer.getHand = 0
+                    //Funktioniert nur mit primarayPlayer=playerBlue
+                    player = playerBlue;
+                    for(int i = 0; i < player.getPlayerHand().size(); i++){
+                        if(v.equals(player.getPlayerHand().get(i).getCardUI())){
+                            cardfieldCardlist.add(player.getPlayerHand().get(i));
+                            player.getPlayerHand().remove(player.getPlayerHand().get(i));
                         }
                     }
+                    System.out.println(cardfieldCardlist.size());
                     owner.removeView(v);
                     layoutPlayer1CardField.addView(v);
                     v.setVisibility(View.VISIBLE);
@@ -482,7 +488,7 @@ public class Playfield extends AppCompatActivity {
 
     //Aktuelle in Player zugewiesene Phase wird in Textview am Spielfeld angezeigt
     public void setPhasenTextTextView() {
-        tvAktuellePhase.setText(primaryPlayer.getPhaseText());
+        tvAktuellePhase.setText(player.getPhaseText());
     }
 
 
@@ -504,7 +510,7 @@ public class Playfield extends AppCompatActivity {
             int lastDiceValue = 0;
 
             Toast.makeText(getApplicationContext(), player.getName() + "'s turn", Toast.LENGTH_LONG);
-            if (player.equals(primaryPlayer)) {
+            if (player.equals(this.player)) {
                 diceFragment.register();
 
                 while (diceFragment.getAcceleration() < 0) {

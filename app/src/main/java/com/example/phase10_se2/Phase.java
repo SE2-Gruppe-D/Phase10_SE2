@@ -8,6 +8,8 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Phase extends AppCompatActivity {
@@ -17,6 +19,10 @@ public class Phase extends AppCompatActivity {
     ArrayList<Cards> handcards;
     LinearLayout ablageLayoutPlayer1;
     Cards hilfskarte;
+
+    public Phase() {
+    }
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,38 +83,30 @@ public class Phase extends AppCompatActivity {
 
      */
 
-    public List<Cards> getRightPhase(ArrayList<Cards> cardfieldCardlist){
+    public boolean getRightPhase(ArrayList<Cards> cardfieldCardlist){
         int phase = 1;
-        List<Cards> list1 = new ArrayList<>();
-        List<Cards> list2 = new ArrayList<>();
-        List<Cards> list3 = new ArrayList<>();
-        List<Cards> list4 = new ArrayList<>();
-
         switch (phase){
-            case 1: list1.add(cardfieldCardlist.get(0));
-                list1.add(cardfieldCardlist.get(1));
-                cardfieldCardlist.removeAll(list1);
-                list2.add(cardfieldCardlist.get(2));
-                list2.add(cardfieldCardlist.get(3));
-                cardfieldCardlist.removeAll(list2);
-                list3.add(cardfieldCardlist.get(4));
-                list3.add(cardfieldCardlist.get(5));
-                cardfieldCardlist.removeAll(list3);
-                list4.add(cardfieldCardlist.get(6));
-                list4.add(cardfieldCardlist.get(7));
-                cardfieldCardlist.removeAll(list4);
-               return list1; list2;list3,list4;
-
-
+            case 1: return checkSetOf2(cardfieldCardlist);
+            default: return false;
         }
     }
 
     //check Phase 1 - 10
     //Phase 1: 4 Zwillinge
-    public boolean checkPhase1(List<Cards> list1, List<Cards> list2, List<Cards> list3, List<Cards> list4){
-        return checkSetOf2(list1) && checkSetOf2(list2) && checkSetOf2(list3) && checkSetOf2(list4);
+    public boolean checkPhase1(List<Cards> list1){
+        List<Cards> helplist = new ArrayList<>(list1);
+        Cards helpCard;
+        for(int i=0; i < list1.size(); i++) {
+            helpCard = list1.get(i);
+            for (int j = 0; j < helplist.size(); j++) {
+                if (helpCard.equals(helplist.get(j))) {
+                    helplist.remove(helpCard);
+                }
+            }
+        }
+        return helplist.size() == 0;
     }
-
+/*
     public void layPhase1(){
 
         handcards = getRightHandCards();
@@ -135,7 +133,7 @@ public class Phase extends AppCompatActivity {
         }
     }
 
-
+ */
 
     //Phase 2: 6 Karten einer Farbe
     private boolean checkPhase2(List<Cards> list1){
@@ -189,8 +187,36 @@ public class Phase extends AppCompatActivity {
 
     //check sets of 2,3,4,5
    public boolean checkSetOf2(List<Cards> list1){
-       return list1.size() == 2 && checkEqualsValue(list1);
+       list1.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
+       List<Cards> helplist = new ArrayList<>(list1);
+       Cards helpCard;
+       if(list1.size()==8) {
+           for (int i = 0; i < list1.size(); i=i+2) {
+               helpCard = list1.get(i);
+               if (helplist.size() != 0) {
+                   //for (int j = 1; j <= helplist.size(); j++) {
+                       if (helpCard.getValue() == helplist.get(1).getValue()) {
+                           helplist.remove(1);
+                           helplist.remove(helpCard);
+                       }
+                   }
+               }
+           }
+       //}
+       return helplist.isEmpty();
    }
+/*
+   public List<Cards> sortByValue(List<Cards> list){
+       list.sort(Comparator.comparing(Cards::getValue));
+       for(int i=0; i < list.size(); i++) {
+           if(list.get(i).getValue() > list.get(i+1).getValue()){
+               list.sort();
+           }
+       }
+       return list;
+   }
+
+ */
 
     private boolean checkSetOf3(List<Cards> list1){
         return list1.size() == 3 && checkEqualsValue(list1);
