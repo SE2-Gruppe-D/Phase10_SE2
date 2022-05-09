@@ -8,112 +8,39 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Phase extends AppCompatActivity {
 
-    Player player;
-    Playfield playfield;
-    ArrayList<Cards> handcards;
-    LinearLayout ablageLayoutPlayer1;
-    Cards hilfskarte;
-
+    public Phase() {
+    }
+/*
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
-
-        ablageLayoutPlayer1= findViewById(R.id.player1PhaseAblegen);
-        handcards = getRightHandCards();
-        List<Cards> zwillinge = new ArrayList<>();
-        final int[] id = new int[1];
-        handcards.get(0).getCardUI().setOnClickListener(view -> {
-            id[0] = view.getId();
-        });
-
-        for(int i = 0; i < handcards.size(); i++){
-            if(handcards.get(i).getCardUI().getId() == id[0]){
-                zwillinge.add(handcards.get(i));
-                handcards.remove(i);
-                ablageLayoutPlayer1.addView(zwillinge.get(0).getCardUI());
-                zwillinge.get(0).getCardUI().setVisibility(View.VISIBLE);
-            }
-        }
-
-
-
-        handcards.get(0).getCardUI().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                id[0] = view.getId();
-            }
-        });
-        for(int i = 0; i < handcards.size(); i++){
-            if(handcards.get(i).getCardUI().getId() == id[0]){
-                zwillinge.add(handcards.get(i));
-                handcards.remove(i);
-                ablageLayoutPlayer1.addView(zwillinge.get(0).getCardUI());
-                zwillinge.get(0).getCardUI().setVisibility(View.VISIBLE);
-            }
-        }
     }
 
+ */
 
-    private ArrayList<Cards> getRightHandCards (){ //!!!!Statt ID von Player über Color --> ersetzen!!!!
-        switch (player.getColor()){
-
-            case RED:  ablageLayoutPlayer1.findViewById(R.id.player1PhaseAblegen);
-                return playfield.getPlayerRed().getPlayerHand();
-            case BLUE: ablageLayoutPlayer1.findViewById(R.id.player1PhaseAblegen);
-                return playfield.getPlayerBlue().getPlayerHand();
-            case YELLOW: ablageLayoutPlayer1.findViewById(R.id.player1PhaseAblegen);
-                return playfield.getPlayerYellow().getPlayerHand();
-            case GREEN: ablageLayoutPlayer1.findViewById(R.id.player1PhaseAblegen);
-                return playfield.getPlayerGreen().getPlayerHand();
-            default:return null;
+    public boolean getRightPhase(ArrayList<Cards> cardfieldCardlist){
+        int phase = 1;
+        switch (phase){
+            case 1: return checkPhase1(cardfieldCardlist);
+            default: return false;
         }
     }
-
-
-
-
-
-
-
-
 
     //check Phase 1 - 10
     //Phase 1: 4 Zwillinge
-    public boolean checkPhase1(List<Cards> list1, List<Cards> list2, List<Cards> list3, List<Cards> list4){
-        return checkSetOf2(list1) && checkSetOf2(list2) && checkSetOf2(list3) && checkSetOf2(list4);
-    }
-
-    public void layPhase1(){
-
-        handcards = getRightHandCards();
-
-        //Karten rauslegen
-        List<Cards> cards1 = new ArrayList<>();
-
-        cards1.add(handcards.get(0)); //Die erste Karte, die man raus legt?????
-        cards1.add(handcards.get(1));
-        List<Cards> cards2 = new ArrayList<>();
-        cards2.add(handcards.get(2));
-        cards2.add(handcards.get(3));
-        List<Cards> cards3 = new ArrayList<>();
-        cards3.add(handcards.get(4));
-        cards3.add(handcards.get(5));
-        List<Cards> cards4 = new ArrayList<>();
-        cards4.add(handcards.get(6));
-        cards4.add(handcards.get(7));
-
-        //überprüfen, ob richtig ist
-        //mit Button
-        if(!checkPhase1(cards1,cards2,cards3,cards4)){
-            //Karten zurück zu den Handkarten
+    public boolean checkPhase1(List<Cards> list){
+        if (list.size() == 8) {
+            return checkSameValue(list);
+        }else{
+            return false;
         }
     }
-
-
 
     //Phase 2: 6 Karten einer Farbe
     private boolean checkPhase2(List<Cards> list1){
@@ -166,9 +93,31 @@ public class Phase extends AppCompatActivity {
 
 
     //check sets of 2,3,4,5
-   public boolean checkSetOf2(List<Cards> list1){
-       return list1.size() == 2 && checkEqualsValue(list1);
+   public boolean checkSetOf2(List<Cards> list) {
+       if (list.size() == 8) {
+           return checkSameValue(list);
+       }else{
+           return false;
+       }
    }
+
+   public boolean checkSameValue(List<Cards> list){
+       list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
+       List<Cards> helplist = new ArrayList<>(list);
+       Cards helpCard;
+           for (int i = 0; i < list.size(); i=i+2) {
+               helpCard = list.get(i);
+               if (helplist.size() != 0) {
+                   if (helpCard.getValue() == helplist.get(1).getValue()) {
+                       helplist.remove(1);
+                       helplist.remove(helpCard);
+                   }
+               }
+           }
+       return helplist.isEmpty();
+   }
+
+
 
     private boolean checkSetOf3(List<Cards> list1){
         return list1.size() == 3 && checkEqualsValue(list1);
