@@ -4,6 +4,7 @@ import static android.os.SystemClock.sleep;
 
 import android.content.ClipData;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -67,6 +68,7 @@ public class Playfield extends AppCompatActivity {
     ArrayList<Cards> drawpileList;      //Ziehstapel
     TextView leererAblagestapel;
 
+    Button exitGame;        //Spiel verlassen Button
     Button btnHideAktionskarte;
     Button btnShowAktionskarte;
     ImageView ivShowAktionskarte;
@@ -100,6 +102,11 @@ public class Playfield extends AppCompatActivity {
     private CountDownTimer timerturn;
     private long leftTime = startTimer;
 
+
+    FirebaseFirestore database;
+    String currentRoom = "";
+    ArrayList<String> playerList = new ArrayList();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,9 +114,8 @@ public class Playfield extends AppCompatActivity {
         builder = new AlertDialog.Builder(Playfield.this);
 
         currentRoom = getIntent().getExtras().getString("CurrentRoom");
-        userColor = getIntent().getExtras().getString("Color");
-        Toast.makeText(this, "YOU ARE THE " + userColor + " PLAYER!", Toast.LENGTH_SHORT).show();
-        FirebaseFirestore database;
+        String userColor = getIntent().getExtras().getString("Color");
+        Toast.makeText(this, "YOU ARE THE " + userColor + " PLAYER!", Toast.LENGTH_LONG).show();
         database = FirebaseFirestore.getInstance();    //verknuepfung
         database.collection("users")
                 .whereEqualTo("Room", currentRoom)
@@ -175,18 +181,15 @@ public class Playfield extends AppCompatActivity {
             public void onClick(View view) {
                 //if(checkPhase true) --> next Phase
                 //else if false ->
-                    while (layoutPlayer1CardField.getChildCount()!=0 ) {
-                        View v = layoutPlayer1CardField.getChildAt(0);
-                        ViewGroup owner = (ViewGroup) v.getParent();
-                        owner.removeView(v);
-                        layoutPlayer1.addView(v);
-                        v.setVisibility(View.VISIBLE);
-                    }
+                while (layoutPlayer1CardField.getChildCount() != 0) {
+                    View v = layoutPlayer1CardField.getChildAt(0);
+                    ViewGroup owner = (ViewGroup) v.getParent();
+                    owner.removeView(v);
+                    layoutPlayer1.addView(v);
+                    v.setVisibility(View.VISIBLE);
+                }
             }
         });
-
-
-
 
         discardpileList = new ArrayList<>();
         cardlist = new ArrayList<>();
@@ -301,10 +304,20 @@ public class Playfield extends AppCompatActivity {
                     }
                 });
 
+
         //TODO: delete button and move function to game start
         findViewById(R.id.button).setOnClickListener(view -> {
             throwingDice(primaryPlayer);
         });
+
+        //Spiel verlassen
+        exitGame = findViewById(R.id.leaveGame);
+        exitGame.setOnClickListener(view -> leaveGame());
+    }
+
+    public void leaveGame() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     private void initializePlayer(DocumentSnapshot documentSnapshot, String userColor, String currentRoom) {
@@ -475,8 +488,9 @@ public class Playfield extends AppCompatActivity {
     }
 
 
-    private boolean checkblue(FieldColor fieldColor){
-        if(fieldColor.equals(FieldColor.BLUE)){
+    private boolean checkblue(FieldColor fieldColor) {
+        if (fieldColor.equals(FieldColor.BLUE)) {
+
             //Code..
         }
         return true;
@@ -559,7 +573,6 @@ public class Playfield extends AppCompatActivity {
     }
 
 
-
     //Getter und Setter
     public Player getPlayerGreen() {
         return playerGreen;
@@ -596,11 +609,10 @@ public class Playfield extends AppCompatActivity {
     }
 
 
-
     //get all views from any type of layout
-    public List<View> getAllViews(ViewGroup layout){
+    public List<View> getAllViews(ViewGroup layout) {
         List<View> views = new ArrayList<>();
-        for(int i =0; i< layout.getChildCount(); i++){
+        for (int i = 0; i < layout.getChildCount(); i++) {
 
             views.add(layout.getChildAt(i));
             layout.removeView(layout.getChildAt(i));
@@ -611,11 +623,31 @@ public class Playfield extends AppCompatActivity {
         return views;
     }
 
+
     public String getCurrentRoom() {
         return currentRoom;
     }
 
     public String getUserColor() {
         return userColor;
+    }
+}
+
+    public void getPlayerListFromDatabase() {
+        database.collection("users")
+                .whereEqualTo("Room", currentRoom)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                playerList.add(document.getString("Color"));
+                            }
+
+
+                        }
+                    }
+                });
     }
 }

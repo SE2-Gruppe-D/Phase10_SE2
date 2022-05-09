@@ -70,7 +70,7 @@
         android:layout_marginBottom="180dp"
         android:background="#F8E118"
         android:gravity="fill_vertical"
-        android:text="Credits: "
+        android:text="\nCredits: \nBaisan Andreas \nHasler Melanie \nLikar Laura \nMarchetti Theresa \nPließnig Leon"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
