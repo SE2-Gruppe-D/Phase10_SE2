@@ -404,7 +404,6 @@ public class Playfield extends AppCompatActivity {
         if (Objects.equals(documentSnapshot.getString("Color"), userColor)) {
             switch (userColor) {
                 case "RED":
-
                     playerRed = new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom, 1, 0, playerHandRed, new ArrayList<>());
                     primaryPlayer = playerRed;
                     break;
@@ -425,7 +424,6 @@ public class Playfield extends AppCompatActivity {
                     break;
 
             }
-            Log.i("-------------------------------------------", "Color: " + player.getColor());
 
         }
 
@@ -632,7 +630,7 @@ public class Playfield extends AppCompatActivity {
 
         //TODO: CANT MOVE BECAUSE PLAYERVIEW == NULL?!
         //TODO: FIX PLAYERVIEW
-        playerRed.move(diceValue);
+        playerBlue.move(diceValue);
     }
 
     public void decideStartingPlayer() { //TODO: problem: player != primary player wont get put into map
