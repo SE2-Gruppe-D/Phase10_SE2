@@ -12,6 +12,9 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
@@ -48,6 +51,7 @@ import java.util.TreeMap;
 
 public class Playfield extends AppCompatActivity {
     DiceFragment diceFragment;
+    String currentRoom = "";
     ImageView deckcard;
     ImageView defaultcard;
     LinearLayout layoutPlayer1;
@@ -60,6 +64,7 @@ public class Playfield extends AppCompatActivity {
     CardDrawer cardDrawer;
     ArrayList<Cards> cardlist;
     ArrayList<Cards> discardpileList;//Ablagestapel
+    ArrayList<Cards> cardfieldCardlist;
 
     ArrayList<ImageView> Imagelist;
     ArrayList<Cards> drawpileList;      //Ziehstapel
@@ -78,10 +83,12 @@ public class Playfield extends AppCompatActivity {
     ImageView ivPlayerGreen;
     ImageView ivPlayerRed;
 
+    String userColor;
     Player playerGreen;
     Player playerRed;
     Player playerYellow;
     Player playerBlue;
+
     Player primaryPlayer;
     Player currentPlayer;
 
@@ -106,6 +113,11 @@ public class Playfield extends AppCompatActivity {
         return playerHandGreen;
     }
 
+    Player player;
+
+    Phase phase;
+
+
 
     //light sensor
     SensorManager sm;
@@ -122,7 +134,6 @@ public class Playfield extends AppCompatActivity {
 
 
     FirebaseFirestore database;
-    String currentRoom = "";
     ArrayList<String> playerList = new ArrayList();
 
     @Override
@@ -132,7 +143,7 @@ public class Playfield extends AppCompatActivity {
         builder = new AlertDialog.Builder(Playfield.this);
 
         currentRoom = getIntent().getExtras().getString("CurrentRoom");
-        String userColor = getIntent().getExtras().getString("Color");
+        userColor = getIntent().getExtras().getString("Color");
         Toast.makeText(this, "YOU ARE THE " + userColor + " PLAYER!", Toast.LENGTH_LONG).show();
         database = FirebaseFirestore.getInstance();    //verknuepfung
         database.collection("users")
@@ -207,24 +218,28 @@ public class Playfield extends AppCompatActivity {
         });
 
         //Button, um zu überprüfen, ob die Phase richtig ist
-
+        cardfieldCardlist = new ArrayList<>();
+        phase = new Phase();
         btnCheckPhase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //if(checkPhase true) --> next Phase
-                //else if false ->
-                while (layoutPlayer1CardField.getChildCount() != 0) {
-                    View v = layoutPlayer1CardField.getChildAt(0);
-                    ViewGroup owner = (ViewGroup) v.getParent();
-                    owner.removeView(v);
-                    layoutPlayer1.addView(v);
-                    v.setVisibility(View.VISIBLE);
+                if (phase.checkPhase1(cardfieldCardlist)) {
+                        int phase = 2;
+                } else {
+                    while (layoutPlayer1CardField.getChildCount() != 0) {
+                        View v = layoutPlayer1CardField.getChildAt(0);
+                        ViewGroup owner = (ViewGroup) v.getParent();
+                        owner.removeView(v);
+                        layoutPlayer1.addView(v);
+                        v.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
 
         discardpileList = new ArrayList<>();
         cardlist = new ArrayList<>();
+
 
         deckcard = findViewById(R.id.deckblatt);
         defaultcard = findViewById(R.id.defaultcard);
@@ -361,6 +376,12 @@ public class Playfield extends AppCompatActivity {
                     }
                 });
 
+
+        //TODO: delete button and move function to game start
+        findViewById(R.id.button).setOnClickListener(view -> {
+            throwingDice(player);
+        });
+
         //Spiel verlassen
         exitGame = findViewById(R.id.leaveGame);
         exitGame.setOnClickListener(view -> leaveGame());
@@ -383,6 +404,7 @@ public class Playfield extends AppCompatActivity {
         if (Objects.equals(documentSnapshot.getString("Color"), userColor)) {
             switch (userColor) {
                 case "RED":
+
                     playerRed = new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom, 1, 0, playerHandRed, new ArrayList<>());
                     primaryPlayer = playerRed;
                     break;
@@ -397,12 +419,13 @@ public class Playfield extends AppCompatActivity {
                 case "GREEN":
                     playerGreen = new Player(documentSnapshot.getString("Name"), PlayerColor.GREEN, currentRoom, 1, 0, playerHandGreen, new ArrayList<>());
                     primaryPlayer = playerGreen;
+
                     break;
                 default:
                     break;
 
             }
-            Log.i("-------------------------------------------", "Color: " + primaryPlayer.getColor());
+            Log.i("-------------------------------------------", "Color: " + player.getColor());
 
         }
 
@@ -545,9 +568,22 @@ public class Playfield extends AppCompatActivity {
                     //löschen im altem Layout
                     View v = (View) dragEvent.getLocalState();
                     ViewGroup owner = (ViewGroup) v.getParent();
+
+                    //Array mit den ausgelegten Karten befüllen
+                    //primaryPlayer an farbe anpassen, weil primaryPlayer.getHand = 0
+                    //Funktioniert nur mit primarayPlayer=playerBlue
+                    player = playerBlue;
+                    for(int i = 0; i < player.getPlayerHand().size(); i++){
+                        if(v.equals(player.getPlayerHand().get(i).getCardUI())){
+                            cardfieldCardlist.add(player.getPlayerHand().get(i));
+                            player.getPlayerHand().remove(player.getPlayerHand().get(i));
+                        }
+                    }
+                    System.out.println(cardfieldCardlist.size());
                     owner.removeView(v);
                     layoutPlayer1CardField.addView(v);
                     v.setVisibility(View.VISIBLE);
+
                     return true;
 
                 case DragEvent.ACTION_DRAG_ENDED:
@@ -561,19 +597,45 @@ public class Playfield extends AppCompatActivity {
 
     //Aktuelle in Player zugewiesene Phase wird in Textview am Spielfeld angezeigt
     public void setPhasenTextTextView() {
-        tvAktuellePhase.setText(primaryPlayer.getPhaseText());
+        tvAktuellePhase.setText(player.getPhaseText());
     }
 
 
-    private boolean checkblue(FieldColor fieldColor) {
-        if (fieldColor.equals(FieldColor.BLUE)) {
+
+    private boolean checkblue(FieldColor fieldColor){
+        if(fieldColor.equals(FieldColor.BLUE)){
+
             //Code..
         }
         return true;
     }
 
+    public void throwingDice(Player player) {
+        int diceValue = 1;
 
-    public void decideStartingPlayer() {
+//        while (diceFragment.getAcceleration() < 1) { //maybe replace with threshold
+//            sleep(10);
+//        }
+//
+//
+//        while (diceFragment.getAcceleration() > 1) { //maybe replace with threshold
+//            diceValue = diceFragment.getLastDiceValue();
+//            sleep(100);
+//
+//            int timeSpent = 0;
+//            int sleepDurationInMs = 10;
+//            while (diceFragment.getAcceleration() < 1 && timeSpent < 3000) { //maybe replace with threshold
+//                sleep(sleepDurationInMs);
+//                timeSpent += sleepDurationInMs;
+//            }
+//        }
+
+        //TODO: CANT MOVE BECAUSE PLAYERVIEW == NULL?!
+        //TODO: FIX PLAYERVIEW
+        playerRed.move(diceValue);
+    }
+
+    public void decideStartingPlayer() { //TODO: problem: player != primary player wont get put into map
         //get array of active players
         ArrayList<Player> activePlayers = getActivePlayers();
         SortedMap<Integer, Player> startingDiceValues = new TreeMap<>();
@@ -582,15 +644,22 @@ public class Playfield extends AppCompatActivity {
             int lastDiceValue = 0;
 
             Toast.makeText(getApplicationContext(), player.getName() + "'s turn", Toast.LENGTH_LONG);
-            if (player.equals(primaryPlayer)) {
+            if (player.equals(this.player)) {
                 diceFragment.register();
 
-                while (diceFragment.getAcceleration() < 0) {
+                while (diceFragment.getAcceleration() < 1) { //maybe replace with threshold
                     sleep(10);
                 }
-                while (diceFragment.getAcceleration() > 1) {
+                while (diceFragment.getAcceleration() > 1) { //maybe replace with threshold
                     lastDiceValue = diceFragment.getLastDiceValue();
-                    sleep(10);
+                    sleep(100);
+
+                    int timeSpent = 0;
+                    int sleepDurationInMs = 10;
+                    while (diceFragment.getAcceleration() < 1 && timeSpent < 3000) {
+                        sleep(sleepDurationInMs);
+                        timeSpent += sleepDurationInMs;
+                    }
                 }
 
                 player.move(lastDiceValue);
@@ -654,20 +723,13 @@ public class Playfield extends AppCompatActivity {
     }
 
 
-    //get all views from any type of layout
-    public List<View> getAllViews(ViewGroup layout) {
-        List<View> views = new ArrayList<>();
-        for (int i = 0; i < layout.getChildCount(); i++) {
-
-            views.add(layout.getChildAt(i));
-            layout.removeView(layout.getChildAt(i));
-        }
-
-        int i = views.get(1).getId();
-        Object ia = views.get(1).getTag();
-        return views;
+    public String getCurrentRoom() {
+        return currentRoom;
     }
+
+    public String getUserColor() {
+        return userColor;
+    }
+
 }
-
-
 
