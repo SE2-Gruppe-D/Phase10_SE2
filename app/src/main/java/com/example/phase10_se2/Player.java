@@ -36,7 +36,7 @@ public class Player {
     private int phasenumber;
     //für das Auslegen der Karten
     private ArrayList<Cards> cardField;
-
+    private ArrayList<Cards> cards;
 
     // no-argument constructor
     public Player() {
@@ -56,7 +56,10 @@ public class Player {
         state = PlayerState.WAITING;
         playerHand = new ArrayList<Cards>();
         phaseText = "/";
-        this.cardField = cardField;
+
+        this.cardField=cardField;
+        this.cards=cards;
+
     }
 
     public Player(String name, PlayerColor color, int positionX, int positionY) {
