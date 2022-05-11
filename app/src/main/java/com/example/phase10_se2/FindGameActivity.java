@@ -54,6 +54,7 @@ public class FindGameActivity extends AppCompatActivity {
         radioBlue.setEnabled(false);
         radioGreen.setEnabled(false);
         radioYellow.setEnabled(false);
+        ArrayList<String> activeGames = new ArrayList<>();
 
 
         adapter = new ArrayAdapter<>(FindGameActivity.this, android.R.layout.simple_list_item_1, gameRoomsList);
@@ -62,7 +63,18 @@ public class FindGameActivity extends AppCompatActivity {
         database = FirebaseFirestore.getInstance();
 
         listView.setAdapter(adapter);
-
+        database.collection("activeGames")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
+                                activeGames.add(documentSnapshot.getString("RoomName"));
+                            }
+                        }
+                    }
+                });
         //get all information from database
         database.collection("users")
                 .get()
@@ -73,9 +85,11 @@ public class FindGameActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //add all available rooms to gameRoomsList
                                 if(!gameRoomsList.contains(document.getString("Room"))){
-                                    gameRoomsList.add(document.getString("Room"));
+                                    if(!activeGames.contains(document.getString("Room"))) {
+                                        gameRoomsList.add(document.getString("Room"));
+                                        adapter.notifyDataSetChanged();
+                                    }
 
-                                    adapter.notifyDataSetChanged();
                                 }
                             }
                         } else {
