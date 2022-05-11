@@ -73,7 +73,11 @@
         tools:layout_editor_absoluteY="1dp"
         android:layout_above="@id/joinRoomBtn"
         android:layout_below="@id/radioGroup"
-       >
+        android:choiceMode="singleChoice"
+        android:listSelector="#11FFFF"
+
+
+        >
 
 
     </ListView>
