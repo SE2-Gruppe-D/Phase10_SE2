@@ -62,6 +62,7 @@ public class Playfield extends AppCompatActivity {
 
     CardUIManager cardUIManager;
     CardDrawer cardDrawer;
+    CardsPrimaryPlayer cardsPrimaryPlayer;
     ArrayList<Cards> cardlist;
     ArrayList<Cards> discardpileList;//Ablagestapel
     ArrayList<Cards> cardfieldCardlist;
@@ -252,6 +253,7 @@ public class Playfield extends AppCompatActivity {
 
         cardUIManager = new CardUIManager();
         cardDrawer = new CardDrawer();
+        cardsPrimaryPlayer= new CardsPrimaryPlayer();
 
         cardlist.addAll(cardDrawer.getInitialCardsList());
         //dynamisches erstellen der Karten ImageViews
@@ -266,6 +268,7 @@ public class Playfield extends AppCompatActivity {
         cardDrawer.isInitialCardsEmpty();
 
         //Handkarten werden ausgeteilt
+
         for(int i = 0; i<10;i++){
             if (playerBlue != null) {
                 if(playerBlue.getColor().equals(primaryPlayer.getColor())){
@@ -305,7 +308,6 @@ public class Playfield extends AppCompatActivity {
                 }
             }
         }
-
 
         //Player Blue, Red, Yellow, Green
         deckcard.setOnClickListener(view -> {
@@ -393,12 +395,7 @@ public class Playfield extends AppCompatActivity {
         //Bei 2+ Spieler wird weiter gespielt
         //TODO:Methode aufrufen wieviel Spieler sind
     }
-    //primaryPlayer soll nur seine Karten sehen
-    public void showOnlyPrimaryPlayerCards(Player primaryPlayer){
-        for (Cards card : primaryPlayer.getPlayerHand()) {
-            card.getCardUI().setVisibility(View.VISIBLE);
-        }
-    }
+
 
     private void initializePlayer(DocumentSnapshot documentSnapshot, String userColor, String currentRoom) {
         if (Objects.equals(documentSnapshot.getString("Color"), userColor)) {
@@ -458,16 +455,16 @@ public class Playfield extends AppCompatActivity {
         //cards.getCardUI().setVisibility(View.VISIBLE);
         //Karten nur fuer primary player sichtbar
         if(playerYellow!=null&&playerYellow.getColor().equals(primaryPlayer.getColor())){
-            showOnlyPrimaryPlayerCards(playerYellow);
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerYellow);
         }
         if(playerBlue!=null&&playerBlue.getColor().equals(primaryPlayer.getColor())){
-            showOnlyPrimaryPlayerCards(playerBlue);
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerBlue);
         }
         if (playerRed!=null&&playerRed.getColor().equals(primaryPlayer.getColor())){
-            showOnlyPrimaryPlayerCards(playerRed);
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerRed);
         }
         if(playerGreen!=null&&playerGreen.getColor().equals(primaryPlayer.getColor())){
-            showOnlyPrimaryPlayerCards(playerGreen);
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerGreen);
         }
 
         cardlist.remove(0);
