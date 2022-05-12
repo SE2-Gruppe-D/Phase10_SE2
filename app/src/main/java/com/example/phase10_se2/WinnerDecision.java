@@ -44,11 +44,10 @@ public class WinnerDecision
         }
     }
 
-    //gibt einen String aus wer Gewonnen hat
-    public String getWinner()
+    //gibt eine ArrayList mit den Gewinnern aus
+    public ArrayList getWinner()
     {
-        StringBuilder sB = new StringBuilder();
-        String colorString = "";
+        ArrayList<Player> winners = new ArrayList<>();
         int phaseCheck = 10;
         int minusPointsCheck = -1;
         Player temporaryWinner = null;
@@ -72,27 +71,22 @@ public class WinnerDecision
         }
         if (Winnernumber == 0)
         {
-            colorString = temporaryWinner.getColor().toString();
-            return colorString;
+            winners.add(temporaryWinner);
+            return winners;
         }
-        //für den Fall das mehrere Gewonnen haben, String kann daraufhin durch trennzeichen aufgeteilt werden wodurch wir separat die einzelnen Spieler haben
+        //für den Fall das mehrere Gewonnen haben
         else if (Winnernumber != 0)
         {
             for (Player p : actualPlayers)
             {
                 if (p.getMinusPoints() == minusPointsCheck)
                 {
-                    if (sB.toString().isEmpty())
-                    {
-                        sB.append(p.getColor().toString());
-                    }
-
-                    sB.append(" " + p.getColor().toString());
+                    winners.add(p);
                 }
             }
-            colorString = sB.toString();
-            return colorString;
+
+            return winners;
         }
-            return colorString;
+            return winners;
     }
 }
