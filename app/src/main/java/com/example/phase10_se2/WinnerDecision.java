@@ -48,45 +48,38 @@ public class WinnerDecision
     public ArrayList getWinner()
     {
         ArrayList<Player> winners = new ArrayList<>();
-        int phaseCheck = 10;
+        int phaseCheck = 0;
         int minusPointsCheck = -1;
         Player temporaryWinner = null;
         int Winnernumber = 0;
+
+        //den Spieler mit den besten Werten für Phasenumber und minusPoints in temporaryWinner speichern
         for (Player p : actualPlayers)
         {
-            if(p.getPhasenumber() > phaseCheck && minusPointsCheck == -1)
-            {
-                minusPointsCheck=p.getMinusPoints();
+            if (phaseCheck <= p.getPhasenumber() && temporaryWinner == null) {
                 temporaryWinner = p;
+                phaseCheck = temporaryWinner.getPhasenumber();
+                minusPointsCheck = temporaryWinner.getMinusPoints();
             }
-            else if(p.getPhasenumber() > phaseCheck && p.getMinusPoints()<=minusPointsCheck)
-            {
-                if (minusPointsCheck == p.getMinusPoints())
-                {
-                    Winnernumber++;
-                }
-                minusPointsCheck=p.getMinusPoints();
+            if (p.getPhasenumber() > phaseCheck) {
                 temporaryWinner = p;
+                phaseCheck = temporaryWinner.getPhasenumber();
+                minusPointsCheck = temporaryWinner.getMinusPoints();
+            }
+            if (p.getPhasenumber() == phaseCheck && p.getMinusPoints() < minusPointsCheck) {
+                temporaryWinner = p;
+                phaseCheck = temporaryWinner.getPhasenumber();
+                minusPointsCheck = temporaryWinner.getMinusPoints();
             }
         }
-        if (Winnernumber == 0)
+        //Jeden Spieler mit den gleichen Werten in die ArrayList speichern und am ende zurückgeben
+        for (Player p : actualPlayers)
         {
-            winners.add(temporaryWinner);
-            return winners;
-        }
-        //für den Fall das mehrere Gewonnen haben
-        else if (Winnernumber != 0)
-        {
-            for (Player p : actualPlayers)
+            if (p.getPhasenumber() == temporaryWinner.getPhasenumber() &&p.getMinusPoints() == temporaryWinner.getMinusPoints())
             {
-                if (p.getMinusPoints() == minusPointsCheck)
-                {
-                    winners.add(p);
-                }
+                winners.add(p);
             }
-
-            return winners;
         }
-            return winners;
+     return winners;
     }
 }
