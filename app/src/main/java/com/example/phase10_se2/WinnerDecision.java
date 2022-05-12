@@ -51,7 +51,6 @@ public class WinnerDecision
         int phaseCheck = 0;
         int minusPointsCheck = -1;
         Player temporaryWinner = null;
-        int Winnernumber = 0;
 
         //den Spieler mit den besten Werten für Phasenumber und minusPoints in temporaryWinner speichern
         for (Player p : actualPlayers)
