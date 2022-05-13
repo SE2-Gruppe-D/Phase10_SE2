@@ -137,31 +137,30 @@
 
     <LinearLayout
         android:id="@+id/player3PhaseAblegen"
-        android:layout_width="48dp"
-        android:layout_height="347dp"
+        android:layout_width="44dp"
+        android:layout_height="304dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="40dp"
         android:background="#C5BBBB"
-        android:visibility="gone"
         android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/player2"
         tools:ignore="MissingConstraints">
 
 
-
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/player4PhaseAblegen"
-        android:layout_width="50dp"
-        android:layout_height="360dp"
+        android:layout_width="48dp"
+        android:layout_height="304dp"
         android:layout_marginBottom="40dp"
         android:background="#C5BBBB"
-        android:visibility="gone"
         android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/fl_playfield"
         app:layout_constraintTop_toBottomOf="@+id/player2"

@@ -497,8 +497,7 @@ public class Playfield extends AppCompatActivity {
         cardlist.remove(0);
         cards.getCardUI().setRotation(grad);
         cards.getCardUI().setOnClickListener(listener);
-        //cards.getCardUI().setOnTouchListener(new ChoiceTouchListener());
-
+       // cards.getCardUI().setOnTouchListener(new ChoiceTouchListener());
         //cards.getCardUI().setOnDragListener(new ChoiceDragListener());
     }
 
@@ -577,9 +576,9 @@ public class Playfield extends AppCompatActivity {
                 ClipData data = ClipData.newPlainText("", "");
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
                 view.startDragAndDrop(data, shadowBuilder, view, 0);
-                return true;
+                return false;
             } else return false;
-        }
+        }//return false ist notwendig, damit onClick und onTouchListener funktionieren
     }
 
     public ArrayList<Cards> getPrimaryHandcards() {
@@ -600,7 +599,7 @@ public class Playfield extends AppCompatActivity {
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (System.currentTimeMillis() - doubleClickLastTime < 500) {
+            if (System.currentTimeMillis() - doubleClickLastTime < 700) {
                 doubleClickLastTime = 0;
                 View v = view;
                 ViewGroup owner = (ViewGroup) v.getParent();
@@ -633,34 +632,9 @@ public class Playfield extends AppCompatActivity {
             }
         }
     };
-
-
-/*
-    private class ExternalOnClickListener implements View.OnClickListener{
-
-        @Override
-        public void onClick(View view) {
-            //löschen im altem Layout
-            View v = view;
-            ViewGroup owner = (ViewGroup) v.getParent();
-
-            //Array mit den ausgelegten Karten befüllen
-            playerHandPrimaryPlayer  = getPrimaryHandcards();
-            for(int i = 0; i < playerHandPrimaryPlayer.size(); i++){
-                if(v.equals(playerHandPrimaryPlayer.get(i).getCardUI())){
-                    cardfieldCardlist.add(playerHandPrimaryPlayer.get(i));
-                    playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
-                }
-            }
-            owner.removeView(v);
-            layoutPlayer1CardField.addView(v);
-            v.setVisibility(View.VISIBLE);
-
-        }
-    }
+/* --> funktion nicht mehr richtig wegen onClick Listener
     //Class to drop
     //ChoiceDragListener
-    /*
     private class ChoiceDragListener implements View.OnDragListener {
         @Override
         public boolean onDrag(View view, DragEvent dragEvent) {
@@ -683,17 +657,16 @@ public class Playfield extends AppCompatActivity {
                     //löschen im altem Layout
                     View v = (View) dragEvent.getLocalState();
                     ViewGroup owner = (ViewGroup) v.getParent();
-
-                    //Array mit den ausgelegten Karten befüllen
+                    //Karte zum Ablegestapel hinzufügen
                     playerHandPrimaryPlayer  = getPrimaryHandcards();
                     for(int i = 0; i < playerHandPrimaryPlayer.size(); i++){
                         if(v.equals(playerHandPrimaryPlayer.get(i).getCardUI())){
-                            cardfieldCardlist.add(playerHandPrimaryPlayer.get(i));
+                            discardpileList.add(playerHandPrimaryPlayer.get(i));
+                            defaultcard.setImageDrawable(createCardUI(playerHandPrimaryPlayer.get(i)).getDrawable());
                            playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
                         }
                     }
                     owner.removeView(v);
-                    layoutPlayer1CardField.addView(v);
                     v.setVisibility(View.VISIBLE);
 
                     return true;
@@ -706,7 +679,8 @@ public class Playfield extends AppCompatActivity {
         }
     }
 
-     */
+
+ */
 
 
     //Aktuelle in Player zugewiesene Phase wird in Textview am Spielfeld angezeigt
