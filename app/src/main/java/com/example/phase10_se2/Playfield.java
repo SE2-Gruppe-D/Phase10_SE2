@@ -476,16 +476,30 @@ public class Playfield extends AppCompatActivity {
         cards.getCardUI().setOnDragListener(new ChoiceDragListener());
     }
 
-    //Momentan kann nur der player1 eine Karte ziehen
+    //Eine Karte vom Ablagestapel ziehen
     protected void addCardsDiscardpile() {
-        if (discardpileList.size() != 0) {
-            updateHand(playerBlue.getPlayerHand(), discardpileList.get(0), layoutPlayer1, 0);
-            discardpileList.remove(0);
-        } else {
+        int size = discardpileList.size();
+        if (size!= 0) {
+            if (playerYellow!=null&&playerYellow.getColor().equals(primaryPlayer.getColor())) {
+                updateHand(playerYellow.getPlayerHand(), discardpileList.get(size-1), layoutPlayer1, 0);
+            }
+            if (playerBlue!=null&&playerBlue.getColor().equals(primaryPlayer.getColor())) {
+                updateHand(playerBlue.getPlayerHand(), discardpileList.get(size-1), layoutPlayer1, 0);
+            }
+            if (playerRed!=null&&playerRed.getColor().equals(primaryPlayer.getColor())) {
+                updateHand(playerRed.getPlayerHand(), discardpileList.get(size-1), layoutPlayer1, 0);
+            }
+            if (playerGreen!=null&&playerGreen.getColor().equals(primaryPlayer.getColor())){
+                updateHand(playerGreen.getPlayerHand(), discardpileList.get(size-1), layoutPlayer1, 0);
+            }
+                discardpileList.remove(size-1);
+            }
+        else {
             leererAblagestapel.setVisibility(View.VISIBLE);
         }
     }
 
+   //Für Aktionfeld
     protected void addRandomCardsDiscardpile() {
         if (discardpileList.size() != 0) {
             Random rand = new Random();
@@ -496,6 +510,7 @@ public class Playfield extends AppCompatActivity {
             leererAblagestapel.setVisibility(View.VISIBLE);
         }
     }
+
 
     //Karte ziehen
     protected void addCard() {
@@ -513,7 +528,6 @@ public class Playfield extends AppCompatActivity {
         if (playerGreen!=null&&playerGreen.getColor().equals(primaryPlayer.getColor())){
             updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
         }
-
     }
 
     private ImageView createCardUI(Cards cards) {
@@ -544,6 +558,7 @@ public class Playfield extends AppCompatActivity {
     }
 
     //Class to drop
+    //ChoiceDragListener
     private class ChoiceDragListener implements View.OnDragListener {
         @Override
         public boolean onDrag(View view, DragEvent dragEvent) {
@@ -570,14 +585,14 @@ public class Playfield extends AppCompatActivity {
                     //Array mit den ausgelegten Karten befüllen
                     //primaryPlayer an farbe anpassen, weil primaryPlayer.getHand = 0
                     //Funktioniert nur mit primarayPlayer=playerBlue
-                    player = playerBlue;
+                    player = primaryPlayer;
                     for(int i = 0; i < player.getPlayerHand().size(); i++){
                         if(v.equals(player.getPlayerHand().get(i).getCardUI())){
                             cardfieldCardlist.add(player.getPlayerHand().get(i));
                             player.getPlayerHand().remove(player.getPlayerHand().get(i));
                         }
                     }
-                    System.out.println(cardfieldCardlist.size());
+                    System.out.println(cardfieldCardlist.size() + "?????????????");
                     owner.removeView(v);
                     layoutPlayer1CardField.addView(v);
                     v.setVisibility(View.VISIBLE);
