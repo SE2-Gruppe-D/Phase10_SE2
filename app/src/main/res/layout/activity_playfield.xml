@@ -107,6 +107,7 @@
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="13dp"
         android:background="#C5BBBB"
+        android:visibility="gone"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/player1"
         app:layout_constraintEnd_toStartOf="@+id/player4"
@@ -115,6 +116,58 @@
         tools:ignore="MissingConstraints">
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/player2PhaseAblegen"
+        android:layout_width="458dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="#C5BBBB"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/player4"
+        app:layout_constraintStart_toStartOf="@+id/player3"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/player3PhaseAblegen"
+        android:layout_width="44dp"
+        android:layout_height="304dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="40dp"
+        android:background="#C5BBBB"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player2"
+        tools:ignore="MissingConstraints">
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/player4PhaseAblegen"
+        android:layout_width="48dp"
+        android:layout_height="304dp"
+        android:layout_marginBottom="40dp"
+        android:background="#C5BBBB"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fl_playfield"
+        app:layout_constraintTop_toBottomOf="@+id/player2"
+        tools:ignore="MissingConstraints">
+
+    </LinearLayout>
+
 
 
     <FrameLayout
@@ -266,23 +319,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <Button
         android:id="@+id/buttonCheckPhase"
         android:layout_width="84dp"
         android:layout_height="48dp"
-        android:layout_marginStart="82dp"
-        android:layout_marginTop="187dp"
-        android:layout_marginEnd="34dp"
-        android:layout_marginBottom="3dp"
+        android:layout_marginEnd="37dp"
+        android:layout_marginBottom="16dp"
         android:text="check"
         android:textSize="10sp"
         app:layout_constraintBottom_toTopOf="@+id/player1PhaseAblegen"
-        app:layout_constraintEnd_toStartOf="@+id/player4"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/fragmentContainerView"
-        app:layout_constraintTop_toBottomOf="@+id/player2"
-        app:layout_constraintVertical_bias="1.0" />
-
+        app:layout_constraintEnd_toStartOf="@+id/player4" />
 
     <Button
         android:id="@+id/button"
@@ -293,7 +340,6 @@
         android:text="Button"
         app:layout_constraintStart_toEndOf="@+id/player3"
         app:layout_constraintTop_toBottomOf="@+id/player2" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
