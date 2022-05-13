@@ -96,6 +96,7 @@ public class Playfield extends AppCompatActivity {
     ArrayList<Cards> playerHandRed;
     ArrayList<Cards> playerHandYellow;
     ArrayList<Cards> playerHandGreen;
+    ArrayList<Cards> playerHandPrimaryPlayer;
 
     public ArrayList<Cards> getPlayer1HandBlue() {
         return playerHandBlue;
@@ -112,6 +113,8 @@ public class Playfield extends AppCompatActivity {
     public ArrayList<Cards> getPlayerHandGreen() {
         return playerHandGreen;
     }
+
+
 
     Player player;
 
@@ -557,6 +560,23 @@ public class Playfield extends AppCompatActivity {
         }
     }
 
+    public ArrayList<Cards> getPrimaryHandcards(){
+        ArrayList<Cards> handcards;
+        if (playerYellow!=null&&playerYellow.getColor().equals(primaryPlayer.getColor())) {
+            return handcards = playerYellow.getPlayerHand();
+        }else
+        if (playerBlue!=null&&playerBlue.getColor().equals(primaryPlayer.getColor())) {
+            return handcards = playerBlue.getPlayerHand();
+        }else
+        if (playerRed!=null&&playerRed.getColor().equals(primaryPlayer.getColor())) {
+            return handcards = playerRed.getPlayerHand();
+        }
+        else if (playerGreen!=null&&playerGreen.getColor().equals(primaryPlayer.getColor())){
+            return handcards = playerGreen.getPlayerHand();
+        }
+        return null;
+    }
+
     //Class to drop
     //ChoiceDragListener
     private class ChoiceDragListener implements View.OnDragListener {
@@ -583,16 +603,13 @@ public class Playfield extends AppCompatActivity {
                     ViewGroup owner = (ViewGroup) v.getParent();
 
                     //Array mit den ausgelegten Karten befüllen
-                    //primaryPlayer an farbe anpassen, weil primaryPlayer.getHand = 0
-                    //Funktioniert nur mit primarayPlayer=playerBlue
-                    player = primaryPlayer;
-                    for(int i = 0; i < player.getPlayerHand().size(); i++){
-                        if(v.equals(player.getPlayerHand().get(i).getCardUI())){
-                            cardfieldCardlist.add(player.getPlayerHand().get(i));
-                            player.getPlayerHand().remove(player.getPlayerHand().get(i));
+                    playerHandPrimaryPlayer  = getPrimaryHandcards();
+                    for(int i = 0; i < playerHandPrimaryPlayer.size(); i++){
+                        if(v.equals(playerHandPrimaryPlayer.get(i).getCardUI())){
+                            cardfieldCardlist.add(playerHandPrimaryPlayer.get(i));
+                           playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
                         }
                     }
-                    System.out.println(cardfieldCardlist.size() + "?????????????");
                     owner.removeView(v);
                     layoutPlayer1CardField.addView(v);
                     v.setVisibility(View.VISIBLE);
