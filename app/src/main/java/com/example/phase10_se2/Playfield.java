@@ -59,6 +59,9 @@ public class Playfield extends AppCompatActivity {
     LinearLayout layoutPlayer3;
     LinearLayout layoutPlayer4;
     LinearLayout layoutPlayer1CardField;
+    LinearLayout layoutPlayer2CardField;
+    LinearLayout layoutPlayer3CardField;
+    LinearLayout layoutPlayer4CardField;
 
     CardUIManager cardUIManager;
     CardDrawer cardDrawer;
@@ -119,6 +122,7 @@ public class Playfield extends AppCompatActivity {
     Player player;
 
     Phase phase;
+    boolean currentPhaseRight = false;
 
 
 
@@ -220,25 +224,7 @@ public class Playfield extends AppCompatActivity {
             }
         });
 
-        //Button, um zu überprüfen, ob die Phase richtig ist
-        cardfieldCardlist = new ArrayList<>();
-        phase = new Phase();
-        btnCheckPhase.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (phase.checkPhase1(cardfieldCardlist)) {
-                        int phase = 2;
-                } else {
-                    while (layoutPlayer1CardField.getChildCount() != 0) {
-                        View v = layoutPlayer1CardField.getChildAt(0);
-                        ViewGroup owner = (ViewGroup) v.getParent();
-                        owner.removeView(v);
-                        layoutPlayer1.addView(v);
-                        v.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
+
 
         discardpileList = new ArrayList<>();
         cardlist = new ArrayList<>();
@@ -252,6 +238,30 @@ public class Playfield extends AppCompatActivity {
         layoutPlayer3 = findViewById(R.id.player3);
         layoutPlayer4 = findViewById(R.id.player4);
         layoutPlayer1CardField = findViewById(R.id.player1PhaseAblegen);
+        layoutPlayer2CardField = findViewById(R.id.player2PhaseAblegen);
+        layoutPlayer3CardField = findViewById(R.id.player3PhaseAblegen);
+        layoutPlayer4CardField = findViewById(R.id.player4PhaseAblegen);
+
+        //Button, um zu überprüfen, ob die Phase richtig ist
+        cardfieldCardlist = new ArrayList<>();
+        phase = new Phase();
+        btnCheckPhase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (phase.checkPhase1(cardfieldCardlist)) {
+                    int phase = 2;
+                    currentPhaseRight = true; //pro Spieler in DB speichern
+                } else {
+                    while (layoutPlayer1CardField.getChildCount() != 0) {
+                        View v = layoutPlayer1CardField.getChildAt(0);
+                        ViewGroup owner = (ViewGroup) v.getParent();
+                        owner.removeView(v);
+                        layoutPlayer1.addView(v);
+                        v.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
 
         cardUIManager = new CardUIManager();
         cardDrawer = new CardDrawer();
@@ -273,37 +283,46 @@ public class Playfield extends AppCompatActivity {
             if (playerBlue != null) {
                 if(playerBlue.getColor().equals(primaryPlayer.getColor())){
                     updateHand(playerBlue.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);  //Primary player bekommt immer Layout1
-
+                    layoutPlayer1CardField.setVisibility(View.VISIBLE); //Auslegefeld für Spieler sichbar machen
                 }else {
                     updateHand(playerBlue.getPlayerHand(), cardlist.get(0), layoutPlayer2, 0);
+                    layoutPlayer2CardField.setVisibility(View.VISIBLE);
                 }
             }
             if (playerRed != null) {
                 if(playerRed.getColor().equals(primaryPlayer.getColor())){
                     updateHand(playerRed.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
+                    layoutPlayer1CardField.setVisibility(View.VISIBLE);
                 }else {
                     updateHand(playerRed.getPlayerHand(), cardlist.get(0), layoutPlayer3, 90);
+                    layoutPlayer3CardField.setVisibility(View.VISIBLE);
                 }
             }
             if (playerYellow != null) {
                 if(playerYellow.getColor().equals(primaryPlayer.getColor())){
                     updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
+                    layoutPlayer1CardField.setVisibility(View.VISIBLE);
                 }else {
                     updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer4, -90);
+                   layoutPlayer4CardField.setVisibility(View.VISIBLE);
                 }
             }
             if (playerGreen != null) {
                 if(playerGreen.getColor().equals(primaryPlayer.getColor())){
                     updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
+                    layoutPlayer1CardField.setVisibility(View.VISIBLE);
                 }else {
                     if(playerBlue.getColor().equals(primaryPlayer.getColor())){
                         updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer2, 0);
+                        layoutPlayer2CardField.setVisibility(View.VISIBLE);
 
                     }else if(playerRed.getColor().equals(primaryPlayer.getColor())) {
                         updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer3, 90);
+                        layoutPlayer3CardField.setVisibility(View.VISIBLE);
 
                     }else {
                         updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer4, -90);
+                       layoutPlayer4CardField.setVisibility(View.VISIBLE);
                     }
                 }
             }
