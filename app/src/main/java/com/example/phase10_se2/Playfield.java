@@ -5,17 +5,12 @@ import static android.os.SystemClock.sleep;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Message;
-import android.os.SystemClock;
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -40,6 +35,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -120,7 +116,14 @@ public class Playfield extends AppCompatActivity {
 
     Player player;
 
+    //Round and phase
     Phase phase;
+    int round;
+    Map<String, Object> gameInfo = new HashMap<>();
+    ArrayList<PlayerColor> startOrder = new ArrayList();
+    int currentDiceRoll;
+    boolean cheated;
+
     boolean currentPhaseRight = false;
     private long doubleClickLastTime = 0L;
 
@@ -398,6 +401,22 @@ public class Playfield extends AppCompatActivity {
 
                     }
                 });
+        //database with synched info to play game
+        gameInfo.put("RoomName", currentRoom);
+        gameInfo.put("Round", 1);
+        gameInfo.put("CurrentPlayer", currentPlayer);
+        gameInfo.put("PlayerYellow", playerYellow);
+        gameInfo.put("PlayerBlue", playerBlue);
+        gameInfo.put("PlayerRed", playerRed);
+        gameInfo.put("PlayerGreen", playerGreen);
+        gameInfo.put("StartOrder", startOrder);
+        gameInfo.put("DiceRoll", currentDiceRoll);
+        gameInfo.put("Cheated", cheated);
+
+        database.collection("activeGames").add(gameInfo);
+
+
+
 
 
         //TODO: delete button and move function to game start
