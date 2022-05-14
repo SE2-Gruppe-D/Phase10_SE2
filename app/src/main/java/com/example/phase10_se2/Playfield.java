@@ -35,6 +35,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -113,7 +114,10 @@ public class Playfield extends AppCompatActivity {
     //Round and phase
     Phase phase;
     int round;
-
+    Map<String, Object> gameInfo = new HashMap<>();
+    ArrayList<PlayerColor> startOrder = new ArrayList();
+    int currentDiceRoll;
+    boolean cheated;
 
 
     //light sensor
@@ -373,6 +377,22 @@ public class Playfield extends AppCompatActivity {
 
                     }
                 });
+        //database with synched info to play game
+        gameInfo.put("RoomName", currentRoom);
+        gameInfo.put("Round", 1);
+        gameInfo.put("CurrentPlayer", currentPlayer);
+        gameInfo.put("PlayerYellow", playerYellow);
+        gameInfo.put("PlayerBlue", playerBlue);
+        gameInfo.put("PlayerRed", playerRed);
+        gameInfo.put("PlayerGreen", playerGreen);
+        gameInfo.put("StartOrder", startOrder);
+        gameInfo.put("DiceRoll", currentDiceRoll);
+        gameInfo.put("Cheated", cheated);
+
+        database.collection("activeGames").add(gameInfo);
+
+
+
 
 
         //TODO: delete button and move function to game start
