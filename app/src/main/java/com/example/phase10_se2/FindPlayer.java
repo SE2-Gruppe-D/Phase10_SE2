@@ -119,6 +119,8 @@ public class FindPlayer extends AppCompatActivity {
                     startGame.setEnabled(true);
                     adapter.notifyDataSetChanged();
                     currentRoomMap.put("RoomName", currentRoom);
+                    currentRoomMap.put("Round", 1);
+                    currentRoomMap.put("CurrentPlayer", new Player());
 
                     //eventlistener for startGame clicked -> all players go to playfield
                     database.collection("activeGames")

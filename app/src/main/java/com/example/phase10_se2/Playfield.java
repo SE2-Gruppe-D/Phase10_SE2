@@ -5,17 +5,12 @@ import static android.os.SystemClock.sleep;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Message;
-import android.os.SystemClock;
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -115,7 +110,9 @@ public class Playfield extends AppCompatActivity {
 
     Player player;
 
+    //Round and phase
     Phase phase;
+    int round;
 
 
 
@@ -175,6 +172,7 @@ public class Playfield extends AppCompatActivity {
         if(playerYellow!=null&&playerList.get(0).equals(playerYellow.getColor().toString())){
             currentPlayer=playerYellow;
         }
+
         Toast.makeText(Playfield.this, "Currentplayer: "+currentPlayer.getColor(), Toast.LENGTH_SHORT).show();
 
         //entfernt die label Leiste (Actionbar) auf dem Playfield
