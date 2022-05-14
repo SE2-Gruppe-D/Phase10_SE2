@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="deploymentTargetDropDown">
+
     <runningDeviceTargetsSelectedWithDialog>
       <Target>
         <type value="RUNNING_DEVICE_TARGET" />
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="$USER_HOME$/.android/avd/Pixel_3a_API_R.avd" />
+            <value value="$PROJECT_DIR$/../.android/avd/Pixel_3a_API_R.avd" />
           </Key>
         </deviceKey>
       </Target>
@@ -18,7 +19,7 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="$USER_HOME$/.android/avd/Pixel_XL_API_R.avd" />
+            <value value="$PROJECT_DIR$/../.android/avd/Pixel_XL_API_R.avd" />
           </Key>
         </deviceKey>
       </Target>
