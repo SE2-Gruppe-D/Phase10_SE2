@@ -340,7 +340,9 @@ public class Playfield extends AppCompatActivity {
         Cards randomCard = cardlist.get(rand.nextInt(cardlist.size()));
         cardlist.remove(randomCard);
         discardpileList.add(randomCard);
-        defaultcard.setImageDrawable(createCardUI(randomCard).getDrawable());
+        defaultcard.setImageDrawable(createCardUI(discardpileList.get(0)).getDrawable());
+
+
 
 
         defaultcard.setOnClickListener(view -> {
@@ -497,7 +499,7 @@ public class Playfield extends AppCompatActivity {
         cardlist.remove(0);
         cards.getCardUI().setRotation(grad);
         cards.getCardUI().setOnClickListener(listener);
-       // cards.getCardUI().setOnTouchListener(new ChoiceTouchListener());
+        //cards.getCardUI().setOnTouchListener(new ChoiceTouchListener());
         //cards.getCardUI().setOnDragListener(new ChoiceDragListener());
     }
 
@@ -518,6 +520,9 @@ public class Playfield extends AppCompatActivity {
                 updateHand(playerGreen.getPlayerHand(), discardpileList.get(size - 1), layoutPlayer1, 0);
             }
             discardpileList.remove(size - 1);
+            if((size-1)!=0){
+                defaultcard.setImageDrawable(createCardUI(discardpileList.get(size-2)).getDrawable());
+            }
         } else {
             leererAblagestapel.setVisibility(View.VISIBLE);
         }
@@ -632,7 +637,8 @@ public class Playfield extends AppCompatActivity {
             }
         }
     };
-/* --> funktion nicht mehr richtig wegen onClick Listener
+
+ //--> funktion nicht mehr richtig wegen onClick Listener
     //Class to drop
     //ChoiceDragListener
     private class ChoiceDragListener implements View.OnDragListener {
@@ -679,8 +685,6 @@ public class Playfield extends AppCompatActivity {
         }
     }
 
-
- */
 
 
     //Aktuelle in Player zugewiesene Phase wird in Textview am Spielfeld angezeigt
