@@ -499,7 +499,8 @@ public class Playfield extends AppCompatActivity {
         cardlist.remove(0);
         cards.getCardUI().setRotation(grad);
         cards.getCardUI().setOnClickListener(listener);
-        cards.getCardUI().setOnDragListener(new ChoiceDragListener());
+        //cards.getCardUI().setOnTouchListener(new ChoiceTouchListener());
+        //cards.getCardUI().setOnDragListener(new ChoiceDragListener());
     }
 
     //Eine Karte vom Ablagestapel ziehen
