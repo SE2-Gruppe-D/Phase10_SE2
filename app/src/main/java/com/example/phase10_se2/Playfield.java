@@ -191,6 +191,8 @@ public class Playfield extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.hide();
 
+        round = 1;
+
         //show dice
         diceFragment = DiceFragment.newInstance();
         FragmentManager fm = getSupportFragmentManager();
@@ -401,9 +403,10 @@ public class Playfield extends AppCompatActivity {
 
                     }
                 });
+        /*
         //database with synched info to play game
         gameInfo.put("RoomName", currentRoom);
-        gameInfo.put("Round", 1);
+        gameInfo.put("Round", round);
         gameInfo.put("CurrentPlayer", currentPlayer);
         gameInfo.put("PlayerYellow", playerYellow);
         gameInfo.put("PlayerBlue", playerBlue);
@@ -413,7 +416,15 @@ public class Playfield extends AppCompatActivity {
         gameInfo.put("DiceRoll", currentDiceRoll);
         gameInfo.put("Cheated", cheated);
 
-        database.collection("activeGames").add(gameInfo);
+        database.collection("activeGames").add(gameInfo)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+Log.i("DatabaseInfo ---------------------------------------------", "added");                    }
+                }).addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
+
+        */
+
 
 
 
