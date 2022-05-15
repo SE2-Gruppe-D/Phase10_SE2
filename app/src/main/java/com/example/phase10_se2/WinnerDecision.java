@@ -44,55 +44,41 @@ public class WinnerDecision
         }
     }
 
-    //gibt einen String aus wer Gewonnen hat
-    public String getWinner()
+    //gibt eine ArrayList mit den Gewinnern aus
+    public ArrayList getWinner()
     {
-        StringBuilder sB = new StringBuilder();
-        String colorString = "";
-        int phaseCheck = 10;
+        ArrayList<Player> winners = new ArrayList<>();
+        int phaseCheck = 0;
         int minusPointsCheck = -1;
         Player temporaryWinner = null;
-        int Winnernumber = 0;
+
+        //den Spieler mit den besten Werten für Phasenumber und minusPoints in temporaryWinner speichern
         for (Player p : actualPlayers)
         {
-            if(p.getPhasenumber() > phaseCheck && minusPointsCheck == -1)
-            {
-                minusPointsCheck=p.getMinusPoints();
+            if (phaseCheck <= p.getPhasenumber() && temporaryWinner == null) {
                 temporaryWinner = p;
+                phaseCheck = temporaryWinner.getPhasenumber();
+                minusPointsCheck = temporaryWinner.getMinusPoints();
             }
-            else if(p.getPhasenumber() > phaseCheck && p.getMinusPoints()<=minusPointsCheck)
-            {
-                if (minusPointsCheck == p.getMinusPoints())
-                {
-                    Winnernumber++;
-                }
-                minusPointsCheck=p.getMinusPoints();
+            if (p.getPhasenumber() > phaseCheck) {
                 temporaryWinner = p;
+                phaseCheck = temporaryWinner.getPhasenumber();
+                minusPointsCheck = temporaryWinner.getMinusPoints();
+            }
+            if (p.getPhasenumber() == phaseCheck && p.getMinusPoints() < minusPointsCheck) {
+                temporaryWinner = p;
+                phaseCheck = temporaryWinner.getPhasenumber();
+                minusPointsCheck = temporaryWinner.getMinusPoints();
             }
         }
-        if (Winnernumber == 0)
+        //Jeden Spieler mit den gleichen Werten in die ArrayList speichern und am ende zurückgeben
+        for (Player p : actualPlayers)
         {
-            colorString = temporaryWinner.getColor().toString();
-            return colorString;
-        }
-        //für den Fall das mehrere Gewonnen haben, String kann daraufhin durch trennzeichen aufgeteilt werden wodurch wir separat die einzelnen Spieler haben
-        else if (Winnernumber != 0)
-        {
-            for (Player p : actualPlayers)
+            if (p.getPhasenumber() == temporaryWinner.getPhasenumber() &&p.getMinusPoints() == temporaryWinner.getMinusPoints())
             {
-                if (p.getMinusPoints() == minusPointsCheck)
-                {
-                    if (sB.toString().isEmpty())
-                    {
-                        sB.append(p.getColor().toString());
-                    }
-
-                    sB.append(" " + p.getColor().toString());
-                }
+                winners.add(p);
             }
-            colorString = sB.toString();
-            return colorString;
         }
-            return colorString;
+     return winners;
     }
 }

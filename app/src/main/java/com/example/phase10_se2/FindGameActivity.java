@@ -50,6 +50,11 @@ public class FindGameActivity extends AppCompatActivity {
         RadioButton radioGreen = findViewById(R.id.radioButtonGreen);
         RadioButton radioYellow = findViewById(R.id.radioButtonYellow);
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
+        radioRed.setEnabled(false);
+        radioBlue.setEnabled(false);
+        radioGreen.setEnabled(false);
+        radioYellow.setEnabled(false);
+        ArrayList<String> activeGames = new ArrayList<>();
 
 
         adapter = new ArrayAdapter<>(FindGameActivity.this, android.R.layout.simple_list_item_1, gameRoomsList);
@@ -58,7 +63,18 @@ public class FindGameActivity extends AppCompatActivity {
         database = FirebaseFirestore.getInstance();
 
         listView.setAdapter(adapter);
-
+        database.collection("activeGames")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
+                                activeGames.add(documentSnapshot.getString("RoomName"));
+                            }
+                        }
+                    }
+                });
         //get all information from database
         database.collection("users")
                 .get()
@@ -69,9 +85,11 @@ public class FindGameActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //add all available rooms to gameRoomsList
                                 if(!gameRoomsList.contains(document.getString("Room"))){
-                                    gameRoomsList.add(document.getString("Room"));
+                                    if(!activeGames.contains(document.getString("Room"))) {
+                                        gameRoomsList.add(document.getString("Room"));
+                                        adapter.notifyDataSetChanged();
+                                    }
 
-                                    adapter.notifyDataSetChanged();
                                 }
                             }
                         } else {
@@ -86,6 +104,7 @@ public class FindGameActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 listView.setItemChecked(position, true);
+
                 roomName = gameRoomsList.get(position);
                 ArrayList<String> takenColors = new ArrayList<>();
 
@@ -131,49 +150,53 @@ public class FindGameActivity extends AppCompatActivity {
                 joinRoom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        color[0] = ((RadioButton) findViewById(radioGroup.getCheckedRadioButtonId())).getText().toString();
-                        PlayerColor playerColor = null;
-                        if (!color[0].equals("")) {
-                            switch (color[0]) {
-                                case "RED":
-                                    playerColor = PlayerColor.RED;
-                                    break;
-                                case "BLUE":
-                                    playerColor = PlayerColor.BLUE;
-                                    break;
-                                case "YELLOW":
-                                    playerColor = PlayerColor.YELLOW;
-                                    break;
-                                case "GREEN":
-                                    playerColor = PlayerColor.GREEN;
-                                    break;
-                                default:
-                                    break;
+                        if (editTextName.getText().toString().isEmpty()) {
+                            Toast.makeText(FindGameActivity.this, "Username can't be empty!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            color[0] = ((RadioButton) findViewById(radioGroup.getCheckedRadioButtonId())).getText().toString();
+                            PlayerColor playerColor = null;
+                            if (!color[0].equals("")) {
+                                switch (color[0]) {
+                                    case "RED":
+                                        playerColor = PlayerColor.RED;
+                                        break;
+                                    case "BLUE":
+                                        playerColor = PlayerColor.BLUE;
+                                        break;
+                                    case "YELLOW":
+                                        playerColor = PlayerColor.YELLOW;
+                                        break;
+                                    case "GREEN":
+                                        playerColor = PlayerColor.GREEN;
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
+                            String playerName = editTextName.getText().toString();
+                            Player player = new Player(playerName, playerColor, roomName, 1, 0, new ArrayList<>(), new ArrayList<>());
+
+
+                            //create user
+                            Map<String, Object> user = new HashMap<>();
+                            user.put("Name", player.getName());
+                            user.put("Color", player.getColor());
+                            user.put("Room", roomName);
+                            user.put("Phase", player.getPhasenumber());
+                            user.put("Points", player.getMinusPoints());
+                            user.put("Handcards", player.getPlayerHand());
+                            user.put("CardsField", player.getCardField());
+
+                            database.collection("users")
+                                    .add(user)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            Toast.makeText(FindGameActivity.this, "joining game...", Toast.LENGTH_SHORT).show();
+                                            goToFindPlayer();
+                                        }
+                                    }).addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
                         }
-                        String playerName = editTextName.getText().toString();
-                        Player player = new Player(playerName, playerColor, roomName, 1,0,new ArrayList<>(),new ArrayList<>());
-
-
-                        //create user
-                        Map<String, Object> user = new HashMap<>();
-                        user.put("Name", player.getName());
-                        user.put("Color", player.getColor());
-                        user.put("Room", roomName);
-                        user.put("Phase", player.getPhasenumber());
-                        user.put("Points", player.getMinusPoints());
-                        user.put("Handcards", player.getPlayerHand());
-                        user.put("CardsField", player.getCardField());
-
-                        database.collection("users")
-                                .add(user)
-                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                    @Override
-                                    public void onSuccess(DocumentReference documentReference) {
-                                        Toast.makeText(FindGameActivity.this, "joining game...", Toast.LENGTH_SHORT).show();
-                                        goToFindPlayer();
-                                    }
-                                }).addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
                     }
 
                 });

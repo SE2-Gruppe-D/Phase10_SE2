@@ -19,7 +19,7 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="$USER_HOME$/.android/avd/Pixel_3a_API_R.avd" />
+            <value value="$PROJECT_DIR$/../.android/avd/Pixel_3a_API_R.avd" />
           </Key>
         </deviceKey>
       </Target>
@@ -30,7 +30,7 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="$USER_HOME$/.android/avd/Pixel_XL_API_R.avd" />
+            <value value="$PROJECT_DIR$/../.android/avd/Pixel_XL_API_R.avd" />
           </Key>
         </deviceKey>
       </Target>
