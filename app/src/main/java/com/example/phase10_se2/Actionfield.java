@@ -58,7 +58,7 @@ public class Actionfield extends AppCompatActivity {
     //GREEN = wähle 1 zufällige Karte aus dem gesamten Ablagestapel aus
     private void greenFieldColor() {
         if (defaultcard.isSelected()) {
-            playfield.addRandomCardsDiscardpile();
+            //playfield.addRandomCardsDiscardpile();
         }
     }
 
