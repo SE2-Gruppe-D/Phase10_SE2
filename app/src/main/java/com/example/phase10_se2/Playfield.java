@@ -5,6 +5,7 @@ import static android.os.SystemClock.sleep;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -59,6 +60,7 @@ public class Playfield extends AppCompatActivity {
     LinearLayout layoutPlayer2CardField;
     LinearLayout layoutPlayer3CardField;
     LinearLayout layoutPlayer4CardField;
+
 
     CardUIManager cardUIManager;
     CardDrawer cardDrawer;
@@ -246,8 +248,12 @@ public class Playfield extends AppCompatActivity {
         layoutPlayer4 = findViewById(R.id.player4);
         layoutPlayer1CardField = findViewById(R.id.player1PhaseAblegen);
         layoutPlayer2CardField = findViewById(R.id.player2PhaseAblegen);
+       // layoutPlayer2CardField.setOnDragListener(new ChoiceDragListener());
         layoutPlayer3CardField = findViewById(R.id.player3PhaseAblegen);
+        //layoutPlayer3CardField.setOnDragListener(new ChoiceDragListener());
         layoutPlayer4CardField = findViewById(R.id.player4PhaseAblegen);
+        //layoutPlayer4CardField.setOnDragListener(new ChoiceDragListener());
+
 
         //Button, um zu überprüfen, ob die Phase richtig ist
         cardfieldCardlist = new ArrayList<>();
@@ -348,6 +354,8 @@ public class Playfield extends AppCompatActivity {
         cardlist.remove(randomCard);
         discardpileList.add(randomCard);
         defaultcard.setImageDrawable(createCardUI(discardpileList.get(0)).getDrawable());
+        defaultcard.setOnDragListener(new ChoiceDragListener());
+
 
 
 
@@ -526,14 +534,16 @@ Log.i("DatabaseInfo ---------------------------------------------", "added");   
         cardlist.remove(0);
         cards.getCardUI().setRotation(grad);
         cards.getCardUI().setOnClickListener(listener);
-        //cards.getCardUI().setOnTouchListener(new ChoiceTouchListener());
-        //cards.getCardUI().setOnDragListener(new ChoiceDragListener());
+        cards.getCardUI().setOnTouchListener(new ChoiceTouchListener());
+        cards.getCardUI().setOnDragListener(new ChoiceDragListener());
     }
 
     //Eine Karte vom Ablagestapel ziehen
     protected void addCardsDiscardpile() {
         int size = discardpileList.size();
         if (size != 0) {
+
+            discardpileList.get(size-1).getCardUI().setVisibility(View.VISIBLE);
             if (playerYellow != null && playerYellow.getColor().equals(primaryPlayer.getColor())) {
                 updateHand(playerYellow.getPlayerHand(), discardpileList.get(size - 1), layoutPlayer1, 0);
             }
@@ -657,10 +667,14 @@ Log.i("DatabaseInfo ---------------------------------------------", "added");   
 
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && ((ImageView) view).getDrawable() != null) {
+            if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN)){ //&&
+                    //((ImageView) view).getDrawable() != null)
+
                 ClipData data = ClipData.newPlainText("", "");
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-                view.startDragAndDrop(data, shadowBuilder, view, 0);
+                view.startDrag(data,shadowBuilder,view,0);
+                //view.startDragAndDrop(data, shadowBuilder, view, 0);
+                //view.setVisibility(View.INVISIBLE);
                 return false;
             } else return false;
         }//return false ist notwendig, damit onClick und onTouchListener funktionieren
@@ -671,6 +685,7 @@ Log.i("DatabaseInfo ---------------------------------------------", "added");   
     //Class to drop
     //ChoiceDragListener
     private class ChoiceDragListener implements View.OnDragListener {
+        //Drawable enterShape = getResources().getDrawable(R.drawable.gruen12);
         @Override
         public boolean onDrag(View view, DragEvent dragEvent) {
             switch (dragEvent.getAction()) {
@@ -700,11 +715,13 @@ Log.i("DatabaseInfo ---------------------------------------------", "added");   
                         }
                     }
                     owner.removeView(v);
-                    v.setVisibility(View.VISIBLE);
+                    //layoutDiscardpile.addView(v);
+                    v.setVisibility(View.INVISIBLE);
                     break;
 
                 case DragEvent.ACTION_DRAG_ENDED: //4
                     view.invalidate();
+                default:
                     break;
             }
             return true;
