@@ -2,18 +2,17 @@ plugins {
     id 'com.android.application'
     id 'jacoco'
     id 'com.google.gms.google-services'  // Google Services plugin'
-
+    id 'org.sonarqube' version '3.3'
 }
 
 android {
     compileSdk 32
-    buildToolsVersion "30.0.3"
-   
-    sourceSets {
-        test.java.srcDirs += 'src/test/java/com.example.phase10_se2'
-        androidTest.java.srcDirs += 'src/androidTest/java/com.example.phase10_se2'
-    }
-
+//    buildToolsVersion "30.0.3"
+//
+//    sourceSets {
+//        test.java.srcDirs += 'src/test/java/com.example.phase10_se2'
+//        androidTest.java.srcDirs += 'src/androidTest/java/com.example.phase10_se2'
+//    }
 
     defaultConfig {
         applicationId "com.example.phase10_se2"
@@ -48,7 +47,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
 
     reports {
         xml.enabled true
-        html.enabled true
+        xml.destination file("${project.projectDir}/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml")
     }
 
     def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
@@ -58,6 +57,17 @@ task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
     sourceDirectories.from = files([mainSrc])
     classDirectories.from = files([debugTree])
     executionData.from = files("${buildDir}/jacoco/testDebugUnitTest.exec")
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "SE2-Gruppe-D_Phase10_SE2"
+        property "sonar.organization", "se2-gruppe-d"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.java.coveragePlugin", "jacoco"
+
+        property "sonar.coverage.jacoco.xmlReportPaths", "${project.projectDir}/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml"
+    }
 }
 
 dependencies {
