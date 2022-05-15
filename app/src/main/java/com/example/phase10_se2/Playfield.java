@@ -61,6 +61,7 @@ public class Playfield extends AppCompatActivity {
 
     CardUIManager cardUIManager;
     CardDrawer cardDrawer;
+    CardsPrimaryPlayer cardsPrimaryPlayer;
     ArrayList<Cards> cardlist;
     ArrayList<Cards> discardpileList;//Ablagestapel
     ArrayList<Cards> cardfieldCardlist;
@@ -270,6 +271,7 @@ public class Playfield extends AppCompatActivity {
 
         cardUIManager = new CardUIManager();
         cardDrawer = new CardDrawer();
+        cardsPrimaryPlayer= new CardsPrimaryPlayer();
 
         cardlist.addAll(cardDrawer.getInitialCardsList());
         //dynamisches erstellen der Karten ImageViews
@@ -332,7 +334,6 @@ public class Playfield extends AppCompatActivity {
                 }
             }
         }
-
 
         //Player Blue, Red, Yellow, Green
         deckcard.setOnClickListener(view -> {
@@ -447,13 +448,6 @@ Log.i("DatabaseInfo ---------------------------------------------", "added");   
         //TODO:Methode aufrufen wieviel Spieler sind
     }
 
-    //primaryPlayer soll nur seine Karten sehen
-    public void showOnlyPrimaryPlayerCards(Player primaryPlayer) {
-        for (Cards card : primaryPlayer.getPlayerHand()) {
-            card.getCardUI().setVisibility(View.VISIBLE);
-        }
-    }
-
     private void initializePlayer(DocumentSnapshot documentSnapshot, String userColor, String currentRoom) {
         if (Objects.equals(documentSnapshot.getString("Color"), userColor)) {
             switch (userColor) {
@@ -511,17 +505,19 @@ Log.i("DatabaseInfo ---------------------------------------------", "added");   
 
         //cards.getCardUI().setVisibility(View.VISIBLE);
         //Karten nur fuer primary player sichtbar
-        if (playerYellow != null && playerYellow.getColor().equals(primaryPlayer.getColor())) {
-            showOnlyPrimaryPlayerCards(playerYellow);
+
+        if(playerYellow!=null&&playerYellow.getColor().equals(primaryPlayer.getColor())){
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerYellow);
         }
-        if (playerBlue != null && playerBlue.getColor().equals(primaryPlayer.getColor())) {
-            showOnlyPrimaryPlayerCards(playerBlue);
+        if(playerBlue!=null&&playerBlue.getColor().equals(primaryPlayer.getColor())){
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerBlue);
         }
-        if (playerRed != null && playerRed.getColor().equals(primaryPlayer.getColor())) {
-            showOnlyPrimaryPlayerCards(playerRed);
+        if (playerRed!=null&&playerRed.getColor().equals(primaryPlayer.getColor())){
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerRed);
         }
-        if (playerGreen != null && playerGreen.getColor().equals(primaryPlayer.getColor())) {
-            showOnlyPrimaryPlayerCards(playerGreen);
+        if(playerGreen!=null&&playerGreen.getColor().equals(primaryPlayer.getColor())){
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerGreen);
+
         }
 
         cardlist.remove(0);
@@ -569,17 +565,16 @@ Log.i("DatabaseInfo ---------------------------------------------", "added");   
     //Karte ziehen
     protected void addCard() {
         //only currentPlayer kann ziehen
-
-        if (playerYellow != null && playerYellow.getColor().equals(primaryPlayer.getColor())) {
+        if (playerYellow != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerYellow.getColor().equals(primaryPlayer.getColor())) {
             updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
         }
-        if (playerBlue != null && playerBlue.getColor().equals(primaryPlayer.getColor())) {
+        if (playerBlue != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerBlue.getColor().equals(primaryPlayer.getColor())) {
             updateHand(playerBlue.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
         }
-        if (playerRed != null && playerRed.getColor().equals(primaryPlayer.getColor())) {
+        if (playerRed != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerRed.getColor().equals(primaryPlayer.getColor())) {
             updateHand(playerRed.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
         }
-        if (playerGreen != null && playerGreen.getColor().equals(primaryPlayer.getColor())) {
+        if (playerGreen != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerGreen.getColor().equals(primaryPlayer.getColor())) {
             updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
         }
     }
