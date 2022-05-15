@@ -497,19 +497,19 @@ public class Playfield extends AppCompatActivity {
     //Karte ziehen
     protected void addCard() {
         //only currentPlayer kann ziehen
-
-        if (playerYellow!=null&&playerYellow.getColor().equals(primaryPlayer.getColor())) {
+        if (playerYellow != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerYellow.getColor().equals(primaryPlayer.getColor())) {
             updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
         }
-        if (playerBlue!=null&&playerBlue.getColor().equals(primaryPlayer.getColor())) {
+        if (playerBlue != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerBlue.getColor().equals(primaryPlayer.getColor())) {
             updateHand(playerBlue.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
         }
-        if (playerRed!=null&&playerRed.getColor().equals(primaryPlayer.getColor())) {
+        if (playerRed != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerRed.getColor().equals(primaryPlayer.getColor())) {
             updateHand(playerRed.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
         }
-        if (playerGreen!=null&&playerGreen.getColor().equals(primaryPlayer.getColor())){
+        if (playerGreen != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerGreen.getColor().equals(primaryPlayer.getColor())) {
             updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
         }
+
 
     }
 
