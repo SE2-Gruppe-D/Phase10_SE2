@@ -2,6 +2,7 @@ package com.example.phase10_se2;
 
 import static android.os.SystemClock.sleep;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,14 +124,20 @@ public class Playfield extends AppCompatActivity {
 
     //Round and phase
     Phase phase;
+    boolean currentPhaseRight = false;
+    private long doubleClickLastTime = 0L;
+    long prev = 0;
+    long current = 0;
+    long dif = 0;
+    private GestureDetector gestureDetector;
+
     int round;
     Map<String, Object> gameInfo = new HashMap<>();
     ArrayList<PlayerColor> startOrder = new ArrayList();
     int currentDiceRoll;
     boolean cheated;
 
-    boolean currentPhaseRight = false;
-    private long doubleClickLastTime = 0L;
+
 
 
     //light sensor
@@ -533,9 +541,10 @@ Log.i("DatabaseInfo ---------------------------------------------", "added");   
 
         cardlist.remove(0);
         cards.getCardUI().setRotation(grad);
-        cards.getCardUI().setOnClickListener(listener);
         cards.getCardUI().setOnTouchListener(new ChoiceTouchListener());
-        cards.getCardUI().setOnDragListener(new ChoiceDragListener());
+        cards.getCardUI().setOnClickListener(listener);
+
+        //cards.getCardUI().setOnDragListener(new ChoiceDragListener());
     }
 
     //Eine Karte vom Ablagestapel ziehen
@@ -628,6 +637,10 @@ Log.i("DatabaseInfo ---------------------------------------------", "added");   
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+
+            Log.e("debugClick",view.toString());
+
+
             if (System.currentTimeMillis() - doubleClickLastTime < 700) {
                 doubleClickLastTime = 0;
                 View v = view;
@@ -664,21 +677,31 @@ Log.i("DatabaseInfo ---------------------------------------------", "added");   
 
     //Class allows us to drag view
     private final class ChoiceTouchListener implements View.OnTouchListener {
+        boolean isMoved = true;
 
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN)){ //&&
-                    //((ImageView) view).getDrawable() != null)
 
-                ClipData data = ClipData.newPlainText("", "");
-                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-                view.startDrag(data,shadowBuilder,view,0);
-                //view.startDragAndDrop(data, shadowBuilder, view, 0);
-                //view.setVisibility(View.INVISIBLE);
-                return false;
-            } else return false;
-        }//return false ist notwendig, damit onClick und onTouchListener funktionieren
+            switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+                case MotionEvent.ACTION_MOVE:
+                    //prev = System.currentTimeMillis() / 100000;
+                    ClipData data = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+                    view.startDragAndDrop(data, shadowBuilder, view, 0);
+                    view.setVisibility(View.VISIBLE);
+                    Log.e("touch", view.toString());
+                    isMoved = false;
+                    break;
+            }
+            if (!isMoved) {
+                Log.e("click", view.toString());
+            }
 
+
+            return false;
+
+
+        }
     }
 
  //--> funktion nicht mehr richtig wegen onClick Listener
