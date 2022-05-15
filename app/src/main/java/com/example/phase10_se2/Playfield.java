@@ -499,8 +499,7 @@ public class Playfield extends AppCompatActivity {
         cardlist.remove(0);
         cards.getCardUI().setRotation(grad);
         cards.getCardUI().setOnClickListener(listener);
-        //cards.getCardUI().setOnTouchListener(new ChoiceTouchListener());
-        //cards.getCardUI().setOnDragListener(new ChoiceDragListener());
+        cards.getCardUI().setOnDragListener(new ChoiceDragListener());
     }
 
     //Eine Karte vom Ablagestapel ziehen
@@ -572,19 +571,7 @@ public class Playfield extends AppCompatActivity {
     }
 
 
-    //Class allows us to drag view
-    private final class ChoiceTouchListener implements View.OnTouchListener {
 
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && ((ImageView) view).getDrawable() != null) {
-                ClipData data = ClipData.newPlainText("", "");
-                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-                view.startDragAndDrop(data, shadowBuilder, view, 0);
-                return false;
-            } else return false;
-        }//return false ist notwendig, damit onClick und onTouchListener funktionieren
-    }
 
     public ArrayList<Cards> getPrimaryHandcards() {
         ArrayList<Cards> handcards;
@@ -638,6 +625,21 @@ public class Playfield extends AppCompatActivity {
         }
     };
 
+    //Class allows us to drag view
+    private final class ChoiceTouchListener implements View.OnTouchListener {
+
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && ((ImageView) view).getDrawable() != null) {
+                ClipData data = ClipData.newPlainText("", "");
+                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+                view.startDragAndDrop(data, shadowBuilder, view, 0);
+                return false;
+            } else return false;
+        }//return false ist notwendig, damit onClick und onTouchListener funktionieren
+
+    }
+
  //--> funktion nicht mehr richtig wegen onClick Listener
     //Class to drop
     //ChoiceDragListener
@@ -645,22 +647,20 @@ public class Playfield extends AppCompatActivity {
         @Override
         public boolean onDrag(View view, DragEvent dragEvent) {
             switch (dragEvent.getAction()) {
-                case DragEvent.ACTION_DRAG_STARTED:
+                case DragEvent.ACTION_DRAG_STARTED: //1
                     //no action necessary
                     break;
 
-                case DragEvent.ACTION_DRAG_EXITED:
+                case DragEvent.ACTION_DRAG_EXITED: //6
                     //no action necessary
                     break;
 
-                case DragEvent.ACTION_DRAG_ENTERED:
+                case DragEvent.ACTION_DRAG_ENTERED: //5
                     //no action necessary
                     break;
 
-                case DragEvent.ACTION_DROP:
-                    ClipData.Item item = dragEvent.getClipData().getItemAt(0);//the source image
-                    //view.invalidate();
-                    //löschen im altem Layout
+                case DragEvent.ACTION_DROP: //Action 3
+                    Log.e("debugN",dragEvent.toString());
                     View v = (View) dragEvent.getLocalState();
                     ViewGroup owner = (ViewGroup) v.getParent();
                     //Karte zum Ablegestapel hinzufügen
@@ -669,17 +669,16 @@ public class Playfield extends AppCompatActivity {
                         if(v.equals(playerHandPrimaryPlayer.get(i).getCardUI())){
                             discardpileList.add(playerHandPrimaryPlayer.get(i));
                             defaultcard.setImageDrawable(createCardUI(playerHandPrimaryPlayer.get(i)).getDrawable());
-                           playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                            playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
                         }
                     }
                     owner.removeView(v);
                     v.setVisibility(View.VISIBLE);
+                    break;
 
-                    return true;
-
-                case DragEvent.ACTION_DRAG_ENDED:
+                case DragEvent.ACTION_DRAG_ENDED: //4
                     view.invalidate();
-                    return true;
+                    break;
             }
             return true;
         }
