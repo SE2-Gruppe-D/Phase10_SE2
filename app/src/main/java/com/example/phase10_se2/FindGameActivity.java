@@ -182,7 +182,7 @@ public class FindGameActivity extends AppCompatActivity {
                             user.put("Name", player.getName());
                             user.put("Color", player.getColor());
                             user.put("Room", roomName);
-                            user.put("Phase", player.getPhasenumber());
+                            user.put("Phase", player.getPhaseNumber());
                             user.put("Points", player.getMinusPoints());
                             user.put("Handcards", player.getPlayerHand());
                             user.put("CardsField", player.getCardField());

@@ -87,7 +87,7 @@ public class CreateGameActivity extends AppCompatActivity {
                 user.put("Name", player.getName());
                 user.put("Color", player.getColor());
                 user.put("Room", player.getRoom());
-                user.put("Phase", player.getPhasenumber());
+                user.put("Phase", player.getPhaseNumber());
                 user.put("Points", player.getMinusPoints());
                 user.put("Handcards", player.getPlayerHand());
                 user.put("CardsField", player.getCardField());

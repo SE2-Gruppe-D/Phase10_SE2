@@ -33,7 +33,7 @@ public class Player {
     private ImageView playerview;
     private ArrayList<Cards> playerHand;
     private String phaseText;
-    private int phasenumber;
+    private int phaseNumber;
     //für das Auslegen der Karten
     private ArrayList<Cards> cardField;
     private ArrayList<Cards> cards;
@@ -42,12 +42,12 @@ public class Player {
     public Player() {
     }
 
-    public Player(String name, PlayerColor color, String room, int phasenumber, int minusPoints, ArrayList<Cards> cards, ArrayList<Cards> cardField) {
+    public Player(String name, PlayerColor color, String room, int phaseNumber, int minusPoints, ArrayList<Cards> cards, ArrayList<Cards> cardField) {
         this.name = name;
         this.color = color;
         this.room = room;
 
-        this.phasenumber = phasenumber;
+        this.phaseNumber = phaseNumber;
         positionX = 0;
         positionY = 0;
         this.minusPoints = minusPoints;
@@ -74,6 +74,19 @@ public class Player {
         state = PlayerState.WAITING;
         playerHand = new ArrayList<Cards>();
 
+        phaseText = "/";
+    }
+
+    public Player(String name, PlayerColor color, int phasenumber) {
+        this.name = name;
+        this.color = color;
+        this.phaseNumber = phaseNumber;
+
+        minusPoints = 0;
+        currentPosition = 0;
+        startingOrder = -1;
+        state = PlayerState.WAITING;
+        playerHand = new ArrayList<Cards>();
         phaseText = "/";
     }
 
@@ -306,12 +319,12 @@ public class Player {
 
     }
 
-    public int getPhasenumber() {
-        return phasenumber;
+    public int getPhaseNumber() {
+        return phaseNumber;
     }
 
-    public void setPhasenumber(int phasenumber) {
-        this.phasenumber = phasenumber;
+    public void setPhaseNumber(int phaseNumber) {
+        this.phaseNumber = phaseNumber;
     }
 
     public ArrayList<Cards> getCardField() {
