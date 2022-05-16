@@ -877,7 +877,7 @@ public ArrayList<String> playerToList(Player player){
     playerList.add(player.getName());
     playerList.add(player.getColor().toString());
     playerList.add(player.getRoom());
-    playerList.add(String.valueOf(player.getPhasenumber()));
+    playerList.add(String.valueOf(player.getPhaseNumber()));
     playerList.add(String.valueOf(player.getMinusPoints()));
     ArrayList<Integer> playerCardsID = new ArrayList();
     for (Cards c:player.getPlayerHand() ) {
