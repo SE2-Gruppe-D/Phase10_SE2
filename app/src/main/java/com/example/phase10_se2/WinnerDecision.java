@@ -55,26 +55,26 @@ public class WinnerDecision
         //den Spieler mit den besten Werten für Phasenumber und minusPoints in temporaryWinner speichern
         for (Player p : actualPlayers)
         {
-            if (phaseCheck <= p.getPhasenumber() && temporaryWinner == null) {
+            if (phaseCheck <= p.getPhaseNumber() && temporaryWinner == null) {
                 temporaryWinner = p;
-                phaseCheck = temporaryWinner.getPhasenumber();
+                phaseCheck = temporaryWinner.getPhaseNumber();
                 minusPointsCheck = temporaryWinner.getMinusPoints();
             }
-            if (p.getPhasenumber() > phaseCheck) {
+            if (p.getPhaseNumber() > phaseCheck) {
                 temporaryWinner = p;
-                phaseCheck = temporaryWinner.getPhasenumber();
+                phaseCheck = temporaryWinner.getPhaseNumber();
                 minusPointsCheck = temporaryWinner.getMinusPoints();
             }
-            if (p.getPhasenumber() == phaseCheck && p.getMinusPoints() < minusPointsCheck) {
+            if (p.getPhaseNumber() == phaseCheck && p.getMinusPoints() < minusPointsCheck) {
                 temporaryWinner = p;
-                phaseCheck = temporaryWinner.getPhasenumber();
+                phaseCheck = temporaryWinner.getPhaseNumber();
                 minusPointsCheck = temporaryWinner.getMinusPoints();
             }
         }
         //Jeden Spieler mit den gleichen Werten in die ArrayList speichern und am ende zurückgeben
         for (Player p : actualPlayers)
         {
-            if (p.getPhasenumber() == temporaryWinner.getPhasenumber() &&p.getMinusPoints() == temporaryWinner.getMinusPoints())
+            if (p.getPhaseNumber() == temporaryWinner.getPhaseNumber() &&p.getMinusPoints() == temporaryWinner.getMinusPoints())
             {
                 winners.add(p);
             }
