@@ -98,6 +98,7 @@ public class Playfield extends AppCompatActivity {
     ArrayList<Cards> playerHandYellow;
     ArrayList<Cards> playerHandGreen;
     ArrayList<Cards> playerHandPrimaryPlayer;
+    Cards cards;
 
     public ArrayList<Cards> getPlayer1HandBlue() {
         return playerHandBlue;
@@ -240,6 +241,7 @@ public class Playfield extends AppCompatActivity {
         cardlist = new ArrayList<>();
 
 
+
         deckcard = findViewById(R.id.deckblatt);
         defaultcard = findViewById(R.id.defaultcard);
         leererAblagestapel = findViewById(R.id.leererStapel);
@@ -291,58 +293,32 @@ public class Playfield extends AppCompatActivity {
         cardDrawer.isInitialCardsEmpty();
 
         //Handkarten werden ausgeteilt
-        handCards.HandCardsPlayer(layoutPlayer1, layoutPlayer2, layoutPlayer3, layoutPlayer4, cardlist, playerGreen, playerYellow, playerRed, playerBlue, primaryPlayer);
-
-       /* for (int i = 0; i < 10; i++) {
-            if (playerBlue != null) {
-                if (playerBlue.getColor().equals(primaryPlayer.getColor())) {
-                    updateHand(playerBlue.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);  //Primary player bekommt immer Layout1
-                    layoutPlayer1CardField.setVisibility(View.VISIBLE); //Auslegefeld für Spieler sichbar machen
-                } else {
-                    updateHand(playerBlue.getPlayerHand(), cardlist.get(0), layoutPlayer2, 0);
-                    layoutPlayer2CardField.setVisibility(View.VISIBLE);
-                }
+        handCards.HandCardsPlayer(layoutPlayer1, layoutPlayer2, layoutPlayer3, layoutPlayer4, layoutPlayer1CardField, layoutPlayer2CardField, layoutPlayer3CardField, layoutPlayer4CardField, cardlist, playerBlue, playerGreen, playerYellow, playerRed, primaryPlayer);
+        if(playerBlue!=null){
+            for (Cards card: playerBlue.getPlayerHand()) {
+                card.getCardUI().setOnClickListener(listener);
+                card.getCardUI().setOnTouchListener(new ChoiceTouchListener());
             }
-            if (playerRed != null) {
-                if (playerRed.getColor().equals(primaryPlayer.getColor())) {
-                    updateHand(playerRed.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
-                    layoutPlayer1CardField.setVisibility(View.VISIBLE);
+        }
 
-                }else{
-                    updateHand(playerRed.getPlayerHand(), cardlist.get(0), layoutPlayer3, 90);
-                    layoutPlayer3CardField.setVisibility(View.VISIBLE);
-                }
+        if(playerGreen!=null) {
+            for (Cards card : playerGreen.getPlayerHand()) {
+                card.getCardUI().setOnClickListener(listener);
+                card.getCardUI().setOnTouchListener(new ChoiceTouchListener());
             }
-            if (playerYellow != null) {
-                if (playerYellow.getColor().equals(primaryPlayer.getColor())) {
-                    updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
-                    layoutPlayer1CardField.setVisibility(View.VISIBLE);
-
-                }else {
-                    updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer4, -90);
-                    layoutPlayer4CardField.setVisibility(View.VISIBLE);
-                }
+        }
+        if(playerYellow!=null) {
+            for (Cards card : playerYellow.getPlayerHand()) {
+                card.getCardUI().setOnClickListener(listener);
+                card.getCardUI().setOnTouchListener(new ChoiceTouchListener());
             }
-            if (playerGreen != null) {
-                if (playerGreen.getColor().equals(primaryPlayer.getColor())) {
-                    updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0);
-                    layoutPlayer1CardField.setVisibility(View.VISIBLE);
-                } else {
-                    if (playerBlue.getColor().equals(primaryPlayer.getColor())) {
-                        updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer2, 0);
-                        layoutPlayer2CardField.setVisibility(View.VISIBLE);
-
-                    } else if (playerRed.getColor().equals(primaryPlayer.getColor())) {
-                        updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer3, 90);
-                        layoutPlayer3CardField.setVisibility(View.VISIBLE);
-
-                    } else {
-                        updateHand(playerGreen.getPlayerHand(), cardlist.get(0), layoutPlayer4, -90);
-                        layoutPlayer4CardField.setVisibility(View.VISIBLE);
-                    }
-                }
+        }
+        if(playerRed!=null) {
+            for (Cards card : playerRed.getPlayerHand()) {
+                card.getCardUI().setOnClickListener(listener);
+                card.getCardUI().setOnTouchListener(new ChoiceTouchListener());
             }
-        }*/
+        }
 
         //Player Blue, Red, Yellow, Green
         deckcard.setOnClickListener(view -> {
@@ -506,36 +482,6 @@ Log.i("DatabaseInfo ---------------------------------------------", "added");   
         }
 
     }
-
-    //Karten werden den Spieler angepasst/ Handkarten-Layout
-
-   /*public void updateHand(List list, Cards cards, LinearLayout linearLayout, int grad) {
-        list.add(cards);
-        linearLayout.addView(cards.getCardUI());
-
-        //cards.getCardUI().setVisibility(View.VISIBLE);
-        //Karten nur fuer primary player sichtbar
-
-        if(playerYellow!=null&&playerYellow.getColor().equals(primaryPlayer.getColor())){
-            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerYellow);
-        }
-        if(playerBlue!=null&&playerBlue.getColor().equals(primaryPlayer.getColor())){
-            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerBlue);
-        }
-        if (playerRed!=null&&playerRed.getColor().equals(primaryPlayer.getColor())){
-            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerRed);
-        }
-        if(playerGreen!=null&&playerGreen.getColor().equals(primaryPlayer.getColor())){
-            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerGreen);
-
-        }
-
-        cardlist.remove(0);
-        cards.getCardUI().setRotation(grad);
-        cards.getCardUI().setOnClickListener(listener);
-       // cards.getCardUI().setOnTouchListener(new ChoiceTouchListener());
-        //cards.getCardUI().setOnDragListener(new ChoiceDragListener());
-    }*/
 
     //Eine Karte vom Ablagestapel ziehen
     protected void addCardsDiscardpile() {
@@ -855,4 +801,3 @@ Log.i("DatabaseInfo ---------------------------------------------", "added");   
     }
 
 }
-
