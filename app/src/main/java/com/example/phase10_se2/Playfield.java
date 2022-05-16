@@ -192,7 +192,7 @@ public class Playfield extends AppCompatActivity {
         if (playerYellow != null && playerList.get(0).equals(playerYellow.getColor().toString())) {
             currentPlayer = playerYellow;
         }
-        Toast.makeText(Playfield.this, "Currentplayer: " + currentPlayer.getColor(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(Playfield.this, "Currentplayer: " + currentPlayer.getColor(), Toast.LENGTH_SHORT).show();
 
         //entfernt die label Leiste (Actionbar) auf dem Playfield
         ActionBar actionBar = getSupportActionBar();
@@ -395,12 +395,67 @@ public class Playfield extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //check if cheating == true
-                        //give consequences
-                        //if accused right:
-                        Toast.makeText(Playfield.this, "PlayerXY cheated, you were right!", Toast.LENGTH_SHORT).show();
-                        //if accused wrong:
-                        Toast.makeText(Playfield.this, "PlayerXY did not cheat, you were wrong!", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
+                        database.collection("gameInfo").whereEqualTo("RoomName", currentRoom)
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                                if(document.getBoolean("Cheated")){
+                                                    //give consequences
+                                                    //if accused right:
+                                                    ArrayList player = (ArrayList) document.get("CurrentPlayer");
+                                                    int Phase = (int) player.get(3)-1;
+                                                    player.set(3,Phase);
+                                                    document.getReference().update("CurrentPlayer",player);
+                                                    Toast.makeText(Playfield.this, "Player "+currentPlayer+" cheated, you were right!", Toast.LENGTH_SHORT).show();
+
+                                                }
+                                                else{
+                                                    //if accused wrong:
+                                                    //TODO: UPDATE RIGHT PLAYER
+                                                    ArrayList player;
+                                                    if(document.get("PlayerBlue")!=null) {
+                                                        if (primaryPlayer.getColor().equals(PlayerColor.BLUE)) {
+                                                            player = (ArrayList) document.get("PlayerBlue");
+                                                            int minusPoints = (int) player.get(4)+10;
+                                                            player.set(4,minusPoints);
+                                                            document.getReference().update("PlayerBlue",player);
+                                                        }
+                                                    }else if(document.get("PlayerRed")!=null){
+                                                            if(primaryPlayer.getColor().equals(PlayerColor.RED)){
+                                                                player = (ArrayList) document.get("PlayerRed");
+                                                                int minusPoints = (int) player.get(4)+10;
+                                                                player.set(4,minusPoints);
+                                                                document.getReference().update("PlayerRed",player);
+                                                    }
+                                                        }else if(document.get("PlayerYellow")!=null){
+                                                        if(primaryPlayer.getColor().equals(PlayerColor.YELLOW)){
+                                                            player = (ArrayList) document.get("PlayerYellow");
+                                                            int minusPoints = (int) player.get(4)+10;
+                                                            player.set(4,minusPoints);
+                                                            document.getReference().update("PlayerYellow",player);
+
+                                                        }
+                                                    }else if(document.get("PlayerGreen")!=null) {
+                                                        if (primaryPlayer.getColor().equals(PlayerColor.GREEN)) {
+                                                            player = (ArrayList) document.get("PlayerGreen");
+                                                            int minusPoints = (int) player.get(4)+10;
+                                                            player.set(4,minusPoints);
+                                                            document.getReference().update("PlayerGreen",player);
+
+                                                        }
+                                                    }
+
+                                                    Toast.makeText(Playfield.this, "Player "+currentPlayer+" did not cheat, you were wrong!", Toast.LENGTH_SHORT).show();
+                                                    dialog.dismiss();
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+
                     }
                 })
                 .setNegativeButton("NO", new DialogInterface.OnClickListener() {
