@@ -2,9 +2,11 @@ package com.example.phase10_se2;
 
 import static android.os.SystemClock.sleep;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -14,6 +16,7 @@ import android.os.CountDownTimer;
 import android.util.Log;
 
 import android.view.DragEvent;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +67,7 @@ public class Playfield extends AppCompatActivity {
     LinearLayout layoutPlayer2CardField;
     LinearLayout layoutPlayer3CardField;
     LinearLayout layoutPlayer4CardField;
+
 
     CardUIManager cardUIManager;
     CardDrawer cardDrawer;
@@ -129,13 +133,14 @@ public class Playfield extends AppCompatActivity {
 
     //Round and phase
     Phase phase;
+    boolean currentPhaseRight = false;
+    private long doubleClickLastTime = 0L;
     int round = 1;
     ArrayList startOrder = new ArrayList();
     int currentDiceRoll = 0;
     boolean cheated = false;
 
-    boolean currentPhaseRight = false;
-    private long doubleClickLastTime = 0L;
+
 
 
     //light sensor
@@ -253,8 +258,12 @@ public class Playfield extends AppCompatActivity {
         layoutPlayer4 = findViewById(R.id.player4);
         layoutPlayer1CardField = findViewById(R.id.player1PhaseAblegen);
         layoutPlayer2CardField = findViewById(R.id.player2PhaseAblegen);
+       // layoutPlayer2CardField.setOnDragListener(new ChoiceDragListener());
         layoutPlayer3CardField = findViewById(R.id.player3PhaseAblegen);
+        //layoutPlayer3CardField.setOnDragListener(new ChoiceDragListener());
         layoutPlayer4CardField = findViewById(R.id.player4PhaseAblegen);
+        //layoutPlayer4CardField.setOnDragListener(new ChoiceDragListener());
+
 
         //Button, um zu überprüfen, ob die Phase richtig ist
         cardfieldCardlist = new ArrayList<>();
@@ -334,6 +343,8 @@ public class Playfield extends AppCompatActivity {
         cardlist.remove(randomCard);
         discardpileList.add(randomCard);
         defaultcard.setImageDrawable(createCardUI(discardpileList.get(0)).getDrawable());
+        defaultcard.setOnDragListener(new ChoiceDragListener());
+
 
 
 
@@ -524,6 +535,8 @@ public class Playfield extends AppCompatActivity {
     protected void addCardsDiscardpile() {
         int size = discardpileList.size();
         if (size != 0) {
+
+            discardpileList.get(size-1).getCardUI().setVisibility(View.VISIBLE);
             if (playerYellow != null && playerYellow.getColor().equals(primaryPlayer.getColor())) {
                 handCards.updateHand(playerYellow.getPlayerHand(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
             }
@@ -608,6 +621,10 @@ public class Playfield extends AppCompatActivity {
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+
+            Log.e("debugClick",view.toString());
+
+
             if (System.currentTimeMillis() - doubleClickLastTime < 700) {
                 doubleClickLastTime = 0;
                 View v = view;
@@ -644,23 +661,38 @@ public class Playfield extends AppCompatActivity {
 
     //Class allows us to drag view
     private final class ChoiceTouchListener implements View.OnTouchListener {
+        boolean isMoved = true;
 
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && ((ImageView) view).getDrawable() != null) {
-                ClipData data = ClipData.newPlainText("", "");
-                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-                view.startDragAndDrop(data, shadowBuilder, view, 0);
-                return false;
-            } else return false;
-        }//return false ist notwendig, damit onClick und onTouchListener funktionieren
 
+            switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+                case MotionEvent.ACTION_MOVE:
+                    //prev = System.currentTimeMillis() / 100000;
+                    ClipData data = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+                    view.startDragAndDrop(data, shadowBuilder, view, 0);
+                    view.setVisibility(View.VISIBLE);
+                    Log.e("touch", view.toString());
+                    isMoved = false;
+                    break;
+            }
+            if (!isMoved) {
+                Log.e("click", view.toString());
+            }
+
+
+            return false;
+
+
+        }
     }
 
  //--> funktion nicht mehr richtig wegen onClick Listener
     //Class to drop
     //ChoiceDragListener
     private class ChoiceDragListener implements View.OnDragListener {
+        //Drawable enterShape = getResources().getDrawable(R.drawable.gruen12);
         @Override
         public boolean onDrag(View view, DragEvent dragEvent) {
             switch (dragEvent.getAction()) {
@@ -690,11 +722,13 @@ public class Playfield extends AppCompatActivity {
                         }
                     }
                     owner.removeView(v);
-                    v.setVisibility(View.VISIBLE);
+                    //layoutDiscardpile.addView(v);
+                    v.setVisibility(View.INVISIBLE);
                     break;
 
                 case DragEvent.ACTION_DRAG_ENDED: //4
                     view.invalidate();
+                default:
                     break;
             }
             return true;
