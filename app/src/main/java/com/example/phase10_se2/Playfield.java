@@ -98,7 +98,6 @@ public class Playfield extends AppCompatActivity {
     ArrayList<Cards> playerHandYellow;
     ArrayList<Cards> playerHandGreen;
     ArrayList<Cards> playerHandPrimaryPlayer;
-    Cards cards;
 
     public ArrayList<Cards> getPlayer1HandBlue() {
         return playerHandBlue;
