@@ -11,7 +11,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.view.DragEvent;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,13 +28,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -118,11 +122,10 @@ public class Playfield extends AppCompatActivity {
 
     //Round and phase
     Phase phase;
-    int round;
-    Map<String, Object> gameInfo = new HashMap<>();
-    ArrayList<PlayerColor> startOrder = new ArrayList();
-    int currentDiceRoll;
-    boolean cheated;
+    int round = 1;
+    ArrayList startOrder = new ArrayList();
+    int currentDiceRoll = 0;
+    boolean cheated = false;
 
     boolean currentPhaseRight = false;
     private long doubleClickLastTime = 0L;
@@ -155,6 +158,8 @@ public class Playfield extends AppCompatActivity {
         userColor = getIntent().getExtras().getString("Color");
         Toast.makeText(this, "YOU ARE THE " + userColor + " PLAYER!", Toast.LENGTH_LONG).show();
         database = FirebaseFirestore.getInstance();    //verknuepfung
+        FirebaseFirestore.setLoggingEnabled(true);
+
         database.collection("users")
                 .whereEqualTo("Room", currentRoom)
                 .get()
@@ -191,8 +196,6 @@ public class Playfield extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.hide();
 
-        round = 1;
-
         //show dice
         diceFragment = DiceFragment.newInstance();
         FragmentManager fm = getSupportFragmentManager();
@@ -207,8 +210,6 @@ public class Playfield extends AppCompatActivity {
         ivShowAktionskarte = findViewById(R.id.ivShowAk);
         tvAktuellePhase = findViewById(R.id.tvAP);
         btnCheckPhase = findViewById(R.id.buttonCheckPhase);
-
-
 
 
         //Aktionskarte einblenden Show und Hide button tauschen
@@ -333,7 +334,6 @@ public class Playfield extends AppCompatActivity {
             }
         }
 
-
         //Player Blue, Red, Yellow, Green
         deckcard.setOnClickListener(view -> {
             addCard();
@@ -359,6 +359,8 @@ public class Playfield extends AppCompatActivity {
         classTimer.startTimer();
         classTimer.updateCountDownText();
 
+
+        gameInfoDB();
         //light sensor to accuse of cheating
         sm = (SensorManager) getSystemService(SENSOR_SERVICE);
         light = sm.getDefaultSensor(Sensor.TYPE_LIGHT);
@@ -403,31 +405,6 @@ public class Playfield extends AppCompatActivity {
 
                     }
                 });
-        /*
-        //database with synched info to play game
-        gameInfo.put("RoomName", currentRoom);
-        gameInfo.put("Round", round);
-        gameInfo.put("CurrentPlayer", currentPlayer);
-        gameInfo.put("PlayerYellow", playerYellow);
-        gameInfo.put("PlayerBlue", playerBlue);
-        gameInfo.put("PlayerRed", playerRed);
-        gameInfo.put("PlayerGreen", playerGreen);
-        gameInfo.put("StartOrder", startOrder);
-        gameInfo.put("DiceRoll", currentDiceRoll);
-        gameInfo.put("Cheated", cheated);
-
-        database.collection("activeGames").add(gameInfo)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-Log.i("DatabaseInfo ---------------------------------------------", "added");                    }
-                }).addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
-
-        */
-
-
-
-
 
 
         //TODO: delete button and move function to game start
@@ -504,6 +481,8 @@ Log.i("DatabaseInfo ---------------------------------------------", "added");   
 
     }
 
+
+
     //Karten werden den Spieler angepasst/ Handkarten-Layout
     public void updateHand(List list, Cards cards, LinearLayout linearLayout, int grad) {
         list.add(cards);
@@ -530,6 +509,7 @@ Log.i("DatabaseInfo ---------------------------------------------", "added");   
        // cards.getCardUI().setOnTouchListener(new ChoiceTouchListener());
         //cards.getCardUI().setOnDragListener(new ChoiceDragListener());
     }
+
 
     //Eine Karte vom Ablagestapel ziehen
     protected void addCardsDiscardpile() {
@@ -712,7 +692,6 @@ Log.i("DatabaseInfo ---------------------------------------------", "added");   
 
  */
 
-
     //Aktuelle in Player zugewiesene Phase wird in Textview am Spielfeld angezeigt
     public void setPhasenTextTextView() {
         tvAktuellePhase.setText(player.getPhaseText());
@@ -848,6 +827,62 @@ Log.i("DatabaseInfo ---------------------------------------------", "added");   
     public String getUserColor() {
         return userColor;
     }
+public void gameInfoDB(){
+    //database with synched info to play game
+    Map<String, Object> gameInfo = new HashMap<>();
+    gameInfo.put("RoomName", currentRoom);
+    gameInfo.put("Round", round);
+    Log.i("PlayerToList--------------------------------------------------------------", playerToList(currentPlayer).toString());
+    gameInfo.put("CurrentPlayer", playerToList(currentPlayer));
+    if(playerYellow != null) {
+        gameInfo.put("PlayerYellow", playerToList(playerYellow));
+    }
+    if (playerBlue != null) {
+        gameInfo.put("PlayerBlue",playerToList(playerBlue));
+    }
+    if(playerRed != null) {
+        gameInfo.put("PlayerRed", playerToList(playerRed));
+    }
+    if(playerGreen != null) {
+        gameInfo.put("PlayerGreen", playerToList(playerGreen));
+    }
+    if(startOrder!=null) {
+        gameInfo.put("StartOrder", startOrder);
+    }
+    gameInfo.put("DiceRoll", currentDiceRoll);
+    gameInfo.put("Cheated", cheated);
+    //Log.i("gameInfo------------------------------------------------------------", gameInfo.toString());
 
+    database.collection("gameInfo")
+            .add(gameInfo)
+            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                    Log.i("GameInfo -----------------------------", "success");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+        @Override
+        public void onFailure(@NonNull Exception e) {
+            Log.e("EXCEPTION---------------------------------------------------------", e.getMessage());
+
+        }
+    });
+}
+public ArrayList<String> playerToList(Player player){
+    ArrayList <String> playerList = new ArrayList();
+    playerList.add(player.getName());
+    playerList.add(player.getColor().toString());
+    playerList.add(player.getRoom());
+    playerList.add(String.valueOf(player.getPhasenumber()));
+    playerList.add(String.valueOf(player.getMinusPoints()));
+    ArrayList<Integer> playerCardsID = new ArrayList();
+    for (Cards c:player.getPlayerHand() ) {
+        playerCardsID.add(c.getID());
+    }
+    playerList.add(playerCardsID.toString());
+    playerList.add(Arrays.toString(player.getCardField().toArray()));
+
+    return playerList;
+}
 }
 
