@@ -1,5 +1,7 @@
 package com.example.phase10_se2;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -17,17 +19,23 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
 
 
 public class DiceFragment extends Fragment implements SensorEventListener {
-    private final boolean TESTMODE = true; //TODO: remove or set to false when multiplayer is implemented
+    private final boolean TESTMODE = false; //TODO: remove or set to false when multiplayer is implemented
 
     private float shakeThreshold;  //Threshold for the acceleration sensor to trigger dice generation
     private ImageView diceView;
@@ -35,7 +43,10 @@ public class DiceFragment extends Fragment implements SensorEventListener {
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private int lastDiceValue;
+    private int lastDiceValueDB;
+    private int lastDiceValueDB_old;
     private float acceleration;
+    private PlayerColor currentPlayerColor = null;
 
     private PlayerColor playerColor;
     private String room;
@@ -51,11 +62,56 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                              @Nullable Bundle savedInstanceState) {
         Playfield playfield = (Playfield) getActivity();
 
-        room = playfield.getCurrentRoom();
+        room = Objects.requireNonNull(playfield).getCurrentRoom();
         playerColor = definePlayerColor(playfield.getUserColor());
         database = createDBConnection();
 
-//        getCurrentPlayerFromDatabase();
+        database.collection("gameInfo")
+                .whereEqualTo("RoomName", room)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                        if (error != null) {
+                            Log.w(TAG, "Listen failed.", error);
+                            return;
+                        }
+
+                        if (value != null) {
+                            database.collection("gameInfo")
+                                    .whereEqualTo("RoomName", room)
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    //CurrentPlayer for dice throwing
+                                                    ArrayList currentPlayer = (ArrayList) document.get("CurrentPlayer");
+                                                    if (currentPlayerColor == null || (currentPlayer != null && !currentPlayerColor.equals(definePlayerColor((String)currentPlayer.get(1))))) {
+                                                        currentPlayerColor = definePlayerColor((String)currentPlayer.get(1));
+                                                        Log.i("TEST", "cp triggered");
+                                                    }
+
+                                                    //last dice value for cheating
+                                                    int diceRoll = document.get("DiceRoll", Integer.class);
+                                                    if (lastDiceValueDB != diceRoll) {
+                                                        lastDiceValueDB_old = lastDiceValueDB;
+                                                        lastDiceValue = diceRoll;
+                                                        Log.i("TEST", "last triggered " + diceRoll);
+                                                    }
+                                                }
+
+                                            } else {
+                                                Log.d(TAG, "Error getting Data from Firestore: ", task.getException());
+                                            }
+                                        }
+                                    });
+                        } else {
+                            Log.d(TAG, "Current data: null");
+                        }
+                    }
+                });
 
         return inflater.inflate(R.layout.dice_fragment, container, false);
     }
@@ -111,7 +167,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (TESTMODE || getCurrentPlayerFromDatabase().equals(playerColor)) {
+        if (TESTMODE || (currentPlayerColor != null && currentPlayerColor.equals(playerColor))) {
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
@@ -147,6 +203,23 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                         lastDiceValue = 1;
                         break;
                 }
+
+                database.collection("gameInfo")
+                        .whereEqualTo("RoomName", room)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        document.getReference().update("DiceRoll", lastDiceValue);
+                                    }
+
+                                } else {
+                                    Log.d(TAG, "Error getting Data from Firestore: ", task.getException());
+                                }
+                            }
+                        });
             }
         }
     }
