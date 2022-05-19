@@ -98,6 +98,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                                                     if (lastDiceValueDB != diceRoll) {
                                                         lastDiceValueDB_old = lastDiceValueDB;
                                                         lastDiceValue = diceRoll;
+                                                        setDiceView(diceRoll);
                                                         Log.i("TEST", "last triggered " + diceRoll);
                                                     }
                                                 }
