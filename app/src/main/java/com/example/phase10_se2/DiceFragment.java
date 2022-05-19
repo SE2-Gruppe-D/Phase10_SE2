@@ -19,10 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -30,7 +27,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Objects;
 
 
@@ -88,9 +84,8 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                                     //CurrentPlayer for dice throwing
                                                     ArrayList currentPlayer = (ArrayList) document.get("CurrentPlayer");
-                                                    if (currentPlayerColor == null || (currentPlayer != null && !currentPlayerColor.equals(definePlayerColor((String)currentPlayer.get(1))))) {
-                                                        currentPlayerColor = definePlayerColor((String)currentPlayer.get(1));
-                                                        Log.i("TEST", "cp triggered");
+                                                    if (currentPlayerColor == null || (currentPlayer != null && !currentPlayerColor.equals(definePlayerColor((String) currentPlayer.get(1))))) {
+                                                        currentPlayerColor = definePlayerColor((String) currentPlayer.get(1));
                                                     }
 
                                                     //last dice value for cheating
@@ -99,7 +94,6 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                                                         lastDiceValueDB_old = lastDiceValueDB;
                                                         lastDiceValue = diceRoll;
                                                         setDiceView(diceRoll);
-                                                        Log.i("TEST", "last triggered " + diceRoll);
                                                     }
                                                 }
 
@@ -148,7 +142,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
     }
 
     private void initViews() {
-        this.diceView = (ImageView) getView().findViewById(R.id.DiceView);
+        this.diceView = getView().findViewById(R.id.DiceView);
     }
 
     private void initAccelerometer() {
