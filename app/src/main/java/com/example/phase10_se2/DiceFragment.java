@@ -35,11 +35,11 @@ public class DiceFragment extends Fragment implements SensorEventListener {
 
     private float shakeThreshold;  //Threshold for the acceleration sensor to trigger dice generation
     private ImageView diceView;
+    private boolean moved;
     private Dice dice;
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private int lastDiceValue;
-    private int lastDiceValueDB;
     private int lastDiceValueDB_old;
     private float acceleration;
     private PlayerColor currentPlayerColor = null;
@@ -47,6 +47,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
     private PlayerColor playerColor;
     private String room;
     private FirebaseFirestore database;
+    private Playfield playfield;
 
 
     public static DiceFragment newInstance() {
@@ -56,7 +57,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        Playfield playfield = (Playfield) getActivity();
+        playfield = (Playfield) getActivity();
 
         room = Objects.requireNonNull(playfield).getCurrentRoom();
         playerColor = definePlayerColor(playfield.getUserColor());
@@ -86,14 +87,17 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                                                     ArrayList currentPlayer = (ArrayList) document.get("CurrentPlayer");
                                                     if (currentPlayerColor == null || (currentPlayer != null && !currentPlayerColor.equals(definePlayerColor((String) currentPlayer.get(1))))) {
                                                         currentPlayerColor = definePlayerColor((String) currentPlayer.get(1));
+                                                        moved = false;
                                                     }
 
                                                     //last dice value for cheating
                                                     int diceRoll = document.get("DiceRoll", Integer.class);
-                                                    if (lastDiceValueDB != diceRoll) {
-                                                        lastDiceValueDB_old = lastDiceValueDB;
+                                                    if (lastDiceValue != diceRoll) {
+                                                        lastDiceValueDB_old = lastDiceValue;
                                                         lastDiceValue = diceRoll;
                                                         setDiceView(diceRoll);
+
+                                                        startCheatTimer();
                                                     }
                                                 }
 
@@ -220,6 +224,37 @@ public class DiceFragment extends Fragment implements SensorEventListener {
     }
 
     //HELPER METHODS
+    private void startCheatTimer() {
+        new Thread(new Runnable() {
+            public void run() {
+                int diceValueBeforeStart = lastDiceValue;
+                android.os.SystemClock.sleep(3000);
+
+                if (!moved && lastDiceValue == diceValueBeforeStart) {
+                    moved = true;
+                    getPlayer(currentPlayerColor).move(lastDiceValue);
+                }
+            }
+        }).start();
+    }
+
+    private Player getPlayer(PlayerColor playerColor) {
+        if (playerColor.equals(PlayerColor.GREEN)) {
+            return playfield.getPlayerGreen();
+        }
+        if (playerColor.equals(PlayerColor.RED)) {
+            return playfield.getPlayerRed();
+        }
+        if (playerColor.equals(PlayerColor.BLUE)) {
+            return playfield.getPlayerBlue();
+        }
+        if (playerColor.equals(PlayerColor.YELLOW)) {
+            return playfield.getPlayerYellow();
+        }
+
+        return null;
+    }
+
     private PlayerColor definePlayerColor(String playerColor) {
         switch (playerColor) {
             case "RED":
