@@ -14,8 +14,7 @@ import java.util.List;
 
 public class Phase extends AppCompatActivity {
 
-    public Phase() {
-    }
+    Player player;
 /*
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,9 +24,10 @@ public class Phase extends AppCompatActivity {
  */
 
     public boolean getRightPhase(ArrayList<Cards> cardfieldCardlist){
-        int phase = 1;
+        int phase = player.getPhaseNumber();
         switch (phase){
             case 1: return checkPhase1(cardfieldCardlist);
+            case 2: return checkPhase2(cardfieldCardlist);
             default: return false;
         }
     }
@@ -36,15 +36,19 @@ public class Phase extends AppCompatActivity {
     //Phase 1: 4 Zwillinge
     public boolean checkPhase1(List<Cards> list){
         if (list.size() == 8) {
-            return checkSameValue(list);
+            return checkEqualValue(list);
         }else{
             return false;
         }
     }
 
     //Phase 2: 6 Karten einer Farbe
-    private boolean checkPhase2(List<Cards> list1){
-        return list1.size()==6 && checkEqualsColor(list1);
+    public boolean checkPhase2(List<Cards> list) {
+        if (list.size() == 6) {
+            return checkEqualColor(list);
+        } else {
+            return false;
+        }
     }
 
 
@@ -61,7 +65,7 @@ public class Phase extends AppCompatActivity {
 
     //Phase 5: 7 Karten einer Farbe
     private boolean checkPhase5(List<Cards> list1){
-        return list1.size()==7 && checkEqualsColor(list1);
+        return list1.size()==7 && checkEqualColor(list1);
     }
 
     //Phase 6: 1 Neunerfolge
@@ -78,7 +82,7 @@ public class Phase extends AppCompatActivity {
 
     //Phase 8: 1 Viererfolge einer Farbe + 1 Drilling
     private boolean checkPhase8(List<Cards> list1, List<Cards> list2){
-        return ((list1.size()==4 && checkRunOfX(list1) && checkEqualsColor(list1)) && checkSetOf3(list2));
+        return ((list1.size()==4 && checkRunOfX(list1) && checkEqualColor(list1)) && checkSetOf3(list2));
     }
 
     //Phase 9: 1 Fünfling + 1 Drilling
@@ -88,20 +92,14 @@ public class Phase extends AppCompatActivity {
 
     //Phase 10: 1 Fünfling + 1 Dreierfolge einer Farbe
     private boolean checkPhase10(List<Cards> list1, List<Cards> list2){
-        return (checkSetOf5(list1) && (list2.size()==3 && checkRunOfX(list2) && checkEqualsColor(list2)));
+        return (checkSetOf5(list1) && (list2.size()==3 && checkRunOfX(list2) && checkEqualColor(list2)));
     }
 
 
-    //check sets of 2,3,4,5
-   public boolean checkSetOf2(List<Cards> list) {
-       if (list.size() == 8) {
-           return checkSameValue(list);
-       }else{
-           return false;
-       }
-   }
 
-   public boolean checkSameValue(List<Cards> list){
+
+   //checkEqual value
+   public boolean checkEqualValue(List<Cards> list){
        list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
        List<Cards> helplist = new ArrayList<>(list);
        Cards helpCard;
@@ -117,38 +115,18 @@ public class Phase extends AppCompatActivity {
        return helplist.isEmpty();
    }
 
-
-
-    private boolean checkSetOf3(List<Cards> list1){
-        return list1.size() == 3 && checkEqualsValue(list1);
-    }
-
-    private boolean checkSetOf4(List<Cards> list1){
-        return list1.size() == 4 && checkEqualsValue(list1);
-    }
-
-    private boolean checkSetOf5(List<Cards> list1){
-        return list1.size() == 5 && checkEqualsValue(list1);
-    }
-
-   public boolean checkEqualsValue(List<Cards> list1){
-       for (int i = 0; i < list1.size() - 1; i++) {
-           if (list1.get(i).getValue() != list1.get(i+1).getValue()) {
-               return false;
-           }
-       }
-       return true;
-   }
-
-   //check equals color
-    private boolean checkEqualsColor(List<Cards> list1){
-        for (int i = 0; i < list1.size() - 1; i++) {
-            if (!list1.get(i).getColor().equals(list1.get(i + 1).getColor())) {
-                return false;
+   //check equal color
+    private boolean checkEqualColor(List<Cards> list){
+        List<Cards> helplist = new ArrayList<>(list);
+        Cards helpCard = list.get(0);
+        helplist.remove(helpCard);
+            for (int i = 1; i < list.size(); i++) {
+                if (helpCard.getColor().equals(helplist.get(0).getColor())) {
+                    helplist.remove(0);
+                    }
+                }
+        return helplist.isEmpty();
             }
-        }
-        return true;
-    }
 
     //check run of X
     private boolean checkRunOfX(List<Cards> list1){
@@ -158,6 +136,29 @@ public class Phase extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+
+
+    private boolean checkSetOf3(List<Cards> list1){
+        return list1.size() == 3 && checkEqualValue(list1);
+    }
+
+    private boolean checkSetOf4(List<Cards> list1){
+        return list1.size() == 4 && checkEqualValue(list1);
+    }
+
+    private boolean checkSetOf5(List<Cards> list1){
+        return list1.size() == 5 && checkEqualValue(list1);
+    }
+
+    //check sets of 2,3,4,5
+    public boolean checkSetOf2(List<Cards> list) {
+        if (list.size() == 8) {
+            return checkEqualValue(list);
+        }else{
+            return false;
+        }
     }
 
 
