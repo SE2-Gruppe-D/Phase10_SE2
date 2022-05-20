@@ -192,13 +192,14 @@ public class Playfield extends AppCompatActivity {
 
     private void CreatePlayfield() {
         //ermitteln von current Player
-        if (playerBlue != null && playerList.get(0).equals(playerBlue.getColor().toString())) {
+        Log.i("TEST", playerList.toString());
+        if (playerBlue != null && playerList.get(0).equals("BLUE")) {
             currentPlayer = playerBlue;
         }
-        if (playerRed != null && playerList.get(0).equals(playerRed.getColor().toString())) {
+        if (playerRed != null && playerList.get(0).equals("RED")) {
             currentPlayer = playerRed;
         }
-        if (playerYellow != null && playerList.get(0).equals(playerYellow.getColor().toString())) {
+        if (playerYellow != null && playerList.get(0).equals("YELLOW")) {
             currentPlayer = playerYellow;
         }
         //Toast.makeText(Playfield.this, "Currentplayer: " + currentPlayer.getColor(), Toast.LENGTH_SHORT).show();
