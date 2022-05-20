@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
@@ -1019,7 +1020,8 @@ public class Playfield extends AppCompatActivity {
                 });
     }
 
-    public void getCurrentPlayerDB() {
+    public List[] getCurrentPlayerDB() {
+        final List[] player = new List[]{};
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
                 .get()
@@ -1028,11 +1030,15 @@ public class Playfield extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                currentPlayer = (Player) document.get("CurrentPlayer");
+                               player[0] = List.of(Objects.requireNonNull(document.get("CurrentPlayer")));
                             }
+
                         }
                     }
+
+
                 });
+        return player;
     }
 }
 
