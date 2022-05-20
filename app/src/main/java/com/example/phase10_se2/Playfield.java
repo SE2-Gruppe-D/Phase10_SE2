@@ -2,11 +2,9 @@ package com.example.phase10_se2;
 
 import static android.os.SystemClock.sleep;
 
-import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -14,9 +12,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
-
 import android.view.DragEvent;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +42,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
@@ -140,6 +135,7 @@ public class Playfield extends AppCompatActivity {
     int currentDiceRoll = 0;
     boolean cheated = false;
 
+    boolean newDBCollectionNeeded = false;
 
 
 
@@ -308,6 +304,8 @@ public class Playfield extends AppCompatActivity {
         for (int i = 0; i < 96; i++) {
             cardlist.get(i).setCardUI(createCardUI(cardlist.get(i)));
         }
+        updateCardlistDB();
+
 
         //Karten werden gemischt
         cardDrawer.shuffleCards(cardlist);
@@ -925,8 +923,29 @@ public void gameInfoDB(){
     }
     gameInfo.put("DiceRoll", currentDiceRoll);
     gameInfo.put("Cheated", cheated);
-    //Log.i("gameInfo------------------------------------------------------------", gameInfo.toString());
+    gameInfo.put("Cardlist", cardlist);
+    gameInfo.put("DiscardpileList", discardpileList);
 
+
+    //Log.i("gameInfo------------------------------------------------------------", gameInfo.toString());
+    database.collection("gameInfo").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        @Override
+        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    if (Objects.equals(document.get("RoomName"), currentRoom)) {
+                        newDBCollectionNeeded = false;
+                        break;
+                    } else {
+                        newDBCollectionNeeded = true;
+                    }
+
+                }
+
+            }
+        }
+        });
+    if(newDBCollectionNeeded){
     database.collection("gameInfo")
             .add(gameInfo)
             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -942,6 +961,7 @@ public void gameInfoDB(){
         }
     });
 }
+        }
 public ArrayList<String> playerToList(Player player){
     ArrayList <String> playerList = new ArrayList();
     playerList.add(player.getName());
@@ -955,10 +975,57 @@ public ArrayList<String> playerToList(Player player){
     }
     playerList.add(playerCardsID.toString());
     playerList.add(Arrays.toString(player.getCardField().toArray()));
-
-
+    playerList.add(String.valueOf(player.abgelegt));
+    playerList.add(String.valueOf(player.getCurrentPosition()));
 
     return playerList;
 }
+public void updateCardlistDB(){
+    //update Database
+    database.collection("gameInfo")
+            .whereEqualTo("RoomName", currentRoom)
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            document.getReference().update("Cardlist", cardlist);
+                        }
+                    }
+                }
+            });
+}
+public void updateDiscardpileListDB(){
+    database.collection("gameInfo")
+            .whereEqualTo("RoomName", currentRoom)
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            document.getReference().update("DiscardpileList", discardpileList);
+                        }
+                    }
+                }
+            });
+}
+public void updateRoundDB(){
+    database.collection("gameInfo")
+            .whereEqualTo("RoomName", currentRoom)
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            document.getReference().update("Round", round);
+                        }
+                    }
+                }
+            });
+}
+
 }
 
