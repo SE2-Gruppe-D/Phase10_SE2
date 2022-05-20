@@ -28,6 +28,7 @@ public class Phase extends AppCompatActivity {
         switch (phase){
             case 1: return checkPhase1(cardfieldCardlist);
             case 2: return checkPhase2(cardfieldCardlist);
+            case 3: return checkPhase3(cardfieldCardlist);
             default: return false;
         }
     }
@@ -51,10 +52,13 @@ public class Phase extends AppCompatActivity {
         }
     }
 
-
     //Phase 3: 1 Vierling + 1 Viererfolge
-    private boolean checkPhase3(List<Cards> list1, List<Cards> list2){
-        return checkSetOf4(list1) && (list2.size()==4 && checkRunOfX(list2));
+    public boolean checkPhase3(List<Cards> list) {
+        if (list.size() == 4) {
+            return checkRunOfX(list);
+        } else {
+            return false;
+        }
     }
 
     //Phase 4: 1 Achterfolge
@@ -70,6 +74,7 @@ public class Phase extends AppCompatActivity {
 
     //Phase 6: 1 Neunerfolge
     private boolean checkPhase6(List<Cards> list1){
+
         return list1.size()==9 && checkRunOfX(list1);
     }
 
@@ -98,7 +103,7 @@ public class Phase extends AppCompatActivity {
 
 
 
-   //checkEqual value
+   //checkEqual value Zwilling
    public boolean checkEqualValue(List<Cards> list){
        list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
        List<Cards> helplist = new ArrayList<>(list);
@@ -129,14 +134,24 @@ public class Phase extends AppCompatActivity {
             }
 
     //check run of X
-    private boolean checkRunOfX(List<Cards> list1){
-        for (int i = 0; i < list1.size() - 1; i++) {
-            if ((list1.get(i).getValue())+1 != list1.get(i+1).getValue()) {
-                return false;
+    private boolean checkRunOfX(List<Cards> list) {
+        list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
+        List<Cards> helplist = new ArrayList<>(list);
+        Cards helpCard;
+        for (int i = 0; i < list.size(); i++) {
+            helpCard = list.get(i);
+            if (helplist.size() != 0) {
+                if ((helpCard.getValue() + 1) == (helplist.get(1).getValue())) {
+                    helplist.remove(helpCard);
+                    if(helplist.size()==1){
+                        helplist.remove(0);
+                    }
+                }
+                }
             }
+        return helplist.isEmpty();
         }
-        return true;
-    }
+
 
 
 
