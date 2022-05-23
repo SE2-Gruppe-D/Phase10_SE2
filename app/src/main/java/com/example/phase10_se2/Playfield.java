@@ -183,6 +183,7 @@ public class Playfield extends AppCompatActivity {
                     }
                 });
 
+
     }
 
     private void CreatePlayfield() {
@@ -207,6 +208,7 @@ public class Playfield extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.hide();
+
 
         //show dice
         diceFragment = DiceFragment.newInstance();
@@ -243,6 +245,8 @@ public class Playfield extends AppCompatActivity {
             }
         });
 
+        //tvAktuellePhase.setText(currentPlayer.getPhaseText());
+        //setPhasenTextTextView();
 
         discardpileList = new ArrayList<>();
         cardlist = new ArrayList<>();
@@ -512,6 +516,7 @@ public class Playfield extends AppCompatActivity {
 
         }
 
+
         if (Objects.equals(documentSnapshot.getString("Color"), "RED")) {
             playerRed = new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom, 1, 0, playerHandRed, new ArrayList<>());
             playerRed.setPlayerview(findViewById(R.id.ivPR));
@@ -534,6 +539,8 @@ public class Playfield extends AppCompatActivity {
         }
 
     }
+
+
 
 
     //Eine Karte vom Ablagestapel ziehen
@@ -755,10 +762,13 @@ public class Playfield extends AppCompatActivity {
     }
 
 
+
     //Aktuelle in Player zugewiesene Phase wird in Textview am Spielfeld angezeigt
     public void setPhasenTextTextView() {
-        tvAktuellePhase.setText(player.getPhaseText());
+        tvAktuellePhase.setText(primaryPlayer.getPhaseText());
+
     }
+
 
 
     private boolean checkblue(FieldColor fieldColor) {
