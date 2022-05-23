@@ -98,5 +98,6 @@ public class HandCards {
         cardlist.remove(0);
         cards.getCardUI().setRotation(grad);
 
+
     }
 }
