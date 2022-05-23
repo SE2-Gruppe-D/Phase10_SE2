@@ -201,7 +201,6 @@ public class Playfield extends AppCompatActivity {
             currentPlayer = playerGreen;
         }
 
-        //entfernt die label Leiste (Actionbar) auf dem Playfield
         //Toast.makeText(Playfield.this, "Currentplayer: " + currentPlayer.getColor(), Toast.LENGTH_SHORT).show();
 
         //entfernt die label Leiste (Actionbar) auf dem Playfield
@@ -210,7 +209,6 @@ public class Playfield extends AppCompatActivity {
         actionBar.hide();
 
         //show dice
-
         diceFragment = DiceFragment.newInstance();
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
