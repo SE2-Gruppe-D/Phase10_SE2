@@ -202,6 +202,9 @@ public class Playfield extends AppCompatActivity {
         if (playerYellow != null && playerList.get(0).equals("YELLOW")) {
             currentPlayer = playerYellow;
         }
+        if (playerGreen != null && playerList.get(0).equals("GREEN")) {
+            currentPlayer = playerGreen;
+        }
         //Toast.makeText(Playfield.this, "Currentplayer: " + currentPlayer.getColor(), Toast.LENGTH_SHORT).show();
 
         //entfernt die label Leiste (Actionbar) auf dem Playfield
