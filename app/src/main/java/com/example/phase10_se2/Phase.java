@@ -96,6 +96,7 @@ public class Phase extends AppCompatActivity {
     }
 
     //Phase 10: 1 Fünfling + 1 Dreierfolge einer Farbe
+    //Problem! zuerst Folge überprüfen?
     private boolean checkPhase10(List<Cards> list1, List<Cards> list2){
         return (checkSetOf5(list1) && (list2.size()==3 && checkRunOfX(list2) && checkEqualColor(list2)));
     }

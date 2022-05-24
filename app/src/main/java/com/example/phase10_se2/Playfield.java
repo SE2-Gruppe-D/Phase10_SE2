@@ -276,8 +276,8 @@ public class Playfield extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //ohne DB so prüfen
-                if(phase.checkPhase3(cardfieldCardlist)){
-                    int phase = 3;
+                if(phase.checkPhase1(cardfieldCardlist)){
+                    int phase = 1;
 
 
                 // funktionier noch nicht ohne DB
