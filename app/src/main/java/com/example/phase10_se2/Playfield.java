@@ -977,6 +977,7 @@ public class Playfield extends AppCompatActivity {
 
     public void updateCardlistDB() {
         //update Database
+        /* TODO: save card id + color in DB, not card view
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
                 .get()
@@ -990,6 +991,8 @@ public class Playfield extends AppCompatActivity {
                         }
                     }
                 });
+
+         */
     }
 
     public void updateDiscardpileListDB() {
