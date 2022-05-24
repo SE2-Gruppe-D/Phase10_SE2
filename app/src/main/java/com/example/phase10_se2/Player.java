@@ -37,6 +37,7 @@ public class Player {
     //für das Auslegen der Karten
     private ArrayList<Cards> cardField;
     private ArrayList<Cards> cards;
+    boolean abgelegt;
 
     // no-argument constructor
     public Player() {
