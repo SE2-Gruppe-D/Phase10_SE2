@@ -272,18 +272,20 @@ public class Playfield extends AppCompatActivity {
         btnCheckPhase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*ohne DB so prüfen
+                //ohne DB so prüfen
                 if(phase.checkPhase2(cardfieldCardlist)){
                     int phase = 3;
             }
-            */
+            /*
                 // funktionier noch nicht ohne DB
                 if (phase.getRightPhase(cardfieldCardlist)) {
                     if (currentPlayer.getPhaseNumber() != 10) {
                         currentPlayer.setPhaseNumber(currentPlayer.getPhaseNumber() + 1);
                     }
                     currentPhaseRight = true; //TODO: pro Spieler in DB speichern
-                } else {
+                }   */
+                else {
+
                     while (layoutPlayer1CardField.getChildCount() != 0) { //TODO: richtiges Layout?
                         View v = layoutPlayer1CardField.getChildAt(0);
                         ViewGroup owner = (ViewGroup) v.getParent();
