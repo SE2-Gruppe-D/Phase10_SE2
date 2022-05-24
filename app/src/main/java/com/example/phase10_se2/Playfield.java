@@ -285,16 +285,17 @@ public class Playfield extends AppCompatActivity {
                     currentPhaseRight = true; //TODO: pro Spieler in DB speichern
                 }   */
                 else {
-
+                  // cardfieldCardlist.clear();
+                   cardfieldCardlist.removeAll(cardfieldCardlist);
                     while (layoutPlayer1CardField.getChildCount() != 0) { //TODO: richtiges Layout?
-                        View v = layoutPlayer1CardField.getChildAt(0);
-                        ViewGroup owner = (ViewGroup) v.getParent();
-                        owner.removeView(v);
-                        layoutPlayer1.addView(v);
-                        v.setVisibility(View.VISIBLE);
+                            View v = layoutPlayer1CardField.getChildAt(0);
+                            ViewGroup owner = (ViewGroup) v.getParent();
+                            owner.removeView(v);
+                            layoutPlayer1.addView(v);
+                            v.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
-            }
         });
 
         cardUIManager = new CardUIManager();
@@ -546,22 +547,22 @@ public class Playfield extends AppCompatActivity {
         if (size != 0) {
 
             discardpileList.get(size - 1).getCardUI().setVisibility(View.VISIBLE);
-            if (playerYellow != null && playerYellow.getColor().equals(primaryPlayer.getColor())) {
+            if (playerYellow != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerYellow.getColor().equals(primaryPlayer.getColor())) {
                 handCards.updateHand(playerYellow.getPlayerHand(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
                 discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
                 discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
             }
-            if (playerBlue != null && playerBlue.getColor().equals(primaryPlayer.getColor())) {
+            if (playerBlue != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerBlue.getColor().equals(primaryPlayer.getColor())) {
                 handCards.updateHand(playerBlue.getPlayerHand(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
                 discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
                 discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
             }
-            if (playerRed != null && playerRed.getColor().equals(primaryPlayer.getColor())) {
+            if (playerRed != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerRed.getColor().equals(primaryPlayer.getColor())) {
                 handCards.updateHand(playerRed.getPlayerHand(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
                 discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
                 discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
             }
-            if (playerGreen != null && playerGreen.getColor().equals(primaryPlayer.getColor())) {
+            if (playerGreen != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerGreen.getColor().equals(primaryPlayer.getColor())) {
                 handCards.updateHand(playerGreen.getPlayerHand(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
                 discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
                 discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
@@ -628,16 +629,15 @@ public class Playfield extends AppCompatActivity {
 
     public ArrayList<Cards> getPrimaryHandcards() {
         ArrayList<Cards> handcards;
-        if (playerYellow != null && playerYellow.getColor().equals(primaryPlayer.getColor())) {
+        if (playerYellow != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerYellow.getColor().equals(primaryPlayer.getColor())) {
             return handcards = playerYellow.getPlayerHand();
-        } else if (playerBlue != null && playerBlue.getColor().equals(primaryPlayer.getColor())) {
+        } else if (playerBlue != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerBlue.getColor().equals(primaryPlayer.getColor())) {
             return handcards = playerBlue.getPlayerHand();
-        } else if (playerRed != null && playerRed.getColor().equals(primaryPlayer.getColor())) {
+        } else if (playerRed != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerRed.getColor().equals(primaryPlayer.getColor())) {
             return handcards = playerRed.getPlayerHand();
-        } else if (playerGreen != null && playerGreen.getColor().equals(primaryPlayer.getColor())) {
+        } else if (playerGreen != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerGreen.getColor().equals(primaryPlayer.getColor())) {
             return handcards = playerGreen.getPlayerHand();
-        }
-        return null;
+        }else {return null;}
     }
 
     //Karten auslegen - 1x Click Karte wird ausgelegt, 2x Click Karte zurück auf die Hand
