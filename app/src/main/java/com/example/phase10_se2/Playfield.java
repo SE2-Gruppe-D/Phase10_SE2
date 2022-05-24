@@ -479,7 +479,45 @@ public class Playfield extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         //Bei 2+ Spieler wird weiter gespielt
-        //TODO:Methode aufrufen wieviel Spieler sind
+
+        deletPlayerDB(primaryPlayer);
+    }
+    public void deletPlayerDB(Player primaryPlayer) {
+        database.collection("gameInfo")
+                .whereEqualTo("RoomName", currentRoom)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                //primaryPlayer = (Player) document.get("PrimaryPlayer");
+
+                                if(primaryPlayer.getColor().equals(playerBlue.getColor())){
+                                    document.getString("PlayerBlue");
+                                    document.getReference().delete();
+                                }
+
+                                if(primaryPlayer.getColor().equals(playerRed.getColor())) {
+                                    document.getString("PlayerRed");
+                                    document.getReference().delete();
+                                }
+
+                                if(primaryPlayer.getColor().equals(playerYellow.getColor())) {
+                                    document.getString("PlayerYellow");
+                                    document.getReference().delete();
+                                }
+
+                                if(primaryPlayer.getColor().equals(playerGreen.getColor())) {
+                                    document.getString("PlayerGreen");
+                                    document.getReference().delete();
+                                }
+
+                            }
+
+                        }
+                    }
+                });
     }
 
     public void initializePlayer(DocumentSnapshot documentSnapshot, String userColor, String currentRoom) {
