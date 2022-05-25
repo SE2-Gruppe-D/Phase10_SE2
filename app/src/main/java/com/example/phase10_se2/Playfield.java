@@ -318,7 +318,7 @@ public class Playfield extends AppCompatActivity {
         cardDrawer.isInitialCardsEmpty();
 
         //Handkarten werden ausgeteilt
-        handCards.HandCardsPlayer(layoutPlayer1, layoutPlayer2, layoutPlayer3, layoutPlayer4, layoutPlayer1CardField, layoutPlayer2CardField, layoutPlayer3CardField, layoutPlayer4CardField, cardlist, playerBlue, playerGreen, playerYellow, playerRed, primaryPlayer);
+        handCards.HandCardsPlayer(layoutPlayer1, layoutPlayer2, layoutPlayer3, layoutPlayer4, cardlist, playerBlue, playerGreen, playerYellow, playerRed, primaryPlayer);
         if (playerBlue != null) {
             for (Cards card : playerBlue.getPlayerHand()) {
                 card.getCardUI().setOnClickListener(listener);
@@ -344,6 +344,9 @@ public class Playfield extends AppCompatActivity {
                 card.getCardUI().setOnTouchListener(new ChoiceTouchListener());
             }
         }
+        //Auslegefelder werden zugeteilt
+        handCards.getCardsLayOut(layoutPlayer1CardField,layoutPlayer2CardField,layoutPlayer3CardField,layoutPlayer4CardField,playerBlue,playerGreen,playerYellow,playerRed,primaryPlayer);
+
 
         //Player Blue, Red, Yellow, Green
         deckcard.setOnClickListener(view -> {
@@ -669,10 +672,12 @@ public class Playfield extends AppCompatActivity {
                 ViewGroup owner = (ViewGroup) v.getParent();
                 //Array mit den ausgelegten Karten befüllen
                 playerHandPrimaryPlayer = getPrimaryHandcards();
-                for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
-                    if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
-                        cardfieldCardlist.add(playerHandPrimaryPlayer.get(i));
-                        playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                if (playerHandPrimaryPlayer.size()!=0) {
+                    for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
+                        if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
+                            cardfieldCardlist.add(playerHandPrimaryPlayer.get(i));
+                            playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                        }
                     }
                 }
                 owner.removeView(v);

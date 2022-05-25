@@ -17,7 +17,7 @@ public class HandCards {
     CardsPrimaryPlayer cardsPrimaryPlayer= new CardsPrimaryPlayer();
 
     //Handkarten werden ausgeteilt
-    public void HandCardsPlayer(LinearLayout layoutPlayer1, LinearLayout layoutPlayer2, LinearLayout layoutPlayer3, LinearLayout layoutPlayer4, LinearLayout layoutPlayer1CardField,LinearLayout layoutPlayer2CardField, LinearLayout layoutPlayer3CardField, LinearLayout layoutPlayer4CardField,ArrayList<Cards> cardlist, Player playerblue,  Player playergreen,  Player playeryellow,  Player playerred, Player primaryplayer) {
+    public void HandCardsPlayer(LinearLayout layoutPlayer1, LinearLayout layoutPlayer2, LinearLayout layoutPlayer3, LinearLayout layoutPlayer4,ArrayList<Cards> cardlist, Player playerblue,  Player playergreen,  Player playeryellow,  Player playerred, Player primaryplayer) {
         playerGreen=playergreen;
         playerBlue= playerblue;
         playerYellow= playeryellow;
@@ -27,48 +27,37 @@ public class HandCards {
             if (playerblue != null) {
                 if (playerblue.getColor().equals(primaryplayer.getColor())){
                     updateHand(playerblue.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0, cardlist);  //Primary player bekommt immer Layout1
-                    layoutPlayer1CardField.setVisibility(View.VISIBLE); //Auslegefeld für Spieler sichbar machen
                 } else {
                     updateHand(playerblue.getPlayerHand(), cardlist.get(0), layoutPlayer2, 0, cardlist);
-                    layoutPlayer2CardField.setVisibility(View.VISIBLE);
                 }
             }
             if (playerred != null) {
                 if (playerred.getColor().equals(primaryplayer.getColor())) {
                     updateHand(playerred.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0, cardlist);
-                    layoutPlayer1CardField.setVisibility(View.VISIBLE);
-
                 } else {
                     updateHand(playerred.getPlayerHand(), cardlist.get(0), layoutPlayer3, 90, cardlist);
-                    layoutPlayer3CardField.setVisibility(View.VISIBLE);
                 }
             }
             if (playeryellow != null) {
                 if (playeryellow.getColor().equals(primaryplayer.getColor())) {
                     updateHand(playeryellow.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0, cardlist);
-                    layoutPlayer1CardField.setVisibility(View.VISIBLE);
 
                 } else {
                     updateHand(playeryellow.getPlayerHand(), cardlist.get(0), layoutPlayer4, -90, cardlist);
-                    layoutPlayer4CardField.setVisibility(View.VISIBLE);
                 }
             }
             if (playergreen != null) {
                 if (playergreen.getColor().equals(primaryplayer.getColor())) {
                     updateHand(playergreen.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0, cardlist);
-                    layoutPlayer1CardField.setVisibility(View.VISIBLE);
                 } else {
                     if (playerblue!=null&&playerblue.getColor().equals(primaryplayer.getColor())) {
                         updateHand(playergreen.getPlayerHand(), cardlist.get(0), layoutPlayer2, 0, cardlist);
-                        layoutPlayer2CardField.setVisibility(View.VISIBLE);
 
                     } else if (playerred!=null&&playerred.getColor().equals(primaryplayer.getColor())) {
                         updateHand(playergreen.getPlayerHand(), cardlist.get(0), layoutPlayer3, 90, cardlist);
-                        layoutPlayer3CardField.setVisibility(View.VISIBLE);
 
                     } else if(playeryellow!=null&&playeryellow.getColor().equals(primaryplayer.getColor())){
                         updateHand(playergreen.getPlayerHand(), cardlist.get(0), layoutPlayer4, -90, cardlist);
-                        layoutPlayer4CardField.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -100,4 +89,90 @@ public class HandCards {
 
 
     }
-}
+
+
+    public void getCardsLayOut(LinearLayout layoutPlayer1CardField,LinearLayout layoutPlayer2CardField, LinearLayout layoutPlayer3CardField, LinearLayout layoutPlayer4CardField,Player playerblue,  Player playergreen,  Player playeryellow,  Player playerred, Player primaryplayer){
+        playerGreen=playergreen;
+        playerBlue= playerblue;
+        playerYellow= playeryellow;
+        playerRed= playerred;
+        primaryPlayer= primaryplayer;
+        if (playerblue != null) {
+            if (playerblue.getColor().equals(primaryplayer.getColor())){
+                layoutPlayer1CardField.setVisibility(View.VISIBLE); //Auslegefeld für Spieler sichbar machen
+                playerblue.setLinearLayout(layoutPlayer1CardField);
+            } else {
+                layoutPlayer2CardField.setVisibility(View.VISIBLE);
+                playerblue.setLinearLayout(layoutPlayer2CardField);
+            }
+        }
+        if (playerred != null) {
+            if (playerred.getColor().equals(primaryplayer.getColor())) {
+                layoutPlayer1CardField.setVisibility(View.VISIBLE);
+                playerred.setLinearLayout(layoutPlayer1CardField);
+            } else if (playerblue==null){
+                layoutPlayer2CardField.setVisibility(View.VISIBLE);
+                playerred.setLinearLayout(layoutPlayer2CardField);
+            }else{
+                layoutPlayer3CardField.setVisibility(View.VISIBLE);
+                playerred.setLinearLayout(layoutPlayer3CardField);
+            }
+        }
+        if (playeryellow != null) {
+            if (playeryellow.getColor().equals(primaryplayer.getColor())) {
+                layoutPlayer1CardField.setVisibility(View.VISIBLE);
+                playeryellow.setLinearLayout(layoutPlayer1CardField);
+
+            }else if(layoutPlayer2CardField.getVisibility()!=View.VISIBLE){
+                layoutPlayer2CardField.setVisibility(View.VISIBLE);
+                playeryellow.setLinearLayout(layoutPlayer2CardField);
+
+            }else if(layoutPlayer3CardField.getVisibility()!=View.VISIBLE){
+                layoutPlayer3CardField.setVisibility(View.VISIBLE);
+                playeryellow.setLinearLayout(layoutPlayer3CardField);
+
+            }else {
+                layoutPlayer4CardField.setVisibility(View.VISIBLE);
+                playeryellow.setLinearLayout(layoutPlayer4CardField);
+
+            }
+        }
+        if (playergreen != null) {
+            if (playergreen.getColor().equals(primaryplayer.getColor())) {
+                layoutPlayer1CardField.setVisibility(View.VISIBLE);
+                playergreen.setLinearLayout(layoutPlayer1CardField);
+
+            }
+            else if(layoutPlayer2CardField.getVisibility()!=View.VISIBLE){
+            layoutPlayer2CardField.setVisibility(View.VISIBLE);
+                playergreen.setLinearLayout(layoutPlayer2CardField);
+
+            }
+            else if(layoutPlayer3CardField.getVisibility()!=View.VISIBLE){
+            layoutPlayer3CardField.setVisibility(View.VISIBLE);
+                playergreen.setLinearLayout(layoutPlayer3CardField);
+
+            }
+            else {
+            layoutPlayer4CardField.setVisibility(View.VISIBLE);
+                playergreen.setLinearLayout(layoutPlayer4CardField);
+
+            }
+
+                /*
+            } else {
+                if (playerblue!=null&&playerblue.getColor().equals(primaryplayer.getColor()) && layoutPlayer2CardField.getVisibility()!=View.VISIBLE) {
+                    layoutPlayer2CardField.setVisibility(View.VISIBLE);
+
+                } else if (playerred!=null&&playerred.getColor().equals(primaryplayer.getColor()) && layoutPlayer3CardField.getVisibility()!=View.VISIBLE) {
+                    layoutPlayer3CardField.setVisibility(View.VISIBLE);
+
+                } else if(playeryellow!=null&&playeryellow.getColor().equals(primaryplayer.getColor()) && layoutPlayer4CardField.getVisibility()!=View.VISIBLE){
+                    layoutPlayer4CardField.setVisibility(View.VISIBLE);
+                }
+
+                 */
+            }
+        }
+    }
+
