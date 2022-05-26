@@ -110,7 +110,7 @@ public class HandCards {
             if (playerred.getColor().equals(primaryplayer.getColor())) {
                 layoutPlayer1CardField.setVisibility(View.VISIBLE);
                 playerred.setLinearLayout(layoutPlayer1CardField);
-            } else if (playerblue==null){
+            } else if (layoutPlayer2CardField.getVisibility()!=View.VISIBLE){
                 layoutPlayer2CardField.setVisibility(View.VISIBLE);
                 playerred.setLinearLayout(layoutPlayer2CardField);
             }else{

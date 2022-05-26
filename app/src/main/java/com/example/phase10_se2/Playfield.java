@@ -71,6 +71,8 @@ public class Playfield extends AppCompatActivity {
     ArrayList<Cards> discardpileList;//Ablagestapel
     ArrayList<Cards> cardfieldCardlist;
     ArrayList<Cards> cardfieldCardlistPlayer2;
+    ArrayList<Cards> cardfieldCardlistPlayer3;
+    ArrayList<Cards> cardfieldCardlistPlayer4;
 
     ArrayList<ImageView> Imagelist;
     TextView leererAblagestapel;
@@ -258,38 +260,36 @@ public class Playfield extends AppCompatActivity {
         layoutPlayer4 = findViewById(R.id.player4);
         layoutPlayer1CardField = findViewById(R.id.player1PhaseAblegen);
         layoutPlayer2CardField = findViewById(R.id.player2PhaseAblegen);
-        layoutPlayer2CardField.setOnDragListener(new ChoiceDragListener());
+        layoutPlayer2CardField.setOnDragListener(new ChoiceDragListener2());
         layoutPlayer3CardField = findViewById(R.id.player3PhaseAblegen);
-        layoutPlayer3CardField.setOnDragListener(new ChoiceDragListener());
+        layoutPlayer3CardField.setOnDragListener(new ChoiceDragListener3());
         layoutPlayer4CardField = findViewById(R.id.player4PhaseAblegen);
-        layoutPlayer4CardField.setOnDragListener(new ChoiceDragListener());
+        layoutPlayer4CardField.setOnDragListener(new ChoiceDragListener4());
 
 
         //Button, um zu überprüfen, ob die Phase richtig ist
         cardfieldCardlist = new ArrayList<>();
         cardfieldCardlistPlayer2 = new ArrayList<>();
+        cardfieldCardlistPlayer3 = new ArrayList<>();
+        cardfieldCardlistPlayer4 = new ArrayList<>();
         phase = new Phase();
         btnCheckPhase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //phasenumber aus DB lesen
+                int[] phasenumberArray = getPhasenumberDB();
+                Integer phasenumber= phasenumberArray[0]+1; //ToDO: CurrentPlayer phasenumber =0, deshalb da +1
+                Log.e("Phasenumber", phasenumber.toString());
 
-                //ohne DB so prüfen
-                if(phase.checkPhase2(cardfieldCardlist)){
-                    int phase = 3;
+                //richtige Phase wird ausgelget
+                if(phase.getRightPhase(phasenumber,cardfieldCardlist)){
+                    if(phasenumber!=10) {
+                        setPhasenumberDB(); //Phase wird um 1 erhöht
+                    }
+                    setPhaseAusgelegtDB(true);
                     for (int i = 0; i < cardfieldCardlist.size() ; i++) {
                         cardfieldCardlist.get(i).getCardUI().setClickable(false);
                     }
-            }
-            /*
-                // funktionier noch nicht ohne DB
-                if (phase.getRightPhase(cardfieldCardlist)) {
-                    if (currentPlayer.getPhaseNumber() != 10) {
-                        currentPlayer.setPhaseNumber(currentPlayer.getPhaseNumber() + 1);
-                    }
-                    currentPhaseRight = true; //TODO: pro Spieler in DB speichern
-                }   */
-                else {
+            }else {
                   // cardfieldCardlist.clear();
                    cardfieldCardlist.removeAll(cardfieldCardlist);
                     while (layoutPlayer1CardField.getChildCount() != 0) { //TODO: richtiges Layout?
@@ -365,7 +365,7 @@ public class Playfield extends AppCompatActivity {
         cardlist.remove(randomCard);
         discardpileList.add(randomCard);
         defaultcard.setImageDrawable(createCardUI(discardpileList.get(0)).getDrawable());
-        defaultcard.setOnDragListener(new ChoiceDragListener());
+        defaultcard.setOnDragListener(new ChoiceDragListener1());
 
 
         defaultcard.setOnClickListener(view -> {
@@ -723,8 +723,8 @@ public class Playfield extends AppCompatActivity {
     }
 
     //Class to drop
-    //ChoiceDragListener
-    private class ChoiceDragListener implements View.OnDragListener {
+    //ChoiceDragListener für Ablegestapel
+    private class ChoiceDragListener1 implements View.OnDragListener {
         @Override
         public boolean onDrag(View view, DragEvent dragEvent) {
             switch (dragEvent.getAction()) {
@@ -741,71 +741,13 @@ public class Playfield extends AppCompatActivity {
                     break;
 
                 case DragEvent.ACTION_DROP: //Action 3
-                    Log.e("debugN", dragEvent.toString());
+                    Log.e("Abgelegt", dragEvent.toString());
                     View v = (View) dragEvent.getLocalState();
                     ViewGroup owner = (ViewGroup) v.getParent();
-
-                    //X und Y
-                    /*
-                    if( (dragEvent.getY()>76)){
-                        Integer a = v.getRight();
-                        Integer b =  v.getLeft();
-                        Float c = layoutPlayer3CardField.getPivotX();
-                        Float d = layoutPlayer3CardField.getPivotY();
-                        Log.e("layout3X", a.toString());
-                        Log.e("layout3Y", b.toString());
-                        Log.e("layout33333", c.toString()); //60.5
-                        Log.e("layout33333", d.toString()); //418
-                        //h:836, w:121
-                    }
-
-
-                    else if(dragEvent.getY()<76) { //h:836, w: 132
-                        Float a =  v.getPivotX();
-                        Float c =  v.getPivotY();
-                        Float b = layoutPlayer2CardField.getPivotX(); //630
-                        Float d = layoutPlayer2CardField.getPivotY(); //60.5
-                        Log.e("layout2Z", a.toString());
-                        Log.e("layout2Y", c.toString());
-                        Log.e("layout22222X", b.toString());
-                        Log.e("layout22222Y", d.toString());
-                    }
-
-                     */
-
-
-                  //  if(primaryPlayer.abgelegt){ //Überprüft, ob man selbst Phase ausgelegt hat, weil erst dann darf man bei den Mitspielern dazu legen
-
-                    //Auslegefeld Spieler 2
-                    if(dragEvent.getY()<76) {
-                        Float a = v.getPivotX();
-                        Log.e("layout2", a.toString());
-                        //ToDO: Vom Player auslesen: Phase richtig (Mitspieler und selbst), weil erst dann dazulegen; Welche Phase; welche Karten; welcher Spieler auf diesem Feld
-                       // if (player.abgelegt) {
-                        //int phasenumber = player.getPhaseNumber();
-                        // player.getCardField();
-                        //player.getLinearLayout();
-
-                            playerHandPrimaryPlayer = getPrimaryHandcards();
-                            if (playerHandPrimaryPlayer.size() != 0) {
-                                for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
-                                    if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
-                                        cardfieldCardlistPlayer2.add(playerHandPrimaryPlayer.get(i));
-                                        playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
-                                    }
-                                }
-                                owner.removeView(v);
-                                layoutPlayer2CardField.addView(v);
-                                v.setVisibility(View.VISIBLE);
-                                v.setClickable(false);
-                            }
-                        }
-                    else {
-                        //Karte zum Ablegestapel hinzufügen
-                        //Ablegestapel
-                        Float a =  v.getPivotY();
-                        Log.e("ablegestapel", a.toString());
-                        playerHandPrimaryPlayer = getPrimaryHandcards();
+                    //Karte zum Ablegestapel hinzufügen
+                    //ToDO: DB Anpassen
+                    playerHandPrimaryPlayer = getPrimaryHandcards();
+                    if (playerHandPrimaryPlayer.size() !=0) {
                         for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                             if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
                                 discardpileList.add(playerHandPrimaryPlayer.get(i));
@@ -813,8 +755,159 @@ public class Playfield extends AppCompatActivity {
                                 playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
                             }
                         }
-                            owner.removeView(v);
-                            v.setVisibility(View.INVISIBLE);
+                        owner.removeView(v);
+                        v.setVisibility(View.INVISIBLE);
+                    }
+                    break;
+
+                case DragEvent.ACTION_DRAG_ENDED: //4
+                    view.invalidate();
+                default:
+                    break;
+            }
+            return true;
+        }
+    }
+
+    //Drag and Drop Auslegefeld Spieler 2
+    private class ChoiceDragListener2 implements View.OnDragListener {
+        @Override
+        public boolean onDrag(View view, DragEvent dragEvent) {
+            switch (dragEvent.getAction()) {
+                case DragEvent.ACTION_DRAG_STARTED: //1
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DRAG_EXITED: //6
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DRAG_ENTERED: //5
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DROP: //Action 3
+                    Log.e("Feld Spieler 2", dragEvent.toString());
+                    View v = (View) dragEvent.getLocalState();
+                    ViewGroup owner = (ViewGroup) v.getParent();
+                    //if(primaryPlayer.abgelegt){ //Überprüft, ob man selbst Phase ausgelegt hat, weil erst dann darf man bei den Mitspielern dazu legen
+                    //ToDO: Vom Player auslesen: Phase richtig (Mitspieler und selbst), weil erst dann dazulegen; Welche Phase; welche Karten; welcher Spieler auf diesem Feld
+                    // if (player.abgelegt) {
+                    //int phasenumber = player.getPhaseNumber();
+                    // player.getCardField();
+                    //player.getLinearLayout();
+
+                    playerHandPrimaryPlayer = getPrimaryHandcards();
+                    if (playerHandPrimaryPlayer.size() != 0) {
+                        for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
+                            if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
+                                cardfieldCardlistPlayer2.add(playerHandPrimaryPlayer.get(i));
+                                playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                            }
+                        }
+                        owner.removeView(v);
+                        layoutPlayer2CardField.addView(v);
+                        Integer a = v.getHeight();
+                        Log.e("Größe 2", a.toString());
+
+                        v.setVisibility(View.VISIBLE);
+                        v.setClickable(false);
+                        }
+                    break;
+
+                case DragEvent.ACTION_DRAG_ENDED: //4
+                    view.invalidate();
+                default:
+                    break;
+            }
+            return true;
+        }
+    }
+
+
+    //Drag and Drop Auslegefeld Spieler 3
+    private class ChoiceDragListener3 implements View.OnDragListener {
+        @Override
+        public boolean onDrag(View view, DragEvent dragEvent) {
+            switch (dragEvent.getAction()) {
+                case DragEvent.ACTION_DRAG_STARTED: //1
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DRAG_EXITED: //6
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DRAG_ENTERED: //5
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DROP: //Action 3
+                    Log.e("Feld Spieler 3", dragEvent.toString());
+                    View v = (View) dragEvent.getLocalState();
+                    ViewGroup owner = (ViewGroup) v.getParent();
+                    playerHandPrimaryPlayer = getPrimaryHandcards();
+                    if (playerHandPrimaryPlayer.size() != 0) {
+                        for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
+                            if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
+                                cardfieldCardlistPlayer3.add(playerHandPrimaryPlayer.get(i));
+                                playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                            }
+                        }
+                        owner.removeView(v);
+                        layoutPlayer3CardField.addView(v);
+                        v.setRotation(90);
+                        Integer a = v.getHeight();
+                        Log.e("Größe 3", a.toString());
+                        v.setVisibility(View.VISIBLE);
+                        v.setClickable(false);
+                    }
+                    break;
+
+                case DragEvent.ACTION_DRAG_ENDED: //4
+                    view.invalidate();
+                default:
+                    break;
+            }
+            return true;
+        }
+    }
+
+
+    //Drag and Drop Auslegefeld Spieler 4
+    private class ChoiceDragListener4 implements View.OnDragListener {
+        @Override
+        public boolean onDrag(View view, DragEvent dragEvent) {
+            switch (dragEvent.getAction()) {
+                case DragEvent.ACTION_DRAG_STARTED: //1
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DRAG_EXITED: //6
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DRAG_ENTERED: //5
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DROP: //Action 3
+                    Log.e("Feld Spieler 4", dragEvent.toString());
+                    View v = (View) dragEvent.getLocalState();
+                    ViewGroup owner = (ViewGroup) v.getParent();
+                    playerHandPrimaryPlayer = getPrimaryHandcards();
+                    if (playerHandPrimaryPlayer.size() != 0) {
+                        for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
+                            if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
+                                cardfieldCardlistPlayer4.add(playerHandPrimaryPlayer.get(i));
+                                playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                            }
+                        }
+                        owner.removeView(v);
+                        layoutPlayer4CardField.addView(v);
+                        v.setRotation(-90);
+                        v.setVisibility(View.VISIBLE);
+                        v.setClickable(false);
                     }
                     break;
 
@@ -1114,6 +1207,70 @@ public class Playfield extends AppCompatActivity {
                 });
     }
 
+    public void setPhasenumberDB() {
+        database.collection("gameInfo")
+                .whereEqualTo("RoomName", currentRoom)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                ArrayList player = (ArrayList) document.get("CurrentPlayer"); //welchen player du haben möchtest
+                                player.set(3, (int) player.get(3) + 1); //du setzt nun bei player index 3 einen neuen wert, und zwar der alte + 1
+                                document.getReference().update("CurrentPlayer", player); //hier updatest den player in der DB mit den neu gesetzten werten, falls du was geändert hast
+                            }
+                        } else {
+                            Log.d("DB phasenumber", "Error setting Data to Firestore: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+
+    public int[] getPhasenumberDB() {
+        final int[] phasenumberArray = new int[1];
+        Integer phasenumber;
+        database.collection("gameInfo")
+                .whereEqualTo("RoomName", currentRoom)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                ArrayList player = (ArrayList) document.get("CurrentPlayer"); //welchen player du haben möchtest
+
+                                phasenumberArray[0] = (int) player.get(3); //hier liest du die phasennummer aus. ggf in einen integer casten
+                                }
+                        } else {
+                            Log.d("DB phasenumber", "Error getting Data from Firestore: ", task.getException());
+                        }
+                    }
+                });
+        return phasenumberArray;
+    }
+
+
+    public void setPhaseAusgelegtDB(boolean ausgelegt) {
+        database.collection("gameInfo")
+                .whereEqualTo("RoomName", currentRoom)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                ArrayList player = (ArrayList) document.get("CurrentPlayer");
+                                player.set(4,ausgelegt);
+                                document.getReference().update("CurrentPlayer", player);
+                            }
+                        } else {
+                            Log.d("DB phaseAusgelegt", "Error setting Data to Firestore: ", task.getException());
+                        }
+                    }
+                });
+    }
 
 
 

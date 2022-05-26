@@ -24,26 +24,23 @@ public class Phase extends AppCompatActivity {
  */
     //zur Überprüfung, ob der currentplayer die Phase richtig abgelegt hat
     public boolean getRightPhase(int phasenumber, ArrayList<Cards> cardfieldCardlist){
-        int phase = player.getPhaseNumber();
-        switch (phase){
+        switch (phasenumber){
             case 1: return checkPhase1(cardfieldCardlist);
             case 2: return checkPhase2(cardfieldCardlist);
-           // case 3: return checkPhase3(cardfieldCardlist);
             default: return false;
         }
     }
 
     //zur Überprüfung, ob der currentplayer bei einem Mitspieler eine richtige Karte dazu gelegt hat
-    public boolean getRightPhaseOtherPlayer(Cards cards, Player player){
-        int phase = player.getPhaseNumber();
-        switch (phase){
+    public boolean getRightPhaseOtherPlayer(int phasenumber, Cards cards, Player player){
+        switch (phasenumber){
             case 1: return checkPhase1FromOtherPlayer(cards,player);
             case 2: return checkPhase2FromOtherPlayer(cards,player);
             default: return false;
         }
     }
 
-    //check Phase 1 - 10
+    //check Phase 1 - 10 && check eine Handkarte zur Phase dazulegen
     //Phase 1: 4 Zwillinge
     public boolean checkPhase1(List<Cards> list){
         if (list.size() == 8) {
@@ -57,6 +54,7 @@ public class Phase extends AppCompatActivity {
         return checkEqualValueOneCard(cards, player.getCardField());
     }
 
+
     //Phase 2: 6 Karten einer Farbe
     public boolean checkPhase2(List<Cards> list) {
         if (list.size() == 6) {
@@ -67,8 +65,11 @@ public class Phase extends AppCompatActivity {
     }
 
     public boolean checkPhase2FromOtherPlayer(Cards cards, Player player){
-        return checkEqualValueOneCard(cards, player.getCardField());
+        return checkEqualColorOneCard(cards, player.getCardField());
     }
+
+
+
 
     //Phase 3: 1 Vierling + 1 Viererfolge
     public boolean checkPhase3(List<Cards> list) {
@@ -123,6 +124,8 @@ public class Phase extends AppCompatActivity {
 
 
 
+    //Methoden zur Überprüfung
+    //gleicher Zahlenwert
    //checkEqual value Zwilling
    public boolean checkEqualValue2(List<Cards> list){
        list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
