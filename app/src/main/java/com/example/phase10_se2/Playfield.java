@@ -73,7 +73,6 @@ public class Playfield extends AppCompatActivity {
     ArrayList<Cards> cardfieldCardlistPlayer2;
 
     ArrayList<ImageView> Imagelist;
-    ArrayList<Cards> drawpileList;      //Ziehstapel
     TextView leererAblagestapel;
 
     Button exitGame;        //Spiel verlassen Button
@@ -129,7 +128,6 @@ public class Playfield extends AppCompatActivity {
 
     //Round and phase
     Phase phase;
-    boolean currentPhaseRight = false;
     private long doubleClickLastTime = 0L;
     int round = 1;
     ArrayList startOrder = new ArrayList();
@@ -274,6 +272,8 @@ public class Playfield extends AppCompatActivity {
         btnCheckPhase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //phasenumber aus DB lesen
+
                 //ohne DB so prüfen
                 if(phase.checkPhase2(cardfieldCardlist)){
                     int phase = 3;
@@ -1113,6 +1113,17 @@ public class Playfield extends AppCompatActivity {
                     }
                 });
     }
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
