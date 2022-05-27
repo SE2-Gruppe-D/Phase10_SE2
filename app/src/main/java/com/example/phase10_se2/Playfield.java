@@ -198,6 +198,11 @@ public class Playfield extends AppCompatActivity {
         if (playerYellow != null && playerList.get(0).equals("YELLOW")) {
             currentPlayer = playerYellow;
         }
+        if (playerGreen != null && playerList.get(0).equals("GREEN")) {
+            currentPlayer = playerGreen;
+        }
+
+        //entfernt die label Leiste (Actionbar) auf dem Playfield
         //Toast.makeText(Playfield.this, "Currentplayer: " + currentPlayer.getColor(), Toast.LENGTH_SHORT).show();
 
         //entfernt die label Leiste (Actionbar) auf dem Playfield
@@ -268,18 +273,20 @@ public class Playfield extends AppCompatActivity {
         btnCheckPhase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*ohne DB so prüfen
+                //ohne DB so prüfen
                 if(phase.checkPhase2(cardfieldCardlist)){
                     int phase = 3;
             }
-            */
+            /*
                 // funktionier noch nicht ohne DB
                 if (phase.getRightPhase(cardfieldCardlist)) {
                     if (currentPlayer.getPhaseNumber() != 10) {
                         currentPlayer.setPhaseNumber(currentPlayer.getPhaseNumber() + 1);
                     }
                     currentPhaseRight = true; //TODO: pro Spieler in DB speichern
-                } else {
+                }   */
+                else {
+
                     while (layoutPlayer1CardField.getChildCount() != 0) { //TODO: richtiges Layout?
                         View v = layoutPlayer1CardField.getChildAt(0);
                         ViewGroup owner = (ViewGroup) v.getParent();
@@ -973,6 +980,7 @@ public class Playfield extends AppCompatActivity {
 
     public void updateCardlistDB() {
         //update Database
+        /* TODO: save card id + color in DB, not card view
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
                 .get()
@@ -986,6 +994,8 @@ public class Playfield extends AppCompatActivity {
                         }
                     }
                 });
+
+         */
     }
 
     public void updateDiscardpileListDB() {
