@@ -52,7 +52,7 @@ public class Actionfield extends AppCompatActivity {
             }else if(deckcard.isSelected())
                 playfield.addCard();
         }
-        while(getRightHandCards().size()!=12);
+        while(getRightHandCards()!= null && getRightHandCards().size()!=12);
     }
 
     //GREEN = wähle 1 zufällige Karte aus dem gesamten Ablagestapel aus
@@ -70,7 +70,7 @@ public class Actionfield extends AppCompatActivity {
             }else if(deckcard.isSelected())
                 playfield.addCard();
         }
-        while(getRightHandCards().size()!=13);
+        while(getRightHandCards()!= null && getRightHandCards().size()!=13);
     }
 
     //BLUE = rücke vor bis zu einem Feld deiner Wahl
@@ -101,7 +101,7 @@ public class Actionfield extends AppCompatActivity {
             }else if(deckcard.isSelected())
                 playfield.addCard();
         }
-        while(getRightHandCards().size()!=11);
+        while(getRightHandCards()!= null && getRightHandCards().size()!=11);
         //vorrücken kommt noch
     }
 

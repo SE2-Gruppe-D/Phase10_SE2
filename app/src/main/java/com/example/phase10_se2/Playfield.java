@@ -429,7 +429,7 @@ public class Playfield extends AppCompatActivity {
 
 
         //random Defaultcard
-        Random rand = new Random();
+        Random rand = new Random(System.currentTimeMillis());
         Cards randomCard = cardlist.get(rand.nextInt(cardlist.size()));
         cardlist.remove(randomCard);
         discardpileList.add(randomCard);
@@ -685,7 +685,7 @@ public class Playfield extends AppCompatActivity {
     //Für Aktionfeld
     protected void addRandomCardsDiscardpile() {
         if (discardpileList.size() != 0) {
-            Random rand = new Random();
+            Random rand = new Random(System.currentTimeMillis());
             Cards randomCard = discardpileList.get(rand.nextInt(discardpileList.size()));
             handCards.updateHand(playerBlue.getPlayerHand(), randomCard, layoutPlayer1, 0, cardlist);
             discardpileList.remove(randomCard);
