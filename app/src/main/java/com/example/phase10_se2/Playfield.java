@@ -473,6 +473,7 @@ public class Playfield extends AppCompatActivity {
                     }
                 });
 
+        //aktualisiert den Text für die Phase
         setPhasenTextTextView();
 
 
