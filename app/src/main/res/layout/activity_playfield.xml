@@ -335,15 +335,5 @@
         app:layout_constraintBottom_toTopOf="@+id/player1PhaseAblegen"
         app:layout_constraintEnd_toStartOf="@+id/player4" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="13dp"
-        android:layout_marginTop="8dp"
-        android:text="Button"
-        app:layout_constraintStart_toEndOf="@+id/player3"
-        app:layout_constraintTop_toBottomOf="@+id/player2" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

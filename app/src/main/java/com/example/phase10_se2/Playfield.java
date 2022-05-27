@@ -548,12 +548,6 @@ public class Playfield extends AppCompatActivity {
                     }
                 });
 
-
-        //TODO: delete button and move function to game start
-        findViewById(R.id.button).setOnClickListener(view -> {
-            throwingDice(player);
-        });
-
         //Spiel verlassen
         exitGame = findViewById(R.id.leaveGame);
         exitGame.setOnClickListener(view -> leaveGame());
