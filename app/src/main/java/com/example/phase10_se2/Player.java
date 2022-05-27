@@ -272,7 +272,7 @@ public class Player {
         return phaseText;
     }
 
-    public void setPhaseText(int phaseNumber) {
+    public void setPhaseText() {
 phaseNumber = this.phaseNumber;
         switch (phaseNumber) {
 

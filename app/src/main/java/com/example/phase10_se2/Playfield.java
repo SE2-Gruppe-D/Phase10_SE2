@@ -246,7 +246,7 @@ public class Playfield extends AppCompatActivity {
         });
 
         //tvAktuellePhase.setText(currentPlayer.getPhaseText());
-        //setPhasenTextTextView();
+
 
         discardpileList = new ArrayList<>();
         cardlist = new ArrayList<>();
@@ -472,6 +472,8 @@ public class Playfield extends AppCompatActivity {
 
                     }
                 });
+
+        setPhasenTextTextView();
 
 
         //TODO: delete button and move function to game start
@@ -767,6 +769,7 @@ public class Playfield extends AppCompatActivity {
 
     //Aktuelle in Player zugewiesene Phase wird in Textview am Spielfeld angezeigt
     public void setPhasenTextTextView() {
+        primaryPlayer.setPhaseText();
         tvAktuellePhase.setText(primaryPlayer.getPhaseText());
 
     }
