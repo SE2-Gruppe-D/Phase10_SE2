@@ -78,7 +78,7 @@ public class Player {
         phaseText = "/";
     }
 
-    public Player(String name, PlayerColor color, int phasenumber) {
+    public Player(String name, PlayerColor color, int phaseNumber) {
         this.name = name;
         this.color = color;
         this.phaseNumber = phaseNumber;

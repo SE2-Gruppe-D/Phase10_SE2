@@ -1,5 +1,6 @@
 package com.example.phase10_se2;
 
+import static android.content.ContentValues.TAG;
 import static android.os.SystemClock.sleep;
 
 import android.content.ClipData;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,10 +36,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -136,7 +142,7 @@ public class Playfield extends AppCompatActivity {
     int currentDiceRoll = 0;
     boolean cheated = false;
 
-    boolean newDBCollectionNeeded = false;
+    boolean newDBCollectionNeeded = true;
 
 
     //light sensor
@@ -184,11 +190,83 @@ public class Playfield extends AppCompatActivity {
                     }
                 });
 
+        database.collection("gameInfo")
+                .whereEqualTo("RoomName", currentRoom)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                        if (error != null) {
+                            Log.w(TAG, "Listen failed.", error);
+                            return;
+                        }
+
+                        if (value != null) {
+                            database.collection("gameInfo")
+                                    .whereEqualTo("RoomName", currentRoom)
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    //count active players
+                                                    ArrayList playerRedArr = (ArrayList) document.get("PlayerRed");
+                                                    ArrayList playerYellowArr = (ArrayList) document.get("PlayerYellow");
+                                                    ArrayList playerBlueArr = (ArrayList) document.get("PlayerBlue");
+                                                    ArrayList playerGreenArr = (ArrayList) document.get("PlayerGreen");
+
+                                                    int playercount = 4;
+                                                    if (playerRedArr == null) {
+                                                        playercount--;
+                                                        if (playerRed != null) {
+                                                            playerRed.getPlayerview().setVisibility(View.INVISIBLE);
+                                                        }
+                                                    }
+                                                    if (playerYellowArr == null) {
+                                                        playercount--;
+                                                        if (playerYellow != null) {
+                                                            playerYellow.getPlayerview().setVisibility(View.INVISIBLE);
+                                                        }
+                                                    }
+                                                    if (playerBlueArr == null) {
+                                                        playercount--;
+                                                        if (playerBlue != null) {
+                                                            playerBlue.getPlayerview().setVisibility(View.INVISIBLE);
+                                                        }
+                                                    }
+                                                    if (playerGreenArr == null) {
+                                                        playercount--;
+                                                        if (playerGreen != null) {
+                                                            playerGreen.getPlayerview().setVisibility(View.INVISIBLE);
+                                                        }
+                                                    }
+
+                                                    if (playercount <= 1) {
+                                                        goToMainMenu();
+                                                    }
+                                                }
+                                            } else {
+                                                Log.d(TAG, "Error getting Data from Firestore: ", task.getException());
+                                            }
+                                        }
+                                    });
+                        } else {
+                            Log.d(TAG, "Current data: null");
+                        }
+                    }
+                });
+    }
+
+    private void goToMainMenu() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+        finishAffinity();
     }
 
     private void CreatePlayfield() {
         //ermitteln von current Player
-        Log.i("TEST", playerList.toString());
         if (playerBlue != null && playerList.get(0).equals("BLUE")) {
             currentPlayer = playerBlue;
         }
@@ -201,9 +279,8 @@ public class Playfield extends AppCompatActivity {
         if (playerGreen != null && playerList.get(0).equals("GREEN")) {
             currentPlayer = playerGreen;
         }
+        gameInfoDB();
 
-        //entfernt die label Leiste (Actionbar) auf dem Playfield
-        //Toast.makeText(Playfield.this, "Currentplayer: " + currentPlayer.getColor(), Toast.LENGTH_SHORT).show();
 
         //entfernt die label Leiste (Actionbar) auf dem Playfield
         ActionBar actionBar = getSupportActionBar();
@@ -274,19 +351,19 @@ public class Playfield extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //ohne DB so prüfen
-                if(phase.checkPhase2(cardfieldCardlist)){
-                    int phase = 3;
-            }
-            /*
+                if(phase.checkPhase1(cardfieldCardlist)){
+                    int phase = 2;
+                }
+
                 // funktionier noch nicht ohne DB
-                if (phase.getRightPhase(cardfieldCardlist)) {
+                /*if (phase.getRightPhase(cardfieldCardlist)) {
                     if (currentPlayer.getPhaseNumber() != 10) {
                         currentPlayer.setPhaseNumber(currentPlayer.getPhaseNumber() + 1);
                     }
                     currentPhaseRight = true; //TODO: pro Spieler in DB speichern
-                }   */
-                else {
 
+
+                }*/ else {
                     while (layoutPlayer1CardField.getChildCount() != 0) { //TODO: richtiges Layout?
                         View v = layoutPlayer1CardField.getChildAt(0);
                         ViewGroup owner = (ViewGroup) v.getParent();
@@ -295,6 +372,8 @@ public class Playfield extends AppCompatActivity {
                         v.setVisibility(View.VISIBLE);
                     }
                 }
+
+
             }
         });
 
@@ -352,7 +431,7 @@ public class Playfield extends AppCompatActivity {
 
 
         //random Defaultcard
-        Random rand = new Random();
+        SecureRandom rand = new SecureRandom();
         Cards randomCard = cardlist.get(rand.nextInt(cardlist.size()));
         cardlist.remove(randomCard);
         discardpileList.add(randomCard);
@@ -372,7 +451,6 @@ public class Playfield extends AppCompatActivity {
         classTimer.updateCountDownText();
 
 
-        gameInfoDB();
         //light sensor to accuse of cheating
         sm = (SensorManager) getSystemService(SENSOR_SERVICE);
         light = sm.getDefaultSensor(Sensor.TYPE_LIGHT);
@@ -472,22 +550,53 @@ public class Playfield extends AppCompatActivity {
                     }
                 });
 
-
-        //TODO: delete button and move function to game start
-        findViewById(R.id.button).setOnClickListener(view -> {
-            throwingDice(player);
-        });
-
         //Spiel verlassen
         exitGame = findViewById(R.id.leaveGame);
         exitGame.setOnClickListener(view -> leaveGame());
     }
 
     public void leaveGame() {
+        deletePlayerDB(primaryPlayer);
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-        //Bei 2+ Spieler wird weiter gespielt
-        //TODO:Methode aufrufen wieviel Spieler sind
+    }
+
+    public void deletePlayerDB(Player primaryPlayer) {
+        database.collection("gameInfo")
+                .whereEqualTo("RoomName", currentRoom)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                //primaryPlayer = (Player) document.get("PrimaryPlayer");
+                                Map<String, Object> delete = new HashMap<>();
+
+                                if(playerBlue != null && primaryPlayer.getColor().equals(playerBlue.getColor())){
+                                    delete.put("PlayerBlue", FieldValue.delete());
+                                }
+
+                                if(playerRed != null && primaryPlayer.getColor().equals(playerRed.getColor())) {
+                                    delete.put("PlayerRed", FieldValue.delete());
+                                }
+
+                                if(playerYellow != null && primaryPlayer.getColor().equals(playerYellow.getColor())) {
+                                    delete.put("PlayerYellow", FieldValue.delete());
+                                }
+
+                                if(playerGreen != null && primaryPlayer.getColor().equals(playerGreen.getColor())) {
+                                    delete.put("PlayerGreen", FieldValue.delete());
+                                }
+
+                                if (!delete.isEmpty()) {
+                                    document.getReference().update(delete);
+                                }
+                            }
+                        }
+                    }
+                });
     }
 
     public void initializePlayer(DocumentSnapshot documentSnapshot, String userColor, String currentRoom) {
@@ -514,7 +623,6 @@ public class Playfield extends AppCompatActivity {
                     break;
 
             }
-
         }
 
         if (Objects.equals(documentSnapshot.getString("Color"), "RED")) {
@@ -579,7 +687,7 @@ public class Playfield extends AppCompatActivity {
     //Für Aktionfeld
     protected void addRandomCardsDiscardpile() {
         if (discardpileList.size() != 0) {
-            Random rand = new Random();
+            SecureRandom rand = new SecureRandom();
             Cards randomCard = discardpileList.get(rand.nextInt(discardpileList.size()));
             handCards.updateHand(playerBlue.getPlayerHand(), randomCard, layoutPlayer1, 0, cardlist);
             discardpileList.remove(randomCard);
@@ -923,7 +1031,7 @@ public class Playfield extends AppCompatActivity {
         gameInfo.put("DiscardpileList", discardpileList);
 
 
-        //Log.i("gameInfo------------------------------------------------------------", gameInfo.toString());
+        Log.i("gameInfo------------------------------------------------------------", gameInfo.toString());
         database.collection("gameInfo").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -935,28 +1043,26 @@ public class Playfield extends AppCompatActivity {
                         } else {
                             newDBCollectionNeeded = true;
                         }
-
                     }
 
+                    if (newDBCollectionNeeded) {
+                        database.collection("gameInfo")
+                                .add(gameInfo)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        Log.i("GameInfo -----------------------------", "success");
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.e("EXCEPTION---------------------------------------------------------", e.getMessage());
+                            }
+                        });
+                    }
                 }
             }
         });
-        if (newDBCollectionNeeded) {
-            database.collection("gameInfo")
-                    .add(gameInfo)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Log.i("GameInfo -----------------------------", "success");
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.e("EXCEPTION---------------------------------------------------------", e.getMessage());
-
-                        }
-                    });
-        }
     }
 
     public ArrayList<String> playerToList(Player player) {
