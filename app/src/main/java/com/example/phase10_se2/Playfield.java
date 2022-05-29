@@ -135,6 +135,7 @@ public class Playfield extends AppCompatActivity {
     ArrayList startOrder = new ArrayList();
     int currentDiceRoll = 0;
     boolean cheated = false;
+    int  phasenumber;
 
     boolean newDBCollectionNeeded = false;
 
@@ -276,12 +277,13 @@ public class Playfield extends AppCompatActivity {
         btnCheckPhase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int[] phasenumberArray = getPhasenumberDB();
-                Integer phasenumber= phasenumberArray[0]+1; //ToDO: CurrentPlayer phasenumber =0, deshalb da +1
-                Log.e("Phasenumber", phasenumber.toString());
+                /*Integer phasenumber= phasenumberArray[0]; //ToDO: CurrentPlayer phasenumber =0, deshalb da +1
+                 */
+
+                Log.e("Phasenumber", String.valueOf(getPhasenumberDB()));
 
                 //richtige Phase wird ausgelget
-                if(phase.getRightPhase(phasenumber,cardfieldCardlist)){
+                if(phase.getRightPhase(getPhasenumberDB(),cardfieldCardlist)){
                     if(phasenumber!=10) {
                         setPhasenumberDB(); //Phase wird um 1 erhöht
                     }
@@ -807,9 +809,6 @@ public class Playfield extends AppCompatActivity {
                         }
                         owner.removeView(v);
                         layoutPlayer2CardField.addView(v);
-                        Integer a = v.getHeight();
-                        Log.e("Größe 2", a.toString());
-
                         v.setVisibility(View.VISIBLE);
                         v.setClickable(false);
                         }
@@ -857,8 +856,6 @@ public class Playfield extends AppCompatActivity {
                         owner.removeView(v);
                         layoutPlayer3CardField.addView(v);
                         v.setRotation(90);
-                        Integer a = v.getHeight();
-                        Log.e("Größe 3", a.toString());
                         v.setVisibility(View.VISIBLE);
                         v.setClickable(false);
                     }
@@ -1217,7 +1214,7 @@ public class Playfield extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 ArrayList player = (ArrayList) document.get("CurrentPlayer"); //welchen player du haben möchtest
-                                player.set(3, (int) player.get(3) + 1); //du setzt nun bei player index 3 einen neuen wert, und zwar der alte + 1
+                                player.set(3, (int) player.get(3) + 5); //du setzt nun bei player index 3 einen neuen wert, und zwar der alte + 1
                                 document.getReference().update("CurrentPlayer", player); //hier updatest den player in der DB mit den neu gesetzten werten, falls du was geändert hast
                             }
                         } else {
@@ -1228,9 +1225,9 @@ public class Playfield extends AppCompatActivity {
     }
 
 
-    public int[] getPhasenumberDB() {
-        final int[] phasenumberArray = new int[1];
-        Integer phasenumber;
+    public int getPhasenumberDB() {
+        int[] phasenumberDB = new int[1];
+        phasenumberDB[0] = 5;
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
                 .get()
@@ -1240,15 +1237,15 @@ public class Playfield extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 ArrayList player = (ArrayList) document.get("CurrentPlayer"); //welchen player du haben möchtest
-
-                                phasenumberArray[0] = (int) player.get(3); //hier liest du die phasennummer aus. ggf in einen integer casten
-                                }
+                                 phasenumberDB[0] = ((int) player.get(3)); //hier liest du die phasennummer aus. ggf in einen integer casten
+                                Log.e("DB phasenumberDB", String.valueOf(phasenumberDB[0]));
+                            }
                         } else {
                             Log.d("DB phasenumber", "Error getting Data from Firestore: ", task.getException());
                         }
                     }
                 });
-        return phasenumberArray;
+        return phasenumberDB[0];
     }
 
 
