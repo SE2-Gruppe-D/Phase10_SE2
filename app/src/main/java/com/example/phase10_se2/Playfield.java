@@ -365,8 +365,7 @@ public class Playfield extends AppCompatActivity {
                         cardfieldCardlist.get(i).getCardUI().setClickable(false);
                     }
             }else {
-                  // cardfieldCardlist.clear();
-                   cardfieldCardlist.removeAll(cardfieldCardlist);
+                  cardfieldCardlist.clear();
                     while (layoutPlayer1CardField.getChildCount() != 0) { //TODO: richtiges Layout?
                             View v = layoutPlayer1CardField.getChildAt(0);
                             ViewGroup owner = (ViewGroup) v.getParent();
