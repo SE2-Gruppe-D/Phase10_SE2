@@ -229,10 +229,11 @@ public class DiceFragment extends Fragment implements SensorEventListener {
             public void run() {
                 int diceValueBeforeStart = lastDiceValue;
                 android.os.SystemClock.sleep(3000);
+                Player p = getPlayer(currentPlayerColor);
 
-                if (!moved && lastDiceValue == diceValueBeforeStart) {
+                if (p != null && !moved && lastDiceValue == diceValueBeforeStart) {
                     moved = true;
-                    getPlayer(currentPlayerColor).move(lastDiceValue);
+                    p.move(lastDiceValue);
                 }
             }
         }).start();
