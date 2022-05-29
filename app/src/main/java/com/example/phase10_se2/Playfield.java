@@ -357,8 +357,10 @@ public class Playfield extends AppCompatActivity {
         btnCheckPhase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Log.e("Phasenumber3", String.valueOf(getPhasenumberDB()));
+
+                /*Log.e("Phasenumber3", String.valueOf(getPhasenumberDB()));
                 //richtige Phase wird ausgelget
+
                 if(phase.getRightPhase(getPhasenumberDB(),cardfieldCardlist)){
                     if(getPhasenumberDB()!=10) {
                         setPhasenumberDB(); //Phase wird um 1 erhöht
@@ -367,14 +369,25 @@ public class Playfield extends AppCompatActivity {
                     for (int i = 0; i < cardfieldCardlist.size() ; i++) {
                         cardfieldCardlist.get(i).getCardUI().setClickable(false);
                     }
+
+                */
+                if(phase.getRightPhase(8, cardfieldCardlist)){
+                    Log.e("Phase right ", "right");
+
             }else {
-                  cardfieldCardlist.clear();
+                    playerHandPrimaryPlayer = getPrimaryHandcards();
                     while (layoutPlayer1CardField.getChildCount() != 0) { //TODO: richtiges Layout?
                             View v = layoutPlayer1CardField.getChildAt(0);
                             ViewGroup owner = (ViewGroup) v.getParent();
                             owner.removeView(v);
                             layoutPlayer1.addView(v);
                             v.setVisibility(View.VISIBLE);
+                        for (int i = 0; i < cardfieldCardlist.size(); i++) {
+                            if (v.equals(cardfieldCardlist.get(i).getCardUI())) {
+                                playerHandPrimaryPlayer.add(cardfieldCardlist.get(i));
+                                cardfieldCardlist.remove(cardfieldCardlist.get(i));
+                            }
+                        }
                         }
                     }
                 }

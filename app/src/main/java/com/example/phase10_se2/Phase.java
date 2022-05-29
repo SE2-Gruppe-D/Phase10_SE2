@@ -2,6 +2,7 @@ package com.example.phase10_se2;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -21,11 +22,20 @@ public class Phase extends AppCompatActivity {
         switch (phasenumber){
             case 1: return checkPhase1(cardfieldCardlist);
             case 2: return checkPhase2(cardfieldCardlist);
+            case 3: return checkPhase3(cardfieldCardlist);
+            case 4: return checkPhase4(cardfieldCardlist);
+            case 5: return checkPhase5(cardfieldCardlist);
+            case 6: return checkPhase6(cardfieldCardlist);
+            case 7: return checkPhase7(cardfieldCardlist);
+            case 8: return checkPhase8(cardfieldCardlist);
+            case 9: return checkPhase9(cardfieldCardlist);
+            case 10: return checkPhase10(cardfieldCardlist);
             default: return false;
+            //Phase 8 und 10 noch nicht richtig
         }
     }
 
-    //check Phase 1 - 10 && check eine Handkarte zur Phase dazulegen
+    //check Phase 1 - 10
     //Phase 1: 4 Zwillinge
     public boolean checkPhase1(List<Cards> list){
         if (list.size() == 8) {
@@ -48,56 +58,81 @@ public class Phase extends AppCompatActivity {
    //Phase 3: 1 Vierling + 1 Viererfolge
     public boolean checkPhase3(List<Cards> list) {
         if (list.size() == 8) {
-
-            return checkEqualValue4(list);
+            return checkEqualValue4AndRunOf4(list);
         } else {
             return false;
         }
     }
 
     //Phase 4: 1 Achterfolge
-    private boolean checkPhase4(List<Cards> list1){
-        return list1.size()==8 && checkRunOfX(list1);
+    private boolean checkPhase4(List<Cards> list){
+        if (list.size() == 8) {
+            return checkRunOfX(list);
+        } else {
+            return false;
+        }
     }
 
 
     //Phase 5: 7 Karten einer Farbe
-    private boolean checkPhase5(List<Cards> list1){
-        return list1.size()==7 && checkEqualColor(list1);
+    private boolean checkPhase5(List<Cards> list){
+        if (list.size() == 7) {
+            return checkEqualColor(list);
+        } else {
+            return false;
+        }
     }
 
     //Phase 6: 1 Neunerfolge
-    private boolean checkPhase6(List<Cards> list1){
-
-        return list1.size()==9 && checkRunOfX(list1);
+    private boolean checkPhase6(List<Cards> list){
+        if (list.size() == 9) {
+            return checkRunOfX(list);
+        } else {
+            return false;
+        }
     }
 
 
     //Phase 7: 2 Vierlinge
-    private boolean checkPhase7(List<Cards> list1, List<Cards> list2){
-        return checkSetOf4(list1) && checkSetOf4(list2);
+    private boolean checkPhase7(List<Cards> list){
+        if (list.size() == 8) {
+            return checkEqualValue4(list);
+        } else {
+            return false;
+        }
     }
 
 
     //Phase 8: 1 Viererfolge einer Farbe + 1 Drilling
-    private boolean checkPhase8(List<Cards> list1, List<Cards> list2){
-        return ((list1.size()==4 && checkRunOfX(list1) && checkEqualColor(list1)) && checkSetOf3(list2));
+    private boolean checkPhase8(List<Cards> list){
+        if (list.size() == 7) {
+            return checkRunOfXEqualColorAnd3(list);
+        } else {
+            return false;
+        }
     }
 
     //Phase 9: 1 Fünfling + 1 Drilling
-    private boolean checkPhase9(List<Cards> list1, List<Cards> list2){
-        return checkSetOf5(list1) && checkSetOf3(list2);
+    private boolean checkPhase9(List<Cards> list){
+        if (list.size() == 8) {
+            return checkEqualValue3And5(list);
+        } else {
+            return false;
+        }
     }
 
     //Phase 10: 1 Fünfling + 1 Dreierfolge einer Farbe
     //Problem! zuerst Folge überprüfen?
-    private boolean checkPhase10(List<Cards> list1, List<Cards> list2){
-        return (checkSetOf5(list1) && (list2.size()==3 && checkRunOfX(list2) && checkEqualColor(list2)));
+    private boolean checkPhase10(List<Cards> list){
+        if (list.size() == 8) {
+            return checkEqualValue4(list);
+        } else {
+            return false;
+        }
     }
 
 
     //Methoden zur Überprüfung
-    //gleicher Zahlenwert
    //checkEqual value Zwilling
    public boolean checkEqualValue2(List<Cards> list){
        list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
@@ -115,24 +150,86 @@ public class Phase extends AppCompatActivity {
        return helplist.isEmpty();
    }
 
-    //checkEqual value Vierling
+
+
     public boolean checkEqualValue4(List<Cards> list){
         list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
         List<Cards> helplist = new ArrayList<>(list);
-        Cards helpCard;
-        for (int i = 0; i < list.size(); i=i+4) {
-            helpCard = list.get(i);
-            if (helplist.size() != 0) {
-                for (int j = 0; j < 3; j++) {
-                if (helpCard.getValue() == helplist.get(1).getValue()) {
-                    helplist.remove(1);
-                }
+        Cards helpCard1 = list.get(0);
+        Cards helpCard2 = list.get(4);
+        for (int i = 0; i < 4; i++) {
+            if (helpCard1.getValue() == helplist.get(1).getValue()) {
+                helplist.remove(1);
             }
+        }
+        helplist.remove(helpCard1);
+        for (int i = 0; i < 3; i++) {
+            if (helpCard2.getValue() == helplist.get(1).getValue()) {
+                helplist.remove(1);
             }
-            helplist.remove(helpCard);
+        }
+        helplist.remove(helpCard2);
+        return helplist.isEmpty();
+    }
+
+    //Phase 9
+    public boolean checkEqualValue3And5(List<Cards> list){
+        list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
+        List<Cards> helplist = new ArrayList<>(list);
+        Cards helpCard1 = list.get(0);
+        Cards helpCard2 = list.get(7);
+        helplist.remove(helpCard1);
+        helplist.remove(helpCard2);
+        //Die Fünflinge oder Drillinge aus helplist löschen
+        for (int i = 1; i < list.size(); i++) {
+            if (helpCard1.getValue() == list.get(i).getValue()) {
+                    helplist.remove(list.get(i));
+            }
+        }
+        for (int i = 0; i < list.size()-1; i++) {
+            if (helpCard2.getValue() == list.get(i).getValue()) {
+                helplist.remove(list.get(i));
+            }
         }
         return helplist.isEmpty();
     }
+
+    //check Phase 3
+    //Sehr große Methode - eventuell aufteilen
+    public boolean checkEqualValue4AndRunOf4(List<Cards> list){
+        list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
+        List<Cards> helplist = new ArrayList<>(list);
+        Cards helpCard = null;
+        //Karte mit gleichem Wert suchen
+        for (int i = 0; i < list.size()-1 ; i++) {
+            if(list.get(i).getValue()==list.get(i+1).getValue()){
+                helpCard = list.get(i);
+                break;
+            }
+        }
+        //Die Vierlinge aus helplist löschen
+        int counter = 0;
+        if(helpCard!=null) {
+            for (int i = 0; i < list.size(); i++) {
+                if (helpCard.getValue() == list.get(i).getValue()) {
+                    helplist.remove(list.get(i));
+                }
+            }
+        }
+        //die Viererfolge überprüfen
+        if(helplist.size()==4) {
+            for (int i = 0; i < 4; i++) {
+                helpCard = helplist.get(0);
+                if (helplist.size() == 1) {
+                    helplist.remove(0);
+                } else if ((helpCard.getValue() + 1) == (helplist.get(1).getValue())) {
+                    helplist.remove(helpCard);
+                }
+            }
+        }
+        return helplist.isEmpty();
+                }
+
 
 
    //check equal color
@@ -149,24 +246,60 @@ public class Phase extends AppCompatActivity {
     }
 
 
-    //check run of X
+    //check run of X -
     private boolean checkRunOfX(List<Cards> list) {
         list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
         List<Cards> helplist = new ArrayList<>(list);
         Cards helpCard;
         for (int i = 0; i < list.size(); i++) {
-            helpCard = list.get(i);
-            if (helplist.size() != 0) {
-                if ((helpCard.getValue() + 1) == (helplist.get(1).getValue())) {
+            helpCard = helplist.get(0);
+            if (helplist.size() == 1) {
+                helplist.remove(0);
+            } else if ((helpCard.getValue() + 1) == (helplist.get(1).getValue())) {
                     helplist.remove(helpCard);
-                    if(helplist.size()==1){
-                        helplist.remove(0);
-                    }
-                }
                 }
             }
         return helplist.isEmpty();
+    }
+
+    private boolean checkRunOfXEqualColorAnd3(List<Cards> list){
+        list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
+        List<Cards> helplist = new ArrayList<>(list);
+        Cards helpCard;
+        //zuerst Folge
+        int counter = 0;
+        for (int i = 0; i < list.size()-1; i++) {
+                helpCard = list.get(i);
+                if ((helpCard.getValue() + 1) == (list.get(i+1).getValue()) && helpCard.getColor().equals(list.get(i+1).getColor())) {
+                    helplist.remove(helpCard);
+                    counter++;
+                    Log.e("Folge counter ", String.valueOf(counter));
+                    if(counter==4){
+                        helplist.remove(list.get(i+1));
+                        break;
+                    }
+                }
         }
+
+        Log.e("Folge richtig ", String.valueOf(helplist.size()));
+        if(helplist.size()==3) {
+            helpCard = helplist.get(0);
+            for (int i = 1; i < 3; i++) {
+                if (helpCard.getValue() == helplist.get(1).getValue()) {
+                    helplist.remove(1);
+                }
+            }
+            helplist.remove(helpCard);
+        }
+
+        return helplist.isEmpty();
+    }
+
+
+
+
+
+
 
 
 
@@ -183,14 +316,8 @@ public class Phase extends AppCompatActivity {
         return list1.size() == 5 && checkEqualValue2(list1);
     }
 
-    //check sets of 2,3,4,5
-    public boolean checkSetOf2(List<Cards> list) {
-        if (list.size() == 8) {
-            return checkEqualValue2(list);
-        }else{
-            return false;
-        }
-    }
+
+
 
 
 
