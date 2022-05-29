@@ -1369,8 +1369,6 @@ public class Playfield extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                document.getReference().update("Cheated", true);
-                            }
 
                                 ArrayList player = (ArrayList) document.get("CurrentPlayer"); //welchen player du haben möchtest
                                 player.set(3, (Integer) player.get(3) + 1); //du setzt nun bei player index 3 einen neuen wert, und zwar der alte + 1
@@ -1431,33 +1429,43 @@ public class Playfield extends AppCompatActivity {
 
                             }
 
-                                ArrayList player = (ArrayList) document.get("CurrentPlayer");
-                                player.set(4,ausgelegt);
-                                document.getReference().update("CurrentPlayer", player);
-                            }
-                        } else {
-                            Log.d("DB phaseAusgelegt", "Error setting Data to Firestore: ", task.getException());
-                        }
                     }
-                });
+                }
+    });
     }
-                             
-  public Integer getPhasenumberDB() {
-        Integer[] phasenumberDB = new Integer[1];
-  }
+
 
     public void setPhaseAusgelegtDB(boolean ausgelegt) {
-   ArrayList player = (ArrayList) document.get("CurrentPlayer"); //welchen player du haben möchtest
+        Integer[] phasenumberDB = new Integer[1];
+
+        database.collection("gameInfo")
+                .whereEqualTo("RoomName", currentRoom)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                ArrayList player = (ArrayList) document.get("CurrentPlayer"); //welchen player du haben möchtest
                                 String number  = (String) player.get(3); //hier liest du die phasennummer aus. ggf in einen integer casten
                                 phasenumberDB[0] = Integer.parseInt(number);
-                            }
+            player.set(4,ausgelegt);
+
+        }
                         } else {
                             Log.d("DB phasenumber", "Error getting Data from Firestore: ", task.getException());
                         }
-                    }
-                });
-        return phasenumberDB[0];
-    }
+}
 
+
+                });
+
+}
+    public Integer getPhasenumberDB() {
+        Integer[] phasenumberDB = new Integer[1];
+        return phasenumberDB[0];
+
+    }
 }
 
