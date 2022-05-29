@@ -354,14 +354,10 @@ public class Playfield extends AppCompatActivity {
         btnCheckPhase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Integer phasenumber= phasenumberArray[0]; //ToDO: CurrentPlayer phasenumber =0, deshalb da +1
-                 */
-
-                Log.e("Phasenumber", String.valueOf(getPhasenumberDB()));
-
+               Log.e("Phasenumber", String.valueOf(getPhasenumberDB()));
                 //richtige Phase wird ausgelget
                 if(phase.getRightPhase(getPhasenumberDB(),cardfieldCardlist)){
-                    if(phasenumber!=10) {
+                    if(getPhasenumberDB()!=10) {
                         setPhasenumberDB(); //Phase wird um 1 erhöht
                     }
                     setPhaseAusgelegtDB(true);
@@ -1318,7 +1314,7 @@ public class Playfield extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 ArrayList player = (ArrayList) document.get("CurrentPlayer"); //welchen player du haben möchtest
-                                player.set(3, (int) player.get(3) + 5); //du setzt nun bei player index 3 einen neuen wert, und zwar der alte + 1
+                                player.set(3, (Integer) player.get(3) + 1); //du setzt nun bei player index 3 einen neuen wert, und zwar der alte + 1
                                 document.getReference().update("CurrentPlayer", player); //hier updatest den player in der DB mit den neu gesetzten werten, falls du was geändert hast
                             }
                         } else {
@@ -1329,9 +1325,8 @@ public class Playfield extends AppCompatActivity {
     }
 
 
-    public int getPhasenumberDB() {
-        int[] phasenumberDB = new int[1];
-        phasenumberDB[0] = 5;
+    public Integer getPhasenumberDB() {
+        Integer[] phasenumberDB = new Integer[1];
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
                 .get()
@@ -1341,8 +1336,8 @@ public class Playfield extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 ArrayList player = (ArrayList) document.get("CurrentPlayer"); //welchen player du haben möchtest
-                                 phasenumberDB[0] = ((int) player.get(3)); //hier liest du die phasennummer aus. ggf in einen integer casten
-                                Log.e("DB phasenumberDB", String.valueOf(phasenumberDB[0]));
+                                String number  = (String) player.get(3); //hier liest du die phasennummer aus. ggf in einen integer casten
+                                phasenumberDB[0] = Integer.parseInt(number);
                             }
                         } else {
                             Log.d("DB phasenumber", "Error getting Data from Firestore: ", task.getException());

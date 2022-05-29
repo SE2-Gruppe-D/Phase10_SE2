@@ -23,7 +23,7 @@ public class Phase extends AppCompatActivity {
 
  */
     //zur Überprüfung, ob der currentplayer die Phase richtig abgelegt hat
-    public boolean getRightPhase(int phasenumber, ArrayList<Cards> cardfieldCardlist){
+    public boolean getRightPhase(Integer phasenumber, ArrayList<Cards> cardfieldCardlist){
         switch (phasenumber){
             case 1: return checkPhase1(cardfieldCardlist);
             case 2: return checkPhase2(cardfieldCardlist);
