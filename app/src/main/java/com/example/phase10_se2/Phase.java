@@ -15,27 +15,12 @@ import java.util.List;
 public class Phase extends AppCompatActivity {
 
     Player player;
-/*
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_game);
-    }
 
- */
     //zur Überprüfung, ob der currentplayer die Phase richtig abgelegt hat
     public boolean getRightPhase(Integer phasenumber, ArrayList<Cards> cardfieldCardlist){
         switch (phasenumber){
             case 1: return checkPhase1(cardfieldCardlist);
             case 2: return checkPhase2(cardfieldCardlist);
-            default: return false;
-        }
-    }
-
-    //zur Überprüfung, ob der currentplayer bei einem Mitspieler eine richtige Karte dazu gelegt hat
-    public boolean getRightPhaseOtherPlayer(int phasenumber, Cards cards, Player player){
-        switch (phasenumber){
-            case 1: return checkPhase1FromOtherPlayer(cards,player);
-            case 2: return checkPhase2FromOtherPlayer(cards,player);
             default: return false;
         }
     }
@@ -50,10 +35,6 @@ public class Phase extends AppCompatActivity {
         }
     }
 
-    public boolean checkPhase1FromOtherPlayer(Cards cards, Player player){
-        return checkEqualValueOneCard(cards, player.getCardField());
-    }
-
 
     //Phase 2: 6 Karten einer Farbe
     public boolean checkPhase2(List<Cards> list) {
@@ -64,14 +45,7 @@ public class Phase extends AppCompatActivity {
         }
     }
 
-    public boolean checkPhase2FromOtherPlayer(Cards cards, Player player){
-        return checkEqualColorOneCard(cards, player.getCardField());
-    }
-
-
-
-
-    //Phase 3: 1 Vierling + 1 Viererfolge
+   //Phase 3: 1 Vierling + 1 Viererfolge
     public boolean checkPhase3(List<Cards> list) {
         if (list.size() == 8) {
 
@@ -122,8 +96,6 @@ public class Phase extends AppCompatActivity {
     }
 
 
-
-
     //Methoden zur Überprüfung
     //gleicher Zahlenwert
    //checkEqual value Zwilling
@@ -162,35 +134,6 @@ public class Phase extends AppCompatActivity {
         return helplist.isEmpty();
     }
 
-    public List<Cards> getEqualValue4(List<Cards> list){
-        list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
-        List<Cards> helplist = new ArrayList<>(list);
-        Cards helpCard;
-        for (int i = 0; i < list.size(); i=i+4) {
-            helpCard = list.get(i);
-            if (helplist.size() != 0) {
-                for (int j = 0; j < 3; j++) {
-                    if (helpCard.getValue() == helplist.get(1).getValue()) {
-                        helplist.remove(1);
-                    }
-                }
-            }
-            helplist.remove(helpCard);
-        }
-        return helplist;
-    }
-
-   //Überprüfen, ob ich meine Karte zum Mitspieler dazu legen kann (Zwilling, Drilling, Vierling, Fünfling)
-    public boolean checkEqualValueOneCard(Cards cards, List<Cards> list){
-        for (int i = 0; i < list.size(); i++) {
-            if(cards.getValue()==list.get(i).getValue()){
-                return true;
-            }
-        }
-        return false;
-    }
-
-
 
    //check equal color
     private boolean checkEqualColor(List<Cards> list){
@@ -205,14 +148,6 @@ public class Phase extends AppCompatActivity {
         return helplist.isEmpty();
     }
 
-    private boolean checkEqualColorOneCard(Cards cards, List<Cards> list){
-        for (int i = 0; i < list.size(); i++) {
-            if(cards.getColor().equals(list.get(i).getColor())){
-                return true;
-            }
-        }
-        return false;
-    }
 
     //check run of X
     private boolean checkRunOfX(List<Cards> list) {
@@ -256,6 +191,46 @@ public class Phase extends AppCompatActivity {
             return false;
         }
     }
+
+
+
+
+    //zur Überprüfung, ob der currentplayer bei einem Mitspieler eine richtige Karte dazu gelegt hat
+    public boolean getRightPhaseOtherPlayer(int phasenumber, Cards cards, Player player){
+        switch (phasenumber){
+            case 1: return checkPhase1FromOtherPlayer(cards,player);
+            case 2: return checkPhase2FromOtherPlayer(cards,player);
+            default: return false;
+        }
+    }
+
+    public boolean checkPhase1FromOtherPlayer(Cards cards, Player player){
+        return checkEqualValueOneCard(cards, player.getCardField());
+    }
+
+    public boolean checkPhase2FromOtherPlayer(Cards cards, Player player){
+        return checkEqualColorOneCard(cards, player.getCardField());
+    }
+
+    //Überprüfen, ob ich meine Karte zum Mitspieler dazu legen kann (Zwilling, Drilling, Vierling, Fünfling)
+    public boolean checkEqualValueOneCard(Cards cards, List<Cards> list){
+        for (int i = 0; i < list.size(); i++) {
+            if(cards.getValue()==list.get(i).getValue()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkEqualColorOneCard(Cards cards, List<Cards> list){
+        for (int i = 0; i < list.size(); i++) {
+            if(cards.getColor().equals(list.get(i).getColor())){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
 
