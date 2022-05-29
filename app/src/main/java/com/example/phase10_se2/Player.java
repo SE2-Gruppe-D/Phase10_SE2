@@ -2,6 +2,7 @@ package com.example.phase10_se2;
 
 
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
@@ -38,6 +39,9 @@ public class Player {
     private ArrayList<Cards> cardField;
     private ArrayList<Cards> cards;
     boolean abgelegt;
+    LinearLayout linearLayout;
+
+
 
     // no-argument constructor
     public Player() {
@@ -334,5 +338,13 @@ phaseNumber = this.phaseNumber;
 
     public void setCardField(ArrayList<Cards> cardField) {
         this.cardField = cardField;
+    }
+
+    public LinearLayout getLinearLayout() {
+        return linearLayout;
+    }
+
+    public void setLinearLayout(LinearLayout linearLayout) {
+        this.linearLayout = linearLayout;
     }
 }

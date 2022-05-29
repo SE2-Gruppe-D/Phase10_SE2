@@ -33,6 +33,7 @@ import java.util.Map;
 
 public class FindPlayer extends AppCompatActivity {
     String currentRoom = "";
+    boolean started = false;
     final String[] color = new String[1];
     FirebaseFirestore database;
     ArrayAdapter<String> adapter;
@@ -78,7 +79,6 @@ public class FindPlayer extends AppCompatActivity {
         database.collection("activeGames").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-
                 if (error != null) {
                     Log.w(TAG, "Listen failed.", error);
                     return;
@@ -91,16 +91,16 @@ public class FindPlayer extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot document : task.getResult()) {
-                                            if (currentRoom.equals(document.getString("RoomName")))
+                                            if (currentRoom.equals(document.getString("RoomName"))  && !started) {
+                                                started = true;
                                                 goToPlayfield();
+                                            }
                                         }
-
                                     } else {
                                         Log.d(TAG, "Error getting Data from Firestore: ", task.getException());
                                     }
                                 }
                             });
-
                 } else {
                     Log.d(TAG, "Current data: null");
                 }
@@ -119,8 +119,6 @@ public class FindPlayer extends AppCompatActivity {
                     startGame.setEnabled(true);
                     adapter.notifyDataSetChanged();
                     currentRoomMap.put("RoomName", currentRoom);
-                    currentRoomMap.put("Round", 1);
-                    currentRoomMap.put("CurrentPlayer", new Player());
 
                     //eventlistener for startGame clicked -> all players go to playfield
                     database.collection("activeGames")
@@ -142,6 +140,17 @@ public class FindPlayer extends AppCompatActivity {
         });
             }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        started = false;
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        started = false;
+    }
 
     public void goToPlayfield(){
         Intent intent = new Intent(FindPlayer.this, Playfield.class);
@@ -171,6 +180,4 @@ public class FindPlayer extends AppCompatActivity {
                     }
                 });
     }
-
 }
-
