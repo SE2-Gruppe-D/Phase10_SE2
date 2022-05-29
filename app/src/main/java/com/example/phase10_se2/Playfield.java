@@ -48,7 +48,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -1320,8 +1319,8 @@ public class Playfield extends AppCompatActivity {
                 });
     }
 
-    public List[] getCurrentPlayerDB() {
-        final List[] player = new List[]{};
+    public ArrayList getCurrentPlayerDB() {
+        final ArrayList[] playerList = new ArrayList[1];
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
                 .get()
@@ -1330,15 +1329,14 @@ public class Playfield extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                               player[0] = List.of(Objects.requireNonNull(document.get("CurrentPlayer")));
-                            }
+                                playerList[0] = (ArrayList) document.get("CurrentPlayer");                            }
 
                         }
                     }
 
 
                 });
-        return player;
+        return playerList[0];
     }
 
     //currentPlayer cheats
