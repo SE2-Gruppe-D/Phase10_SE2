@@ -318,8 +318,8 @@ public class Playfield extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.hide();
 
-        //show dice
 
+        //show dice
         diceFragment = DiceFragment.newInstance();
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
@@ -353,6 +353,8 @@ public class Playfield extends AppCompatActivity {
                 btnShowAktionskarte.setVisibility(View.VISIBLE);
             }
         });
+
+        //tvAktuellePhase.setText(currentPlayer.getPhaseText());
 
 
         discardpileList = new ArrayList<>();
@@ -584,6 +586,9 @@ public class Playfield extends AppCompatActivity {
                     }
                 });
 
+        //aktualisiert den Text für die Phase
+        setPhasenTextTextView();
+
         //Spiel verlassen
         exitGame = findViewById(R.id.leaveGame);
         exitGame.setOnClickListener(view -> leaveGame());
@@ -659,6 +664,7 @@ public class Playfield extends AppCompatActivity {
             }
         }
 
+
         if (Objects.equals(documentSnapshot.getString("Color"), "RED")) {
             playerRed = new Player(documentSnapshot.getString("Name"), PlayerColor.RED, currentRoom, 1, 0, playerHandRed, new ArrayList<>());
             playerRed.setPlayerview(findViewById(R.id.ivPR));
@@ -681,6 +687,8 @@ public class Playfield extends AppCompatActivity {
         }
 
     }
+
+
 
 
     //Eine Karte vom Ablagestapel ziehen
@@ -1050,10 +1058,14 @@ public class Playfield extends AppCompatActivity {
     }
 
 
+
     //Aktuelle in Player zugewiesene Phase wird in Textview am Spielfeld angezeigt
     public void setPhasenTextTextView() {
-        tvAktuellePhase.setText(player.getPhaseText());
+        primaryPlayer.setPhaseText();
+        tvAktuellePhase.setText(primaryPlayer.getPhaseText());
+
     }
+
 
 
     private boolean checkblue(FieldColor fieldColor) {
@@ -1402,7 +1414,7 @@ public class Playfield extends AppCompatActivity {
     }
     //update players
     public void updatePlayers(){
-      
+
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
                 .get()
