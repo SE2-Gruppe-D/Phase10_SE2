@@ -354,7 +354,7 @@ public class Playfield extends AppCompatActivity {
             }
         });
 
-        
+
 
 
         discardpileList = new ArrayList<>();
