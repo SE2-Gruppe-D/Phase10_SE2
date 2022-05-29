@@ -76,9 +76,11 @@ public class Playfield extends AppCompatActivity {
     ArrayList<Cards> cardlist;
     ArrayList<Cards> discardpileList;//Ablagestapel
     ArrayList<Cards> cardfieldCardlist;
+    ArrayList<Cards> cardfieldCardlistPlayer2;
+    ArrayList<Cards> cardfieldCardlistPlayer3;
+    ArrayList<Cards> cardfieldCardlistPlayer4;
 
     ArrayList<ImageView> Imagelist;
-    ArrayList<Cards> drawpileList;      //Ziehstapel
     TextView leererAblagestapel;
 
     Button exitGame;        //Spiel verlassen Button
@@ -134,12 +136,12 @@ public class Playfield extends AppCompatActivity {
 
     //Round and phase
     Phase phase;
-    boolean currentPhaseRight = false;
     private long doubleClickLastTime = 0L;
     int round = 1;
     ArrayList startOrder = new ArrayList();
     int currentDiceRoll = 0;
     boolean cheated = false;
+    int  phasenumber;
 
     boolean newDBCollectionNeeded = true;
 
@@ -336,44 +338,44 @@ public class Playfield extends AppCompatActivity {
         layoutPlayer4 = findViewById(R.id.player4);
         layoutPlayer1CardField = findViewById(R.id.player1PhaseAblegen);
         layoutPlayer2CardField = findViewById(R.id.player2PhaseAblegen);
-        // layoutPlayer2CardField.setOnDragListener(new ChoiceDragListener());
+        layoutPlayer2CardField.setOnDragListener(new ChoiceDragListener2());
         layoutPlayer3CardField = findViewById(R.id.player3PhaseAblegen);
-        //layoutPlayer3CardField.setOnDragListener(new ChoiceDragListener());
+        layoutPlayer3CardField.setOnDragListener(new ChoiceDragListener3());
         layoutPlayer4CardField = findViewById(R.id.player4PhaseAblegen);
-        //layoutPlayer4CardField.setOnDragListener(new ChoiceDragListener());
+        layoutPlayer4CardField.setOnDragListener(new ChoiceDragListener4());
 
 
         //Button, um zu überprüfen, ob die Phase richtig ist
         cardfieldCardlist = new ArrayList<>();
+        cardfieldCardlistPlayer2 = new ArrayList<>();
+        cardfieldCardlistPlayer3 = new ArrayList<>();
+        cardfieldCardlistPlayer4 = new ArrayList<>();
         phase = new Phase();
         btnCheckPhase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //ohne DB so prüfen
-                if(phase.checkPhase1(cardfieldCardlist)){
-                    int phase = 2;
-                }
-
-                // funktionier noch nicht ohne DB
-                /*if (phase.getRightPhase(cardfieldCardlist)) {
-                    if (currentPlayer.getPhaseNumber() != 10) {
-                        currentPlayer.setPhaseNumber(currentPlayer.getPhaseNumber() + 1);
+               Log.e("Phasenumber", String.valueOf(getPhasenumberDB()));
+                //richtige Phase wird ausgelget
+                if(phase.getRightPhase(getPhasenumberDB(),cardfieldCardlist)){
+                    if(getPhasenumberDB()!=10) {
+                        setPhasenumberDB(); //Phase wird um 1 erhöht
                     }
-                    currentPhaseRight = true; //TODO: pro Spieler in DB speichern
-
-
-                }*/ else {
+                    setPhaseAusgelegtDB(true);
+                    for (int i = 0; i < cardfieldCardlist.size() ; i++) {
+                        cardfieldCardlist.get(i).getCardUI().setClickable(false);
+                    }
+            }else {
+                  // cardfieldCardlist.clear();
+                   cardfieldCardlist.removeAll(cardfieldCardlist);
                     while (layoutPlayer1CardField.getChildCount() != 0) { //TODO: richtiges Layout?
-                        View v = layoutPlayer1CardField.getChildAt(0);
-                        ViewGroup owner = (ViewGroup) v.getParent();
-                        owner.removeView(v);
-                        layoutPlayer1.addView(v);
-                        v.setVisibility(View.VISIBLE);
+                            View v = layoutPlayer1CardField.getChildAt(0);
+                            ViewGroup owner = (ViewGroup) v.getParent();
+                            owner.removeView(v);
+                            layoutPlayer1.addView(v);
+                            v.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
-
-
-            }
         });
 
         cardUIManager = new CardUIManager();
@@ -396,7 +398,7 @@ public class Playfield extends AppCompatActivity {
         cardDrawer.isInitialCardsEmpty();
 
         //Handkarten werden ausgeteilt
-        handCards.HandCardsPlayer(layoutPlayer1, layoutPlayer2, layoutPlayer3, layoutPlayer4, layoutPlayer1CardField, layoutPlayer2CardField, layoutPlayer3CardField, layoutPlayer4CardField, cardlist, playerBlue, playerGreen, playerYellow, playerRed, primaryPlayer);
+        handCards.HandCardsPlayer(layoutPlayer1, layoutPlayer2, layoutPlayer3, layoutPlayer4, cardlist, playerBlue, playerGreen, playerYellow, playerRed, primaryPlayer);
         if (playerBlue != null) {
             for (Cards card : playerBlue.getPlayerHand()) {
                 card.getCardUI().setOnClickListener(listener);
@@ -422,6 +424,9 @@ public class Playfield extends AppCompatActivity {
                 card.getCardUI().setOnTouchListener(new ChoiceTouchListener());
             }
         }
+        //Auslegefelder werden zugeteilt
+        handCards.getCardsLayOut(layoutPlayer1CardField,layoutPlayer2CardField,layoutPlayer3CardField,layoutPlayer4CardField,playerBlue,playerGreen,playerYellow,playerRed,primaryPlayer);
+
 
         //Player Blue, Red, Yellow, Green
         deckcard.setOnClickListener(view -> {
@@ -435,7 +440,7 @@ public class Playfield extends AppCompatActivity {
         cardlist.remove(randomCard);
         discardpileList.add(randomCard);
         defaultcard.setImageDrawable(createCardUI(discardpileList.get(0)).getDrawable());
-        defaultcard.setOnDragListener(new ChoiceDragListener());
+        defaultcard.setOnDragListener(new ChoiceDragListener1());
 
 
         defaultcard.setOnClickListener(view -> {
@@ -654,22 +659,22 @@ public class Playfield extends AppCompatActivity {
         if (size != 0) {
 
             discardpileList.get(size - 1).getCardUI().setVisibility(View.VISIBLE);
-            if (playerYellow != null && playerYellow.getColor().equals(primaryPlayer.getColor())) {
+            if (playerYellow != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerYellow.getColor().equals(primaryPlayer.getColor())) {
                 handCards.updateHand(playerYellow.getPlayerHand(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
                 discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
                 discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
             }
-            if (playerBlue != null && playerBlue.getColor().equals(primaryPlayer.getColor())) {
+            if (playerBlue != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerBlue.getColor().equals(primaryPlayer.getColor())) {
                 handCards.updateHand(playerBlue.getPlayerHand(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
                 discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
                 discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
             }
-            if (playerRed != null && playerRed.getColor().equals(primaryPlayer.getColor())) {
+            if (playerRed != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerRed.getColor().equals(primaryPlayer.getColor())) {
                 handCards.updateHand(playerRed.getPlayerHand(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
                 discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
                 discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
             }
-            if (playerGreen != null && playerGreen.getColor().equals(primaryPlayer.getColor())) {
+            if (playerGreen != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerGreen.getColor().equals(primaryPlayer.getColor())) {
                 handCards.updateHand(playerGreen.getPlayerHand(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
                 discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
                 discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
@@ -736,16 +741,15 @@ public class Playfield extends AppCompatActivity {
 
     public ArrayList<Cards> getPrimaryHandcards() {
         ArrayList<Cards> handcards;
-        if (playerYellow != null && playerYellow.getColor().equals(primaryPlayer.getColor())) {
+        if (playerYellow != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerYellow.getColor().equals(primaryPlayer.getColor())) {
             return handcards = playerYellow.getPlayerHand();
-        } else if (playerBlue != null && playerBlue.getColor().equals(primaryPlayer.getColor())) {
+        } else if (playerBlue != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerBlue.getColor().equals(primaryPlayer.getColor())) {
             return handcards = playerBlue.getPlayerHand();
-        } else if (playerRed != null && playerRed.getColor().equals(primaryPlayer.getColor())) {
+        } else if (playerRed != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerRed.getColor().equals(primaryPlayer.getColor())) {
             return handcards = playerRed.getPlayerHand();
-        } else if (playerGreen != null && playerGreen.getColor().equals(primaryPlayer.getColor())) {
+        } else if (playerGreen != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerGreen.getColor().equals(primaryPlayer.getColor())) {
             return handcards = playerGreen.getPlayerHand();
-        }
-        return null;
+        }else {return null;}
     }
 
     //Karten auslegen - 1x Click Karte wird ausgelegt, 2x Click Karte zurück auf die Hand
@@ -777,15 +781,18 @@ public class Playfield extends AppCompatActivity {
                 ViewGroup owner = (ViewGroup) v.getParent();
                 //Array mit den ausgelegten Karten befüllen
                 playerHandPrimaryPlayer = getPrimaryHandcards();
-                for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
-                    if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
-                        cardfieldCardlist.add(playerHandPrimaryPlayer.get(i));
-                        playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                if (playerHandPrimaryPlayer.size()!=0) {
+                    for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
+                        if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
+                            cardfieldCardlist.add(playerHandPrimaryPlayer.get(i));
+                            playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                        }
                     }
-                }
+
                 owner.removeView(v);
                 layoutPlayer1CardField.addView(v);
                 v.setVisibility(View.VISIBLE);
+                }
             }
         }
     };
@@ -819,11 +826,9 @@ public class Playfield extends AppCompatActivity {
         }
     }
 
-    //--> funktion nicht mehr richtig wegen onClick Listener
     //Class to drop
-    //ChoiceDragListener
-    private class ChoiceDragListener implements View.OnDragListener {
-        //Drawable enterShape = getResources().getDrawable(R.drawable.gruen12);
+    //ChoiceDragListener für Ablegestapel
+    private class ChoiceDragListener1 implements View.OnDragListener {
         @Override
         public boolean onDrag(View view, DragEvent dragEvent) {
             switch (dragEvent.getAction()) {
@@ -840,21 +845,169 @@ public class Playfield extends AppCompatActivity {
                     break;
 
                 case DragEvent.ACTION_DROP: //Action 3
-                    Log.e("debugN", dragEvent.toString());
+                    Log.e("Abgelegt", dragEvent.toString());
                     View v = (View) dragEvent.getLocalState();
                     ViewGroup owner = (ViewGroup) v.getParent();
                     //Karte zum Ablegestapel hinzufügen
+                    //ToDO: DB Anpassen
                     playerHandPrimaryPlayer = getPrimaryHandcards();
-                    for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
-                        if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
-                            discardpileList.add(playerHandPrimaryPlayer.get(i));
-                            defaultcard.setImageDrawable(createCardUI(playerHandPrimaryPlayer.get(i)).getDrawable());
-                            playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                    if (playerHandPrimaryPlayer.size() !=0) {
+                        for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
+                            if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
+                                discardpileList.add(playerHandPrimaryPlayer.get(i));
+                                defaultcard.setImageDrawable(createCardUI(playerHandPrimaryPlayer.get(i)).getDrawable());
+                                playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                            }
                         }
+                        owner.removeView(v);
+                        v.setVisibility(View.INVISIBLE);
                     }
-                    owner.removeView(v);
-                    //layoutDiscardpile.addView(v);
-                    v.setVisibility(View.INVISIBLE);
+                    break;
+
+                case DragEvent.ACTION_DRAG_ENDED: //4
+                    view.invalidate();
+                default:
+                    break;
+            }
+            return true;
+        }
+    }
+
+    //Drag and Drop Auslegefeld Spieler 2
+    private class ChoiceDragListener2 implements View.OnDragListener {
+        @Override
+        public boolean onDrag(View view, DragEvent dragEvent) {
+            switch (dragEvent.getAction()) {
+                case DragEvent.ACTION_DRAG_STARTED: //1
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DRAG_EXITED: //6
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DRAG_ENTERED: //5
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DROP: //Action 3
+                    Log.e("Feld Spieler 2", dragEvent.toString());
+                    View v = (View) dragEvent.getLocalState();
+                    ViewGroup owner = (ViewGroup) v.getParent();
+                    //if(primaryPlayer.abgelegt){ //Überprüft, ob man selbst Phase ausgelegt hat, weil erst dann darf man bei den Mitspielern dazu legen
+                    //ToDO: Vom Player auslesen: Phase richtig (Mitspieler und selbst), weil erst dann dazulegen; Welche Phase; welche Karten; welcher Spieler auf diesem Feld
+                    // if (player.abgelegt) {
+                    //int phasenumber = player.getPhaseNumber();
+                    // player.getCardField();
+                    //player.getLinearLayout();
+
+                    playerHandPrimaryPlayer = getPrimaryHandcards();
+                    if (playerHandPrimaryPlayer.size() != 0) {
+                        for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
+                            if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
+                                cardfieldCardlistPlayer2.add(playerHandPrimaryPlayer.get(i));
+                                playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                            }
+                        }
+                        owner.removeView(v);
+                        layoutPlayer2CardField.addView(v);
+                        v.setVisibility(View.VISIBLE);
+                        v.setClickable(false);
+                        }
+                    break;
+
+                case DragEvent.ACTION_DRAG_ENDED: //4
+                    view.invalidate();
+                default:
+                    break;
+            }
+            return true;
+        }
+    }
+
+
+    //Drag and Drop Auslegefeld Spieler 3
+    private class ChoiceDragListener3 implements View.OnDragListener {
+        @Override
+        public boolean onDrag(View view, DragEvent dragEvent) {
+            switch (dragEvent.getAction()) {
+                case DragEvent.ACTION_DRAG_STARTED: //1
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DRAG_EXITED: //6
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DRAG_ENTERED: //5
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DROP: //Action 3
+                    Log.e("Feld Spieler 3", dragEvent.toString());
+                    View v = (View) dragEvent.getLocalState();
+                    ViewGroup owner = (ViewGroup) v.getParent();
+                    playerHandPrimaryPlayer = getPrimaryHandcards();
+                    if (playerHandPrimaryPlayer.size() != 0) {
+                        for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
+                            if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
+                                cardfieldCardlistPlayer3.add(playerHandPrimaryPlayer.get(i));
+                                playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                            }
+                        }
+                        owner.removeView(v);
+                        layoutPlayer3CardField.addView(v);
+                        v.setRotation(90);
+                        v.setVisibility(View.VISIBLE);
+                        v.setClickable(false);
+                    }
+                    break;
+
+                case DragEvent.ACTION_DRAG_ENDED: //4
+                    view.invalidate();
+                default:
+                    break;
+            }
+            return true;
+        }
+    }
+
+
+    //Drag and Drop Auslegefeld Spieler 4
+    private class ChoiceDragListener4 implements View.OnDragListener {
+        @Override
+        public boolean onDrag(View view, DragEvent dragEvent) {
+            switch (dragEvent.getAction()) {
+                case DragEvent.ACTION_DRAG_STARTED: //1
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DRAG_EXITED: //6
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DRAG_ENTERED: //5
+                    //no action necessary
+                    break;
+
+                case DragEvent.ACTION_DROP: //Action 3
+                    Log.e("Feld Spieler 4", dragEvent.toString());
+                    View v = (View) dragEvent.getLocalState();
+                    ViewGroup owner = (ViewGroup) v.getParent();
+                    playerHandPrimaryPlayer = getPrimaryHandcards();
+                    if (playerHandPrimaryPlayer.size() != 0) {
+                        for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
+                            if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
+                                cardfieldCardlistPlayer4.add(playerHandPrimaryPlayer.get(i));
+                                playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                            }
+                        }
+                        owner.removeView(v);
+                        layoutPlayer4CardField.addView(v);
+                        v.setRotation(-90);
+                        v.setVisibility(View.VISIBLE);
+                        v.setClickable(false);
+                    }
                     break;
 
                 case DragEvent.ACTION_DRAG_ENDED: //4
@@ -1150,5 +1303,81 @@ public class Playfield extends AppCompatActivity {
                     }
                 });
     }
+
+    public void setPhasenumberDB() {
+        database.collection("gameInfo")
+                .whereEqualTo("RoomName", currentRoom)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                ArrayList player = (ArrayList) document.get("CurrentPlayer"); //welchen player du haben möchtest
+                                player.set(3, (Integer) player.get(3) + 1); //du setzt nun bei player index 3 einen neuen wert, und zwar der alte + 1
+                                document.getReference().update("CurrentPlayer", player); //hier updatest den player in der DB mit den neu gesetzten werten, falls du was geändert hast
+                            }
+                        } else {
+                            Log.d("DB phasenumber", "Error setting Data to Firestore: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+
+    public Integer getPhasenumberDB() {
+        Integer[] phasenumberDB = new Integer[1];
+        database.collection("gameInfo")
+                .whereEqualTo("RoomName", currentRoom)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                ArrayList player = (ArrayList) document.get("CurrentPlayer"); //welchen player du haben möchtest
+                                String number  = (String) player.get(3); //hier liest du die phasennummer aus. ggf in einen integer casten
+                                phasenumberDB[0] = Integer.parseInt(number);
+                            }
+                        } else {
+                            Log.d("DB phasenumber", "Error getting Data from Firestore: ", task.getException());
+                        }
+                    }
+                });
+        return phasenumberDB[0];
+    }
+
+
+    public void setPhaseAusgelegtDB(boolean ausgelegt) {
+        database.collection("gameInfo")
+                .whereEqualTo("RoomName", currentRoom)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                ArrayList player = (ArrayList) document.get("CurrentPlayer");
+                                player.set(4,ausgelegt);
+                                document.getReference().update("CurrentPlayer", player);
+                            }
+                        } else {
+                            Log.d("DB phaseAusgelegt", "Error setting Data to Firestore: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
