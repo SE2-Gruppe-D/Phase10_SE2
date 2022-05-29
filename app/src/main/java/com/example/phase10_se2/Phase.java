@@ -18,7 +18,7 @@ public class Phase extends AppCompatActivity {
     Player player;
 
     //zur Überprüfung, ob der currentplayer die Phase richtig abgelegt hat
-    public boolean getRightPhase(Integer phasenumber, ArrayList<Cards> cardfieldCardlist){
+    public boolean getRightPhase(int phasenumber, ArrayList<Cards> cardfieldCardlist){
         switch (phasenumber){
             case 1: return checkPhase1(cardfieldCardlist);
             case 2: return checkPhase2(cardfieldCardlist);
@@ -133,7 +133,7 @@ public class Phase extends AppCompatActivity {
 
 
     //Methoden zur Überprüfung
-   //checkEqual value Zwilling
+   //checkEqual value Zwilling, Phase 1
    public boolean checkEqualValue2(List<Cards> list){
        list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
        List<Cards> helplist = new ArrayList<>(list);
@@ -151,7 +151,7 @@ public class Phase extends AppCompatActivity {
    }
 
 
-
+    //für Phase 7
     public boolean checkEqualValue4(List<Cards> list){
         list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
         List<Cards> helplist = new ArrayList<>(list);
@@ -172,7 +172,7 @@ public class Phase extends AppCompatActivity {
         return helplist.isEmpty();
     }
 
-    //Phase 9
+    //für Phase 9
     public boolean checkEqualValue3And5(List<Cards> list){
         list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
         List<Cards> helplist = new ArrayList<>(list);
@@ -232,7 +232,7 @@ public class Phase extends AppCompatActivity {
 
 
 
-   //check equal color
+   //check equal color, Phase 2 & 5
     private boolean checkEqualColor(List<Cards> list){
         List<Cards> helplist = new ArrayList<>(list);
         Cards helpCard = list.get(0);
@@ -246,7 +246,7 @@ public class Phase extends AppCompatActivity {
     }
 
 
-    //check run of X -
+    //check run of X, Phase 4 & 6
     private boolean checkRunOfX(List<Cards> list) {
         list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
         List<Cards> helplist = new ArrayList<>(list);
@@ -262,15 +262,49 @@ public class Phase extends AppCompatActivity {
         return helplist.isEmpty();
     }
 
+
+
+
+
+
+
+
+    //-------------------------------Ab hier nicht Testen ----------------
+
+    //check Phase 8
+    //sehr große Methode - eventuell aufteilen
     private boolean checkRunOfXEqualColorAnd3(List<Cards> list){
+        list.sort(Comparator.comparing(Cards::getColor));//nach Wert sortieren
         list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
+        for (int i = 0; i < list.size(); i++) {
+            Log.e("Folge richtig 1 ", list.get(i).getColor());
+            Log.e("Folge richtig 1 ", String.valueOf(list.get(i).getValue()));
+        }
+
         List<Cards> helplist = new ArrayList<>(list);
         Cards helpCard;
         //zuerst Folge
         int counter = 0;
         for (int i = 0; i < list.size()-1; i++) {
-                helpCard = list.get(i);
-                if ((helpCard.getValue() + 1) == (list.get(i+1).getValue()) && helpCard.getColor().equals(list.get(i+1).getColor())) {
+            helpCard = list.get(i);
+            if ((helpCard.getValue() + 1) == (list.get(i + 1).getValue()) && helpCard.getColor().equals(list.get(i + 1).getColor())) {
+                counter++;
+                Log.e("Folge richtig 1 ", String.valueOf(counter));
+                if (counter == 4) {
+                    helplist.remove(i);
+                    helplist.remove(i--);
+                    helplist.remove(i - 2);
+                    helplist.remove(i - 3);
+                }
+            } else {
+                counter = 0;
+                Log.e("Folge nicht richtig 1 ", String.valueOf(counter));
+
+            }
+        }
+
+                   /*
+
                     helplist.remove(helpCard);
                     counter++;
                     Log.e("Folge counter ", String.valueOf(counter));
@@ -280,6 +314,17 @@ public class Phase extends AppCompatActivity {
                     }
                 }
         }
+        for (int i = 0; i < list.size(); i++) {
+            helpCard = helplist.get(0);
+            if (helplist.size() == 1) {
+                helplist.remove(0);
+            } else if ((helpCard.getValue() + 1) == (helplist.get(1).getValue())) {
+                helplist.remove(helpCard);
+            }
+        }
+
+                    */
+
 
         Log.e("Folge richtig ", String.valueOf(helplist.size()));
         if(helplist.size()==3) {
@@ -294,29 +339,6 @@ public class Phase extends AppCompatActivity {
 
         return helplist.isEmpty();
     }
-
-
-
-
-
-
-
-
-
-
-    private boolean checkSetOf3(List<Cards> list1){
-        return list1.size() == 3 && checkEqualValue2(list1);
-    }
-
-    private boolean checkSetOf4(List<Cards> list1){
-        return list1.size() == 4 && checkEqualValue2(list1);
-    }
-
-    private boolean checkSetOf5(List<Cards> list1){
-        return list1.size() == 5 && checkEqualValue2(list1);
-    }
-
-
 
 
 
