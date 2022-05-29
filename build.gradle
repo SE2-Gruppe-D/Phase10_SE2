@@ -8,7 +8,11 @@ buildscript {
         classpath 'com.google.gms:google-services:4.3.10'  // Google Services plugin
     }
 }
+
+
+
 plugins {
+ id "org.sonarqube" version "3.3"
     id 'com.android.application' version '7.1.2' apply false
     id 'com.android.library' version '7.1.2' apply false
 }
@@ -16,5 +20,11 @@ plugins {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
+sonarqube {
+  properties {
+    property "sonar.projectKey", "SE2-Gruppe-D_Phase10_SE2"
+    property "sonar.organization", "se2-gruppe-d"
+    property "sonar.host.url", "https://sonarcloud.io"
+  }
+}
 
