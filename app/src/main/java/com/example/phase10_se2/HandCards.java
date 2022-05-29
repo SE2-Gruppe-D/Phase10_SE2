@@ -18,13 +18,12 @@ public class HandCards {
 
     //Handkarten werden ausgeteilt
     public void HandCardsPlayer(LinearLayout layoutPlayer1, LinearLayout layoutPlayer2, LinearLayout layoutPlayer3, LinearLayout layoutPlayer4,ArrayList<Cards> cardlist, Player playerblue,  Player playergreen,  Player playeryellow,  Player playerred, Player primaryplayer) {
-        playerGreen=playergreen;
-        playerBlue= playerblue;
-        playerYellow= playeryellow;
-        playerRed= playerred;
+
+
         primaryPlayer= primaryplayer;
         for (int i = 0; i < 10; i++) {
             if (playerblue != null) {
+                playerBlue= playerblue;
                 if (playerblue.getColor().equals(primaryplayer.getColor())){
                     updateHand(playerblue.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0, cardlist);  //Primary player bekommt immer Layout1
                 } else {
@@ -32,6 +31,8 @@ public class HandCards {
                 }
             }
             if (playerred != null) {
+                playerRed= playerred;
+
                 if (playerred.getColor().equals(primaryplayer.getColor())) {
                     updateHand(playerred.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0, cardlist);
                 } else {
@@ -39,6 +40,8 @@ public class HandCards {
                 }
             }
             if (playeryellow != null) {
+                playerYellow= playeryellow;
+
                 if (playeryellow.getColor().equals(primaryplayer.getColor())) {
                     updateHand(playeryellow.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0, cardlist);
 
@@ -47,6 +50,7 @@ public class HandCards {
                 }
             }
             if (playergreen != null) {
+                playerGreen=playergreen;
                 if (playergreen.getColor().equals(primaryplayer.getColor())) {
                     updateHand(playergreen.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0, cardlist);
                 } else {
