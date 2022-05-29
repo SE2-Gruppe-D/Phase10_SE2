@@ -18,8 +18,6 @@ public class HandCards {
 
     //Handkarten werden ausgeteilt
     public void HandCardsPlayer(LinearLayout layoutPlayer1, LinearLayout layoutPlayer2, LinearLayout layoutPlayer3, LinearLayout layoutPlayer4,ArrayList<Cards> cardlist, Player playerblue,  Player playergreen,  Player playeryellow,  Player playerred, Player primaryplayer) {
-
-
         primaryPlayer= primaryplayer;
         for (int i = 0; i < 10; i++) {
             if (playerblue != null) {
