@@ -51,7 +51,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Random;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -256,6 +255,35 @@ public class Playfield extends AppCompatActivity {
                         }
                     }
                 });
+        //EventListener if anything is changed in DB "gameInfo"
+        database.collection("gameInfo")
+                .whereEqualTo("RoomName", currentRoom)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent (@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException
+                            error)
+                    {
+
+                        if (error != null) {
+                            Log.w(TAG, "Listen failed.", error);
+                            return;
+                        }
+
+                        if (value != null) {
+                            database.collection("gameInfo")
+                                    .whereEqualTo("RoomName", currentRoom)
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                            updatePlayers();
+                                                                                       }
+                                        }
+                                    });
+                        }
+                    }
+                });
     }
 
     private void goToMainMenu() {
@@ -280,6 +308,8 @@ public class Playfield extends AppCompatActivity {
             currentPlayer = playerGreen;
         }
         gameInfoDB();
+
+
 
 
         //entfernt die label Leiste (Actionbar) auf dem Playfield
@@ -1130,6 +1160,7 @@ public class Playfield extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 document.getReference().update("Round", round);
+
                             }
                         }
                     }
@@ -1156,5 +1187,73 @@ public class Playfield extends AppCompatActivity {
                 });
         return player;
     }
+    //currentPlayer cheats
+    public void updateCheated(){
+        database.collection("gameInfo")
+                .whereEqualTo("RoomName", currentRoom)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                document.getReference().update("Cheated", true);
+                            }
+                        }
+                    }
+                });
+    }
+
+    //update currentPlayer
+    public void updateCurrentPlayer(){
+        database.collection("gameInfo")
+                .whereEqualTo("RoomName", currentRoom)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                  document.getReference().update("CurrentPlayer", playerToList(currentPlayer));
+
+                                //reset cheated for new currentPlayer
+                                document.getReference().update("Cheated", false);
+
+                            }
+                        }
+                    }
+                });
+    }
+    //update players
+    public void updatePlayers(){
+        database.collection("gameInfo")
+                .whereEqualTo("RoomName", currentRoom)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if(document.get("PlayerRed")!=null){
+                                    document.getReference().update("PlayerRed", playerToList(playerRed));
+                                }
+                                if(document.get("PlayerBlue")!=null){
+                                    document.getReference().update("PlayerBlue", playerToList(playerBlue));
+                                }
+                                if(document.get("PlayerYellow")!=null){
+                                    document.getReference().update("PlayerYellow", playerToList(playerYellow));
+                                }
+                                if(document.get("PlayerGreen")!=null){
+                                    document.getReference().update("PlayerGreen", playerToList(playerGreen));
+                                }
+
+                            }
+                        }
+                    }
+                });
+    }
+
+
+
 }
 
