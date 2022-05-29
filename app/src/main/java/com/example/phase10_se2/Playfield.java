@@ -50,7 +50,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Random;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -257,6 +256,35 @@ public class Playfield extends AppCompatActivity {
                         }
                     }
                 });
+        //EventListener if anything is changed in DB "gameInfo"
+        database.collection("gameInfo")
+                .whereEqualTo("RoomName", currentRoom)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent (@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException
+                            error)
+                    {
+
+                        if (error != null) {
+                            Log.w(TAG, "Listen failed.", error);
+                            return;
+                        }
+
+                        if (value != null) {
+                            database.collection("gameInfo")
+                                    .whereEqualTo("RoomName", currentRoom)
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                            updatePlayers();
+                                                                                       }
+                                        }
+                                    });
+                        }
+                    }
+                });
     }
 
     private void goToMainMenu() {
@@ -281,6 +309,8 @@ public class Playfield extends AppCompatActivity {
             currentPlayer = playerGreen;
         }
         gameInfoDB();
+
+
 
 
         //entfernt die label Leiste (Actionbar) auf dem Playfield
@@ -1282,13 +1312,15 @@ public class Playfield extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 document.getReference().update("Round", round);
+
                             }
                         }
                     }
                 });
     }
 
-    public void getCurrentPlayerDB() {
+    public ArrayList getCurrentPlayerDB() {
+        final ArrayList[] playerList = new ArrayList[1];
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
                 .get()
@@ -1297,7 +1329,27 @@ public class Playfield extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                currentPlayer = (Player) document.get("CurrentPlayer");
+                                playerList[0] = (ArrayList) document.get("CurrentPlayer");                            }
+
+                        }
+                    }
+
+
+                });
+        return playerList[0];
+    }
+
+    //currentPlayer cheats
+    public void updateCheated(){
+ database.collection("gameInfo")
+                .whereEqualTo("RoomName", currentRoom)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                document.getReference().update("Cheated", true);
                             }
                         }
                     }
@@ -1305,6 +1357,7 @@ public class Playfield extends AppCompatActivity {
     }
 
     public void setPhasenumberDB() {
+
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
                 .get()
@@ -1313,6 +1366,8 @@ public class Playfield extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
+
+
                                 ArrayList player = (ArrayList) document.get("CurrentPlayer"); //welchen player du haben möchtest
                                 player.set(3, (Integer) player.get(3) + 1); //du setzt nun bei player index 3 einen neuen wert, und zwar der alte + 1
                                 document.getReference().update("CurrentPlayer", player); //hier updatest den player in der DB mit den neu gesetzten werten, falls du was geändert hast
@@ -1324,9 +1379,9 @@ public class Playfield extends AppCompatActivity {
                 });
     }
 
+    //update currentPlayer
+    public void updateCurrentPlayer(){
 
-    public Integer getPhasenumberDB() {
-        Integer[] phasenumberDB = new Integer[1];
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
                 .get()
@@ -1335,20 +1390,52 @@ public class Playfield extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                ArrayList player = (ArrayList) document.get("CurrentPlayer"); //welchen player du haben möchtest
-                                String number  = (String) player.get(3); //hier liest du die phasennummer aus. ggf in einen integer casten
-                                phasenumberDB[0] = Integer.parseInt(number);
+                                  document.getReference().update("CurrentPlayer", playerToList(currentPlayer));
+
+                                //reset cheated for new currentPlayer
+                                document.getReference().update("Cheated", false);
+
                             }
-                        } else {
-                            Log.d("DB phasenumber", "Error getting Data from Firestore: ", task.getException());
                         }
                     }
                 });
-        return phasenumberDB[0];
+    }
+    //update players
+    public void updatePlayers(){
+      
+        database.collection("gameInfo")
+                .whereEqualTo("RoomName", currentRoom)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                if(document.get("PlayerRed")!=null){
+                                    document.getReference().update("PlayerRed", playerToList(playerRed));
+                                }
+                                if(document.get("PlayerBlue")!=null){
+                                    document.getReference().update("PlayerBlue", playerToList(playerBlue));
+                                }
+                                if(document.get("PlayerYellow")!=null){
+                                    document.getReference().update("PlayerYellow", playerToList(playerYellow));
+                                }
+                                if(document.get("PlayerGreen")!=null){
+                                    document.getReference().update("PlayerGreen", playerToList(playerGreen));
+                                }
+
+                            }
+
+                    }
+                }
+    });
     }
 
 
     public void setPhaseAusgelegtDB(boolean ausgelegt) {
+        Integer[] phasenumberDB = new Integer[1];
+
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
                 .get()
@@ -1357,27 +1444,26 @@ public class Playfield extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                ArrayList player = (ArrayList) document.get("CurrentPlayer");
-                                player.set(4,ausgelegt);
-                                document.getReference().update("CurrentPlayer", player);
-                            }
+
+                                ArrayList player = (ArrayList) document.get("CurrentPlayer"); //welchen player du haben möchtest
+                                String number  = (String) player.get(3); //hier liest du die phasennummer aus. ggf in einen integer casten
+                                phasenumberDB[0] = Integer.parseInt(number);
+            player.set(4,ausgelegt);
+
+        }
                         } else {
-                            Log.d("DB phaseAusgelegt", "Error setting Data to Firestore: ", task.getException());
+                            Log.d("DB phasenumber", "Error getting Data from Firestore: ", task.getException());
                         }
-                    }
+}
+
+
                 });
+
+}
+    public Integer getPhasenumberDB() {
+        Integer[] phasenumberDB = new Integer[1];
+        return phasenumberDB[0];
+
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
