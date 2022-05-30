@@ -25,6 +25,7 @@ public class PhaseTest {
     private Cards card1y;
     private Cards card5y;
     private Cards card12y;
+    private Cards card11y;
     private ArrayList<Cards> list;
 
     @BeforeEach
@@ -44,6 +45,7 @@ public class PhaseTest {
         card1y = new Cards("YELLOW", 1,null,1);
         card5y = new Cards("YELLOW", 5,null,5);
         card12y = new Cards("YELLOW", 12,null,12);
+        card11y = new Cards("YELLOW", 11,null,11);
         list = new ArrayList<>();
     }
 
@@ -89,6 +91,47 @@ public class PhaseTest {
         player.setPhaseNumber(0);
         assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(),list));
     }
+
+    @Test
+    public void whenCheckingPhase2AndListLengthIsRightAndAllCardsAreOfOneColor_ThenReturnTrue ()
+    {
+        list.add(card1y);
+        list.add(card5y);
+        list.add(card10y);
+        list.add(card7y);
+        list.add(card12y);
+        list.add(card2y);
+        player.setPhaseNumber(2);
+        assertTrue(phaseCheck.getRightPhase(player.getPhaseNumber(),list));
+    }
+
+    @Test
+    public void whenCheckingPhase2AndListLengthIsRightButNotAllCardsAreOfTheSameColor_ThenReturnFalse ()
+    {
+        list.add(card1y);
+        list.add(card5y);
+        list.add(card10y);
+        list.add(card7y);
+        list.add(card12y);
+        list.add(card2g);
+        player.setPhaseNumber(2);
+        assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(),list));
+    }
+
+    @Test
+    public void whenCheckingPhase2AndListLengthIsWrongEvenIfAllCardsAreOfOneColor_ThenReturnFalse ()
+    {
+        list.add(card1y);
+        list.add(card5y);
+        list.add(card10y);
+        list.add(card7y);
+        list.add(card12y);
+        list.add(card2y);
+        list.add(card11y);
+        player.setPhaseNumber(2);
+        assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(),list));
+    }
+    
 
 
 
