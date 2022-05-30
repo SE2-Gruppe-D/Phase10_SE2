@@ -528,7 +528,6 @@ public class Playfield extends AppCompatActivity {
 
 
         //light sensor to accuse of cheating
-        /*
         sm = (SensorManager) getSystemService(SENSOR_SERVICE);
         light = sm.getDefaultSensor(Sensor.TYPE_LIGHT);
         lightListener = new SensorEventListener() {
@@ -547,7 +546,6 @@ public class Playfield extends AppCompatActivity {
         };
         sm.registerListener(lightListener, light, SensorManager.SENSOR_DELAY_NORMAL);
 
-         */
 
 
         //Alert dialog accuse someone of cheating
@@ -880,6 +878,7 @@ public class Playfield extends AppCompatActivity {
                     owner.removeView(v);
                     layoutPlayer1.addView(v);
                     v.setVisibility(View.VISIBLE);
+
                 } else {
                     doubleClickLastTime = System.currentTimeMillis();
                     View v = view;
@@ -897,6 +896,7 @@ public class Playfield extends AppCompatActivity {
                         owner.removeView(v);
                         layoutPlayer1CardField.addView(v);
                         v.setVisibility(View.VISIBLE);
+                       // v.cancelDragAndDrop();
                     }
                 }
             }
