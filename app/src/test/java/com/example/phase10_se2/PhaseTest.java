@@ -3,6 +3,7 @@ package com.example.phase10_se2;
 
 
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.Assert.*;
 
@@ -10,6 +11,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PhaseTest {
+    private Player player;
+    private Cards card8r;
+    private Cards card8g;
+    private Cards card7y;
+    private Cards card7b;
+    private Cards card4r;
+    private Cards card4b;
+    private Cards card2g;
+    private Cards card2y;
+    private List<Cards> list;
+
+    @BeforeEach
+    public void setup ()
+    {
+
+    }
+
+
     /*private Card card1;
     private Card card2;
     private Card card3;
