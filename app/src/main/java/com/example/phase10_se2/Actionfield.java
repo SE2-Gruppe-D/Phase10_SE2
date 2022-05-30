@@ -35,48 +35,40 @@ public class Actionfield extends AppCompatActivity {
         }
     }
 
-    private ArrayList<Cards> getRightHandCards (){ //!!!!Statt ID von Player über Color --> ersetzen!!!!
-        switch (player.getColor()){
-            case RED: return playfield.getPlayerRed().getPlayerHand();
-            case BLUE: return playfield.getPlayerBlue().getPlayerHand();
-            case YELLOW: return playfield.getPlayerYellow().getPlayerHand();
-            case GREEN: return playfield.getPlayerGreen().getPlayerHand();
-            default:return null;
-        }
-    }
+
     //GREY = nimm 2 Karten vom Aufnahme- und/oder Ablagestapel
     private void greyFieldColor(){
-        ArrayList<Cards> rightHandCards;
+        int counter =0;
         do{
             if (defaultcard.isSelected() ) {
                 playfield.addCardsDiscardpile();
+                counter++;
             }else if(deckcard.isSelected())
                 playfield.addCard();
-
-            rightHandCards = getRightHandCards();
+            counter++;
         }
-        while(rightHandCards != null && rightHandCards.size()!=12);
+        while(counter<2);
     }
 
-    //GREEN = wähle 1 zufällige Karte aus dem gesamten Ablagestapel aus
+    //GREEN = ziehe 1 zufällige Karte aus dem gesamten Ablagestapel aus
     private void greenFieldColor() {
         if (defaultcard.isSelected()) {
-            //playfield.addRandomCardsDiscardpile();
+            playfield.addRandomCardsDiscardpile();
         }
     }
 
     //ORANGE = nimm 3 Karten vom Aufnahme- und/oder Ablagestapel
     private void orangeFieldColor(){
-        ArrayList<Cards> rightHandCards;
+        int counter =0;
         do{
             if (defaultcard.isSelected() ) {
                 playfield.addCardsDiscardpile();
+                counter++;
             }else if(deckcard.isSelected())
                 playfield.addCard();
-
-            rightHandCards = getRightHandCards();
+            counter++;
         }
-        while(rightHandCards != null && rightHandCards.size()!=13);
+        while(counter<3);
     }
 
     //BLUE = rücke vor bis zu einem Feld deiner Wahl
@@ -101,16 +93,16 @@ public class Actionfield extends AppCompatActivity {
 
     //PINK = nimm 1 Karte vom Aufnahme- oder Ablagestapel. Mache einen weiteren Zug
     private void pinkFieldColor(){
-        ArrayList<Cards> rightHandCards;
+        int counter =0;
         do{
             if (defaultcard.isSelected() ) {
                 playfield.addCardsDiscardpile();
+                counter++;
             }else if(deckcard.isSelected())
                 playfield.addCard();
-
-            rightHandCards = getRightHandCards();
+            counter++;
         }
-        while(rightHandCards != null && rightHandCards.size()!=11);
+        while(counter<1);
         //vorrücken kommt noch
     }
 

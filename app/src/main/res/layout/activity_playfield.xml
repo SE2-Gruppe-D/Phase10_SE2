@@ -335,8 +335,10 @@
         android:layout_marginBottom="16dp"
         android:text="check"
         android:textSize="10sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/player1PhaseAblegen"
-        app:layout_constraintEnd_toStartOf="@+id/player4" />
+        app:layout_constraintEnd_toStartOf="@+id/player4"
+        tools:visibility="gone" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
