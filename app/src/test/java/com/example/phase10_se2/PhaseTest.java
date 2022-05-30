@@ -12,6 +12,7 @@ import java.util.List;
 
 public class PhaseTest {
     private Player player;
+    private Phase phaseCheck;
     private Cards card8r;
     private Cards card8g;
     private Cards card7y;
@@ -20,13 +21,76 @@ public class PhaseTest {
     private Cards card4b;
     private Cards card2g;
     private Cards card2y;
-    private List<Cards> list;
+    private Cards card10y;
+    private Cards card1y;
+    private Cards card5y;
+    private Cards card12y;
+    private ArrayList<Cards> list;
 
     @BeforeEach
     public void setup ()
     {
-
+        player = new Player("player1", PlayerColor.BLUE, 1);
+        phaseCheck = new Phase();
+        card8r = new Cards("RED", 8,null,8);
+        card8g = new Cards("GREEN", 8,null,32);
+        card7y = new Cards("YELLOW", 7,null,7);
+        card7b = new Cards("BLUE", 7,null,31);
+        card4r = new Cards("RED", 4,null,4);
+        card4b = new Cards("BLUE", 4,null,28);
+        card2g = new Cards("GREEN", 2,null,2);
+        card2y = new Cards("YELLOW", 2,null,26);
+        card10y = new Cards("YELLOW", 10,null,10);
+        card1y = new Cards("YELLOW", 1,null,1);
+        card5y = new Cards("YELLOW", 5,null,5);
+        card12y = new Cards("YELLOW", 12,null,12);
+        list = new ArrayList<>();
     }
+
+    @Test
+    public void whenCheckingPhase1AndListLengthIsRightAndCardsAreRightAndSorted_ThenReturnTrue ()
+    {
+        list.add(card2g);
+        list.add(card2y);
+        list.add(card4b);
+        list.add(card4r);
+        list.add(card7y);
+        list.add(card7b);
+        list.add(card8g);
+        list.add(card8r);
+        assertTrue(phaseCheck.getRightPhase(player.getPhaseNumber(),list));
+    }
+
+    @Test
+    public void whenCheckingPhase1AndListLengthIsRightAndCardsAreRightButUnsorted_ThenReturnTrue ()
+    {
+        list.add(card2g);
+        list.add(card8g);
+        list.add(card8r);
+        list.add(card7y);
+        list.add(card4b);
+        list.add(card4r);
+        list.add(card2y);
+        list.add(card7b);
+        assertTrue(phaseCheck.getRightPhase(player.getPhaseNumber(),list));
+    }
+
+    @Test
+    public void whenCheckingPhase1AndListLengthIsWrong_ThenReturnFalse ()
+    {
+        list.add(card2g);
+        assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(),list));
+    }
+
+    @Test
+    public void whenCheckingPhaseNumberButItsAWrongNumber_ThenReturnFalse ()
+    {
+        list.add(card2g);
+        player.setPhaseNumber(0);
+        assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(),list));
+    }
+
+
 
 
     /*private Card card1;
