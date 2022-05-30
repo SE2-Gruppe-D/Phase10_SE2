@@ -7,7 +7,10 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-
+//ToDo: Reihenfolge - Würfel, Aktion(ziehen,ablegen), Karten auslegen/Karten ablegen, Karte ablegen, Karte auslegen/dazu legen/ablegen
+//Leon move, actionfield einbinden, nocheinmal würfel,
+//jeder Spieler in der Reihe eine Karte
+//blue, purple, pink
 public class Actionfield extends AppCompatActivity {
 
     Player player;
@@ -36,16 +39,17 @@ public class Actionfield extends AppCompatActivity {
     }
 
 
-    //GREY = nimm 2 Karten vom Aufnahme- und/oder Ablagestapel
+    //GREY = nimm 2 Karten vom Zieh- und/oder Ablagestapel
     private void greyFieldColor(){
         int counter =0;
         do{
             if (defaultcard.isSelected() ) {
                 playfield.addCardsDiscardpile();
                 counter++;
-            }else if(deckcard.isSelected())
+            }else if(deckcard.isSelected()) {
                 playfield.addCard();
-            counter++;
+                counter++;
+            }
         }
         while(counter<2);
     }
@@ -57,53 +61,63 @@ public class Actionfield extends AppCompatActivity {
         }
     }
 
-    //ORANGE = nimm 3 Karten vom Aufnahme- und/oder Ablagestapel
+    //ORANGE = nimm 3 Karten vom Zieh- und/oder Ablagestapel
     private void orangeFieldColor(){
         int counter =0;
         do{
             if (defaultcard.isSelected() ) {
                 playfield.addCardsDiscardpile();
                 counter++;
-            }else if(deckcard.isSelected())
+            }else if(deckcard.isSelected()) {
                 playfield.addCard();
-            counter++;
+                counter++;
+            }
         }
         while(counter<3);
     }
 
     //BLUE = rücke vor bis zu einem Feld deiner Wahl
     private void blueFieldColor(){
-      //vorrücken kommt noch
+      //ToDO: Leon -> vorrücken - move 1 Feld mit Button??
     }
 
-    //RED = Lege 2 Karten auf den Ablagestapel und nimm 3 vom Aufnahmestapel
+    //RED = Lege 2 Karten auf den Ablagestapel und nimm 3 vom Ziehstapel
     private void redFieldColor(){
-        //legen kommt nocht
-        if (deckcard.isSelected()) {
-            playfield.addCard();
-        }
-    }
-
-    //PURPLE = alle Spieler nehmen reihum 1 Karte vom Aufnahmestapel
-    private void purpleFieldColor(){
-        if (deckcard.isSelected()) {
-            playfield.addCard();
-        }
-    }
-
-    //PINK = nimm 1 Karte vom Aufnahme- oder Ablagestapel. Mache einen weiteren Zug
-    private void pinkFieldColor(){
-        int counter =0;
+        //ablegen
+        int size = playfield.discardpileList.size()+2;//2
+        int size2;//0
         do{
-            if (defaultcard.isSelected() ) {
-                playfield.addCardsDiscardpile();
-                counter++;
-            }else if(deckcard.isSelected())
-                playfield.addCard();
+            size2 = playfield.discardpileList.size();
+        }while(size2!=size);
+
+        //ziehen
+        int counter = 0;
+        do{
+            if (deckcard.isSelected()) {
+            playfield.addCard();
             counter++;
         }
-        while(counter<1);
-        //vorrücken kommt noch
+        }while(counter<3);
+    }
+
+    //PURPLE = alle Spieler nehmen reihum 1 Karte vom Ziehstapel
+    private void purpleFieldColor(){
+        //Spieleranzahl auslesen, mit counter vergleichen, jeder zieht (aber nicht reihum)
+        if (deckcard.isSelected()) {
+            playfield.addCard();
+            //ToDO reihum
+        }
+    }
+
+    //PINK = nimm 1 Karte vom Aufnahme- oder Ziehstapel. Mache einen weiteren Zug
+    private void pinkFieldColor(){
+        if (defaultcard.isSelected() ) {
+            playfield.addCardsDiscardpile();
+        }else if(deckcard.isSelected()){
+            playfield.addCard();
+        }
+
+        //ToDO: Leon --> nochmal würfeln
     }
 
 
