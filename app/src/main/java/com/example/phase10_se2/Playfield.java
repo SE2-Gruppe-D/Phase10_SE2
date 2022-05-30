@@ -367,7 +367,7 @@ public class Playfield extends AppCompatActivity {
             }
         });
 
-        //tvAktuellePhase.setText(currentPlayer.getPhaseText());
+
 
 
         discardpileList = new ArrayList<>();
