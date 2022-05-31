@@ -7,16 +7,13 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-//ToDo: Reihenfolge - Würfel, Aktion(ziehen,ablegen), Karten auslegen/Karten ablegen, Karte ablegen, Karte auslegen/dazu legen/ablegen
-//Leon move, actionfield einbinden, nocheinmal würfel,
-//jeder Spieler in der Reihe eine Karte
-//blue, purple, pink
+
 public class Actionfield extends AppCompatActivity {
 
-    Player player;
     Playfield playfield;
     ImageView deckcard;
     ImageView defaultcard;
+    DiceFragment diceFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,20 +73,15 @@ public class Actionfield extends AppCompatActivity {
         while(counter<3);
     }
 
-    //BLUE = rücke vor bis zu einem Feld deiner Wahl
+    //BLUE = nimm eine Karte von Ziehstapel
     private void blueFieldColor(){
-      //ToDO: Leon -> vorrücken - move 1 Feld mit Button??
+        if(deckcard.isSelected()){
+            playfield.addCard();
+        }
     }
 
-    //RED = Lege 2 Karten auf den Ablagestapel und nimm 3 vom Ziehstapel
+    //RED =nimm 3 Karten vom Ziehstapel
     private void redFieldColor(){
-        //ablegen
-        int size = playfield.discardpileList.size()+2;//2
-        int size2;//0
-        do{
-            size2 = playfield.discardpileList.size();
-        }while(size2!=size);
-
         //ziehen
         int counter = 0;
         do{
@@ -100,29 +92,21 @@ public class Actionfield extends AppCompatActivity {
         }while(counter<3);
     }
 
-    //PURPLE = alle Spieler nehmen reihum 1 Karte vom Ziehstapel
+    //PURPLE = der Spieler darf keine Karte ziehen
     private void purpleFieldColor(){
-        //Spieleranzahl auslesen, mit counter vergleichen, jeder zieht (aber nicht reihum)
-        if (deckcard.isSelected()) {
-            playfield.addCard();
-            //ToDO reihum
-        }
+        //nothing
     }
 
     //PINK = nimm 1 Karte vom Aufnahme- oder Ziehstapel. Mache einen weiteren Zug
     private void pinkFieldColor(){
         if (defaultcard.isSelected() ) {
             playfield.addCardsDiscardpile();
+            diceFragment.setMoved(false);
         }else if(deckcard.isSelected()){
             playfield.addCard();
+            diceFragment.setMoved(false);
         }
-
-        //ToDO: Leon --> nochmal würfeln
     }
-
-
-
-
 
 
 
