@@ -296,6 +296,7 @@ public class Playfield extends AppCompatActivity {
                                                     if (playerYellow != null) {
                                                         playerYellow = getPlayerFromDB("YELLOW");
                                                     }
+
                                                 }
 
                                             }
@@ -328,7 +329,6 @@ public class Playfield extends AppCompatActivity {
             currentPlayer = playerGreen;
         }
         gameInfoDB();
-
 
         //entfernt die label Leiste (Actionbar) auf dem Playfield
         ActionBar actionBar = getSupportActionBar();
@@ -1533,34 +1533,8 @@ public class Playfield extends AppCompatActivity {
                 });
     }
 
-    public int  getPhasenumberDB() {
-        int[] phasenumberDB = new int[1];
-        //Log.e("Phasenumber1", String.valueOf((phasenumberDB[0])));
-        database.collection("gameInfo")
-                .whereEqualTo("RoomName", currentRoom)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        //Log.e("Phasenumber1.1", "");
-                        if (task.isSuccessful()) {
-                           // Log.e("Phasenumber1.2", "");
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-
-                                ArrayList player = (ArrayList) document.get("CurrentPlayer"); //welchen player du haben möchtest
-                                String number  = (String) player.get(3); //hier liest du die phasennummer aus. ggf in einen integer casten
-                              //  Log.e("Phasenumber2.1", number);
-                                phasenumberDB[0] = Integer.parseInt(number);
-                               // Log.e("Phasenumber2.2", String.valueOf(phasenumberDB[0]));
-                            }
-                        } else {
-                            Log.d("DB phasenumber", "Error getting Data from Firestore: ", task.getException());
-                        }
-                    }
-
-
-                });
-       return phasenumberDB[0];
+    public int getPhasenumberDB() {
+        return currentPlayer.getPhaseNumber();
     }
 
     //get playerArray from DB and save as Player
