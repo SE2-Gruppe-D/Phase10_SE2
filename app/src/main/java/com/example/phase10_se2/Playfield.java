@@ -1338,18 +1338,22 @@ public class Playfield extends AppCompatActivity {
     }
 
     public ArrayList<String> playerToList(Player player) {
-        ArrayList<String> playerList = new ArrayList();
+        ArrayList<String> playerList = new ArrayList<>();
         playerList.add(player.getName());
         playerList.add(player.getColor().toString());
         playerList.add(player.getRoom());
         playerList.add(String.valueOf(player.getPhaseNumber()));
         playerList.add(String.valueOf(player.getMinusPoints()));
-        ArrayList<Integer> playerCardsID = new ArrayList();
+        String playerCardsID = "";
         for (Cards c : player.getPlayerHand()) {
-            playerCardsID.add(c.getID());
+            playerCardsID += (String.valueOf(c.getID()) + " ");
         }
-        playerList.add(playerCardsID.toString());
-        playerList.add(Arrays.toString(player.getCardField().toArray()));
+        playerList.add(playerCardsID);
+        String cardField = "";
+        for (Cards c : player.getCardField()) {
+            cardField += (String.valueOf(c.getID()) + " ");
+        }
+        playerList.add(cardField);
         playerList.add(String.valueOf(player.abgelegt));
         playerList.add(String.valueOf(player.getCurrentPosition()));
 
@@ -1578,7 +1582,7 @@ public class Playfield extends AppCompatActivity {
 
     private ArrayList<ArrayList<Cards>> is(ArrayList[] playerList) {
         //player hand cards
-        ArrayList<String> cardIds = new ArrayList<>(Arrays.asList(playerList[0].get(5).toString().substring(1, playerList[0].get(5).toString().length()-1).split(", ")));
+        ArrayList<String> cardIds = new ArrayList<>(Arrays.asList(playerList[0].get(5).toString().trim().split(" ")));
         ArrayList<Cards> cards = new ArrayList<Cards>();
 
         for (String id : cardIds) {
@@ -1587,7 +1591,7 @@ public class Playfield extends AppCompatActivity {
             }
         }
         //card field cards
-        ArrayList<String> cardIdsDepo = new ArrayList<>(Arrays.asList(playerList[0].get(6).toString().substring(1, playerList[0].get(6).toString().length()-1).split(", ")));
+        ArrayList<String> cardIdsDepo = new ArrayList<>(Arrays.asList(playerList[0].get(6).toString().trim().split(" ")));
         ArrayList<Cards> cardsDepo = new ArrayList<Cards>();
         for (String id : cardIdsDepo) {
             if (id.length()!=0) {
