@@ -15,7 +15,7 @@ public class Timer {
     public Timer(TextView textView, CountDownTimer timerturn, long leftTime, Playfield playfield) {
         this.textView = textView;
         this.timerturn = timerturn;
-        this.leftTime = 20000;
+        this.leftTime = leftTime;
         this.playfield = playfield;
     }
 
