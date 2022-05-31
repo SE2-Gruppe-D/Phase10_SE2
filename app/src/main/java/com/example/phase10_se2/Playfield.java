@@ -328,7 +328,6 @@ public class Playfield extends AppCompatActivity {
         if (playerGreen != null && playerList.get(0).equals("GREEN")) {
             currentPlayer = playerGreen;
         }
-        gameInfoDB();
 
         //entfernt die label Leiste (Actionbar) auf dem Playfield
         ActionBar actionBar = getSupportActionBar();
@@ -455,9 +454,6 @@ public class Playfield extends AppCompatActivity {
         for (int i = 0; i < 96; i++) {
             cardlist.get(i).setCardUI(createCardUI(cardlist.get(i)));
         }
-        if (currentPlayer.getColor().equals(primaryPlayer.getColor())) {
-            updateCardlistDB();
-        }
 
 
         //Karten werden gemischt
@@ -468,9 +464,7 @@ public class Playfield extends AppCompatActivity {
 
         //Handkarten werden ausgeteilt
         handCards.HandCardsPlayer(layoutPlayer1, layoutPlayer2, layoutPlayer3, layoutPlayer4, cardlist, playerBlue, playerGreen, playerYellow, playerRed, primaryPlayer);
-        if (currentPlayer.getColor().equals(primaryPlayer.getColor())) {
-            updatePlayers();
-        }
+
         if (playerBlue != null) {
             for (Cards card : playerBlue.getPlayerHand()) {
                 card.getCardUI().setOnClickListener(listener);
@@ -514,6 +508,9 @@ public class Playfield extends AppCompatActivity {
         defaultcard.setImageDrawable(createCardUI(discardpileList.get(0)).getDrawable());
         defaultcard.setOnDragListener(new ChoiceDragListener1());
 
+        if (currentPlayer.getColor().equals(primaryPlayer.getColor())) {
+            gameInfoDB();
+        }
 
         defaultcard.setOnClickListener(view -> {
             addCardsDiscardpile();
@@ -1291,50 +1288,63 @@ public class Playfield extends AppCompatActivity {
             gameInfo.put("PlayerGreen", playerToList(playerGreen));
         }
         if (startOrder != null) {
-            gameInfo.put("StartOrder", startOrder);
+            gameInfo.put("StartOrder", playerList);
         }
         ArrayList<Integer> cards = new ArrayList<>();
         for (int i = 1; i <= 96; i++) {
             cards.add(i);
         }
+
+        ArrayList<Integer> newCardList = new ArrayList<>();
+        for (Cards card : cardlist) {
+            newCardList.add(card.getID());
+        }
+        //discard pile
+        ArrayList<Integer> newDiscardPile = new ArrayList<>();
+        for (Cards card : discardpileList) {
+            newDiscardPile.add(card.getID());
+        }
+
         gameInfo.put("DiceRoll", currentDiceRoll);
         gameInfo.put("Cheated", cheated);
-        gameInfo.put("Cardlist", cards);
-        gameInfo.put("DiscardpileList", new ArrayList<Integer>());
+        gameInfo.put("Cardlist", newCardList);
+        gameInfo.put("DiscardpileList", newDiscardPile);
 
 
         Log.i("gameInfo------------------------------------------------------------", gameInfo.toString());
-        database.collection("gameInfo").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if (Objects.equals(document.get("RoomName"), currentRoom)) {
-                            newDBCollectionNeeded = false;
-                            break;
-                        } else {
-                            newDBCollectionNeeded = true;
+        database.collection("gameInfo")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (Objects.equals(document.get("RoomName"), currentRoom)) {
+                                newDBCollectionNeeded = false;
+                                break;
+                            } else {
+                                newDBCollectionNeeded = true;
+                            }
+                        }
+
+                        if (newDBCollectionNeeded) {
+                            database.collection("gameInfo")
+                                    .add(gameInfo)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            Log.i("GameInfo -----------------------------", "success");
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.e("EXCEPTION---------------------------------------------------------", e.getMessage());
+                                        }
+                                    });
                         }
                     }
-
-                    if (newDBCollectionNeeded) {
-                        database.collection("gameInfo")
-                                .add(gameInfo)
-                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                    @Override
-                                    public void onSuccess(DocumentReference documentReference) {
-                                        Log.i("GameInfo -----------------------------", "success");
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.e("EXCEPTION---------------------------------------------------------", e.getMessage());
-                                    }
-                                });
-                    }
                 }
-            }
-        });
+            });
     }
 
     public ArrayList<String> playerToList(Player player) {
@@ -1508,7 +1518,6 @@ public class Playfield extends AppCompatActivity {
 
     //update players
     public void updatePlayers() {
-
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
                 .get()
