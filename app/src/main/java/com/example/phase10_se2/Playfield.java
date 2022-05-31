@@ -422,7 +422,7 @@ public class Playfield extends AppCompatActivity {
 
                  */
 
-                if(phase.getRightPhase(1, cardfieldCardlist)){
+                if(phase.getRightPhase(getPhasenumberDB(), cardfieldCardlist)){
                     Log.e("Phase right ", "right");
                     btnCheckPhase.setVisibility(View.INVISIBLE);
             } else {

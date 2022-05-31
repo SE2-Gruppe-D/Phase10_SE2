@@ -7,10 +7,7 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-//ToDo: Reihenfolge - Würfel, Aktion(ziehen,ablegen), Karten auslegen/Karten ablegen, Karte ablegen, Karte auslegen/dazu legen/ablegen
-//Leon move, actionfield einbinden, nocheinmal würfel,
-//jeder Spieler in der Reihe eine Karte
-//blue, purple, pink
+
 public class Actionfield extends AppCompatActivity {
 
     Playfield playfield;
@@ -95,29 +92,21 @@ public class Actionfield extends AppCompatActivity {
         }while(counter<3);
     }
 
-    //PURPLE = alle Spieler nehmen reihum 1 Karte vom Ziehstapel
+    //PURPLE = der Spieler darf keine Karte ziehen
     private void purpleFieldColor(){
-        //Spieleranzahl auslesen, mit counter vergleichen, jeder zieht (aber nicht reihum)
-        if (deckcard.isSelected()) {
-            playfield.addCard();
-            //ToDO reihum
-        }
+        //nothing
     }
 
     //PINK = nimm 1 Karte vom Aufnahme- oder Ziehstapel. Mache einen weiteren Zug
     private void pinkFieldColor(){
         if (defaultcard.isSelected() ) {
             playfield.addCardsDiscardpile();
+            diceFragment.setMoved(false);
         }else if(deckcard.isSelected()){
             playfield.addCard();
+            diceFragment.setMoved(false);
         }
-
-
     }
-
-
-
-
 
 
 
