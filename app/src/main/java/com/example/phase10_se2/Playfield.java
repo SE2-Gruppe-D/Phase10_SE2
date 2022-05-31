@@ -213,7 +213,11 @@ public class Playfield extends AppCompatActivity {
                                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                                     //current player
                                                     ArrayList currentPlayerArray = (ArrayList) document.get("CurrentPlayer");
-                                                    if (!currentPlayer.getColorAsString().equals(currentPlayerArray.get(1))) {
+                                                    if (currentPlayer != null) {
+                                                        System.out.println("SHIT " + currentPlayer);
+                                                        System.out.println("SHIT " + currentPlayerArray);
+                                                    }
+                                                    if (currentPlayer != null && !currentPlayer.getColorAsString().equals(currentPlayerArray.get(1))) {
                                                         if (currentPlayerArray.get(1).equals("RED")) {
                                                             currentPlayer = playerRed;
                                                         }
@@ -226,6 +230,7 @@ public class Playfield extends AppCompatActivity {
                                                         if (currentPlayerArray.get(1).equals("GREEN")) {
                                                             currentPlayer = playerGreen;
                                                         }
+                                                        classTimer.restart();
                                                     }
 
                                                     //count active players
@@ -302,16 +307,16 @@ public class Playfield extends AppCompatActivity {
                                                 for (QueryDocumentSnapshot document : task.getResult()) {
 
                                                     if (playerGreen != null) {
-                                                        playerGreen = getPlayerFromDB("GREEN");
+                                                        getPlayerFromDB("GREEN");
                                                     }
                                                     if (playerRed != null) {
-                                                        playerRed = getPlayerFromDB("RED");
+                                                        getPlayerFromDB("RED");
                                                     }
                                                     if (playerBlue != null) {
-                                                        playerBlue = getPlayerFromDB("BLUE");
+                                                        getPlayerFromDB("BLUE");
                                                     }
                                                     if (playerYellow != null) {
-                                                        playerYellow = getPlayerFromDB("YELLOW");
+                                                        getPlayerFromDB("YELLOW");
                                                     }
                                                 }
 
@@ -539,7 +544,7 @@ public class Playfield extends AppCompatActivity {
 
         //Timer
         TextView timer = findViewById(R.id.Timer);
-        classTimer = new Timer(timer, timerturn, leftTime);
+        classTimer = new Timer(timer, timerturn, leftTime, this);
         classTimer.startTimer();
         //classTimer.updateCountDownText();
 
@@ -653,7 +658,17 @@ public class Playfield extends AppCompatActivity {
     }
 
     public void setNextCurrentPlayer(){
-        setCurrentPlayerInDB(getPlayerFromColor(playerList.get((playerList.indexOf(currentPlayer.getColorAsString())+1)%playerList.size())));
+        String color = playerList.get((playerList.indexOf(currentPlayer.getColorAsString())+1)%playerList.size());
+        Player player = getPlayerFromColor(color);
+
+        System.out.println("POOP - " + playerList + " --- " + color  + " --- " + player);
+
+        System.out.println("POOP green " + playerGreen);
+        System.out.println("POOP yellow " + playerYellow);
+        System.out.println("POOP blue " + playerBlue);
+        System.out.println("POOP red " + playerRed);
+
+        setCurrentPlayerInDB(player);
     }
 
     public Player getPlayerFromColor(String color) {
@@ -765,6 +780,12 @@ public class Playfield extends AppCompatActivity {
             playerGreen.getPlayerview().setVisibility(View.VISIBLE);
         }
 
+        System.out.println("POOP s " + documentSnapshot.getString("Color"));
+
+        System.out.println("POOP green " + playerGreen);
+        System.out.println("POOP yellow " + playerYellow);
+        System.out.println("POOP blue " + playerBlue);
+        System.out.println("POOP red " + playerRed);
     }
 
 
@@ -1602,9 +1623,8 @@ public class Playfield extends AppCompatActivity {
     }
 
     //get playerArray from DB and save as Player
-    public Player getPlayerFromDB(String color) {
+    public void getPlayerFromDB(String color) {
         final ArrayList[] playerList = new ArrayList[1];
-        final Player[] player = new Player[1];
 
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
@@ -1617,26 +1637,24 @@ public class Playfield extends AppCompatActivity {
                                 if (Objects.equals(color, "BLUE")) {
                                     playerList[0] = (ArrayList) document.get("PlayerBlue");
                                     ArrayList<ArrayList<Cards>> lol = is(playerList);
-                                    player[0] = new Player(playerList[0].get(0).toString(), PlayerColor.BLUE, playerList[0].get(2).toString(), Integer.parseInt(playerList[0].get(3).toString()), Integer.parseInt(playerList[0].get(4).toString()), lol.get(0), lol.get(1));
+                                    playerBlue = new Player(playerList[0].get(0).toString(), PlayerColor.BLUE, playerList[0].get(2).toString(), Integer.parseInt(playerList[0].get(3).toString()), Integer.parseInt(playerList[0].get(4).toString()), lol.get(0), lol.get(1));
                                 } else if (Objects.equals(color, "RED")) {
                                     playerList[0] = (ArrayList) document.get("PlayerRed");
                                     ArrayList<ArrayList<Cards>> lol = is(playerList);
-                                    player[0] = new Player(playerList[0].get(0).toString(), PlayerColor.RED, playerList[0].get(2).toString(), Integer.parseInt(playerList[0].get(3).toString()), Integer.parseInt(playerList[0].get(4).toString()), lol.get(0), lol.get(1));
+                                    playerRed = new Player(playerList[0].get(0).toString(), PlayerColor.RED, playerList[0].get(2).toString(), Integer.parseInt(playerList[0].get(3).toString()), Integer.parseInt(playerList[0].get(4).toString()), lol.get(0), lol.get(1));
                                 } else if (Objects.equals(color, "YELLOW")) {
                                     playerList[0] = (ArrayList) document.get("PlayerYellow");
                                     ArrayList<ArrayList<Cards>> lol = is(playerList);
-                                    player[0] = new Player(playerList[0].get(0).toString(), PlayerColor.YELLOW, playerList[0].get(2).toString(), Integer.parseInt(playerList[0].get(3).toString()), Integer.parseInt(playerList[0].get(4).toString()), lol.get(0), lol.get(1));
+                                    playerYellow = new Player(playerList[0].get(0).toString(), PlayerColor.YELLOW, playerList[0].get(2).toString(), Integer.parseInt(playerList[0].get(3).toString()), Integer.parseInt(playerList[0].get(4).toString()), lol.get(0), lol.get(1));
                                 } else if (Objects.equals(color, "GREEN")) {
                                     playerList[0] = (ArrayList) document.get("PlayerGreen");
                                     ArrayList<ArrayList<Cards>> lol = is(playerList);
-                                    player[0] = new Player(playerList[0].get(0).toString(), PlayerColor.GREEN, playerList[0].get(2).toString(), Integer.parseInt(playerList[0].get(3).toString()), Integer.parseInt(playerList[0].get(4).toString()), lol.get(0), lol.get(1));
+                                    playerGreen = new Player(playerList[0].get(0).toString(), PlayerColor.GREEN, playerList[0].get(2).toString(), Integer.parseInt(playerList[0].get(3).toString()), Integer.parseInt(playerList[0].get(4).toString()), lol.get(0), lol.get(1));
                                 }
-
                             }
                         }
                     }
                 });
-        return player[0];
     }
 
 

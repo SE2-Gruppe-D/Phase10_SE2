@@ -12,10 +12,11 @@ public class Timer {
     private long leftTime= startTimer;
     Playfield playfield;
 
-    public Timer(TextView textView, CountDownTimer timerturn, long leftTime) {
+    public Timer(TextView textView, CountDownTimer timerturn, long leftTime, Playfield playfield) {
         this.textView = textView;
         this.timerturn = timerturn;
-        this.leftTime = leftTime;
+        this.leftTime = 20000;
+        this.playfield = playfield;
     }
 
     final void startTimer(){
@@ -32,6 +33,11 @@ public class Timer {
                 playfield.setNextCurrentPlayer();
             }
         }.start();
+    }
+
+    void restart() {
+        timerturn.cancel();
+        timerturn.start();
     }
 
     void updateCountDownText(){
