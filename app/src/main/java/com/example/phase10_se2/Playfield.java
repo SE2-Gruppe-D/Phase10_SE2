@@ -76,9 +76,9 @@ public class Playfield extends AppCompatActivity {
     ArrayList<Cards> cardlist;
     ArrayList<Cards> discardpileList;//Ablagestapel
     ArrayList<Cards> cardfieldCardlist;
-    ArrayList<Cards> cardfieldCardlistPlayer2;
-    ArrayList<Cards> cardfieldCardlistPlayer3;
-    ArrayList<Cards> cardfieldCardlistPlayer4;
+    ArrayList<Cards> cardfieldCardlistPlayer2 = new ArrayList<>();
+    ArrayList<Cards> cardfieldCardlistPlayer3 = new ArrayList<>();
+    ArrayList<Cards> cardfieldCardlistPlayer4 = new ArrayList<>();
 
     ArrayList<ImageView> Imagelist;
     TextView leererAblagestapel;
@@ -426,7 +426,7 @@ public class Playfield extends AppCompatActivity {
                     btnCheckPhase.setVisibility(View.INVISIBLE);
             } else {
 
-                    playerHandPrimaryPlayer = getPrimaryHandcards();
+                    playerHandPrimaryPlayer = getHandCardsDB();
                     while (layoutPlayer1CardField.getChildCount() != 0) { //TODO: richtiges Layout?
                             View v = layoutPlayer1CardField.getChildAt(0);
                             ViewGroup owner = (ViewGroup) v.getParent();
@@ -865,7 +865,7 @@ public class Playfield extends AppCompatActivity {
                     View v = view;
                     ViewGroup owner = (ViewGroup) v.getParent();
                     //Handkarte zurück nehmen
-                    playerHandPrimaryPlayer = getPrimaryHandcards();
+                    playerHandPrimaryPlayer = getHandCardsDB();
                     for (int i = 0; i < cardfieldCardlist.size(); i++) {
                         if (v.equals(cardfieldCardlist.get(i).getCardUI())) {
                             playerHandPrimaryPlayer.add(cardfieldCardlist.get(i));
@@ -881,7 +881,7 @@ public class Playfield extends AppCompatActivity {
                     View v = view;
                     ViewGroup owner = (ViewGroup) v.getParent();
                     //Array mit den ausgelegten Karten befüllen
-                    playerHandPrimaryPlayer = getPrimaryHandcards();
+                    playerHandPrimaryPlayer = getHandCardsDB();
                     if (playerHandPrimaryPlayer.size() != 0) {
                         for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                             if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
@@ -952,7 +952,7 @@ public class Playfield extends AppCompatActivity {
                         ViewGroup owner = (ViewGroup) v.getParent();
                         //Karte zum Ablegestapel hinzufügen
                         //ToDO: DB Anpassen
-                        playerHandPrimaryPlayer = getPrimaryHandcards();
+                        playerHandPrimaryPlayer = getHandCardsDB();
                         if (playerHandPrimaryPlayer.size() != 0) {
                             for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                                 if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
@@ -1007,7 +1007,7 @@ public class Playfield extends AppCompatActivity {
                         // player.getCardField();
                         //player.getLinearLayout();
 
-                        playerHandPrimaryPlayer = getPrimaryHandcards();
+                        playerHandPrimaryPlayer = getHandCardsDB();
                         if (playerHandPrimaryPlayer.size() != 0) {
                             for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                                 if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
@@ -1055,7 +1055,7 @@ public class Playfield extends AppCompatActivity {
                         // Log.e("Feld Spieler 3", dragEvent.toString());
                         View v = (View) dragEvent.getLocalState();
                         ViewGroup owner = (ViewGroup) v.getParent();
-                        playerHandPrimaryPlayer = getPrimaryHandcards();
+                        playerHandPrimaryPlayer = getHandCardsDB();
                         if (playerHandPrimaryPlayer.size() != 0) {
                             for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                                 if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
@@ -1104,7 +1104,7 @@ public class Playfield extends AppCompatActivity {
                         // Log.e("Feld Spieler 4", dragEvent.toString());
                         View v = (View) dragEvent.getLocalState();
                         ViewGroup owner = (ViewGroup) v.getParent();
-                        playerHandPrimaryPlayer = getPrimaryHandcards();
+                        playerHandPrimaryPlayer = getHandCardsDB();
                         if (playerHandPrimaryPlayer.size() != 0) {
                             for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                                 if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
@@ -1549,6 +1549,8 @@ public class Playfield extends AppCompatActivity {
     public int getPhasenumberDB() {
         return currentPlayer.getPhaseNumber();
     }
+
+    public ArrayList<Cards> getHandCardsDB(){ return currentPlayer.getPlayerHand();}
 
     //get playerArray from DB and save as Player
     public Player getPlayerFromDB(String color) {
