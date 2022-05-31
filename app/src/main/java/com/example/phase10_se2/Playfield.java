@@ -543,8 +543,6 @@ public class Playfield extends AppCompatActivity {
         TextView timer = findViewById(R.id.Timer);
         classTimer = new Timer(timer, timerturn, leftTime, this);
         classTimer.startTimer();
-        //classTimer.updateCountDownText();
-
 
         //light sensor to accuse of cheating
         sm = (SensorManager) getSystemService(SENSOR_SERVICE);
