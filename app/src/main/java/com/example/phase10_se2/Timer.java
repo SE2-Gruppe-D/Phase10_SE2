@@ -10,6 +10,7 @@ public class Timer {
     private final TextView textView;
     private CountDownTimer timerturn;
     private long leftTime= startTimer;
+    Playfield playfield;
 
     public Timer(TextView textView, CountDownTimer timerturn, long leftTime) {
         this.textView = textView;
@@ -28,7 +29,7 @@ public class Timer {
 
             @Override
             public void onFinish() {
-                this.start();
+                playfield.setNextCurrentPlayer();
             }
         }.start();
     }

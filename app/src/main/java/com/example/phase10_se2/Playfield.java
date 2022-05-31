@@ -211,6 +211,23 @@ public class Playfield extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
                                                 for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    //current player
+                                                    ArrayList currentPlayerArray = (ArrayList) document.get("CurrentPlayer");
+                                                    if (!currentPlayer.getColorAsString().equals(currentPlayerArray.get(1))) {
+                                                        if (currentPlayerArray.get(1).equals("RED")) {
+                                                            currentPlayer = playerRed;
+                                                        }
+                                                        if (currentPlayerArray.get(1).equals("BLUE")) {
+                                                            currentPlayer = playerBlue;
+                                                        }
+                                                        if (currentPlayerArray.get(1).equals("YELLOW")) {
+                                                            currentPlayer = playerYellow;
+                                                        }
+                                                        if (currentPlayerArray.get(1).equals("GREEN")) {
+                                                            currentPlayer = playerGreen;
+                                                        }
+                                                    }
+
                                                     //count active players
                                                     ArrayList playerRedArr = (ArrayList) document.get("PlayerRed");
                                                     ArrayList playerYellowArr = (ArrayList) document.get("PlayerYellow");
@@ -524,7 +541,7 @@ public class Playfield extends AppCompatActivity {
         TextView timer = findViewById(R.id.Timer);
         classTimer = new Timer(timer, timerturn, leftTime);
         classTimer.startTimer();
-        classTimer.updateCountDownText();
+        //classTimer.updateCountDownText();
 
 
         //light sensor to accuse of cheating
@@ -633,6 +650,27 @@ public class Playfield extends AppCompatActivity {
         //Spiel verlassen
         exitGame = findViewById(R.id.leaveGame);
         exitGame.setOnClickListener(view -> leaveGame());
+    }
+
+    public void setNextCurrentPlayer(){
+        setCurrentPlayerInDB(getPlayerFromColor(playerList.get((playerList.indexOf(currentPlayer.getColorAsString())+1)%playerList.size())));
+    }
+
+    public Player getPlayerFromColor(String color) {
+        if (color.equals("GREEN")) {
+            return playerGreen;
+        }
+        if (color.equals("RED")) {
+            return playerRed;
+        }
+        if (color.equals("BLUE")) {
+            return playerBlue;
+        }
+        if (color.equals("YELLOW")) {
+            return playerYellow;
+        }
+
+        return null;
     }
 
     public void leaveGame() {
@@ -1628,5 +1666,22 @@ public class Playfield extends AppCompatActivity {
         return lol;
     }
 
+    private void setCurrentPlayerInDB(Player currentplayer) {
+        database.collection("gameInfo").whereEqualTo("RoomName", currentRoom)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                //give consequences
+                                    //if accused right:
+                                    ArrayList player = playerToList(currentplayer);
+                                    document.getReference().update("CurrentPlayer", player);
+                            }
+                        }
+                    }
+                });
+    }
 }
 
