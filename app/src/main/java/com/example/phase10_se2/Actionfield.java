@@ -13,10 +13,10 @@ import java.util.ArrayList;
 //blue, purple, pink
 public class Actionfield extends AppCompatActivity {
 
-    Player player;
     Playfield playfield;
     ImageView deckcard;
     ImageView defaultcard;
+    DiceFragment diceFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,20 +76,15 @@ public class Actionfield extends AppCompatActivity {
         while(counter<3);
     }
 
-    //BLUE = rücke vor bis zu einem Feld deiner Wahl
+    //BLUE = nimm eine Karte von Ziehstapel
     private void blueFieldColor(){
-      //ToDO: Leon -> vorrücken - move 1 Feld mit Button??
+        if(deckcard.isSelected()){
+            playfield.addCard();
+        }
     }
 
-    //RED = Lege 2 Karten auf den Ablagestapel und nimm 3 vom Ziehstapel
+    //RED =nimm 3 Karten vom Ziehstapel
     private void redFieldColor(){
-        //ablegen
-        int size = playfield.discardpileList.size()+2;//2
-        int size2;//0
-        do{
-            size2 = playfield.discardpileList.size();
-        }while(size2!=size);
-
         //ziehen
         int counter = 0;
         do{
@@ -117,7 +112,7 @@ public class Actionfield extends AppCompatActivity {
             playfield.addCard();
         }
 
-        //ToDO: Leon --> nochmal würfeln
+
     }
 
 
