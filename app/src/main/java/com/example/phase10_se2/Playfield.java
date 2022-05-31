@@ -1291,7 +1291,7 @@ public class Playfield extends AppCompatActivity {
             gameInfo.put("PlayerGreen", playerToList(playerGreen));
         }
         if (startOrder != null) {
-            gameInfo.put("StartOrder", startOrder);
+            gameInfo.put("StartOrder", playerList);
         }
         ArrayList<Integer> cards = new ArrayList<>();
         for (int i = 1; i <= 96; i++) {
