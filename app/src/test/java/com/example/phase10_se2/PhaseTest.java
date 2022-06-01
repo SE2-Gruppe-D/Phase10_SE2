@@ -2,7 +2,7 @@ package com.example.phase10_se2;
 
 
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.Assert.*;
