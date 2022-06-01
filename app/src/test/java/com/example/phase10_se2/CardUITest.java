@@ -5,10 +5,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import android.widget.ImageView;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 
 public class CardUITest {
     CardUIManager cardUIManager;
@@ -20,7 +17,7 @@ public class CardUITest {
 
     ImageView imageView1;
 
-    @Before
+    @BeforeEach
     public void init(){
         cardUIManager=new CardUIManager();
         cards1= new Cards("blue", 1, null, 1);
@@ -32,7 +29,7 @@ public class CardUITest {
         imageView1= mock(ImageView.class);
     }
 
-    @After
+    @AfterEach
     public void tearDown(){
         cardUIManager=null;
     }
