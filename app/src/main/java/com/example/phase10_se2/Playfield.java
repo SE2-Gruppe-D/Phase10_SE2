@@ -859,6 +859,7 @@ public class Playfield extends AppCompatActivity {
     //Karte ziehen
     protected void addCard() {
         //only currentPlayer kann ziehen
+        cardlist.get(0).getCardUI().setVisibility(View.VISIBLE);
         if (playerYellow != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerYellow.getColor().equals(primaryPlayer.getColor())) {
             handCards.updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0, cardlist);
             cardlist.get(0).getCardUI().setOnClickListener(listener);
