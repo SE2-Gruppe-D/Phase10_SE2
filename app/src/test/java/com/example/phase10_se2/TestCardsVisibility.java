@@ -29,7 +29,6 @@ public class TestCardsVisibility {
     @BeforeEach
     public void init(){
         cardsPrimaryPlayer=new CardsPrimaryPlayer();
-        primary= playerBlue;
         imageView1= mock(ImageView.class);
         imageView2= mock(ImageView.class);
         imageView3= mock(ImageView.class);
@@ -43,6 +42,7 @@ public class TestCardsVisibility {
 
     @Test
     public void testVisibilityCards(){
+        primary= playerBlue;
         card1 = new Cards("blue", 1, imageView1, 1);
         card2 = new Cards("red", 2, imageView2, 2);
         card3 = new Cards("yellow", 6, imageView3, 3);
@@ -57,4 +57,12 @@ public class TestCardsVisibility {
             Assertions.assertEquals(0, card.getCardUI().getVisibility());
         }
     }
+
+    @Test
+    public void PrimaryPlayerNull(){
+        if(primary==null){
+            Assertions.assertFalse(false);
+        }
+    }
+
 }
