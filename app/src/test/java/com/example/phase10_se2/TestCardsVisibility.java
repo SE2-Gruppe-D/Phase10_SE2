@@ -52,10 +52,13 @@ public class TestCardsVisibility {
         cardList.add(card2);
         cardList.add(card3);
         cardList.add(card4);
-        cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(primary);
-        for (Cards card : cardList) {
-            Assertions.assertEquals(0, card.getCardUI().getVisibility());
-        }
+
+       if(primary!=null){
+           cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(primary);
+           for (Cards card : cardList) {
+               Assertions.assertEquals(0, card.getCardUI().getVisibility());
+           }
+       }
     }
 
     @Test
