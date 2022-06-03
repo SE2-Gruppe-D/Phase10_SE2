@@ -213,10 +213,6 @@ public class Playfield extends AppCompatActivity {
                                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                                     //current player
                                                     ArrayList currentPlayerArray = (ArrayList) document.get("CurrentPlayer");
-                                                    if (currentPlayer != null) {
-                                                        System.out.println("SHIT " + currentPlayer);
-                                                        System.out.println("SHIT " + currentPlayerArray);
-                                                    }
                                                     if (currentPlayer != null && !currentPlayer.getColorAsString().equals(currentPlayerArray.get(1))) {
                                                         if (currentPlayerArray.get(1).equals("RED")) {
                                                             currentPlayer = playerRed;
@@ -656,13 +652,6 @@ public class Playfield extends AppCompatActivity {
         String color = playerList.get((playerList.indexOf(currentPlayer.getColorAsString())+1)%playerList.size());
         Player player = getPlayerFromColor(color);
 
-        System.out.println("POOP - " + playerList + " --- " + color  + " --- " + player);
-
-        System.out.println("POOP green " + playerGreen);
-        System.out.println("POOP yellow " + playerYellow);
-        System.out.println("POOP blue " + playerBlue);
-        System.out.println("POOP red " + playerRed);
-
         setCurrentPlayerInDB(player);
     }
 
@@ -774,13 +763,6 @@ public class Playfield extends AppCompatActivity {
             playerGreen.setPlayerview(findViewById(R.id.ivPG));
             playerGreen.getPlayerview().setVisibility(View.VISIBLE);
         }
-
-        System.out.println("POOP s " + documentSnapshot.getString("Color"));
-
-        System.out.println("POOP green " + playerGreen);
-        System.out.println("POOP yellow " + playerYellow);
-        System.out.println("POOP blue " + playerBlue);
-        System.out.println("POOP red " + playerRed);
     }
 
 
@@ -1010,6 +992,7 @@ public class Playfield extends AppCompatActivity {
                         ViewGroup owner = (ViewGroup) v.getParent();
                         //Karte zum Ablegestapel hinzufügen
                         //ToDO: DB Anpassen
+                        setNextCurrentPlayer();
                         playerHandPrimaryPlayer = getHandCardsDB();
                         if (playerHandPrimaryPlayer.size() != 0) {
                             for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
