@@ -112,26 +112,6 @@ public class Playfield extends AppCompatActivity {
     ArrayList<Cards> playerHandGreen;
     ArrayList<Cards> playerHandPrimaryPlayer;
 
-    public ArrayList<Cards> getPlayer1HandBlue() {
-        return playerHandBlue;
-    }
-
-    public ArrayList<Cards> getPlayerHandRed() {
-        return playerHandRed;
-    }
-
-    public ArrayList<Cards> getPlayerHandYellow() {
-        return playerHandYellow;
-    }
-
-    public ArrayList<Cards> getPlayerHandGreen() {
-        return playerHandGreen;
-    }
-
-    public Player getPrimaryPlayer() {
-        return primaryPlayer;
-    }
-
     Player player;
 
     //Round and phase
@@ -876,23 +856,6 @@ public class Playfield extends AppCompatActivity {
         return imageView;
     }
 
-
-
-    public ArrayList<Cards> getPrimaryHandcards() {
-        ArrayList<Cards> handcards;
-        if (playerYellow != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerYellow.getColor().equals(primaryPlayer.getColor())) {
-            return handcards = playerYellow.getPlayerHand();
-        } else if (playerBlue != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerBlue.getColor().equals(primaryPlayer.getColor())) {
-            return handcards = playerBlue.getPlayerHand();
-        } else if (playerRed != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerRed.getColor().equals(primaryPlayer.getColor())) {
-            return handcards = playerRed.getPlayerHand();
-        } else if (playerGreen != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerGreen.getColor().equals(primaryPlayer.getColor())) {
-            return handcards = playerGreen.getPlayerHand();
-        } else {
-            return null;
-        }
-    }
-
     //Karten auslegen - 1x Click Karte wird ausgelegt, 2x Click Karte zurück auf die Hand
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
@@ -992,7 +955,6 @@ public class Playfield extends AppCompatActivity {
                         ViewGroup owner = (ViewGroup) v.getParent();
                         //Karte zum Ablegestapel hinzufügen
                         //ToDO: DB Anpassen
-                        setNextCurrentPlayer();
                         playerHandPrimaryPlayer = getHandCardsDB();
                         if (playerHandPrimaryPlayer.size() != 0) {
                             for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
@@ -1000,6 +962,7 @@ public class Playfield extends AppCompatActivity {
                                     discardpileList.add(playerHandPrimaryPlayer.get(i));
                                     defaultcard.setImageDrawable(createCardUI(playerHandPrimaryPlayer.get(i)).getDrawable());
                                     playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                                    break; //break, because you can only drag one card
                                 }
                             }
                             owner.removeView(v);
@@ -1177,40 +1140,6 @@ public class Playfield extends AppCompatActivity {
         primaryPlayer.setPhaseText();
         tvAktuellePhase.setText(primaryPlayer.getPhaseText());
 
-    }
-
-
-    private boolean checkblue(FieldColor fieldColor) {
-        if (fieldColor.equals(FieldColor.BLUE)) {
-
-            //Code..
-        }
-        return true;
-    }
-
-    public void throwingDice(Player player) {
-        int diceValue = 1;
-
-//        while (diceFragment.getAcceleration() < 1) { //maybe replace with threshold
-//            sleep(10);
-//        }
-//
-//
-//        while (diceFragment.getAcceleration() > 1) { //maybe replace with threshold
-//            diceValue = diceFragment.getLastDiceValue();
-//            sleep(100);
-//
-//            int timeSpent = 0;
-//            int sleepDurationInMs = 10;
-//            while (diceFragment.getAcceleration() < 1 && timeSpent < 3000) { //maybe replace with threshold
-//                sleep(sleepDurationInMs);
-//                timeSpent += sleepDurationInMs;
-//            }
-//        }
-
-        //TODO: CANT MOVE BECAUSE PLAYERVIEW == NULL?!
-        //TODO: FIX PLAYERVIEW
-        playerBlue.move(diceValue);
     }
 
     public void decideStartingPlayer() { //TODO: problem: player != primary player wont get put into map
@@ -1591,7 +1520,8 @@ public class Playfield extends AppCompatActivity {
         return currentPlayer.getPhaseNumber();
     }
 
-    public ArrayList<Cards> getHandCardsDB(){ return currentPlayer.getPlayerHand();}
+    public ArrayList<Cards> getHandCardsDB(){
+        return currentPlayer.getPlayerHand();}
 
     //get playerArray from DB and save as Player
     public void getPlayerFromDB(String color) {
