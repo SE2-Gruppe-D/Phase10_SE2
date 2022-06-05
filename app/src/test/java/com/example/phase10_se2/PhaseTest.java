@@ -131,7 +131,7 @@ public class PhaseTest {
         player.setPhaseNumber(2);
         assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(),list));
     }
-    
+
 
 
 
