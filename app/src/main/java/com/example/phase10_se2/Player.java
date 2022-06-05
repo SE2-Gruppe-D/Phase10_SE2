@@ -346,4 +346,19 @@ public class Player {
     public void setLinearLayout(LinearLayout linearLayout) {
         this.linearLayout = linearLayout;
     }
+
+    public String getColorAsString() {
+        switch (color) {
+            case RED:
+                return "RED";
+            case BLUE:
+                return "BLUE";
+            case GREEN:
+                return "GREEN";
+            case YELLOW:
+                return "YELLOW";
+            default:
+                return null;
+        }
+    }
 }

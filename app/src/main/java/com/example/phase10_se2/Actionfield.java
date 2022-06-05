@@ -10,10 +10,10 @@ import java.util.ArrayList;
 
 public class Actionfield extends AppCompatActivity {
 
-    Player player;
     Playfield playfield;
     ImageView deckcard;
     ImageView defaultcard;
+    DiceFragment diceFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +36,17 @@ public class Actionfield extends AppCompatActivity {
     }
 
 
-    //GREY = nimm 2 Karten vom Aufnahme- und/oder Ablagestapel
+    //GREY = nimm 2 Karten vom Zieh- und/oder Ablagestapel
     private void greyFieldColor(){
         int counter =0;
         do{
             if (defaultcard.isSelected() ) {
                 playfield.addCardsDiscardpile();
                 counter++;
-            }else if(deckcard.isSelected())
+            }else if(deckcard.isSelected()) {
                 playfield.addCard();
-            counter++;
+                counter++;
+            }
         }
         while(counter<2);
     }
@@ -57,58 +58,55 @@ public class Actionfield extends AppCompatActivity {
         }
     }
 
-    //ORANGE = nimm 3 Karten vom Aufnahme- und/oder Ablagestapel
+    //ORANGE = nimm 3 Karten vom Zieh- und/oder Ablagestapel
     private void orangeFieldColor(){
         int counter =0;
         do{
             if (defaultcard.isSelected() ) {
                 playfield.addCardsDiscardpile();
                 counter++;
-            }else if(deckcard.isSelected())
+            }else if(deckcard.isSelected()) {
                 playfield.addCard();
-            counter++;
+                counter++;
+            }
         }
         while(counter<3);
     }
 
-    //BLUE = rücke vor bis zu einem Feld deiner Wahl
+    //BLUE = nimm eine Karte von Ziehstapel
     private void blueFieldColor(){
-      //vorrücken kommt noch
+        if(deckcard.isSelected()){
+            playfield.addCard();
+        }
     }
 
-    //RED = Lege 2 Karten auf den Ablagestapel und nimm 3 vom Aufnahmestapel
+    //RED =nimm 3 Karten vom Ziehstapel
     private void redFieldColor(){
-        //legen kommt nocht
-        if (deckcard.isSelected()) {
-            playfield.addCard();
-        }
-    }
-
-    //PURPLE = alle Spieler nehmen reihum 1 Karte vom Aufnahmestapel
-    private void purpleFieldColor(){
-        if (deckcard.isSelected()) {
-            playfield.addCard();
-        }
-    }
-
-    //PINK = nimm 1 Karte vom Aufnahme- oder Ablagestapel. Mache einen weiteren Zug
-    private void pinkFieldColor(){
-        int counter =0;
+        //ziehen
+        int counter = 0;
         do{
-            if (defaultcard.isSelected() ) {
-                playfield.addCardsDiscardpile();
-                counter++;
-            }else if(deckcard.isSelected())
-                playfield.addCard();
+            if (deckcard.isSelected()) {
+            playfield.addCard();
             counter++;
         }
-        while(counter<1);
-        //vorrücken kommt noch
+        }while(counter<3);
     }
 
+    //PURPLE = der Spieler darf keine Karte ziehen
+    private void purpleFieldColor(){
+        //nothing
+    }
 
-
-
+    //PINK = nimm 1 Karte vom Aufnahme- oder Ziehstapel. Mache einen weiteren Zug
+    private void pinkFieldColor(){
+        if (defaultcard.isSelected() ) {
+            playfield.addCardsDiscardpile();
+            diceFragment.setMoved(false);
+        }else if(deckcard.isSelected()){
+            playfield.addCard();
+            diceFragment.setMoved(false);
+        }
+    }
 
 
 

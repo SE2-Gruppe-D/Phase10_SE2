@@ -76,9 +76,9 @@ public class Playfield extends AppCompatActivity {
     ArrayList<Cards> cardlist;
     ArrayList<Cards> discardpileList;//Ablagestapel
     ArrayList<Cards> cardfieldCardlist;
-    ArrayList<Cards> cardfieldCardlistPlayer2;
-    ArrayList<Cards> cardfieldCardlistPlayer3;
-    ArrayList<Cards> cardfieldCardlistPlayer4;
+    ArrayList<Cards> cardfieldCardlistPlayer2 = new ArrayList<>();
+    ArrayList<Cards> cardfieldCardlistPlayer3 = new ArrayList<>();
+    ArrayList<Cards> cardfieldCardlistPlayer4 = new ArrayList<>();
 
     ArrayList<ImageView> Imagelist;
     TextView leererAblagestapel;
@@ -111,26 +111,6 @@ public class Playfield extends AppCompatActivity {
     ArrayList<Cards> playerHandYellow;
     ArrayList<Cards> playerHandGreen;
     ArrayList<Cards> playerHandPrimaryPlayer;
-
-    public ArrayList<Cards> getPlayer1HandBlue() {
-        return playerHandBlue;
-    }
-
-    public ArrayList<Cards> getPlayerHandRed() {
-        return playerHandRed;
-    }
-
-    public ArrayList<Cards> getPlayerHandYellow() {
-        return playerHandYellow;
-    }
-
-    public ArrayList<Cards> getPlayerHandGreen() {
-        return playerHandGreen;
-    }
-
-    public Player getPrimaryPlayer() {
-        return primaryPlayer;
-    }
 
     Player player;
 
@@ -211,6 +191,24 @@ public class Playfield extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
                                                 for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    //current player
+                                                    ArrayList currentPlayerArray = (ArrayList) document.get("CurrentPlayer");
+                                                    if (currentPlayer != null && !currentPlayer.getColorAsString().equals(currentPlayerArray.get(1))) {
+                                                        if (currentPlayerArray.get(1).equals("RED")) {
+                                                            currentPlayer = playerRed;
+                                                        }
+                                                        if (currentPlayerArray.get(1).equals("BLUE")) {
+                                                            currentPlayer = playerBlue;
+                                                        }
+                                                        if (currentPlayerArray.get(1).equals("YELLOW")) {
+                                                            currentPlayer = playerYellow;
+                                                        }
+                                                        if (currentPlayerArray.get(1).equals("GREEN")) {
+                                                            currentPlayer = playerGreen;
+                                                        }
+                                                        classTimer.restart();
+                                                    }
+
                                                     //count active players
                                                     ArrayList playerRedArr = (ArrayList) document.get("PlayerRed");
                                                     ArrayList playerYellowArr = (ArrayList) document.get("PlayerYellow");
@@ -285,17 +283,18 @@ public class Playfield extends AppCompatActivity {
                                                 for (QueryDocumentSnapshot document : task.getResult()) {
 
                                                     if (playerGreen != null) {
-                                                        playerGreen = getPlayerFromDB("GREEN");
+                                                        getPlayerFromDB("GREEN");
                                                     }
                                                     if (playerRed != null) {
-                                                        playerRed = getPlayerFromDB("RED");
+                                                        getPlayerFromDB("RED");
                                                     }
                                                     if (playerBlue != null) {
-                                                        playerBlue = getPlayerFromDB("BLUE");
+                                                        getPlayerFromDB("BLUE");
                                                     }
                                                     if (playerYellow != null) {
-                                                        playerYellow = getPlayerFromDB("YELLOW");
+                                                        getPlayerFromDB("YELLOW");
                                                     }
+
                                                 }
 
                                             }
@@ -327,8 +326,6 @@ public class Playfield extends AppCompatActivity {
         if (playerGreen != null && playerList.get(0).equals("GREEN")) {
             currentPlayer = playerGreen;
         }
-        gameInfoDB();
-
 
         //entfernt die label Leiste (Actionbar) auf dem Playfield
         ActionBar actionBar = getSupportActionBar();
@@ -422,12 +419,12 @@ public class Playfield extends AppCompatActivity {
 
                  */
 
-                if(phase.getRightPhase(1, cardfieldCardlist)){
+                if(phase.getRightPhase(getPhasenumberDB(), cardfieldCardlist)){
                     Log.e("Phase right ", "right");
                     btnCheckPhase.setVisibility(View.INVISIBLE);
             } else {
 
-                    playerHandPrimaryPlayer = getPrimaryHandcards();
+                    playerHandPrimaryPlayer = getHandCardsDB();
                     while (layoutPlayer1CardField.getChildCount() != 0) { //TODO: richtiges Layout?
                             View v = layoutPlayer1CardField.getChildAt(0);
                             ViewGroup owner = (ViewGroup) v.getParent();
@@ -455,9 +452,6 @@ public class Playfield extends AppCompatActivity {
         for (int i = 0; i < 96; i++) {
             cardlist.get(i).setCardUI(createCardUI(cardlist.get(i)));
         }
-        if (currentPlayer.getColor().equals(primaryPlayer.getColor())) {
-            updateCardlistDB();
-        }
 
 
         //Karten werden gemischt
@@ -468,9 +462,7 @@ public class Playfield extends AppCompatActivity {
 
         //Handkarten werden ausgeteilt
         handCards.HandCardsPlayer(layoutPlayer1, layoutPlayer2, layoutPlayer3, layoutPlayer4, cardlist, playerBlue, playerGreen, playerYellow, playerRed, primaryPlayer);
-        if (currentPlayer.getColor().equals(primaryPlayer.getColor())) {
-            updatePlayers();
-        }
+
         if (playerBlue != null) {
             for (Cards card : playerBlue.getPlayerHand()) {
                 card.getCardUI().setOnClickListener(listener);
@@ -514,6 +506,9 @@ public class Playfield extends AppCompatActivity {
         defaultcard.setImageDrawable(createCardUI(discardpileList.get(0)).getDrawable());
         defaultcard.setOnDragListener(new ChoiceDragListener1());
 
+        if (currentPlayer.getColor().equals(primaryPlayer.getColor())) {
+            gameInfoDB();
+        }
 
         defaultcard.setOnClickListener(view -> {
             addCardsDiscardpile();
@@ -522,13 +517,10 @@ public class Playfield extends AppCompatActivity {
 
         //Timer
         TextView timer = findViewById(R.id.Timer);
-        classTimer = new Timer(timer, timerturn, leftTime);
+        classTimer = new Timer(timer, timerturn, leftTime, this);
         classTimer.startTimer();
-        classTimer.updateCountDownText();
-
 
         //light sensor to accuse of cheating
-        /*
         sm = (SensorManager) getSystemService(SENSOR_SERVICE);
         light = sm.getDefaultSensor(Sensor.TYPE_LIGHT);
         lightListener = new SensorEventListener() {
@@ -547,7 +539,6 @@ public class Playfield extends AppCompatActivity {
         };
         sm.registerListener(lightListener, light, SensorManager.SENSOR_DELAY_NORMAL);
 
-         */
 
 
         //Alert dialog accuse someone of cheating
@@ -635,6 +626,30 @@ public class Playfield extends AppCompatActivity {
         //Spiel verlassen
         exitGame = findViewById(R.id.leaveGame);
         exitGame.setOnClickListener(view -> leaveGame());
+    }
+
+    public void setNextCurrentPlayer(){
+        String color = playerList.get((playerList.indexOf(currentPlayer.getColorAsString())+1)%playerList.size());
+        Player player = getPlayerFromColor(color);
+
+        setCurrentPlayerInDB(player);
+    }
+
+    public Player getPlayerFromColor(String color) {
+        if (color.equals("GREEN")) {
+            return playerGreen;
+        }
+        if (color.equals("RED")) {
+            return playerRed;
+        }
+        if (color.equals("BLUE")) {
+            return playerBlue;
+        }
+        if (color.equals("YELLOW")) {
+            return playerYellow;
+        }
+
+        return null;
     }
 
     public void leaveGame() {
@@ -728,7 +743,6 @@ public class Playfield extends AppCompatActivity {
             playerGreen.setPlayerview(findViewById(R.id.ivPG));
             playerGreen.getPlayerview().setVisibility(View.VISIBLE);
         }
-
     }
 
 
@@ -807,6 +821,7 @@ public class Playfield extends AppCompatActivity {
     //Karte ziehen
     protected void addCard() {
         //only currentPlayer kann ziehen
+        cardlist.get(0).getCardUI().setVisibility(View.VISIBLE);
         if (playerYellow != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerYellow.getColor().equals(primaryPlayer.getColor())) {
             handCards.updateHand(playerYellow.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0, cardlist);
             cardlist.get(0).getCardUI().setOnClickListener(listener);
@@ -841,23 +856,6 @@ public class Playfield extends AppCompatActivity {
         return imageView;
     }
 
-
-
-    public ArrayList<Cards> getPrimaryHandcards() {
-        ArrayList<Cards> handcards;
-        if (playerYellow != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerYellow.getColor().equals(primaryPlayer.getColor())) {
-            return handcards = playerYellow.getPlayerHand();
-        } else if (playerBlue != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerBlue.getColor().equals(primaryPlayer.getColor())) {
-            return handcards = playerBlue.getPlayerHand();
-        } else if (playerRed != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerRed.getColor().equals(primaryPlayer.getColor())) {
-            return handcards = playerRed.getPlayerHand();
-        } else if (playerGreen != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerGreen.getColor().equals(primaryPlayer.getColor())) {
-            return handcards = playerGreen.getPlayerHand();
-        } else {
-            return null;
-        }
-    }
-
     //Karten auslegen - 1x Click Karte wird ausgelegt, 2x Click Karte zurück auf die Hand
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
@@ -870,7 +868,7 @@ public class Playfield extends AppCompatActivity {
                     View v = view;
                     ViewGroup owner = (ViewGroup) v.getParent();
                     //Handkarte zurück nehmen
-                    playerHandPrimaryPlayer = getPrimaryHandcards();
+                    playerHandPrimaryPlayer = getHandCardsDB();
                     for (int i = 0; i < cardfieldCardlist.size(); i++) {
                         if (v.equals(cardfieldCardlist.get(i).getCardUI())) {
                             playerHandPrimaryPlayer.add(cardfieldCardlist.get(i));
@@ -880,12 +878,13 @@ public class Playfield extends AppCompatActivity {
                     owner.removeView(v);
                     layoutPlayer1.addView(v);
                     v.setVisibility(View.VISIBLE);
+
                 } else {
                     doubleClickLastTime = System.currentTimeMillis();
                     View v = view;
                     ViewGroup owner = (ViewGroup) v.getParent();
                     //Array mit den ausgelegten Karten befüllen
-                    playerHandPrimaryPlayer = getPrimaryHandcards();
+                    playerHandPrimaryPlayer = getHandCardsDB();
                     if (playerHandPrimaryPlayer.size() != 0) {
                         for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                             if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
@@ -897,6 +896,7 @@ public class Playfield extends AppCompatActivity {
                         owner.removeView(v);
                         layoutPlayer1CardField.addView(v);
                         v.setVisibility(View.VISIBLE);
+                       // v.cancelDragAndDrop();
                     }
                 }
             }
@@ -955,13 +955,14 @@ public class Playfield extends AppCompatActivity {
                         ViewGroup owner = (ViewGroup) v.getParent();
                         //Karte zum Ablegestapel hinzufügen
                         //ToDO: DB Anpassen
-                        playerHandPrimaryPlayer = getPrimaryHandcards();
+                        playerHandPrimaryPlayer = getHandCardsDB();
                         if (playerHandPrimaryPlayer.size() != 0) {
                             for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                                 if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
                                     discardpileList.add(playerHandPrimaryPlayer.get(i));
                                     defaultcard.setImageDrawable(createCardUI(playerHandPrimaryPlayer.get(i)).getDrawable());
                                     playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                                    break; //break, because you can only drag one card
                                 }
                             }
                             owner.removeView(v);
@@ -1010,7 +1011,7 @@ public class Playfield extends AppCompatActivity {
                         // player.getCardField();
                         //player.getLinearLayout();
 
-                        playerHandPrimaryPlayer = getPrimaryHandcards();
+                        playerHandPrimaryPlayer = getHandCardsDB();
                         if (playerHandPrimaryPlayer.size() != 0) {
                             for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                                 if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
@@ -1058,7 +1059,7 @@ public class Playfield extends AppCompatActivity {
                         // Log.e("Feld Spieler 3", dragEvent.toString());
                         View v = (View) dragEvent.getLocalState();
                         ViewGroup owner = (ViewGroup) v.getParent();
-                        playerHandPrimaryPlayer = getPrimaryHandcards();
+                        playerHandPrimaryPlayer = getHandCardsDB();
                         if (playerHandPrimaryPlayer.size() != 0) {
                             for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                                 if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
@@ -1107,7 +1108,7 @@ public class Playfield extends AppCompatActivity {
                         // Log.e("Feld Spieler 4", dragEvent.toString());
                         View v = (View) dragEvent.getLocalState();
                         ViewGroup owner = (ViewGroup) v.getParent();
-                        playerHandPrimaryPlayer = getPrimaryHandcards();
+                        playerHandPrimaryPlayer = getHandCardsDB();
                         if (playerHandPrimaryPlayer.size() != 0) {
                             for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                                 if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
@@ -1139,40 +1140,6 @@ public class Playfield extends AppCompatActivity {
         primaryPlayer.setPhaseText();
         tvAktuellePhase.setText(primaryPlayer.getPhaseText());
 
-    }
-
-
-    private boolean checkblue(FieldColor fieldColor) {
-        if (fieldColor.equals(FieldColor.BLUE)) {
-
-            //Code..
-        }
-        return true;
-    }
-
-    public void throwingDice(Player player) {
-        int diceValue = 1;
-
-//        while (diceFragment.getAcceleration() < 1) { //maybe replace with threshold
-//            sleep(10);
-//        }
-//
-//
-//        while (diceFragment.getAcceleration() > 1) { //maybe replace with threshold
-//            diceValue = diceFragment.getLastDiceValue();
-//            sleep(100);
-//
-//            int timeSpent = 0;
-//            int sleepDurationInMs = 10;
-//            while (diceFragment.getAcceleration() < 1 && timeSpent < 3000) { //maybe replace with threshold
-//                sleep(sleepDurationInMs);
-//                timeSpent += sleepDurationInMs;
-//            }
-//        }
-
-        //TODO: CANT MOVE BECAUSE PLAYERVIEW == NULL?!
-        //TODO: FIX PLAYERVIEW
-        playerBlue.move(diceValue);
     }
 
     public void decideStartingPlayer() { //TODO: problem: player != primary player wont get put into map
@@ -1291,65 +1258,82 @@ public class Playfield extends AppCompatActivity {
             gameInfo.put("PlayerGreen", playerToList(playerGreen));
         }
         if (startOrder != null) {
-            gameInfo.put("StartOrder", startOrder);
+            gameInfo.put("StartOrder", playerList);
         }
         ArrayList<Integer> cards = new ArrayList<>();
         for (int i = 1; i <= 96; i++) {
             cards.add(i);
         }
+
+        ArrayList<Integer> newCardList = new ArrayList<>();
+        for (Cards card : cardlist) {
+            newCardList.add(card.getID());
+        }
+        //discard pile
+        ArrayList<Integer> newDiscardPile = new ArrayList<>();
+        for (Cards card : discardpileList) {
+            newDiscardPile.add(card.getID());
+        }
+
         gameInfo.put("DiceRoll", currentDiceRoll);
         gameInfo.put("Cheated", cheated);
-        gameInfo.put("Cardlist", cards);
-        gameInfo.put("DiscardpileList", new ArrayList<Integer>());
+        gameInfo.put("Cardlist", newCardList);
+        gameInfo.put("DiscardpileList", newDiscardPile);
 
 
         Log.i("gameInfo------------------------------------------------------------", gameInfo.toString());
-        database.collection("gameInfo").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if (Objects.equals(document.get("RoomName"), currentRoom)) {
-                            newDBCollectionNeeded = false;
-                            break;
-                        } else {
-                            newDBCollectionNeeded = true;
+        database.collection("gameInfo")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (Objects.equals(document.get("RoomName"), currentRoom)) {
+                                newDBCollectionNeeded = false;
+                                break;
+                            } else {
+                                newDBCollectionNeeded = true;
+                            }
+                        }
+
+                        if (newDBCollectionNeeded) {
+                            database.collection("gameInfo")
+                                    .add(gameInfo)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            Log.i("GameInfo -----------------------------", "success");
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.e("EXCEPTION---------------------------------------------------------", e.getMessage());
+                                        }
+                                    });
                         }
                     }
-
-                    if (newDBCollectionNeeded) {
-                        database.collection("gameInfo")
-                                .add(gameInfo)
-                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                    @Override
-                                    public void onSuccess(DocumentReference documentReference) {
-                                        Log.i("GameInfo -----------------------------", "success");
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.e("EXCEPTION---------------------------------------------------------", e.getMessage());
-                                    }
-                                });
-                    }
                 }
-            }
-        });
+            });
     }
 
     public ArrayList<String> playerToList(Player player) {
-        ArrayList<String> playerList = new ArrayList();
+        ArrayList<String> playerList = new ArrayList<>();
         playerList.add(player.getName());
         playerList.add(player.getColor().toString());
         playerList.add(player.getRoom());
         playerList.add(String.valueOf(player.getPhaseNumber()));
         playerList.add(String.valueOf(player.getMinusPoints()));
-        ArrayList<Integer> playerCardsID = new ArrayList();
+        String playerCardsID = "";
         for (Cards c : player.getPlayerHand()) {
-            playerCardsID.add(c.getID());
+            playerCardsID += (String.valueOf(c.getID()) + " ");
         }
-        playerList.add(playerCardsID.toString());
-        playerList.add(Arrays.toString(player.getCardField().toArray()));
+        playerList.add(playerCardsID);
+        String cardField = "";
+        for (Cards c : player.getCardField()) {
+            cardField += (String.valueOf(c.getID()) + " ");
+        }
+        playerList.add(cardField);
         playerList.add(String.valueOf(player.abgelegt));
         playerList.add(String.valueOf(player.getCurrentPosition()));
 
@@ -1504,7 +1488,6 @@ public class Playfield extends AppCompatActivity {
 
     //update players
     public void updatePlayers() {
-
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
                 .get()
@@ -1533,40 +1516,16 @@ public class Playfield extends AppCompatActivity {
                 });
     }
 
-    public int  getPhasenumberDB() {
-        int[] phasenumberDB = new int[1];
-        //Log.e("Phasenumber1", String.valueOf((phasenumberDB[0])));
-        database.collection("gameInfo")
-                .whereEqualTo("RoomName", currentRoom)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        //Log.e("Phasenumber1.1", "");
-                        if (task.isSuccessful()) {
-                           // Log.e("Phasenumber1.2", "");
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-
-                                ArrayList player = (ArrayList) document.get("CurrentPlayer"); //welchen player du haben möchtest
-                                String number  = (String) player.get(3); //hier liest du die phasennummer aus. ggf in einen integer casten
-                              //  Log.e("Phasenumber2.1", number);
-                                phasenumberDB[0] = Integer.parseInt(number);
-                               // Log.e("Phasenumber2.2", String.valueOf(phasenumberDB[0]));
-                            }
-                        } else {
-                            Log.d("DB phasenumber", "Error getting Data from Firestore: ", task.getException());
-                        }
-                    }
-
-
-                });
-       return phasenumberDB[0];
+    public int getPhasenumberDB() {
+        return currentPlayer.getPhaseNumber();
     }
 
+    public ArrayList<Cards> getHandCardsDB(){
+        return currentPlayer.getPlayerHand();}
+
     //get playerArray from DB and save as Player
-    public Player getPlayerFromDB(String color) {
+    public void getPlayerFromDB(String color) {
         final ArrayList[] playerList = new ArrayList[1];
-        final Player[] player = new Player[1];
 
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
@@ -1579,32 +1538,30 @@ public class Playfield extends AppCompatActivity {
                                 if (Objects.equals(color, "BLUE")) {
                                     playerList[0] = (ArrayList) document.get("PlayerBlue");
                                     ArrayList<ArrayList<Cards>> lol = is(playerList);
-                                    player[0] = new Player(playerList[0].get(0).toString(), PlayerColor.BLUE, playerList[0].get(2).toString(), Integer.parseInt(playerList[0].get(3).toString()), Integer.parseInt(playerList[0].get(4).toString()), lol.get(0), lol.get(1));
+                                    playerBlue = new Player(playerList[0].get(0).toString(), PlayerColor.BLUE, playerList[0].get(2).toString(), Integer.parseInt(playerList[0].get(3).toString()), Integer.parseInt(playerList[0].get(4).toString()), lol.get(0), lol.get(1));
                                 } else if (Objects.equals(color, "RED")) {
                                     playerList[0] = (ArrayList) document.get("PlayerRed");
                                     ArrayList<ArrayList<Cards>> lol = is(playerList);
-                                    player[0] = new Player(playerList[0].get(0).toString(), PlayerColor.RED, playerList[0].get(2).toString(), Integer.parseInt(playerList[0].get(3).toString()), Integer.parseInt(playerList[0].get(4).toString()), lol.get(0), lol.get(1));
+                                    playerRed = new Player(playerList[0].get(0).toString(), PlayerColor.RED, playerList[0].get(2).toString(), Integer.parseInt(playerList[0].get(3).toString()), Integer.parseInt(playerList[0].get(4).toString()), lol.get(0), lol.get(1));
                                 } else if (Objects.equals(color, "YELLOW")) {
                                     playerList[0] = (ArrayList) document.get("PlayerYellow");
                                     ArrayList<ArrayList<Cards>> lol = is(playerList);
-                                    player[0] = new Player(playerList[0].get(0).toString(), PlayerColor.YELLOW, playerList[0].get(2).toString(), Integer.parseInt(playerList[0].get(3).toString()), Integer.parseInt(playerList[0].get(4).toString()), lol.get(0), lol.get(1));
+                                    playerYellow = new Player(playerList[0].get(0).toString(), PlayerColor.YELLOW, playerList[0].get(2).toString(), Integer.parseInt(playerList[0].get(3).toString()), Integer.parseInt(playerList[0].get(4).toString()), lol.get(0), lol.get(1));
                                 } else if (Objects.equals(color, "GREEN")) {
                                     playerList[0] = (ArrayList) document.get("PlayerGreen");
                                     ArrayList<ArrayList<Cards>> lol = is(playerList);
-                                    player[0] = new Player(playerList[0].get(0).toString(), PlayerColor.GREEN, playerList[0].get(2).toString(), Integer.parseInt(playerList[0].get(3).toString()), Integer.parseInt(playerList[0].get(4).toString()), lol.get(0), lol.get(1));
+                                    playerGreen = new Player(playerList[0].get(0).toString(), PlayerColor.GREEN, playerList[0].get(2).toString(), Integer.parseInt(playerList[0].get(3).toString()), Integer.parseInt(playerList[0].get(4).toString()), lol.get(0), lol.get(1));
                                 }
-
                             }
                         }
                     }
                 });
-        return player[0];
     }
 
 
     private ArrayList<ArrayList<Cards>> is(ArrayList[] playerList) {
         //player hand cards
-        ArrayList<String> cardIds = new ArrayList<>(Arrays.asList(playerList[0].get(5).toString().substring(1, playerList[0].get(5).toString().length()-1).split(", ")));
+        ArrayList<String> cardIds = new ArrayList<>(Arrays.asList(playerList[0].get(5).toString().trim().split(" ")));
         ArrayList<Cards> cards = new ArrayList<Cards>();
 
         for (String id : cardIds) {
@@ -1613,7 +1570,7 @@ public class Playfield extends AppCompatActivity {
             }
         }
         //card field cards
-        ArrayList<String> cardIdsDepo = new ArrayList<>(Arrays.asList(playerList[0].get(6).toString().substring(1, playerList[0].get(6).toString().length()-1).split(", ")));
+        ArrayList<String> cardIdsDepo = new ArrayList<>(Arrays.asList(playerList[0].get(6).toString().trim().split(" ")));
         ArrayList<Cards> cardsDepo = new ArrayList<Cards>();
         for (String id : cardIdsDepo) {
             if (id.length()!=0) {
@@ -1628,5 +1585,22 @@ public class Playfield extends AppCompatActivity {
         return lol;
     }
 
+    private void setCurrentPlayerInDB(Player currentplayer) {
+        database.collection("gameInfo").whereEqualTo("RoomName", currentRoom)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                //give consequences
+                                    //if accused right:
+                                    ArrayList player = playerToList(currentplayer);
+                                    document.getReference().update("CurrentPlayer", player);
+                            }
+                        }
+                    }
+                });
+    }
 }
 
