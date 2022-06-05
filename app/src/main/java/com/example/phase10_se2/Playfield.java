@@ -399,7 +399,7 @@ public class Playfield extends AppCompatActivity {
         //cardfieldCardlistPlayer3 = new ArrayList<>();
         //cardfieldCardlistPlayer4 = new ArrayList<>();
         phase = new Phase();
-        if(primaryPlayer.getColor().equals(currentPlayer.getColor())){
+        if(primaryPlayer!= null && currentPlayer != null && primaryPlayer.getColor().equals(currentPlayer.getColor())){
             btnCheckPhase.setVisibility(View.VISIBLE);
         }
         btnCheckPhase.setOnClickListener(new View.OnClickListener() {
@@ -731,31 +731,42 @@ public class Playfield extends AppCompatActivity {
     protected void addCardsDiscardpile() {
         int size = discardpileList.size();
         if (size != 0) {
+            Log.e("help1", "");
             discardpileList.get(size - 1).getCardUI().setVisibility(View.VISIBLE);
             if (playerYellow != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerYellow.getColor().equals(primaryPlayer.getColor())) {
-                handCards.updateHand(playerYellow.getPlayerHand(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
+                Log.e("helpy", "");
+                handCards.updateHand(getHandCardsDB(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
                 discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
                 discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
+                discardpileList.remove(size - 1);
             }
-            if (playerBlue != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerBlue.getColor().equals(primaryPlayer.getColor())) {
-                handCards.updateHand(playerBlue.getPlayerHand(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
+            if ( playerBlue != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerBlue.getColor().equals(primaryPlayer.getColor())) {
+                Log.e("helpb", "");
+                handCards.updateHand(getHandCardsDB(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
                 discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
                 discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
+                discardpileList.remove(size - 1);
+                Log.e("Handkarten", String.valueOf(getHandCardsDB().size()));
             }
             if (playerRed != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerRed.getColor().equals(primaryPlayer.getColor())) {
-                handCards.updateHand(playerRed.getPlayerHand(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
+                Log.e("helpr", "");
+                handCards.updateHand(getHandCardsDB(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
                 discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
                 discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
+                discardpileList.remove(size - 1);
             }
             if (playerGreen != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerGreen.getColor().equals(primaryPlayer.getColor())) {
-                handCards.updateHand(playerGreen.getPlayerHand(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
+                Log.e("helpg", "");
+                handCards.updateHand(getHandCardsDB(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
                 discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
                 discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
+                discardpileList.remove(size - 1);
             }
-            discardpileList.remove(size - 1);
+
             if ((size - 1) != 0) {
                 defaultcard.setImageDrawable(createCardUI(discardpileList.get(size - 2)).getDrawable());
             }
+
         } else {
             leererAblagestapel.setVisibility(View.VISIBLE);
         }
