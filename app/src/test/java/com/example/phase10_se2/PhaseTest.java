@@ -21,6 +21,7 @@ public class PhaseTest {
     private Cards card11y;
     private ArrayList<Cards> list;
 
+
     @BeforeEach
     public void setup ()
     {
@@ -42,7 +43,7 @@ public class PhaseTest {
         list = new ArrayList<>();
     }
 
-    /*
+/*
     @Test
     public void whenCheckingPhase1AndListLengthIsRightAndCardsAreRightAndSorted_ThenReturnTrue ()
     {
@@ -125,11 +126,13 @@ public class PhaseTest {
         player.setPhaseNumber(2);
         Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(),list));
     }
+    
+ */
 
 
 
 
-     */
+
 
 
     /*private Card card1;

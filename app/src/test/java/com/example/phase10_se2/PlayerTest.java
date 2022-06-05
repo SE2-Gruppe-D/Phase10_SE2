@@ -10,15 +10,17 @@ public class PlayerTest {
     Cards card1;
     Cards card2;
     Cards card3;
+    Cards cards1;
     ArrayList<Cards> cards;
-    ImageView a;
 
     @BeforeEach
     public void init() {
         player = new Player("Test-Player", PlayerColor.GREEN, 0,0);
-        Cards card1 = new Cards("blue",7,a,7);
-        Cards card2 = new Cards("yellow",5,a,5+48);
-        Cards card3 = new Cards("green",11,a,11+72);
+        card1 = new Cards("blue",7,null,7);
+        card2 = new Cards("yellow",5,null,53);
+        card3 = new Cards("green",11,null,83);
+        cards1= new Cards("blue", 11, null, 1);
+        cards = new ArrayList<Cards>();
 
     }
 
@@ -52,33 +54,27 @@ public class PlayerTest {
         }
     }
 
-    /*
+
     @Test
     public void ifTwoOneDigitCardsAreLeft_ThenMinusPointsShouldBe10(){
-            if (player != null) {
-                cards = new ArrayList<Cards>();
                 cards.add(card1);
                 cards.add(card2);
                 player.updateMinusPoints(cards);
                 Assertions.assertEquals(10, player.getMinusPoints());
-            }
     }
 
-     */
-
-    /*
     @Test
-    public void ifOneTwoDigitAndOneOneDigitCardsAreLeft_ThenMinusPointsShouldBe10(){
-        if (player != null) {
-            cards = new ArrayList<Cards>();
+    public void ifOneTwoDigitAndOneOneDigitCardsAreLeft_ThenMinusPointsShouldBe15(){
             cards.add(card1);
             cards.add(card3);
             player.updateMinusPoints(cards);
             Assertions.assertEquals(15, player.getMinusPoints());
-        }
     }
 
-     */
-
-
+    @Test
+    public void ifPhaseNumberIs10_ThenAssignTheRightText() {
+        player.setPhaseNumber(10);
+        player.setPhaseText();
+        Assertions.assertEquals("1 Fünfling + 1 Dreierfolge einer Farbe", player.getPhaseText());
+    }
 }
