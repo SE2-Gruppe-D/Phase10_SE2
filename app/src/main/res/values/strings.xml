@@ -15,4 +15,6 @@ Es besteht die Möglichkeit zu Schummeln, indem eine andere Anzahl an Feldern zi
     <string name="join_room">JOIN ROOM</string>
     <string name="current_players">CURRENT PLAYERS</string>
     <string name="start_game_BTN">START GAME</string>
+    <string name="music_by_bensound_com">Music by Bensound.com</string>
+    <string name="ncredits_nbaisan_andreas_nhasler_melanie_nlikar_laura_nmarchetti_theresa_nplie_nig_leon">\nCredits: \nBaisan Andreas \nHasler Melanie \nLikar Laura \nMarchetti Theresa \nPließnig Leon</string>
 </resources>

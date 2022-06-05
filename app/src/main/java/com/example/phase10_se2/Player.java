@@ -164,51 +164,16 @@ public class Player {
 
     //übergeben der restlichen Handkarten am ende einer Runde - Zusammenfügen der Minuspunkte
     public void updateMinusPoints(ArrayList<Cards> cards) {
-        int sumMinusPoints = this.minusPoints;
-        int cid;
-
-
-        for (Cards card : cards) {
-            if (!cards.isEmpty() && card != null) {
-
-                cid = card.getValue();
-
-                switch (cid) {
-
-                    case (1):
-
-                    case (2):
-
-                    case (3):
-
-                    case (4):
-
-                    case (5):
-
-                    case (6):
-
-                    case (7):
-
-                    case (8):
-
-                    case (9):
-                        sumMinusPoints += 5;
-                        break;
-
-                    case (10):
-
-                    case (11):
-
-                    case (12):
-                        sumMinusPoints += 10;
-                        break;
-
+            for (Cards card : cards) {
+                if (!cards.isEmpty() && card != null) {
+                    if (card.getValue() <= 9) {
+                        this.minusPoints += 5;
+                    } else if (card.getValue() <= 12) {
+                        this.minusPoints += 10;
+                    }
                 }
-
             }
         }
-        this.minusPoints = sumMinusPoints;
-    }
 
 
     public PlayerState getState() {
@@ -345,5 +310,20 @@ public class Player {
 
     public void setLinearLayout(LinearLayout linearLayout) {
         this.linearLayout = linearLayout;
+    }
+
+    public String getColorAsString() {
+        switch (color) {
+            case RED:
+                return "RED";
+            case BLUE:
+                return "BLUE";
+            case GREEN:
+                return "GREEN";
+            case YELLOW:
+                return "YELLOW";
+            default:
+                return null;
+        }
     }
 }

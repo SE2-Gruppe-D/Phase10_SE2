@@ -167,7 +167,7 @@ public class FindPlayer extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                if (!playerList.contains(document.getString("Color"))) {
+                                if (!playerList.contains(document.getString("Color"))&&!playerList.contains(document.getString("Name"))) {
                                     playerList.add(document.getString("Name"));
 
                                     adapter.notifyDataSetChanged();

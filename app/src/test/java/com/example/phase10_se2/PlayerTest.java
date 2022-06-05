@@ -1,13 +1,7 @@
 package com.example.phase10_se2;
 
-import static org.junit.Assert.assertEquals;
-
+import org.junit.jupiter.api.*;
 import android.widget.ImageView;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-
 import java.util.ArrayList;
 
 
@@ -16,15 +10,17 @@ public class PlayerTest {
     Cards card1;
     Cards card2;
     Cards card3;
+    Cards cards1;
     ArrayList<Cards> cards;
-    ImageView a;
 
     @BeforeEach
     public void init() {
         player = new Player("Test-Player", PlayerColor.GREEN, 0,0);
-        Cards card1 = new Cards("blue",7,a,7);
-        Cards card2 = new Cards("yellow",5,a,5+48);
-        Cards card3 = new Cards("green",11,a,11+72);
+        card1 = new Cards("blue",7,null,7);
+        card2 = new Cards("yellow",5,null,53);
+        card3 = new Cards("green",11,null,83);
+        cards1= new Cards("blue", 11, null, 1);
+        cards = new ArrayList<Cards>();
 
     }
 
@@ -32,9 +28,9 @@ public class PlayerTest {
     public void testMove_simple1() {
         if(player != null) {
             player.move(5);
-            assertEquals(5, player.getCurrentPosition());
-            assertEquals(3, player.getPositionX());
-            assertEquals(2, player.getPositionY());
+            Assertions.assertEquals(5, player.getCurrentPosition());
+            Assertions.assertEquals(3, player.getPositionX());
+            Assertions.assertEquals(2, player.getPositionY());
         }
     }
 
@@ -42,9 +38,9 @@ public class PlayerTest {
     public void testMove_simple2() {
         if(player != null) {
             player.move(13);
-            assertEquals(13, player.getCurrentPosition());
-            assertEquals(0, player.getPositionX());
-            assertEquals(3, player.getPositionY());
+            Assertions.assertEquals(13, player.getCurrentPosition());
+            Assertions.assertEquals(0, player.getPositionX());
+            Assertions.assertEquals(3, player.getPositionY());
         }
     }
 
@@ -52,33 +48,33 @@ public class PlayerTest {
     public void testMove_roundFinished() {
         if(player != null) {
             player.move(18);
-            assertEquals(2, player.getCurrentPosition());
-            assertEquals(2, player.getPositionX());
-            assertEquals(0, player.getPositionY());
+            Assertions.assertEquals(2, player.getCurrentPosition());
+            Assertions.assertEquals(2, player.getPositionX());
+            Assertions.assertEquals(0, player.getPositionY());
         }
     }
+
 
     @Test
     public void ifTwoOneDigitCardsAreLeft_ThenMinusPointsShouldBe10(){
-            if (player != null) {
-                cards = new ArrayList<Cards>();
                 cards.add(card1);
                 cards.add(card2);
                 player.updateMinusPoints(cards);
-                assertEquals(10, player.getMinusPoints());
-            }
+                Assertions.assertEquals(10, player.getMinusPoints());
     }
 
     @Test
-    public void ifOneTwoDigitAndOneOneDigitCardsAreLeft_ThenMinusPointsShouldBe10(){
-        if (player != null) {
-            cards = new ArrayList<Cards>();
+    public void ifOneTwoDigitAndOneOneDigitCardsAreLeft_ThenMinusPointsShouldBe15(){
             cards.add(card1);
             cards.add(card3);
             player.updateMinusPoints(cards);
-            assertEquals(15, player.getMinusPoints());
-        }
+            Assertions.assertEquals(15, player.getMinusPoints());
     }
 
-
+    @Test
+    public void ifPhaseNumberIs10_ThenAssignTheRightText() {
+        player.setPhaseNumber(10);
+        player.setPhaseText();
+        Assertions.assertEquals("1 Fünfling + 1 Dreierfolge einer Farbe", player.getPhaseText());
+    }
 }

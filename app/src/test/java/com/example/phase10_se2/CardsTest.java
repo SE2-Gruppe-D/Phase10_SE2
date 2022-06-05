@@ -1,14 +1,6 @@
 package com.example.phase10_se2;
 
-import android.graphics.Color;
-import android.media.Image;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 
@@ -16,13 +8,13 @@ public class CardsTest {
     private CardDrawer cardDrawer;
     private ArrayList<Cards> cardList=new ArrayList<>();
 
-    @Before
+    @BeforeEach
     public void init(){
         cardDrawer=new CardDrawer();
         cardList=cardDrawer.generateInitialCards();
     }
 
-    @After
+    @AfterEach
     public void tearDown(){
         cardDrawer=null;
     }
@@ -30,7 +22,7 @@ public class CardsTest {
     //95 Karten
     @Test
     public void testNumberOfCards(){
-        Assert.assertEquals(96, cardList.size());
+        Assertions.assertEquals(96, cardList.size());
     }
 
     //zwei Farben pro Karte
@@ -72,15 +64,15 @@ public class CardsTest {
             }
         }
         //Chek color
-        Assert.assertEquals(24, colorBlueCount);
-        Assert.assertEquals(24, colorRedCount);
-        Assert.assertEquals(24, colorYellowCount);
-        Assert.assertEquals(24, colorGreenCount);
+        Assertions.assertEquals(24, colorBlueCount);
+        Assertions.assertEquals(24, colorRedCount);
+        Assertions.assertEquals(24, colorYellowCount);
+        Assertions.assertEquals(24, colorGreenCount);
         //Check values
-        Assert.assertEquals(2, number10Blue);
-        Assert.assertEquals(2, number7Red);
-        Assert.assertEquals(2, number12Yellow);
-        Assert.assertEquals(2, number1Green);
+        Assertions.assertEquals(2, number10Blue);
+        Assertions.assertEquals(2, number7Red);
+        Assertions.assertEquals(2, number12Yellow);
+        Assertions.assertEquals(2, number1Green);
     }
 
     //Kartenstapel leer -->mischen
@@ -98,6 +90,6 @@ public class CardsTest {
         newList.add(cards1);
         newList.add(cards2);
         newList.add(cards3);
-        Assert.assertTrue(cardDrawer.getInitialCardsList().containsAll(newList));
+        Assertions.assertTrue(cardDrawer.getInitialCardsList().containsAll(newList));
     }
 }

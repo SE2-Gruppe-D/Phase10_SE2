@@ -1,17 +1,18 @@
 package com.example.phase10_se2;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 
 public class MainActivity extends AppCompatActivity {
     Button spielErstellen;
     Button spielBeitreten;
     Button hint;
+    private MediaPlayer mediaPlayer;
 
 
     @Override
@@ -29,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
         hint=findViewById(R.id.button4);
         hint.setOnClickListener(view -> showPlayRules());
 
+        mediaPlayer = MediaPlayer.create(MainActivity.this,R.raw.jazzcomedy);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
 
     }
     public void createGame(){
@@ -42,5 +46,24 @@ public class MainActivity extends AppCompatActivity {
     public void showPlayRules(){
         Intent intent= new Intent(this, PlayRules.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mediaPlayer.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+      //  mediaPlayer.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mediaPlayer.stop();
+        mediaPlayer.release();
     }
 }

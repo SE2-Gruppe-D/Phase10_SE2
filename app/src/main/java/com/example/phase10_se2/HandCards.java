@@ -16,6 +16,7 @@ public class HandCards {
 
     CardsPrimaryPlayer cardsPrimaryPlayer= new CardsPrimaryPlayer();
 
+
     //Handkarten werden ausgeteilt
     public void HandCardsPlayer(LinearLayout layoutPlayer1, LinearLayout layoutPlayer2, LinearLayout layoutPlayer3, LinearLayout layoutPlayer4,ArrayList<Cards> cardlist, Player playerblue,  Player playergreen,  Player playeryellow,  Player playerred, Player primaryplayer) {
         primaryPlayer= primaryplayer;
@@ -70,7 +71,6 @@ public class HandCards {
         list.add(cards);
         linearLayout.addView(cards.getCardUI());
 
-        //cards.getCardUI().setVisibility(View.VISIBLE);
         //Karten nur fuer primary player sichtbar
 
         if(playerYellow!=null&&playerYellow.getColor().equals(primaryPlayer.getColor())){

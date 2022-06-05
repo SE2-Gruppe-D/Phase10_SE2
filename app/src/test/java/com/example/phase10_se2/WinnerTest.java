@@ -1,13 +1,6 @@
 package com.example.phase10_se2;
 
-import static org.junit.Assert.assertEquals;
-
-import android.widget.ImageView;
-
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-
-import java.util.ArrayList;
+import org.junit.jupiter.api.*;
 
 public class WinnerTest
 {
