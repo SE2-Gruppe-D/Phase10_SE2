@@ -11,7 +11,7 @@ public class WinnerDecision
     Player playerBlue = null;
     Player playerYellow = null;
     Player playerGreen = null;
-    ArrayList<Player> actualPlayers = new ArrayList<Player>();
+    ArrayList<Player> actualPlayers = new ArrayList<>();
 
     //Konstruktor für WinnerDecision, speichern der Spieler in eigene Variablen + einer Sammlung(ArrayList) von Spielern(Spielerliste)
     public WinnerDecision(ArrayList<Player> playerList)
