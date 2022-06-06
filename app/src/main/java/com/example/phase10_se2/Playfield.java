@@ -1720,9 +1720,10 @@ public class Playfield extends AppCompatActivity {
 
         for (String id : cardIds) {
             if (id.length()!=0) {
-                cards.add(cardDrawer.getInitialCardsList().get(Integer.parseInt(id)));
+                cards.add(cardDrawer.getInitialCardsList().get(Integer.parseInt(id) - 1));
             }
         }
+
         //card field cards
         ArrayList<String> cardIdsDepo = new ArrayList<>(Arrays.asList(playerList[0].get(6).toString().trim().split(" ")));
         ArrayList<Cards> cardsDepo = new ArrayList<Cards>();
