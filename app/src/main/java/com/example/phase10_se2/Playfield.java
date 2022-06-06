@@ -1400,9 +1400,9 @@ public class Playfield extends AppCompatActivity {
             newCardList.add(card.getID());
         }
         //discard pile
-        ArrayList<Integer> newDiscardPile = new ArrayList<>();
+        String newDiscardPile = "";
         for (Cards card : discardpileList) {
-            newDiscardPile.add(card.getID());
+            newDiscardPile += card.getID();
         }
 
         gameInfo.put("DiceRoll", currentDiceRoll);
@@ -1631,9 +1631,6 @@ public class Playfield extends AppCompatActivity {
     public boolean getPhaseAusgelegtDB(Player player) {
         return player.isAbgelegt();
     }
-
-
-
 
     public ArrayList<Cards> getCardfieldCardlistDB(){
         return currentPlayer.getCardField();
