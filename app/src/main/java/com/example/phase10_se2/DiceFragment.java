@@ -181,40 +181,29 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                     case (2):
                         diceView.setImageResource(R.drawable.dice_2);
                         lastDiceValue = 2;
-                        Log.e("helppppp", "d");
-                        playfield.getActionfield(1);
                         break;
                     case (3):
                         diceView.setImageResource(R.drawable.dice_3);
                         lastDiceValue = 3;
-                        Log.e("helppppp", "d");
-                        playfield.getActionfield(1);
                         break;
                     case (4):
                         diceView.setImageResource(R.drawable.dice_4);
                         lastDiceValue = 4;
-                        Log.e("helppppp", "d");
-                        playfield.getActionfield(1);
                         break;
                     case (5):
                         diceView.setImageResource(R.drawable.dice_5);
                         lastDiceValue = 5;
-                        Log.e("helppppp", "d");
-                        playfield.getActionfield(1);
                         break;
                     case (6):
                         diceView.setImageResource(R.drawable.dice_6);
                         lastDiceValue = 6;
-                        Log.e("helppppp", "d");
-                        playfield.getActionfield(1);
                         break;
                     default:
                         diceView.setImageResource(R.drawable.dice_1);
                         lastDiceValue = 1;
-                        Log.e("helppppp", "d");
-                        playfield.getActionfield(1);
                         break;
                 }
+
 
                 database.collection("gameInfo")
                         .whereEqualTo("RoomName", room)
@@ -232,6 +221,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                                 }
                             }
                         });
+                playfield.getActionfield(FieldColor.GREY);
             }
         }
     }

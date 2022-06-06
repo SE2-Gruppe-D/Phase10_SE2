@@ -1,6 +1,8 @@
 package com.example.phase10_se2;
 
 
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -332,6 +334,72 @@ public class Player {
                 return "YELLOW";
             default:
                 return null;
+        }
+    }
+
+    public void getCardsLayOut(LinearLayout layoutPlayer1CardField,LinearLayout layoutPlayer2CardField, LinearLayout layoutPlayer3CardField, LinearLayout layoutPlayer4CardField,Player playerblue,  Player playergreen,  Player playeryellow,  Player playerred, Player primaryplayer){
+        if (playerblue != null) {
+            if (playerblue.getColor().equals(primaryplayer.getColor())){
+                layoutPlayer1CardField.setVisibility(View.VISIBLE); //Auslegefeld für Spieler sichbar machen
+                playerblue.setLinearLayout(layoutPlayer1CardField);
+
+            } else {
+                layoutPlayer2CardField.setVisibility(View.VISIBLE);
+                playerblue.setLinearLayout(layoutPlayer2CardField);
+            }
+        }
+        if (playerred != null) {
+            if (playerred.getColor().equals(primaryplayer.getColor())) {
+                layoutPlayer1CardField.setVisibility(View.VISIBLE);
+                playerred.setLinearLayout(layoutPlayer1CardField);
+            } else if (layoutPlayer2CardField.getVisibility()!=View.VISIBLE){
+                layoutPlayer2CardField.setVisibility(View.VISIBLE);
+                playerred.setLinearLayout(layoutPlayer2CardField);
+            }else{
+                layoutPlayer3CardField.setVisibility(View.VISIBLE);
+                playerred.setLinearLayout(layoutPlayer3CardField);
+            }
+        }
+        if (playeryellow != null) {
+            if (playeryellow.getColor().equals(primaryplayer.getColor())) {
+                layoutPlayer1CardField.setVisibility(View.VISIBLE);
+                playeryellow.setLinearLayout(layoutPlayer1CardField);
+
+            }else if(layoutPlayer2CardField.getVisibility()!=View.VISIBLE){
+                layoutPlayer2CardField.setVisibility(View.VISIBLE);
+                playeryellow.setLinearLayout(layoutPlayer2CardField);
+
+            }else if(layoutPlayer3CardField.getVisibility()!=View.VISIBLE){
+                layoutPlayer3CardField.setVisibility(View.VISIBLE);
+                playeryellow.setLinearLayout(layoutPlayer3CardField);
+
+            }else {
+                layoutPlayer4CardField.setVisibility(View.VISIBLE);
+                playeryellow.setLinearLayout(layoutPlayer4CardField);
+
+            }
+        }
+        if (playergreen != null) {
+            if (playergreen.getColor().equals(primaryplayer.getColor())) {
+                layoutPlayer1CardField.setVisibility(View.VISIBLE);
+                playergreen.setLinearLayout(layoutPlayer1CardField);
+
+            }
+            else if(layoutPlayer2CardField.getVisibility()!=View.VISIBLE){
+                layoutPlayer2CardField.setVisibility(View.VISIBLE);
+                playergreen.setLinearLayout(layoutPlayer2CardField);
+
+            }
+            else if(layoutPlayer3CardField.getVisibility()!=View.VISIBLE){
+                layoutPlayer3CardField.setVisibility(View.VISIBLE);
+                playergreen.setLinearLayout(layoutPlayer3CardField);
+
+            }
+            else {
+                layoutPlayer4CardField.setVisibility(View.VISIBLE);
+                playergreen.setLinearLayout(layoutPlayer4CardField);
+
+            }
         }
     }
 }

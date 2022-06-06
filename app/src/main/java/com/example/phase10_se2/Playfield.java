@@ -68,6 +68,12 @@ public class Playfield extends AppCompatActivity {
     LinearLayout layoutPlayer2CardField;
     LinearLayout layoutPlayer3CardField;
     LinearLayout layoutPlayer4CardField;
+    int IDLayoutPlayerBlue;
+    int IDLayoutPlayerRed;
+    int IDLayoutPlayerYellow;
+    int IDLayoutPlayerGreen;
+    int cardToPull=-1;
+
 
 
     CardUIManager cardUIManager;
@@ -409,6 +415,7 @@ public class Playfield extends AppCompatActivity {
                         setPhasenumberDB(); //Phase wird um 1 erhöht und abgelegt wird auch true gesetzt
                         for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
                             getCardfieldCardlistDB().get(i).getCardUI().setClickable(false);
+                            getCardfieldCardlistDB().get(i).getCardUI().setVisibility(View.VISIBLE);
                         }
                     }
                 } else {
@@ -477,13 +484,24 @@ public class Playfield extends AppCompatActivity {
             }
         }
         //Auslegefelder werden zugeteilt
-        handCards.getCardsLayOut(layoutPlayer1CardField, layoutPlayer2CardField, layoutPlayer3CardField, layoutPlayer4CardField, playerBlue, playerGreen, playerYellow, playerRed, primaryPlayer);
-
+        currentPlayer.getCardsLayOut(layoutPlayer1CardField, layoutPlayer2CardField, layoutPlayer3CardField, layoutPlayer4CardField, playerBlue, playerGreen, playerYellow, playerRed, primaryPlayer);
+        if(playerBlue != null){
+            IDLayoutPlayerBlue= playerBlue.getLinearLayout().getId();
+        }
+        if(playerRed != null){
+            IDLayoutPlayerRed= playerRed.getLinearLayout().getId();
+        }
+        if(playerGreen != null){
+            IDLayoutPlayerGreen= playerGreen.getLinearLayout().getId();
+        }
+        if(playerYellow != null){
+            IDLayoutPlayerYellow= playerYellow.getLinearLayout().getId();
+        }
 
         //Player Blue, Red, Yellow, Green
         deckcard.setOnClickListener(view -> {
-            addCard();
-        });
+                addCard();
+           });
 
 
         //random Defaultcard
@@ -499,8 +517,9 @@ public class Playfield extends AppCompatActivity {
         }
 
         defaultcard.setOnClickListener(view -> {
-            addCardsDiscardpile();
+                addCardsDiscardpile();
         });
+
 
 
         //Timer
@@ -736,40 +755,42 @@ public class Playfield extends AppCompatActivity {
     //Eine Karte vom Ablagestapel ziehen
     protected void addCardsDiscardpile() {
         int size = discardpileList.size();
-        if (size != 0) {
-            discardpileList.get(size - 1).getCardUI().setVisibility(View.VISIBLE);
-            if (playerYellow != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerYellow.getColor().equals(primaryPlayer.getColor())) {
-                handCards.updateHand(getHandCardsDB(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
-                discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
-                discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
-                discardpileList.remove(size - 1);
-            }
-            if (playerBlue != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerBlue.getColor().equals(primaryPlayer.getColor())) {
-                handCards.updateHand(getHandCardsDB(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
-                discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
-                discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
-                discardpileList.remove(size - 1);
-                Log.e("Handkarten", String.valueOf(getHandCardsDB().size()));
-            }
-            if (playerRed != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerRed.getColor().equals(primaryPlayer.getColor())) {
-                handCards.updateHand(getHandCardsDB(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
-                discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
-                discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
-                discardpileList.remove(size - 1);
-            }
-            if (playerGreen != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerGreen.getColor().equals(primaryPlayer.getColor())) {
-                handCards.updateHand(getHandCardsDB(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
-                discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
-                discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
-                discardpileList.remove(size - 1);
-            }
+        if(cardToPull>0) {
+            if (size != 0) {
+                discardpileList.get(size - 1).getCardUI().setVisibility(View.VISIBLE);
+                if (playerYellow != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerYellow.getColor().equals(primaryPlayer.getColor())) {
+                    handCards.updateHand(getHandCardsDB(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
+                    discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
+                    discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
+                    discardpileList.remove(size - 1);
+                }
+                if (playerBlue != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerBlue.getColor().equals(primaryPlayer.getColor())) {
+                    handCards.updateHand(getHandCardsDB(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
+                    discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
+                    discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
+                    discardpileList.remove(size - 1);
+                    Log.e("Handkarten", String.valueOf(getHandCardsDB().size()));
+                }
+                if (playerRed != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerRed.getColor().equals(primaryPlayer.getColor())) {
+                    handCards.updateHand(getHandCardsDB(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
+                    discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
+                    discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
+                    discardpileList.remove(size - 1);
+                }
+                if (playerGreen != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerGreen.getColor().equals(primaryPlayer.getColor())) {
+                    handCards.updateHand(getHandCardsDB(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist);
+                    discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
+                    discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
+                    discardpileList.remove(size - 1);
+                }
 
-            if ((size - 1) != 0) {
-                defaultcard.setImageDrawable(createCardUI(discardpileList.get(size - 2)).getDrawable());
+                if ((size - 1) != 0) {
+                    defaultcard.setImageDrawable(createCardUI(discardpileList.get(size - 2)).getDrawable());
+                }
+                cardToPull--;
+            } else {
+                leererAblagestapel.setVisibility(View.VISIBLE);
             }
-
-        } else {
-            leererAblagestapel.setVisibility(View.VISIBLE);
         }
     }
 
@@ -811,11 +832,9 @@ public class Playfield extends AppCompatActivity {
     }
 
 
-    public void getActionfield(int i) {
-        Log.e("helppppcounter000" ,"**");
-
-        switch (i) {
-            case 1:
+    public void getActionfield(FieldColor fieldColor) {
+        switch (fieldColor) {
+            case GREY:
                 greyFieldColor();
                 /*
             case GREEN:
@@ -838,24 +857,7 @@ public class Playfield extends AppCompatActivity {
 
     //GREY = nimm 2 Karten vom Zieh- und/oder Ablagestapel
     private void greyFieldColor() {
-        Log.e("helppppcounter0" ,"**");
-        int counter = 0;
-        while (counter < 0){
-            Log.e("helppppcounter0.9" ,"**");
-
-            if (defaultcard.isSelected()) {
-                addCardsDiscardpile();
-                counter++;
-                Log.e("helppppcounter1" ,"**");
-
-            } else if (deckcard.isSelected()) {
-                counter++;
-                Log.e("helppppcounter2" ,"**");
-            }
-        }
-
-        deckcard.setClickable(false);
-        defaultcard.setClickable(false);
+        cardToPull=2;
     }
 
 /*
@@ -923,24 +925,26 @@ public class Playfield extends AppCompatActivity {
     //Karte ziehen
     protected void addCard() {
         //only currentPlayer kann ziehen
-        cardlist.get(0).getCardUI().setVisibility(View.VISIBLE);
-        cardlist.get(0).getCardUI().setOnClickListener(listener);
-        cardlist.get(0).getCardUI().setOnTouchListener(new ChoiceTouchListener());
-        if (playerYellow != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerYellow.getColor().equals(primaryPlayer.getColor())) {
-            handCards.updateHand(getHandCardsDB(), cardlist.get(0), layoutPlayer1, 0, cardlist);
-
-        }
-        if (playerBlue != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerBlue.getColor().equals(primaryPlayer.getColor())) {
-            handCards.updateHand(getHandCardsDB(), cardlist.get(0), layoutPlayer1, 0, cardlist);
-
-        }
-        if (playerRed != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerRed.getColor().equals(primaryPlayer.getColor())) {
-            handCards.updateHand(getHandCardsDB(), cardlist.get(0), layoutPlayer1, 0, cardlist);
-
-        }
-        if (playerGreen != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerGreen.getColor().equals(primaryPlayer.getColor())) {
-            handCards.updateHand(getHandCardsDB(), cardlist.get(0), layoutPlayer1, 0, cardlist);
-
+        if(cardToPull>0) {
+            cardlist.get(0).getCardUI().setVisibility(View.VISIBLE);
+            cardlist.get(0).getCardUI().setOnClickListener(listener);
+            cardlist.get(0).getCardUI().setOnTouchListener(new ChoiceTouchListener());
+            if (playerYellow != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerYellow.getColor().equals(primaryPlayer.getColor())) {
+                handCards.updateHand(getHandCardsDB(), cardlist.get(0), layoutPlayer1, 0, cardlist);
+                cardToPull--;
+            }
+            if (playerBlue != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerBlue.getColor().equals(primaryPlayer.getColor())) {
+                handCards.updateHand(getHandCardsDB(), cardlist.get(0), layoutPlayer1, 0, cardlist);
+                cardToPull--;
+            }
+            if (playerRed != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerRed.getColor().equals(primaryPlayer.getColor())) {
+                handCards.updateHand(getHandCardsDB(), cardlist.get(0), layoutPlayer1, 0, cardlist);
+                cardToPull--;
+            }
+            if (playerGreen != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerGreen.getColor().equals(primaryPlayer.getColor())) {
+                handCards.updateHand(getHandCardsDB(), cardlist.get(0), layoutPlayer1, 0, cardlist);
+                cardToPull--;
+            }
         }
     }
 
@@ -1080,6 +1084,8 @@ public class Playfield extends AppCompatActivity {
 
     }
 
+
+
     //Drag and Drop Auslegefeld Spieler 2
     private class ChoiceDragListener2 implements View.OnDragListener {
         @Override
@@ -1100,44 +1106,40 @@ public class Playfield extends AppCompatActivity {
 
                     case DragEvent.ACTION_DROP: //Action 3
 
-                        Log.e("Feld Spieler 2", dragEvent.toString());
                         View v = (View) dragEvent.getLocalState();
                         ViewGroup owner = (ViewGroup) v.getParent();
-                        if(getPhaseAusgelegtDB(currentPlayer)){ //currentPlayer hat Phase ausgelegt
+                        if(true) { // --> getPhaseAusgelegtDB(currentPlayer) currentPlayer hat Phase ausgelegt
                             //richtigen Spieler herausfinden
-                            if(playerBlue.getLinearLayout()==layoutPlayer2CardField){
-                                player=playerBlue;
-                            }else if(playerGreen.getLinearLayout()==layoutPlayer2CardField){
-                                player=playerGreen;
-                            }else if(playerYellow.getLinearLayout()==layoutPlayer2CardField){
-                                player=playerYellow;
-                            }else if(playerRed.getLinearLayout()==layoutPlayer2CardField){
-                                player=playerRed;
+                            if (playerBlue != null && IDLayoutPlayerBlue == layoutPlayer2CardField.getId()) {
+                                player = playerBlue;
+                            } else if (playerGreen != null && IDLayoutPlayerGreen == layoutPlayer2CardField.getId()) {
+                                player = playerGreen;
+
+                            } else if (playerYellow != null && IDLayoutPlayerYellow == layoutPlayer2CardField.getId()) {
+                                player = playerYellow;
+
+                            } else if (playerRed != null && IDLayoutPlayerRed == layoutPlayer2CardField.getId()) {
+                                player = playerRed;
+
                             }
-                            if(getPhaseAusgelegtDB(player)){
+                            if (true) { //-> getPhaseAusgelegtDB(player)
+                                Log.e("Feld Spieler 2 3", String.valueOf(player.getCardField()));
+                                playerHandPrimaryPlayer = getHandCardsDB();
+                                if (playerHandPrimaryPlayer.size() != 0) {
+                                    for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
+                                        if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
+                                            phase.getRightPhaseOtherPlayer(getPhasenumberPlayersDB(player), playerHandPrimaryPlayer.get(i), player);
+                                            cardfieldCardlistPlayer2.add(playerHandPrimaryPlayer.get(i));
+                                            playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
 
-
-                            }
-                        }
-                        //ToDO: Vom Player auslesen: Phase richtig (Mitspieler und selbst), weil erst dann dazulegen; Welche Phase; welche Karten; welcher Spieler auf diesem Feld
-                        // if (player.abgelegt) {
-                        //int phasenumber = player.getPhaseNumber();
-                        // player.getCardField();
-
-
-                        playerHandPrimaryPlayer = getHandCardsDB();
-                        if (playerHandPrimaryPlayer.size() != 0) {
-                            for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
-                                if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
-                                    phase.getRightPhaseOtherPlayer(getPhasenumberPlayersDB(player), playerHandPrimaryPlayer.get(i), player);
-                                    cardfieldCardlistPlayer2.add(playerHandPrimaryPlayer.get(i));
-                                    playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                                        }
+                                    }
+                                    owner.removeView(v);
+                                    layoutPlayer2CardField.addView(v);
+                                    v.setVisibility(View.VISIBLE);
+                                    v.setClickable(false);
                                 }
                             }
-                            owner.removeView(v);
-                            layoutPlayer2CardField.addView(v);
-                            v.setVisibility(View.VISIBLE);
-                            v.setClickable(false);
                         }
                         break;
 
@@ -1618,10 +1620,19 @@ public class Playfield extends AppCompatActivity {
         return currentPlayer.getCardField();
     }
 
+    public ArrayList<Cards> getCardfieldCardlistPlayersDB(Player player){
+        return player.getCardField();
+    }
+
+
+
     public ArrayList<Cards> getHandCardsDB(){
         return currentPlayer.getPlayerHand();
     }
 
+    public LinearLayout getLinearLayoutCardField(Player player){
+        return player.getLinearLayout();
+    }
 
     //update currentPlayer
     public void updateCurrentPlayer() {
