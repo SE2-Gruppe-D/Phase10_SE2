@@ -200,6 +200,10 @@ public class Player {
         return color;
     }
 
+    public void setColor(PlayerColor color) {
+        this.color = color;
+    }
+
     public String getRoom() {
         return room;
     }

@@ -43,7 +43,7 @@ public class PhaseTest {
         list = new ArrayList<>();
     }
 
-/*
+
     @Test
     public void whenCheckingPhase1AndListLengthIsRightAndCardsAreRightAndSorted_ThenReturnTrue ()
     {
@@ -126,8 +126,8 @@ public class PhaseTest {
         player.setPhaseNumber(2);
         Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(),list));
     }
-    
- */
+
+
 
 
 
