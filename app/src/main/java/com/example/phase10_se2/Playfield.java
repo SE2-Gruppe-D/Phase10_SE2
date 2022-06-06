@@ -194,7 +194,9 @@ public class Playfield extends AppCompatActivity {
                                                     //current player
                                                     ArrayList currentPlayerArray = (ArrayList) document.get("CurrentPlayer");
                                                     if (currentPlayer != null && !currentPlayer.getColorAsString().equals(currentPlayerArray.get(1))) {
-                                                        if (currentPlayerArray.get(1).equals("RED")) {
+                                                        getPlayerFromDB(String.valueOf(currentPlayerArray.get(1)));
+
+                                                        if (currentPlayerArray.get(1).equals("RED")) { //TODO: maybe old player gets set, before new player gets created (Line 197)
                                                             currentPlayer = playerRed;
                                                         }
                                                         if (currentPlayerArray.get(1).equals("BLUE")) {
@@ -395,19 +397,16 @@ public class Playfield extends AppCompatActivity {
         //cardfieldCardlistPlayer3 = new ArrayList<>();
         //cardfieldCardlistPlayer4 = new ArrayList<>();
         phase = new Phase();
-        if (primaryPlayer != null && currentPlayer != null && primaryPlayer.getColor().equals(currentPlayer.getColor())) {
+       // if (primaryPlayer != null && currentPlayer != null && primaryPlayer.getColor().equals(currentPlayer.getColor())) {
             btnCheckPhase.setVisibility(View.VISIBLE);
-        }
+       // }
         btnCheckPhase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("Phase: ", String.valueOf(getPhasenumberDB()));
-                if (phase.getRightPhase(10, getCardfieldCardlistDB())) {
+                if (phase.getRightPhase(getPhasenumberDB(), getCardfieldCardlistDB())) {
                     if (getPhasenumberDB() != 10) {
-                        Log.e("Phase right ", "right");
-                        // btnCheckPhase.setVisibility(View.INVISIBLE);
+                        btnCheckPhase.setVisibility(View.INVISIBLE);
                         setPhasenumberDB(); //Phase wird um 1 erhöht und abgelegt wird auch true gesetzt
-                        Log.e("Phase erhöht? ", String.valueOf(getPhasenumberDB()));
                         for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
                             getCardfieldCardlistDB().get(i).getCardUI().setClickable(false);
                         }
@@ -841,7 +840,7 @@ public class Playfield extends AppCompatActivity {
     private void greyFieldColor() {
         Log.e("helppppcounter0" ,"**");
         int counter = 0;
-        while (counter < 3){
+        while (counter < 0){
             Log.e("helppppcounter0.9" ,"**");
 
             if (defaultcard.isSelected()) {
@@ -925,25 +924,23 @@ public class Playfield extends AppCompatActivity {
     protected void addCard() {
         //only currentPlayer kann ziehen
         cardlist.get(0).getCardUI().setVisibility(View.VISIBLE);
+        cardlist.get(0).getCardUI().setOnClickListener(listener);
+        cardlist.get(0).getCardUI().setOnTouchListener(new ChoiceTouchListener());
         if (playerYellow != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerYellow.getColor().equals(primaryPlayer.getColor())) {
             handCards.updateHand(getHandCardsDB(), cardlist.get(0), layoutPlayer1, 0, cardlist);
-            cardlist.get(0).getCardUI().setOnClickListener(listener);
-            cardlist.get(0).getCardUI().setOnTouchListener(new ChoiceTouchListener());
+
         }
         if (playerBlue != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerBlue.getColor().equals(primaryPlayer.getColor())) {
             handCards.updateHand(getHandCardsDB(), cardlist.get(0), layoutPlayer1, 0, cardlist);
-            cardlist.get(0).getCardUI().setOnClickListener(listener);
-            cardlist.get(0).getCardUI().setOnTouchListener(new ChoiceTouchListener());
+
         }
         if (playerRed != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerRed.getColor().equals(primaryPlayer.getColor())) {
             handCards.updateHand(getHandCardsDB(), cardlist.get(0), layoutPlayer1, 0, cardlist);
-            cardlist.get(0).getCardUI().setOnClickListener(listener);
-            cardlist.get(0).getCardUI().setOnTouchListener(new ChoiceTouchListener());
+
         }
         if (playerGreen != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerGreen.getColor().equals(primaryPlayer.getColor())) {
             handCards.updateHand(getHandCardsDB(), cardlist.get(0), layoutPlayer1, 0, cardlist);
-            cardlist.get(0).getCardUI().setOnClickListener(listener);
-            cardlist.get(0).getCardUI().setOnTouchListener(new ChoiceTouchListener());
+
         }
     }
 
@@ -964,8 +961,6 @@ public class Playfield extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
-
-                //Log.e("debugClick", view.toString());
                 if (System.currentTimeMillis() - doubleClickLastTime < 700) {
                     doubleClickLastTime = 0;
                     View v = view;
@@ -981,6 +976,8 @@ public class Playfield extends AppCompatActivity {
                     owner.removeView(v);
                     layoutPlayer1.addView(v);
                     v.setVisibility(View.VISIBLE);
+                    v.setOnTouchListener(new ChoiceTouchListener());
+
 
                 } else {
                     doubleClickLastTime = System.currentTimeMillis();
@@ -998,8 +995,8 @@ public class Playfield extends AppCompatActivity {
 
                         owner.removeView(v);
                         layoutPlayer1CardField.addView(v);
-                        v.setVisibility(View.VISIBLE);
-                       // v.cancelDragAndDrop();
+                       v.setOnTouchListener(null);
+
                     }
                 }
             }
@@ -1021,7 +1018,6 @@ public class Playfield extends AppCompatActivity {
                         View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
                         view.startDragAndDrop(data, shadowBuilder, view, 0);
                         view.setVisibility(View.VISIBLE);
-                        //Log.e("touch", view.toString());
                         isMoved = false;
                         break;
                 }
@@ -1053,7 +1049,6 @@ public class Playfield extends AppCompatActivity {
                         break;
 
                     case DragEvent.ACTION_DROP: //Action 3
-                        // Log.e("Abgelegt", dragEvent.toString());
                         View v = (View) dragEvent.getLocalState();
                         ViewGroup owner = (ViewGroup) v.getParent();
                         //Karte zum Ablegestapel hinzufügen
@@ -1104,20 +1099,37 @@ public class Playfield extends AppCompatActivity {
                         break;
 
                     case DragEvent.ACTION_DROP: //Action 3
-                        // Log.e("Feld Spieler 2", dragEvent.toString());
+
+                        Log.e("Feld Spieler 2", dragEvent.toString());
                         View v = (View) dragEvent.getLocalState();
                         ViewGroup owner = (ViewGroup) v.getParent();
-                        //if(primaryPlayer.abgelegt){ //Überprüft, ob man selbst Phase ausgelegt hat, weil erst dann darf man bei den Mitspielern dazu legen
+                        if(getPhaseAusgelegtDB(currentPlayer)){ //currentPlayer hat Phase ausgelegt
+                            //richtigen Spieler herausfinden
+                            if(playerBlue.getLinearLayout()==layoutPlayer2CardField){
+                                player=playerBlue;
+                            }else if(playerGreen.getLinearLayout()==layoutPlayer2CardField){
+                                player=playerGreen;
+                            }else if(playerYellow.getLinearLayout()==layoutPlayer2CardField){
+                                player=playerYellow;
+                            }else if(playerRed.getLinearLayout()==layoutPlayer2CardField){
+                                player=playerRed;
+                            }
+                            if(getPhaseAusgelegtDB(player)){
+
+
+                            }
+                        }
                         //ToDO: Vom Player auslesen: Phase richtig (Mitspieler und selbst), weil erst dann dazulegen; Welche Phase; welche Karten; welcher Spieler auf diesem Feld
                         // if (player.abgelegt) {
                         //int phasenumber = player.getPhaseNumber();
                         // player.getCardField();
-                        //player.getLinearLayout();
+
 
                         playerHandPrimaryPlayer = getHandCardsDB();
                         if (playerHandPrimaryPlayer.size() != 0) {
                             for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                                 if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
+                                    phase.getRightPhaseOtherPlayer(getPhasenumberPlayersDB(player), playerHandPrimaryPlayer.get(i), player);
                                     cardfieldCardlistPlayer2.add(playerHandPrimaryPlayer.get(i));
                                     playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
                                 }
@@ -1545,7 +1557,6 @@ public class Playfield extends AppCompatActivity {
     }
 
 
-
     public void setPhasenumberDB() {
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
@@ -1557,8 +1568,29 @@ public class Playfield extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 ArrayList player = (ArrayList) document.get("CurrentPlayer"); //welchen player du haben möchtest
                                 player.set(3, (getPhasenumberDB() + 1)); //du setzt nun bei player index 3 einen neuen wert, und zwar der alte + 1
+                                currentPlayer.setPhaseNumber((getPhasenumberDB() + 1));
                                 player.set(7, true);
+                                currentPlayer.setAbgelegt(true);
                                 document.getReference().update("CurrentPlayer", player); //hier updatest den player in der DB mit den neu gesetzten werten, falls du was geändert hast
+
+                                //update player phase number
+                                if (player.get(1).equals("YELLOW")) {
+                                    playerYellow.setPhaseNumber(getPhasenumberDB());
+                                    playerYellow.setAbgelegt(true);
+                                }
+                                if (player.get(1).equals("BLUE")) {
+                                    playerBlue.setPhaseNumber(getPhasenumberDB());
+                                    playerBlue.setAbgelegt(true);
+                                }
+                                if (player.get(1).equals("GREEN")) {
+                                    playerGreen.setPhaseNumber(getPhasenumberDB());
+                                    playerGreen.setAbgelegt(true);
+                                }
+                                if (player.get(1).equals("RED")) {
+                                    playerRed.setPhaseNumber(getPhasenumberDB());
+                                    playerRed.setAbgelegt(true);
+                                }
+                                updatePlayers();
                             }
                         } else {
                             Log.d("DB phasenumber", "Error setting Data to Firestore: ", task.getException());
@@ -1571,6 +1603,13 @@ public class Playfield extends AppCompatActivity {
         return currentPlayer.getPhaseNumber();
     }
 
+    public int getPhasenumberPlayersDB(Player player) {
+        return player.getPhaseNumber();
+    }
+
+    public boolean getPhaseAusgelegtDB(Player player) {
+        return player.isAbgelegt();
+    }
 
 
 
