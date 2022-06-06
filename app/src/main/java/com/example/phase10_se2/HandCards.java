@@ -74,22 +74,24 @@ public class HandCards {
         //Karten nur fuer primary player sichtbar
 
         if(playerYellow!=null&&playerYellow.getColor().equals(primaryPlayer.getColor())){
-            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerYellow);
+            cards.getCardUI().setVisibility(View.VISIBLE);
+            //cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerYellow);
         }
         if(playerBlue!=null&&playerBlue.getColor().equals(primaryPlayer.getColor())){
-            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerBlue);
+            cards.getCardUI().setVisibility(View.VISIBLE);
+            //cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerBlue);
         }
         if (playerRed!=null&&playerRed.getColor().equals(primaryPlayer.getColor())){
-            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerRed);
+            cards.getCardUI().setVisibility(View.VISIBLE);
+            //cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerRed);
         }
         if(playerGreen!=null&&playerGreen.getColor().equals(primaryPlayer.getColor())){
-            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerGreen);
+            cards.getCardUI().setVisibility(View.VISIBLE);
+            //cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerGreen);
         }
 
         cardlist.remove(0);
-        cards.getCardUI().setRotation(grad);
-
-
+        //cards.getCardUI().setRotation(grad);
     }
 
 
