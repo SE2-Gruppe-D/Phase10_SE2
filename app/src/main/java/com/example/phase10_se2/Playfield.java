@@ -404,7 +404,7 @@ public class Playfield extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.e("Phase: ", String.valueOf(getPhasenumberDB()));
-                if (phase.getRightPhase(10, getCardfieldCardlistDB())) {
+                if (phase.getRightPhase(getPhasenumberDB(), getCardfieldCardlistDB())) {
                     if (getPhasenumberDB() != 10) {
                         Log.e("Phase right ", "right");
                         // btnCheckPhase.setVisibility(View.INVISIBLE);
@@ -1563,19 +1563,23 @@ public class Playfield extends AppCompatActivity {
 
                                 //update player phase number
                                 if (player.get(1).equals("YELLOW")) {
-                                    playerYellow.setPhaseNumber((Integer) player.get(3));
+                                    playerYellow.setPhaseNumber((int) player.get(3)+1);
+                                    document.getReference().update("PlayerYellow", player); //hier updatest den player in der DB mit den neu gesetzten werten, falls du was geändert hast
                                 }
                                 if (player.get(1).equals("BLUE")) {
-                                    playerBlue.setPhaseNumber((Integer) player.get(3));
+                                    playerYellow.setPhaseNumber((int) player.get(3)+1);
+                                    document.getReference().update("PlayerBlue", player);
                                 }
                                 if (player.get(1).equals("GREEN")) {
-                                    playerGreen.setPhaseNumber((Integer) player.get(3));
+                                    playerYellow.setPhaseNumber((int) player.get(3)+1);
+                                    document.getReference().update("PlayerGreen", player);
                                 }
                                 if (player.get(1).equals("RED")) {
-                                    playerRed.setPhaseNumber((Integer) player.get(3));
+                                    playerYellow.setPhaseNumber((int) player.get(3)+1);
+                                    document.getReference().update("PlayerRed", player);
                                 }
 
-                                updateCurrentPlayer();
+                               //updateCurrentPlayer();
                             }
                         } else {
                             Log.d("DB phasenumber", "Error setting Data to Firestore: ", task.getException());
