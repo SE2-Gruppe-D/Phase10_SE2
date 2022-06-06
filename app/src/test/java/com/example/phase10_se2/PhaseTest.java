@@ -25,6 +25,11 @@ public class PhaseTest {
     private Cards card8b2;
     private Cards card6g;
     private Cards card9r;
+    private Cards card7g;
+    private Cards card7r;
+    private Cards card8r2;
+    private Cards card8y2;
+    private Cards card8g2;
     private ArrayList<Cards> list;
 
 
@@ -51,6 +56,11 @@ public class PhaseTest {
         card8b2 = new Cards("BLUE", 8, null, 64);
         card6g = new Cards("GREEN", 6, null, 6);
         card9r = new Cards("RED", 9, null, 9);
+        card7g = new Cards ("GREEN", 7, null, 55);
+        card7r = new Cards ("RED", 7, null, 79);
+        card8r2 = new Cards ("RED", 8,null,108);
+        card8g2 = new Cards ("GREEN", 8, null, 116);
+        card8y2 = new Cards ("YELLOW", 8, null, 124);
         list = new ArrayList<>();
     }
 
@@ -293,4 +303,57 @@ public class PhaseTest {
     //Richtige Listenlänge und falsche Karten bereits bei 4 getestet.
 
     //Phase 7
+    @Test
+    public void whenCheckingPhase7AndListLengthIsRightAnd4CardsHaveTheSameValueTwice_ThenReturnRight() {
+        list.add(card7b);
+        list.add(card8r);
+        list.add(card7y);
+        list.add(card8y);
+        list.add(card7g);
+        list.add(card7r);
+        list.add(card8g);
+        list.add(card8b);
+        player.setPhaseNumber(7);
+        Assertions.assertTrue(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
+    }
+
+    //Der gleiche Value für beide 4er Folgen geht nicht
+    /*
+    @Test
+    public void whenCheckingPhase7AndListLengthIsRightAnd4CardsHaveTheSameValueTwiceInARow_ThenReturnRight() {
+        list.add(card8r);
+        list.add(card8g);
+        list.add(card8r2);
+        list.add(card8y2);
+        list.add(card8b);
+        list.add(card8g2);
+        list.add(card8y);
+        list.add(card8b2);
+        player.setPhaseNumber(7);
+        Assertions.assertTrue(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
+    }
+     */
+
+    @Test
+    public void whenCheckingPhase7AndListLengthIsWrong_ThenReturnFalse() {
+        list.add(card1y);
+        player.setPhaseNumber(7);
+        Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
+    }
+
+    @Test
+    public void whenCheckingPhase7AndListLengthIsRightAndThereAreNot4CardsOfTheSameValueTwice_ThenReturnFalse() {
+        list.add(card7b);
+        list.add(card8r);
+        list.add(card7y);
+        list.add(card8y);
+        list.add(card7g);
+        list.add(card7r);
+        list.add(card8g);
+        list.add(card9r);
+        player.setPhaseNumber(7);
+        Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
+    }
+
+    //Phase 8
 }
