@@ -247,47 +247,36 @@ public class Player {
 
     public void setPhaseText() {
         switch (phaseNumber) {
-
             case (1):
                 phaseText = "4 Zwillinge";
                 break;
-
             case (2):
                 phaseText = "6 Karten einer Farbe";
                 break;
-
             case (3):
                 phaseText = "1 Vierling + 1 Viererfolge";
                 break;
-
             case (4):
                 phaseText = "1 Achterfolge";
                 break;
-
             case (5):
                 phaseText = "7 Karten einer Farbe";
                 break;
-
             case (6):
                 phaseText = "1 Neunerfolge";
                 break;
-
             case (7):
                 phaseText = "2 Vierlinge";
                 break;
-
             case (8):
                 phaseText = "1 Viererfolge einer Farbe + 1 Drilling";
                 break;
-
             case (9):
                 phaseText = "1 Fünfling + 1 Drilling";
                 break;
-
             case (10):
                 phaseText = "1 Fünfling + 1 Dreierfolge einer Farbe";
                 break;
-
         }
 
     }
