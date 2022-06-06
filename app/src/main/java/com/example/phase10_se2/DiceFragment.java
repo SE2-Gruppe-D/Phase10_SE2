@@ -85,14 +85,14 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                                     //CurrentPlayer for dice throwing
                                                     ArrayList currentPlayer = (ArrayList) document.get("CurrentPlayer");
-                                                    if (currentPlayerColor == null || (currentPlayer != null && !currentPlayerColor.equals(definePlayerColor((String) currentPlayer.get(1))))) {
+                                                    if ((currentPlayer != null && currentPlayerColor == null) || (currentPlayer != null && !currentPlayerColor.equals(definePlayerColor((String) currentPlayer.get(1))))) {
                                                         currentPlayerColor = definePlayerColor((String) currentPlayer.get(1));
                                                         moved = false;
                                                     }
 
                                                     //last dice value for cheating
                                                     int diceRoll = document.get("DiceRoll", Integer.class);
-                                                    if (lastDiceValue != diceRoll) {
+                                                    if (diceRoll != 0 && lastDiceValue != diceRoll) {
                                                         lastDiceValueDB_old = lastDiceValue;
                                                         lastDiceValue = diceRoll;
                                                         setDiceView(diceRoll);

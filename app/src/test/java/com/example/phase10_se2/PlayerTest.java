@@ -7,6 +7,10 @@ import java.util.ArrayList;
 
 public class PlayerTest {
     Player player;
+    Player playerCon1;
+    Player playerCon3;
+    Player playerCon4;
+
     Cards card1;
     Cards card2;
     Cards card3;
@@ -15,12 +19,15 @@ public class PlayerTest {
 
     @BeforeEach
     public void init() {
-        player = new Player("Test-Player", PlayerColor.GREEN, 0,0);
+        player = new Player("Test-Player", null, 0,0);
         card1 = new Cards("blue",7,null,7);
         card2 = new Cards("yellow",5,null,53);
         card3 = new Cards("green",11,null,83);
         cards1= new Cards("blue", 11, null, 1);
         cards = new ArrayList<Cards>();
+        playerCon1 = new Player("TesterCon1",null, null,1,0,null,null);
+        playerCon3 = new Player("TesterCon3", null,1);
+        playerCon4 = new Player("TesterCon4", null);
 
     }
 
@@ -73,8 +80,50 @@ public class PlayerTest {
 
     @Test
     public void ifPhaseNumberIs10_ThenAssignTheRightText() {
+        player.setPhaseNumber(1);
+        player.setPhaseText();
+        Assertions.assertEquals("4 Zwillinge", player.getPhaseText());
+        player.setPhaseNumber(2);
+        player.setPhaseText();
+        Assertions.assertEquals("6 Karten einer Farbe", player.getPhaseText());
+        player.setPhaseNumber(3);
+        player.setPhaseText();
+        Assertions.assertEquals("1 Vierling + 1 Viererfolge", player.getPhaseText());
+        player.setPhaseNumber(4);
+        player.setPhaseText();
+        Assertions.assertEquals("1 Achterfolge", player.getPhaseText());
+        player.setPhaseNumber(5);
+        player.setPhaseText();
+        Assertions.assertEquals("7 Karten einer Farbe", player.getPhaseText());
+        player.setPhaseNumber(6);
+        player.setPhaseText();
+        Assertions.assertEquals("1 Neunerfolge", player.getPhaseText());
+        player.setPhaseNumber(7);
+        player.setPhaseText();
+        Assertions.assertEquals("2 Vierlinge", player.getPhaseText());
+        player.setPhaseNumber(8);
+        player.setPhaseText();
+        Assertions.assertEquals("1 Viererfolge einer Farbe + 1 Drilling", player.getPhaseText());
+        player.setPhaseNumber(9);
+        player.setPhaseText();
+        Assertions.assertEquals("1 Fünfling + 1 Drilling", player.getPhaseText());
         player.setPhaseNumber(10);
         player.setPhaseText();
         Assertions.assertEquals("1 Fünfling + 1 Dreierfolge einer Farbe", player.getPhaseText());
     }
+
+    @Test
+    public void ifGetColorAsStringisUsed_ThenReturnColorAsAString () {
+        player.setColor(PlayerColor.RED);
+        Assertions.assertEquals("RED",player.getColorAsString());
+        player.setColor(PlayerColor.BLUE);
+        Assertions.assertEquals("BLUE",player.getColorAsString());
+        player.setColor(PlayerColor.GREEN);
+        Assertions.assertEquals("GREEN",player.getColorAsString());
+        player.setColor(PlayerColor.YELLOW);
+        Assertions.assertEquals("YELLOW",player.getColorAsString());
+    }
+
+
+
 }
