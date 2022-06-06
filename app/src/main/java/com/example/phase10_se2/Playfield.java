@@ -1060,6 +1060,7 @@ public class Playfield extends AppCompatActivity {
                                     discardpileList.add(playerHandPrimaryPlayer.get(i));
                                     defaultcard.setImageDrawable(createCardUI(playerHandPrimaryPlayer.get(i)).getDrawable());
                                     playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                                    setNextCurrentPlayer();
                                     break; //break, because you can only drag one card
                                 }
                             }
