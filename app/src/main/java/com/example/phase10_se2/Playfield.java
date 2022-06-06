@@ -194,7 +194,9 @@ public class Playfield extends AppCompatActivity {
                                                     //current player
                                                     ArrayList currentPlayerArray = (ArrayList) document.get("CurrentPlayer");
                                                     if (currentPlayer != null && !currentPlayer.getColorAsString().equals(currentPlayerArray.get(1))) {
-                                                        if (currentPlayerArray.get(1).equals("RED")) {
+                                                        getPlayerFromDB(String.valueOf(currentPlayerArray.get(1)));
+
+                                                        if (currentPlayerArray.get(1).equals("RED")) { //TODO: maybe old player gets set, before new player gets created (Line 197)
                                                             currentPlayer = playerRed;
                                                         }
                                                         if (currentPlayerArray.get(1).equals("BLUE")) {
@@ -1545,7 +1547,6 @@ public class Playfield extends AppCompatActivity {
     }
 
 
-
     public void setPhasenumberDB() {
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
@@ -1559,6 +1560,22 @@ public class Playfield extends AppCompatActivity {
                                 player.set(3, (getPhasenumberDB() + 1)); //du setzt nun bei player index 3 einen neuen wert, und zwar der alte + 1
                                 player.set(7, true);
                                 document.getReference().update("CurrentPlayer", player); //hier updatest den player in der DB mit den neu gesetzten werten, falls du was geändert hast
+
+                                //update player phase number
+                                if (player.get(1).equals("YELLOW")) {
+                                    playerYellow.setPhaseNumber((Integer) player.get(3));
+                                }
+                                if (player.get(1).equals("BLUE")) {
+                                    playerBlue.setPhaseNumber((Integer) player.get(3));
+                                }
+                                if (player.get(1).equals("GREEN")) {
+                                    playerGreen.setPhaseNumber((Integer) player.get(3));
+                                }
+                                if (player.get(1).equals("RED")) {
+                                    playerRed.setPhaseNumber((Integer) player.get(3));
+                                }
+
+                                updateCurrentPlayer();
                             }
                         } else {
                             Log.d("DB phasenumber", "Error setting Data to Firestore: ", task.getException());
@@ -1570,9 +1587,6 @@ public class Playfield extends AppCompatActivity {
     public int getPhasenumberDB() {
         return currentPlayer.getPhaseNumber();
     }
-
-
-
 
 
     public ArrayList<Cards> getCardfieldCardlistDB(){
