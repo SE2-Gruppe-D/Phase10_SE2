@@ -10,20 +10,17 @@ import java.util.ArrayList;
 
 public class Actionfield extends AppCompatActivity {
 
-    Playfield playfield;
+    Playfield playfield; //= new Playfield();
+    DiceFragment diceFragment; //= new DiceFragment();
     ImageView deckcard;
     ImageView defaultcard;
-    DiceFragment diceFragment;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_playfield);
-        deckcard = findViewById(R.id.deckblatt);
-        defaultcard = findViewById(R.id.defaultcard);
-    }
 
-    private void getActionfield(FieldColor fieldColor){
+
+
+
+
+    public void getActionfield(FieldColor fieldColor){
         switch (fieldColor){
             case GREY:  greyFieldColor();
             case GREEN:  greenFieldColor();
@@ -40,15 +37,18 @@ public class Actionfield extends AppCompatActivity {
     private void greyFieldColor(){
         int counter =0;
         do{
-            if (defaultcard.isSelected() ) {
+            if (playfield.defaultcard.isSelected() ) {
+
                 playfield.addCardsDiscardpile();
                 counter++;
-            }else if(deckcard.isSelected()) {
+            }else if(playfield.deckcard.isSelected()) {
                 playfield.addCard();
                 counter++;
             }
         }
         while(counter<2);
+        playfield.deckcard.setClickable(false);
+        playfield.defaultcard.setClickable(false);
     }
 
     //GREEN = ziehe 1 zufällige Karte aus dem gesamten Ablagestapel aus
@@ -107,6 +107,7 @@ public class Actionfield extends AppCompatActivity {
             diceFragment.setMoved(false);
         }
     }
+
 
 
 

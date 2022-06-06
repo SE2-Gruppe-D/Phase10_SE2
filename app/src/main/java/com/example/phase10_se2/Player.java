@@ -296,6 +296,14 @@ public class Player {
         this.phaseNumber = phaseNumber;
     }
 
+    public boolean isAbgelegt() {
+        return abgelegt;
+    }
+
+    public void setAbgelegt(boolean abgelegt) {
+        this.abgelegt = abgelegt;
+    }
+
     public ArrayList<Cards> getCardField() {
         return cardField;
     }
