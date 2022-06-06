@@ -122,10 +122,9 @@ public class Phase extends AppCompatActivity {
     }
 
     //Phase 10: 1 Fünfling + 1 Dreierfolge einer Farbe
-    //Problem! zuerst Folge überprüfen?
     private boolean checkPhase10(List<Cards> list){
         if (list.size() == 8) {
-            return checkEqualValue4(list);
+            return checkRunOfXEqualColorAnd5(list);
         } else {
             return false;
         }
@@ -262,71 +261,34 @@ public class Phase extends AppCompatActivity {
         return helplist.isEmpty();
     }
 
-
-
-
-
-
-
-
-    //-------------------------------Ab hier nicht Testen ----------------
-
     //check Phase 8
     //sehr große Methode - eventuell aufteilen
     private boolean checkRunOfXEqualColorAnd3(List<Cards> list){
-        list.sort(Comparator.comparing(Cards::getColor));//nach Wert sortieren
-        list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
-        for (int i = 0; i < list.size(); i++) {
-            Log.e("Folge richtig 1 ", list.get(i).getColor());
-            Log.e("Folge richtig 1 ", String.valueOf(list.get(i).getValue()));
-        }
+        list.sort(Comparator.comparing(Cards::getValue));//2. nach Wert sortieren
+        list.sort(Comparator.comparing(Cards::getColor));//1. nach Farbe sortieren
 
         List<Cards> helplist = new ArrayList<>(list);
+        List<Cards> helplist2 = new ArrayList<>(list);
         Cards helpCard;
+
         //zuerst Folge
         int counter = 0;
         for (int i = 0; i < list.size()-1; i++) {
             helpCard = list.get(i);
-            if ((helpCard.getValue() + 1) == (list.get(i + 1).getValue()) && helpCard.getColor().equals(list.get(i + 1).getColor())) {
+            if((helpCard.getValue()) == (list.get(i + 1).getValue()) && helpCard.getColor().equals(list.get(i + 1).getColor())){
+                continue;
+            }else if ((helpCard.getValue() + 1) == (list.get(i + 1).getValue()) && helpCard.getColor().equals(list.get(i + 1).getColor())) {
+                helplist2.add(helpCard);
                 counter++;
-                Log.e("Folge richtig 1 ", String.valueOf(counter));
-                if (counter == 4) {
-                    helplist.remove(i);
-                    helplist.remove(i--);
-                    helplist.remove(i - 2);
-                    helplist.remove(i - 3);
+                if (counter == 3) {
+                    helplist2.add(list.get(i+1));
+                    helplist.removeAll(helplist2);
                 }
             } else {
                 counter = 0;
-                Log.e("Folge nicht richtig 1 ", String.valueOf(counter));
-
             }
         }
 
-                   /*
-
-                    helplist.remove(helpCard);
-                    counter++;
-                    Log.e("Folge counter ", String.valueOf(counter));
-                    if(counter==4){
-                        helplist.remove(list.get(i+1));
-                        break;
-                    }
-                }
-        }
-        for (int i = 0; i < list.size(); i++) {
-            helpCard = helplist.get(0);
-            if (helplist.size() == 1) {
-                helplist.remove(0);
-            } else if ((helpCard.getValue() + 1) == (helplist.get(1).getValue())) {
-                helplist.remove(helpCard);
-            }
-        }
-
-                    */
-
-
-        Log.e("Folge richtig ", String.valueOf(helplist.size()));
         if(helplist.size()==3) {
             helpCard = helplist.get(0);
             for (int i = 1; i < 3; i++) {
@@ -336,13 +298,53 @@ public class Phase extends AppCompatActivity {
             }
             helplist.remove(helpCard);
         }
+        return helplist.isEmpty();
+    }
 
+
+    //check Phase 10
+    //sehr große Methode - eventuell aufteilen
+    private boolean checkRunOfXEqualColorAnd5(List<Cards> list){
+        list.sort(Comparator.comparing(Cards::getValue));//2. nach Wert sortieren
+        list.sort(Comparator.comparing(Cards::getColor));//1. nach Farbe sortieren
+
+        List<Cards> helplist = new ArrayList<>(list);
+        List<Cards> helplist2 = new ArrayList<>(list);
+        Cards helpCard;
+
+        //zuerst Folge
+        int counter = 0;
+        for (int i = 0; i < list.size()-1; i++) {
+            helpCard = list.get(i);
+            if((helpCard.getValue()) == (list.get(i + 1).getValue()) && helpCard.getColor().equals(list.get(i + 1).getColor())){
+                continue;
+            }else if ((helpCard.getValue() + 1) == (list.get(i + 1).getValue()) && helpCard.getColor().equals(list.get(i + 1).getColor())) {
+                helplist2.add(helpCard);
+                counter++;
+                if (counter == 2) {
+                    helplist2.add(list.get(i+1));
+                    helplist.removeAll(helplist2);
+                }
+            } else {
+                counter = 0;
+            }
+        }
+
+        if(helplist.size()==5) {
+            helpCard = helplist.get(0);
+            for (int i = 1; i < 5; i++) {
+                if (helpCard.getValue() == helplist.get(1).getValue()) {
+                    helplist.remove(1);
+                }
+            }
+            helplist.remove(helpCard);
+        }
         return helplist.isEmpty();
     }
 
 
 
-
+    //-------------------------------Ab hier nicht Testen ----------------
 
     //zur Überprüfung, ob der currentplayer bei einem Mitspieler eine richtige Karte dazu gelegt hat
     public boolean getRightPhaseOtherPlayer(int phasenumber, Cards cards, Player player){
