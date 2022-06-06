@@ -19,6 +19,11 @@ public class PhaseTest {
     private Cards card5y;
     private Cards card12y;
     private Cards card11y;
+    private Cards card3g;
+    private Cards card8y;
+    private Cards card8b;
+    private Cards card8b2;
+    private Cards card6g;
     private ArrayList<Cards> list;
 
 
@@ -40,10 +45,15 @@ public class PhaseTest {
         card5y = new Cards("YELLOW", 5,null,5);
         card12y = new Cards("YELLOW", 12,null,12);
         card11y = new Cards("YELLOW", 11,null,11);
+        card3g = new Cards("GREEN", 3,null, 27);
+        card8y = new Cards("YELLOW", 8, null, 8);
+        card8b = new Cards("BLUE", 8,null,32);
+        card8b2 = new Cards("BLUE", 8,null,64);
+        card6g = new Cards("GREEN", 6,null,6);
         list = new ArrayList<>();
     }
 
-
+//Phase1 Test
     @Test
     public void whenCheckingPhase1AndListLengthIsRightAndCardsAreRightAndSorted_ThenReturnTrue ()
     {
@@ -87,6 +97,7 @@ public class PhaseTest {
         Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(),list));
     }
 
+    //Phase 2 Tests
     @Test
     public void whenCheckingPhase2AndListLengthIsRightAndAllCardsAreOfOneColor_ThenReturnTrue ()
     {
@@ -126,85 +137,85 @@ public class PhaseTest {
         player.setPhaseNumber(2);
         Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(),list));
     }
-
-
-
-
-
-
-
-
-
-    /*private Card card1;
-    private Card card2;
-    private Card card3;
-    private Card card4;
-    private Card card5;
-    private Card card6;
-    private Card card7;
-    private Card card8;
-    private Card card9;
-    private Card card10;
-    private List<Card> list1;
-    private List<Card> list2;
-    private List<Card> list3;
-    private List<Card> list4;
-    private Phase phase;
-
-
-
+//Phase 3 Tests
     @Test
-    public void testCheckPhase1True(){
-        phase = new Phase(card1);
-        card1=new Card("red", 4);
-        card2=new Card("green", 4);
-        list1 = new ArrayList<>();
-        list1.add(card1);
-        list1.add(card2);
-        card3=new Card("red", 5);
-        card4=new Card("green", 5);
-        list2 = new ArrayList<>();
-        list2.add(card3);
-        list2.add(card4);
-        card5=new Card("red", 6);
-        card6=new Card("green", 6);
-        list3 = new ArrayList<>();
-        list3.add(card5);
-        list3.add(card6);
-        card7=new Card("red", 7);
-        card8=new Card("green", 7);
-        list4 = new ArrayList<>();
-        list4.add(card7);
-        list4.add(card8);
-        assertTrue(phase.checkPhase1(list1,list2,list3,list4));
+    public void whenCheckingPhase3AndListLengthIsRightAndThereAre4CardsOfTheSameValueAnd4CardsInSuccession_ThenReturnTrue ()
+    {
+        list.add(card1y);
+        list.add(card8r);
+        list.add(card2y);
+        list.add(card3g);
+        list.add(card8y);
+        list.add(card4b);
+        list.add(card8g);
+        list.add(card8b);
+        player.setPhaseNumber(3);
+        Assertions.assertTrue(phaseCheck.getRightPhase(player.getPhaseNumber(),list));
     }
 
     @Test
-    public void testCheckPhase1False(){
-        phase = new Phase(card1);
-        card1=new Card("red", 4);
-        card2=new Card("green", 4);
-        list1 = new ArrayList<>();
-        list1.add(card1);
-        list1.add(card2);
-        card3=new Card("red", 5);
-        card4=new Card("green", 5);
-        list2 = new ArrayList<>();
-        list2.add(card3);
-        list2.add(card4);
-        card5=new Card("red", 6);
-        card6=new Card("green", 9);
-        list3 = new ArrayList<>();
-        list3.add(card5);
-        list3.add(card6);
-        card7=new Card("red", 7);
-        card8=new Card("green", 7);
-        list4 = new ArrayList<>();
-        list4.add(card7);
-        list4.add(card8);
-        assertFalse(phase.checkPhase1(list1,list2,list3,list4));
+    public void whenCheckingPhase3AndListLengthIsWrong_ThenReturnFalse ()
+    {
+        list.add(card1y);
+        list.add(card8r);
+        list.add(card2y);
+        list.add(card3g);
+        list.add(card8y);
+        list.add(card4b);
+        list.add(card8g);
+        list.add(card8b);
+        list.add(card8b2);
+        player.setPhaseNumber(3);
+        Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(),list));
     }
 
+    @Test
+    public void whenCheckingPhase3AndListLengthIsRightAndThereAre4CardsOfTheSameValueButNot4CardsInSuccession_ThenReturnFalse ()
+    {
+        list.add(card1y);
+        list.add(card8r);
+        list.add(card2y);
+        list.add(card3g);
+        list.add(card8y);
+        list.add(card5y);
+        list.add(card8g);
+        list.add(card8b);
+        player.setPhaseNumber(3);
+        Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(),list));
+    }
+
+    @Test
+    public void whenCheckingPhase3AndListLengthIsRightAndThereAreNot4CardsOfTheSameValueBut4CardsInSuccession_ThenReturnFalse ()
+    {
+        list.add(card1y);
+        list.add(card8r);
+        list.add(card2y);
+        list.add(card3g);
+        list.add(card8y);
+        list.add(card5y);
+        list.add(card8g);
+        list.add(card7b);
+        player.setPhaseNumber(3);
+        Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(),list));
+    }
+
+    /*
+    //Test um zu überprüfen, ob die Zahl der Vierlinge in der Viererfolge vorkommen darf
+    @Test
+    public void whenCheckingPhase3AndListLengthIsRightAndThereAre4CardsOfTheSameValueAnd4CardsInARow_ThenReturnTrue ()
+    {
+        list.add(card5y);
+        list.add(card8r);
+        list.add(card7b);
+        list.add(card6g);
+        list.add(card8y);
+        list.add(card8b2);
+        list.add(card8g);
+        list.add(card8b);
+        player.setPhaseNumber(3);
+        Assertions.assertTrue(phaseCheck.getRightPhase(player.getPhaseNumber(),list));
+    }
      */
+
 
 }
