@@ -425,7 +425,7 @@ public class Playfield extends AppCompatActivity {
         btnCheckPhase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (phase.getRightPhase(3, getCardfieldCardlistDB())) {
+                if (phase.getRightPhase(getPhasenumberDB(), getCardfieldCardlistDB())) {
                     if (getPhasenumberDB() != 10) {
                         btnCheckPhase.setVisibility(View.INVISIBLE);
                         setPhasenumberDB(); //Phase wird um 1 erhöht und abgelegt wird auch true gesetzt
