@@ -417,7 +417,7 @@ public class PhaseTest {
         player.setPhaseNumber(8);
         Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
     }
-/*
+
 //Überprüfung der Folge funktioniert nicht richtig
     @Test
     public void whenCheckingPhase8AndListLengthIsRightAnd4CardsAreInSuccessionAndTheSameColorBut3CardsDoNotHaveTheSameValue_ThenReturnFalse() {
@@ -438,13 +438,13 @@ public class PhaseTest {
         list.add(card8b);
         list.add(card3y);
         list.add(card4y);
-        list.add(card8g);
+        list.add(card9r);
         list.add(card7y);
         player.setPhaseNumber(8);
         Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
     }
 
- */
+
     @Test
     public void whenCheckingPhase8AndListLengthIsWrong_ThenReturnFalse() {
         list.add(card2y);
@@ -453,7 +453,7 @@ public class PhaseTest {
     }
 
     //Phase9
-    /*
+
     @Test
     public void whenCheckingPhase8AndListLengthIsRightAnd5CardsAnd3CardsAreInSuccession_ThenReturnTrue() {
         list.add(card8g);
@@ -483,7 +483,7 @@ public class PhaseTest {
     }
 
 
-     */
+
 
 
 }
