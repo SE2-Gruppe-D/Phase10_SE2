@@ -155,7 +155,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
             sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
             if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) { //if an accelerator got created
                 accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-                sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+                sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
                 shakeThreshold = accelerometer.getMaximumRange() / 10;
             }
         }

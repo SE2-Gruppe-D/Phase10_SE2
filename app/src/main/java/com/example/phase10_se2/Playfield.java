@@ -46,6 +46,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -79,6 +80,7 @@ public class Playfield extends AppCompatActivity {
     CardDrawer cardDrawer;
     CardsPrimaryPlayer cardsPrimaryPlayer;
     ArrayList<Cards> cardlist;
+    ArrayList<Cards> allCards = new ArrayList<>();
     ArrayList<Cards> discardpileList;//Ablagestapel
     ArrayList<Cards> cardfieldCardlist;
     ArrayList<Cards> cardfieldCardlistPlayer2 = new ArrayList<>();
@@ -256,6 +258,15 @@ public class Playfield extends AppCompatActivity {
 
                                                     if (playercount <= 1) {
                                                         goToMainMenu();
+                                                    }
+
+
+                                                    String discardpileListString = String.valueOf(document.get("DiscardpileList"));
+                                                    String[] discardpileListArray = discardpileListString.trim().split(" ");
+                                                    if (!discardpileListString.equals("") && discardpileListArray.length != discardpileList.size()) {
+                                                        discardpileList = addCardsToList(discardpileListString);
+                                                        discardpileList.get(discardpileList.size() - 1).getCardUI().setVisibility(View.VISIBLE);
+                                                        defaultcard.setImageDrawable(discardpileList.get(discardpileList.size() - 1).getCardUI().getDrawable());
                                                     }
                                                 }
                                             } else {
@@ -453,6 +464,8 @@ public class Playfield extends AppCompatActivity {
             cardlist.get(i).setCardUI(createCardUI(cardlist.get(i)));
         }
 
+        allCards.addAll(cardlist);  //copy card list
+        allCards.sort(Comparator.comparing(Cards::getID));
 
         //Karten werden gemischt
         cardDrawer.shuffleCards(cardlist);
@@ -1018,6 +1031,7 @@ public class Playfield extends AppCompatActivity {
                                     defaultcard.setImageDrawable(createCardUI(playerHandPrimaryPlayer.get(i)).getDrawable());
                                     playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
                                     setNextCurrentPlayer();
+                                    updateDiscardpileListDB();
                                     break; //break, because you can only drag one card
                                 }
                             }
@@ -1341,9 +1355,9 @@ public class Playfield extends AppCompatActivity {
             newCardList.add(card.getID());
         }
         //discard pile
-        ArrayList<Integer> newDiscardPile = new ArrayList<>();
+        String newDiscardPile = "";
         for (Cards card : discardpileList) {
-            newDiscardPile.add(card.getID());
+            newDiscardPile += card.getID();
         }
 
         gameInfo.put("DiceRoll", currentDiceRoll);
@@ -1450,7 +1464,13 @@ public class Playfield extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                document.getReference().update("DiscardpileList", discardpileList);
+                                String discardpile = "";
+
+                                for (Cards cards : discardpileList) {
+                                    discardpile += cards.getID() + " ";
+                                }
+
+                                document.getReference().update("DiscardpileList", discardpile);
                             }
                         }
                     }
@@ -1566,11 +1586,6 @@ public class Playfield extends AppCompatActivity {
     public boolean getPhaseAusgelegtDB(Player player) {
         return player.isAbgelegt();
     }
-
-
-
-
-
 
     public ArrayList<Cards> getCardfieldCardlistDB(){
         return currentPlayer.getCardField();
@@ -1726,6 +1741,17 @@ public class Playfield extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    public ArrayList<Cards> addCardsToList(String from) {
+        ArrayList<Cards> newList = new ArrayList<>();
+        String[] ids = from.trim().split(" ");
+
+        for (String id : ids) {
+            newList.add(allCards.get(Integer.parseInt(id)-1));
+        }
+
+        return newList;
     }
 }
 

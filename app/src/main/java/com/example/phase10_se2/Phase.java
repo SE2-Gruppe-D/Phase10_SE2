@@ -135,18 +135,14 @@ public class Phase {
    //checkEqual value Zwilling, Phase 1
    public boolean checkEqualValue2(List<Cards> list){
        list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
-       List<Cards> helplist = new ArrayList<>(list);
-       Cards helpCard;
-           for (int i = 0; i < list.size(); i=i+2) {
-               helpCard = list.get(i);
-               if (helplist.size() != 0) {
-                   if (helpCard.getValue() == helplist.get(1).getValue()) {
-                       helplist.remove(1);
-                       helplist.remove(helpCard);
-                   }
-               }
+
+       for (int i = 0; i < list.size(); i=i+2) {
+           if (list.get(i).getValue() != list.get(i+1).getValue()) {
+               return false;
            }
-       return helplist.isEmpty();
+       }
+
+       return true;
    }
 
 
