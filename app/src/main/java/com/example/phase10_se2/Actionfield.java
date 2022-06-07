@@ -1,5 +1,6 @@
 package com.example.phase10_se2;
 
+
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -89,6 +90,7 @@ public class Actionfield {
         cardToPullDiscardpileList=0;
         diceFragment.setMoved(false);
     }
+
 
 
 

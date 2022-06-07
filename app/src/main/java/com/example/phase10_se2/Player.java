@@ -1,7 +1,7 @@
 package com.example.phase10_se2;
 
-
 import android.util.Log;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -164,16 +164,16 @@ public class Player {
 
     //übergeben der restlichen Handkarten am ende einer Runde - Zusammenfügen der Minuspunkte
     public void updateMinusPoints(ArrayList<Cards> cards) {
-            for (Cards card : cards) {
-                if (!cards.isEmpty() && card != null) {
-                    if (card.getValue() <= 9) {
-                        this.minusPoints += 5;
-                    } else if (card.getValue() <= 12) {
-                        this.minusPoints += 10;
-                    }
+        for (Cards card : cards) {
+            if (!cards.isEmpty() && card != null) {
+                if (card.getValue() <= 9) {
+                    this.minusPoints += 5;
+                } else if (card.getValue() <= 12) {
+                    this.minusPoints += 10;
                 }
             }
         }
+    }
 
 
     public PlayerState getState() {
@@ -393,4 +393,5 @@ public class Player {
             }
         }
     }
+
 }
