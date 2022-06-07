@@ -656,6 +656,7 @@ public class Playfield extends AppCompatActivity {
         String color = playerList.get((playerList.indexOf(currentPlayer.getColorAsString()) + 1) % playerList.size());
         Player player = getPlayerFromColor(color);
 
+        updatePlayers();
         setCurrentPlayerInDB(player);
     }
 
@@ -1681,19 +1682,31 @@ public class Playfield extends AppCompatActivity {
                                 if (Objects.equals(color, "BLUE")) {
                                     playerList[0] = (ArrayList) document.get("PlayerBlue");
                                     ArrayList<ArrayList<Cards>> lol = is(playerList);
-                                    playerBlue = new Player(playerList[0].get(0).toString(), PlayerColor.BLUE, playerList[0].get(2).toString(), Integer.parseInt(playerList[0].get(3).toString()), Integer.parseInt(playerList[0].get(4).toString()), lol.get(0), lol.get(1));
+                                    playerBlue.setPhaseNumber(Integer.parseInt(playerList[0].get(3).toString()));
+                                    playerBlue.setMinusPoints(Integer.parseInt(playerList[0].get(4).toString()));
+                                    playerBlue.setPlayerHand(lol.get(0));
+                                    playerBlue.setCardField(lol.get(1));
                                 } else if (Objects.equals(color, "RED")) {
                                     playerList[0] = (ArrayList) document.get("PlayerRed");
                                     ArrayList<ArrayList<Cards>> lol = is(playerList);
-                                    playerRed = new Player(playerList[0].get(0).toString(), PlayerColor.RED, playerList[0].get(2).toString(), Integer.parseInt(playerList[0].get(3).toString()), Integer.parseInt(playerList[0].get(4).toString()), lol.get(0), lol.get(1));
+                                    playerRed.setPhaseNumber(Integer.parseInt(playerList[0].get(3).toString()));
+                                    playerRed.setMinusPoints(Integer.parseInt(playerList[0].get(4).toString()));
+                                    playerRed.setPlayerHand(lol.get(0));
+                                    playerRed.setCardField(lol.get(1));
                                 } else if (Objects.equals(color, "YELLOW")) {
                                     playerList[0] = (ArrayList) document.get("PlayerYellow");
                                     ArrayList<ArrayList<Cards>> lol = is(playerList);
-                                    playerYellow = new Player(playerList[0].get(0).toString(), PlayerColor.YELLOW, playerList[0].get(2).toString(), Integer.parseInt(playerList[0].get(3).toString()), Integer.parseInt(playerList[0].get(4).toString()), lol.get(0), lol.get(1));
+                                    playerYellow.setPhaseNumber(Integer.parseInt(playerList[0].get(3).toString()));
+                                    playerYellow.setMinusPoints(Integer.parseInt(playerList[0].get(4).toString()));
+                                    playerYellow.setPlayerHand(lol.get(0));
+                                    playerYellow.setCardField(lol.get(1));
                                 } else if (Objects.equals(color, "GREEN")) {
                                     playerList[0] = (ArrayList) document.get("PlayerGreen");
                                     ArrayList<ArrayList<Cards>> lol = is(playerList);
-                                    playerGreen = new Player(playerList[0].get(0).toString(), PlayerColor.GREEN, playerList[0].get(2).toString(), Integer.parseInt(playerList[0].get(3).toString()), Integer.parseInt(playerList[0].get(4).toString()), lol.get(0), lol.get(1));
+                                    playerGreen.setPhaseNumber(Integer.parseInt(playerList[0].get(3).toString()));
+                                    playerGreen.setMinusPoints(Integer.parseInt(playerList[0].get(4).toString()));
+                                    playerGreen.setPlayerHand(lol.get(0));
+                                    playerGreen.setCardField(lol.get(1));
                                 }
                             }
                         }
@@ -1738,9 +1751,9 @@ public class Playfield extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //give consequences
-                                    //if accused right:
-                                    ArrayList player = playerToList(currentplayer);
-                                    document.getReference().update("CurrentPlayer", player);
+                                //if accused right:
+                                ArrayList player = playerToList(currentplayer);
+                                document.getReference().update("CurrentPlayer", player);
                             }
                         }
                     }

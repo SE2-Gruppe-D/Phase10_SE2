@@ -31,7 +31,8 @@ public class Player {
     private int startingOrder;
     private PlayerState state;
     private int currentPosition;
-    private int positionX, positionY;
+    private int positionX;
+    private int positionY;
     private int minusPoints;
     private ImageView playerview;
     private ArrayList<Cards> playerHand;
@@ -39,7 +40,6 @@ public class Player {
     private int phaseNumber;
     //für das Auslegen der Karten
     private ArrayList<Cards> cardField;
-    private ArrayList<Cards> cards;
     boolean abgelegt;
     LinearLayout linearLayout;
 
@@ -65,8 +65,6 @@ public class Player {
         phaseText = "/";
 
         this.cardField=cardField;
-        this.cards=cards;
-
     }
 
     public Player(String name, PlayerColor color, int positionX, int positionY) {
