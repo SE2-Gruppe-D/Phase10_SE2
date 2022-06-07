@@ -9,7 +9,6 @@ public class Dice {
     protected int roll() {
         SecureRandom random = new SecureRandom();
         int randomValue = random.nextInt(SIDES) + 1;
-        //actionfield.getActionfield(FieldColor.GREY);
         if (true) {
             return randomValue;
         }

@@ -191,41 +191,46 @@ public class Phase {
         return helplist.isEmpty();
     }
 
+
     //check Phase 3
     //Sehr große Methode - eventuell aufteilen
     public boolean checkEqualValue4AndRunOf4(List<Cards> list){
         list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
         List<Cards> helplist = new ArrayList<>(list);
-        Cards helpCard = null;
-        //Karte mit gleichem Wert suchen
-        for (int i = 0; i < list.size()-1 ; i++) {
-            if(list.get(i).getValue()==list.get(i+1).getValue()){
-                helpCard = list.get(i);
-                break;
-            }
-        }
-        //Die Vierlinge aus helplist löschen
+        List<Cards> helplist2 = new ArrayList<>(list);
+        Cards helpCard;
+
+        //zuerst Folge
         int counter = 0;
-        if(helpCard!=null) {
-            for (int i = 0; i < list.size(); i++) {
-                if (helpCard.getValue() == list.get(i).getValue()) {
-                    helplist.remove(list.get(i));
+        for (int i = 0; i < list.size()-1; i++) {
+            helpCard = list.get(i);
+            if((helpCard.getValue()) == (list.get(i + 1).getValue())){
+                continue;
+            }else if ((helpCard.getValue() + 1) == (list.get(i + 1).getValue())) {
+                helplist2.add(helpCard);
+                counter++;
+                if (counter == 3) {
+                    helplist2.add(list.get(i+1));
+                    helplist.removeAll(helplist2);
                 }
+            } else {
+                counter = 0;
             }
         }
-        //die Viererfolge überprüfen
+
         if(helplist.size()==4) {
-            for (int i = 0; i < 4; i++) {
-                helpCard = helplist.get(0);
-                if (helplist.size() == 1) {
-                    helplist.remove(0);
-                } else if ((helpCard.getValue() + 1) == (helplist.get(1).getValue())) {
-                    helplist.remove(helpCard);
+            helpCard = helplist.get(0);
+            for (int i = 1; i < 4; i++) {
+                if (helpCard.getValue() == helplist.get(1).getValue()) {
+                    helplist.remove(1);
                 }
             }
+            helplist.remove(helpCard);
         }
         return helplist.isEmpty();
-                }
+
+    }
+
 
 
 
