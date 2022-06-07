@@ -1,6 +1,7 @@
 package com.example.phase10_se2;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -8,107 +9,86 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-public class Actionfield extends AppCompatActivity {
+public class Actionfield {
 
-    Playfield playfield; //= new Playfield();
-    DiceFragment diceFragment; //= new DiceFragment();
-    ImageView deckcard;
-    ImageView defaultcard;
-
-
+    DiceFragment diceFragment = new DiceFragment();
+     int cardToPullBoth=0;
+     int cardToPullCardlist = 0;
+     int cardToPullDiscardpileList = 0;
 
 
-
-
-    public void getActionfield(FieldColor fieldColor){
-        switch (fieldColor){
-            case GREY:  greyFieldColor();
-            case GREEN:  greenFieldColor();
-            case ORANGE:  orangeFieldColor();
-            case BLUE:  blueFieldColor();
-            case RED:  redFieldColor();
-            case PURPLE:  purpleFieldColor();
-            case PINK:  pinkFieldColor();
+    public FieldColor getRightFieldColor(int currentPosition){
+        switch (currentPosition){
+            case 0: return FieldColor.BLUE;
+            case 1: return FieldColor.GREY;
+            case 2: return FieldColor.GREEN;
+            case 3: return FieldColor.ORANGE;
+            case 4: return FieldColor.GREY;
+            case 5: return FieldColor.RED;
+            case 6: return FieldColor.GREY;
+            case 7: return FieldColor.PURPLE;
+            case 8: return FieldColor.PINK;
+            case 9: return FieldColor.BLUE;
+            case 10: return FieldColor.GREY;
+            case 11: return FieldColor.ORANGE;
+            case 12: return FieldColor.GREEN;
+            case 13: return FieldColor.GREY;
+            case 14: return FieldColor.RED;
+            case 15: return FieldColor.PINK;
+            default: return null;
         }
     }
-
 
     //GREY = nimm 2 Karten vom Zieh- und/oder Ablagestapel
-    private void greyFieldColor(){
-        int counter =0;
-        do{
-            if (playfield.defaultcard.isSelected() ) {
-
-                playfield.addCardsDiscardpile();
-                counter++;
-            }else if(playfield.deckcard.isSelected()) {
-                playfield.addCard();
-                counter++;
-            }
-        }
-        while(counter<2);
-        playfield.deckcard.setClickable(false);
-        playfield.defaultcard.setClickable(false);
+    public void greyFieldColor() {
+        cardToPullBoth = 2;
+        cardToPullCardlist = 0;
+        cardToPullDiscardpileList = 0;
     }
 
+
     //GREEN = ziehe 1 zufällige Karte aus dem gesamten Ablagestapel aus
-    private void greenFieldColor() {
-        if (defaultcard.isSelected()) {
-            playfield.addRandomCardsDiscardpile();
-        }
+    public void greenFieldColor() {
+        cardToPullBoth =0;
+        cardToPullCardlist=0;
+        cardToPullDiscardpileList=1;
     }
 
     //ORANGE = nimm 3 Karten vom Zieh- und/oder Ablagestapel
-    private void orangeFieldColor(){
-        int counter =0;
-        do{
-            if (defaultcard.isSelected() ) {
-                playfield.addCardsDiscardpile();
-                counter++;
-            }else if(deckcard.isSelected()) {
-                playfield.addCard();
-                counter++;
-            }
-        }
-        while(counter<3);
+    public void orangeFieldColor() {
+        cardToPullBoth = 3;
+        cardToPullCardlist = 0;
+        cardToPullDiscardpileList = 0;
     }
 
     //BLUE = nimm eine Karte von Ziehstapel
-    private void blueFieldColor(){
-        if(deckcard.isSelected()){
-            playfield.addCard();
-        }
+    public void blueFieldColor() {
+        cardToPullBoth = 0;
+        cardToPullCardlist = 1;
+        cardToPullDiscardpileList = 0;
     }
 
     //RED =nimm 3 Karten vom Ziehstapel
-    private void redFieldColor(){
-        //ziehen
-        int counter = 0;
-        do{
-            if (deckcard.isSelected()) {
-            playfield.addCard();
-            counter++;
-        }
-        }while(counter<3);
+    public void redFieldColor() {
+        cardToPullBoth =0;
+        cardToPullCardlist=3;
+        cardToPullDiscardpileList=0;
     }
 
     //PURPLE = der Spieler darf keine Karte ziehen
-    private void purpleFieldColor(){
-        //nothing
+    public void purpleFieldColor() {
+        cardToPullBoth =0;
+        cardToPullCardlist=0;
+        cardToPullDiscardpileList=0;
     }
 
     //PINK = nimm 1 Karte vom Aufnahme- oder Ziehstapel. Mache einen weiteren Zug
-    private void pinkFieldColor(){
-        if (defaultcard.isSelected() ) {
-            playfield.addCardsDiscardpile();
-            diceFragment.setMoved(false);
-        }else if(deckcard.isSelected()){
-            playfield.addCard();
-            diceFragment.setMoved(false);
-        }
+    public void pinkFieldColor() {
+        cardToPullBoth =1;
+        cardToPullCardlist=0;
+        cardToPullDiscardpileList=0;
+        diceFragment.setMoved(false);
     }
-
-
 
 
 

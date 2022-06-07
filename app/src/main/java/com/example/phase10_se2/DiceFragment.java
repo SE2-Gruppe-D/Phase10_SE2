@@ -50,6 +50,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
     private Playfield playfield;
 
 
+
     public static DiceFragment newInstance() {
         return new DiceFragment();
     }
@@ -204,6 +205,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                         break;
                 }
 
+
                 database.collection("gameInfo")
                         .whereEqualTo("RoomName", room)
                         .get()
@@ -220,6 +222,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                                 }
                             }
                         });
+                playfield.getActionfield(FieldColor.ORANGE); //ToDo: Methode zu startCheatTimer
             }
         }
     }
