@@ -11,34 +11,37 @@ public class WinnerDecision
     Player playerBlue = null;
     Player playerYellow = null;
     Player playerGreen = null;
-    ArrayList<Player> actualPlayers;
+    ArrayList<Player> actualPlayers = new ArrayList<>();
 
     //Konstruktor für WinnerDecision, speichern der Spieler in eigene Variablen + einer Sammlung(ArrayList) von Spielern(Spielerliste)
     public WinnerDecision(ArrayList<Player> playerList)
     {
-        for (Player p : playerList)
+        if (playerList!=null)
         {
-            if (p.getColor() != null)
+            for (Player p : playerList)
             {
-                if (p.getColor().equals(PlayerColor.RED))
+                if (p.getColor() != null)
                 {
-                    playerRed = p;
-                    actualPlayers.add(playerRed);
-                }
-                else if (p.getColor().equals(PlayerColor.BLUE))
-                {
-                    playerBlue = p;
-                    actualPlayers.add(playerBlue);
-                }
-                else if (p.getColor().equals(PlayerColor.YELLOW))
-                {
-                    playerYellow = p;
-                    actualPlayers.add(playerYellow);
-                }
-                else if (p.getColor().equals(PlayerColor.GREEN))
-                {
-                    playerGreen = p;
-                    actualPlayers.add(playerGreen);
+                    if (p.getColor().equals(PlayerColor.RED))
+                    {
+                        playerRed = p;
+                        actualPlayers.add(playerRed);
+                    }
+                    else if (p.getColor().equals(PlayerColor.BLUE))
+                    {
+                        playerBlue = p;
+                        actualPlayers.add(playerBlue);
+                    }
+                    else if (p.getColor().equals(PlayerColor.YELLOW))
+                    {
+                        playerYellow = p;
+                        actualPlayers.add(playerYellow);
+                    }
+                    else if (p.getColor().equals(PlayerColor.GREEN))
+                    {
+                        playerGreen = p;
+                        actualPlayers.add(playerGreen);
+                    }
                 }
             }
         }

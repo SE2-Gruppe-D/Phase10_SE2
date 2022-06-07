@@ -50,6 +50,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
     private Playfield playfield;
 
 
+
     public static DiceFragment newInstance() {
         return new DiceFragment();
     }
@@ -85,14 +86,14 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                                     //CurrentPlayer for dice throwing
                                                     ArrayList currentPlayer = (ArrayList) document.get("CurrentPlayer");
-                                                    if (currentPlayerColor == null || (currentPlayer != null && !currentPlayerColor.equals(definePlayerColor((String) currentPlayer.get(1))))) {
+                                                    if ((currentPlayer != null && currentPlayerColor == null) || (currentPlayer != null && !currentPlayerColor.equals(definePlayerColor((String) currentPlayer.get(1))))) {
                                                         currentPlayerColor = definePlayerColor((String) currentPlayer.get(1));
                                                         moved = false;
                                                     }
 
                                                     //last dice value for cheating
                                                     int diceRoll = document.get("DiceRoll", Integer.class);
-                                                    if (lastDiceValue != diceRoll) {
+                                                    if (diceRoll != 0 && lastDiceValue != diceRoll) {
                                                         lastDiceValueDB_old = lastDiceValue;
                                                         lastDiceValue = diceRoll;
                                                         setDiceView(diceRoll);
@@ -154,7 +155,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
             sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
             if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) { //if an accelerator got created
                 accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-                sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+                sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
                 shakeThreshold = accelerometer.getMaximumRange() / 10;
             }
         }
@@ -177,6 +178,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                 Log.i("DiceActivity", "sensor has been activated. Trying to set dice image");
 
                 switch (dice.roll()) {
+
                     case (2):
                         diceView.setImageResource(R.drawable.dice_2);
                         lastDiceValue = 2;
@@ -203,6 +205,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                         break;
                 }
 
+
                 database.collection("gameInfo")
                         .whereEqualTo("RoomName", room)
                         .get()
@@ -219,6 +222,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                                 }
                             }
                         });
+                playfield.getActionfield(FieldColor.ORANGE); //ToDo: Methode zu startCheatTimer
             }
         }
     }
