@@ -332,7 +332,9 @@ public class PhaseTest {
         player.setPhaseNumber(7);
         Assertions.assertTrue(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
     }
+
      */
+
 
     @Test
     public void whenCheckingPhase7AndListLengthIsWrong_ThenReturnFalse() {
