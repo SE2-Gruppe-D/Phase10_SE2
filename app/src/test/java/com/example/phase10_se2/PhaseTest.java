@@ -200,7 +200,7 @@ public class PhaseTest {
         Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
     }
 
-    /*
+
     //Test um zu überprüfen, ob die Zahl der Vierlinge in der Viererfolge vorkommen darf
     @Test
     public void whenCheckingPhase3AndListLengthIsRightAndThereAre4CardsOfTheSameValueAnd4CardsInARow_ThenReturnTrue ()
@@ -216,7 +216,7 @@ public class PhaseTest {
         player.setPhaseNumber(3);
         Assertions.assertTrue(phaseCheck.getRightPhase(player.getPhaseNumber(),list));
     }
-     */
+   
 //Phase 4 Test
     @Test
     public void whenCheckingPhase4AndListLengthIsRightAndThereAre8CardsInSuccession_ThenReturnTrue() {
