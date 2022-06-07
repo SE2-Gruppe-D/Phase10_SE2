@@ -178,7 +178,7 @@ public class Phase {
         helplist.remove(helpCard1);
         helplist.remove(helpCard2);
         //Die Fünflinge oder Drillinge aus helplist löschen
-        for (int i = 1; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             if (helpCard1.getValue() == list.get(i).getValue()) {
                     helplist.remove(list.get(i));
             }

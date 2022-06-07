@@ -445,5 +445,45 @@ public class PhaseTest {
     }
 
  */
+    @Test
+    public void whenCheckingPhase8AndListLengthIsWrong_ThenReturnFalse() {
+        list.add(card2y);
+        player.setPhaseNumber(8);
+        Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
+    }
+
+    //Phase9
+    /*
+    @Test
+    public void whenCheckingPhase8AndListLengthIsRightAnd5CardsAnd3CardsAreInSuccession_ThenReturnTrue() {
+        list.add(card8g);
+        list.add(card2y);
+        list.add(card12y);
+        list.add(card9r);
+        list.add(card10y);
+        list.add(card11y);
+        list.add(card4r);
+        list.add(card3g);
+        player.setPhaseNumber(9);
+        Assertions.assertTrue(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
+    }
+
+    @Test
+    public void whenCheckingPhase8AndListLengthIsRightAnd5CardsAnd3CardsAreInSuccessionWithSameNumbersInBothConditions_ThenReturnTrue() {
+        list.add(card8g);
+        list.add(card7y);
+        list.add(card12y);
+        list.add(card9r);
+        list.add(card10y);
+        list.add(card11y);
+        list.add(card9r);
+        list.add(card8r);
+        player.setPhaseNumber(9);
+        Assertions.assertTrue(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
+    }
+
+
+     */
+
 
 }
