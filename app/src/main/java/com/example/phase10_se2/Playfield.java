@@ -852,7 +852,7 @@ public class Playfield extends AppCompatActivity {
     }
 
     public void getActionfield(FieldColor fieldColor) {
-       // switch (actionfield.getRightFieldColor(getCurrentPositionDB())) {
+       //switch (actionfield.getRightFieldColor(getCurrentPositionDB())) {
             switch (fieldColor) { //ToDO: Fieldcolor löschen und switch von Zeile oberhalb nehmen
             case GREY:
                 actionfield.greyFieldColor();
@@ -962,7 +962,6 @@ public class Playfield extends AppCompatActivity {
                                 playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
                             }
                         }
-
                         owner.removeView(v);
                         layoutPlayer1CardField.addView(v);
                        v.setOnTouchListener(null);
@@ -1090,16 +1089,19 @@ public class Playfield extends AppCompatActivity {
                                 player = playerRed;
 
                             }
-                            if (true) { //-> getPhaseAusgelegtDB(player)
-                                Log.e("Feld Spieler 2 3", String.valueOf(player.getCardField()));
-                                playerHandPrimaryPlayer = getHandCardsDB();
+                            if (true) { //-> getPhaseAusgelegtDB(player) vom Mitspieler
+                                Log.e("Feld Spieler", String.valueOf(player.getCardField()));
+                                playerHandPrimaryPlayer = getHandCardsDB(); //Handkarten vom Currentplayer
                                 if (playerHandPrimaryPlayer.size() != 0) {
                                     for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                                         if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
-                                            phase.getRightPhaseOtherPlayer(getPhasenumberPlayersDB(player), playerHandPrimaryPlayer.get(i), player);
-                                            cardfieldCardlistPlayer2.add(playerHandPrimaryPlayer.get(i));
-                                            playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                                            if (true) {// --> phase.getRightPhaseOtherPlayer(getPhasenumberPlayersDB(player), playerHandPrimaryPlayer.get(i), getCardfieldCardlistPlayersDB(player))) {
+                                                Log.e("Feld Spieler", String.valueOf(player.getCardField()));
+                                                getCardfieldCardlistDB().add(playerHandPrimaryPlayer.get(i));
+                                                playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                                                Log.e("Feld Spieler", String.valueOf(player.getCardField()));
 
+                                            }
                                         }
                                     }
                                     owner.removeView(v);
@@ -1477,6 +1479,11 @@ public class Playfield extends AppCompatActivity {
                 });
     }
 
+
+
+
+
+
     public void updateRoundDB() {
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
@@ -1604,9 +1611,6 @@ public class Playfield extends AppCompatActivity {
         return currentPlayer.getPlayerHand();
     }
 
-    public LinearLayout getLinearLayoutCardField(Player player){
-        return player.getLinearLayout();
-    }
 
     //update currentPlayer
     public void updateCurrentPlayer() {
