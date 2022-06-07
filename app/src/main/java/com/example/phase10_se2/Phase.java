@@ -135,18 +135,14 @@ public class Phase {
    //checkEqual value Zwilling, Phase 1
    public boolean checkEqualValue2(List<Cards> list){
        list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
-       List<Cards> helplist = new ArrayList<>(list);
-       Cards helpCard;
-           for (int i = 0; i < list.size(); i=i+2) {
-               helpCard = list.get(i);
-               if (helplist.size() != 0) {
-                   if (helpCard.getValue() == helplist.get(1).getValue()) {
-                       helplist.remove(1);
-                       helplist.remove(helpCard);
-                   }
-               }
+
+       for (int i = 0; i < list.size(); i=i+2) {
+           if (list.get(i).getValue() != list.get(i+1).getValue()) {
+               return false;
            }
-       return helplist.isEmpty();
+       }
+
+       return true;
    }
 
 
@@ -154,11 +150,13 @@ public class Phase {
     public boolean checkEqualValue4(List<Cards> list){
         list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
         List<Cards> helplist = new ArrayList<>(list);
+        int count = 0;
         Cards helpCard1 = list.get(0);
         Cards helpCard2 = list.get(4);
         for (int i = 0; i < 4; i++) {
-            if (helpCard1.getValue() == helplist.get(1).getValue()) {
+            if (helpCard1.getValue() == helplist.get(1).getValue() && count <=2) {
                 helplist.remove(1);
+                count++;
             }
         }
         helplist.remove(helpCard1);
@@ -180,7 +178,7 @@ public class Phase {
         helplist.remove(helpCard1);
         helplist.remove(helpCard2);
         //Die Fünflinge oder Drillinge aus helplist löschen
-        for (int i = 1; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             if (helpCard1.getValue() == list.get(i).getValue()) {
                     helplist.remove(list.get(i));
             }
@@ -193,41 +191,46 @@ public class Phase {
         return helplist.isEmpty();
     }
 
+
     //check Phase 3
     //Sehr große Methode - eventuell aufteilen
     public boolean checkEqualValue4AndRunOf4(List<Cards> list){
         list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
         List<Cards> helplist = new ArrayList<>(list);
-        Cards helpCard = null;
-        //Karte mit gleichem Wert suchen
-        for (int i = 0; i < list.size()-1 ; i++) {
-            if(list.get(i).getValue()==list.get(i+1).getValue()){
-                helpCard = list.get(i);
-                break;
-            }
-        }
-        //Die Vierlinge aus helplist löschen
+        List<Cards> helplist2 = new ArrayList<>(list);
+        Cards helpCard;
+
+        //zuerst Folge
         int counter = 0;
-        if(helpCard!=null) {
-            for (int i = 0; i < list.size(); i++) {
-                if (helpCard.getValue() == list.get(i).getValue()) {
-                    helplist.remove(list.get(i));
+        for (int i = 0; i < list.size()-1; i++) {
+            helpCard = list.get(i);
+            if((helpCard.getValue()) == (list.get(i + 1).getValue())){
+                continue;
+            }else if ((helpCard.getValue() + 1) == (list.get(i + 1).getValue())) {
+                helplist2.add(helpCard);
+                counter++;
+                if (counter == 3) {
+                    helplist2.add(list.get(i+1));
+                    helplist.removeAll(helplist2);
                 }
+            } else {
+                counter = 0;
             }
         }
-        //die Viererfolge überprüfen
+
         if(helplist.size()==4) {
-            for (int i = 0; i < 4; i++) {
-                helpCard = helplist.get(0);
-                if (helplist.size() == 1) {
-                    helplist.remove(0);
-                } else if ((helpCard.getValue() + 1) == (helplist.get(1).getValue())) {
-                    helplist.remove(helpCard);
+            helpCard = helplist.get(0);
+            for (int i = 1; i < 4; i++) {
+                if (helpCard.getValue() == helplist.get(1).getValue()) {
+                    helplist.remove(1);
                 }
             }
+            helplist.remove(helpCard);
         }
         return helplist.isEmpty();
-                }
+
+    }
+
 
 
 
@@ -264,8 +267,23 @@ public class Phase {
     //check Phase 8
     //sehr große Methode - eventuell aufteilen
     private boolean checkRunOfXEqualColorAnd3(List<Cards> list){
+        for (int i = 0; i< list.size();i++){
+            System.out.print("["+ list.get(i).getValue()+" ");
+            System.out.print(list.get(i).getColor().toString()+"], ");
+    }
+        System.out.println();
         list.sort(Comparator.comparing(Cards::getValue));//2. nach Wert sortieren
+        for (int i = 0; i< list.size();i++) {
+            System.out.print("["+ list.get(i).getValue()+" ");
+            System.out.print(list.get(i).getColor().toString()+"], ");
+        }
+        System.out.println();
         list.sort(Comparator.comparing(Cards::getColor));//1. nach Farbe sortieren
+        for (int i = 0; i< list.size();i++){
+            System.out.print("["+ list.get(i).getValue()+" ");
+            System.out.print(list.get(i).getColor().toString()+"], ");
+        }
+
 
         List<Cards> helplist = new ArrayList<>(list);
         List<Cards> helplist2 = new ArrayList<>(list);

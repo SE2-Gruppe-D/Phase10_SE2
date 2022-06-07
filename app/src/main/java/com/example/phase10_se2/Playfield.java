@@ -417,8 +417,9 @@ public class Playfield extends AppCompatActivity {
         phase = new Phase();
         actionfield = new Actionfield();
 
-        //  if (primaryPlayer != null && currentPlayer != null && primaryPlayer.getColor().equals(currentPlayer.getColor())) {
-        btnCheckPhase.setVisibility(View.VISIBLE);
+
+      //  if (primaryPlayer != null && currentPlayer != null && primaryPlayer.getColor().equals(currentPlayer.getColor())) {
+            btnCheckPhase.setVisibility(View.VISIBLE);
         //}
 
 
@@ -518,8 +519,8 @@ public class Playfield extends AppCompatActivity {
 
         //Player Blue, Red, Yellow, Green
         deckcard.setOnClickListener(view -> {
-            addCard();
-        });
+                addCard();
+           });
 
 
         //random Defaultcard
@@ -535,7 +536,7 @@ public class Playfield extends AppCompatActivity {
         }
 
         defaultcard.setOnClickListener(view -> {
-            addCardsDiscardpile();
+                addCardsDiscardpile();
         });
 
 
@@ -853,8 +854,9 @@ public class Playfield extends AppCompatActivity {
     }
 
     public void getActionfield(FieldColor fieldColor) {
-        // switch (actionfield.getRightFieldColor(getCurrentPositionDB())) {
-        switch (fieldColor) { //ToDO: Fieldcolor löschen und switch von Zeile oberhalb nehmen
+
+       // switch (actionfield.getRightFieldColor(getCurrentPositionDB())) {
+            switch (fieldColor) { //ToDO: Fieldcolor löschen und switch von Zeile oberhalb nehmen
             case GREY:
                 actionfield.greyFieldColor();
                 break;
@@ -1608,7 +1610,8 @@ public class Playfield extends AppCompatActivity {
     }
 
     public int getCurrentPositionDB() {
-        return currentPlayer.getCurrentPosition();
+
+            return currentPlayer.getCurrentPosition();
     }
 
 
@@ -1692,20 +1695,37 @@ ArrayList tempPlayerList;
                                     tempPlayerList = (ArrayList) document.get("PlayerBlue");
                                     lol = is(tempPlayerList);
                                     tempColor[0] = PlayerColor.BLUE;
+                                   playerBlue.setPhaseNumber(Integer.parseInt(playerList.get(3).toString()));
+                                    playerBlue.setMinusPoints(Integer.parseInt(playerList.get(4).toString()));
+                                    playerBlue.setPlayerHand(lol.get(0));
+                                    playerBlue.setCardField(lol.get(1));
                                 } else if (Objects.equals(color, "RED")) {
                                     tempPlayerList = (ArrayList) document.get("PlayerRed");
                                     ArrayList<ArrayList<Cards>> lol = is(tempPlayerList);
                                     tempColor[0] = PlayerColor.RED;
+                                   playerRed.setPhaseNumber(Integer.parseInt(playerList.get(3).toString()));
+                                    playerRed.setMinusPoints(Integer.parseInt(playerList.get(4).toString()));
+                                    playerRed.setPlayerHand(lol.get(0));
+                                    playerRed.setCardField(lol.get(1));
 
                                 } else if (Objects.equals(color, "YELLOW")) {
                                     tempPlayerList = (ArrayList) document.get("PlayerYellow");
                                     lol = is(tempPlayerList);
                                     tempColor[0] = PlayerColor.YELLOW;
+                                  playerYellow.setPhaseNumber(Integer.parseInt(playerList.get(3).toString()));
+                                    playerYellow.setMinusPoints(Integer.parseInt(playerList.get(4).toString()));
+                                    playerYellow.setPlayerHand(lol.get(0));
+                                    playerYellow.setCardField(lol.get(1));
+
 
                                 } else if (Objects.equals(color, "GREEN")) {
                                     tempPlayerList = (ArrayList) document.get("PlayerGreen");
                                     lol = is(tempPlayerList);
                                     tempColor[0] = PlayerColor.GREEN;
+                                    playerGreen.setPhaseNumber(Integer.parseInt(playerList.get(3).toString()));
+                                    playerGreen.setMinusPoints(Integer.parseInt(playerList.get(4).toString()));
+                                    playerGreen.setPlayerHand(lol.get(0));
+                                    playerGreen.setCardField(lol.get(1));
 
                                 }
                             }
@@ -1764,7 +1784,6 @@ ArrayList tempPlayerList;
                     }
                 });
     }
-
     public ArrayList<Cards> addCardsToList(String from) {
         ArrayList<Cards> newList = new ArrayList<>();
         String[] ids = from.trim().split(" ");

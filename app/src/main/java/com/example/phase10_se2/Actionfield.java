@@ -1,11 +1,21 @@
 package com.example.phase10_se2;
 
+
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+
 public class Actionfield {
 
     DiceFragment diceFragment = new DiceFragment();
-    int cardToPullBoth=0;
-    int cardToPullCardlist = 0;
-    int cardToPullDiscardpileList = 0;
+     int cardToPullBoth=0;
+     int cardToPullCardlist = 0;
+     int cardToPullDiscardpileList = 0;
 
 
     public FieldColor getRightFieldColor(int currentPosition){
@@ -80,6 +90,7 @@ public class Actionfield {
         cardToPullDiscardpileList=0;
         diceFragment.setMoved(false);
     }
+
 
 
 

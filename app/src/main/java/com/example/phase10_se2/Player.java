@@ -1,5 +1,6 @@
 package com.example.phase10_se2;
 
+import android.util.Log;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -392,4 +393,5 @@ public class Player {
             }
         }
     }
+
 }
