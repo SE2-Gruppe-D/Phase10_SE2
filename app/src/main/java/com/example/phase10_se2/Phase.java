@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Phase {
 
-    Player player;
+
 
     //zur Überprüfung, ob der currentplayer die Phase richtig abgelegt hat
     public boolean getRightPhase(int phasenumber, ArrayList<Cards> cardfieldCardlist){
@@ -31,7 +31,7 @@ public class Phase {
             case 9: return checkPhase9(cardfieldCardlist);
             case 10: return checkPhase10(cardfieldCardlist);
             default: return false;
-            //Phase 8 und 10 noch nicht richtig
+
         }
     }
 
