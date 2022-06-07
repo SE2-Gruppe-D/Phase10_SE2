@@ -150,11 +150,13 @@ public class Phase {
     public boolean checkEqualValue4(List<Cards> list){
         list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
         List<Cards> helplist = new ArrayList<>(list);
+        int count = 0;
         Cards helpCard1 = list.get(0);
         Cards helpCard2 = list.get(4);
         for (int i = 0; i < 4; i++) {
-            if (helpCard1.getValue() == helplist.get(1).getValue()) {
+            if (helpCard1.getValue() == helplist.get(1).getValue() && count <=2) {
                 helplist.remove(1);
+                count++;
             }
         }
         helplist.remove(helpCard1);
@@ -176,7 +178,7 @@ public class Phase {
         helplist.remove(helpCard1);
         helplist.remove(helpCard2);
         //Die Fünflinge oder Drillinge aus helplist löschen
-        for (int i = 1; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             if (helpCard1.getValue() == list.get(i).getValue()) {
                     helplist.remove(list.get(i));
             }
@@ -265,8 +267,23 @@ public class Phase {
     //check Phase 8
     //sehr große Methode - eventuell aufteilen
     private boolean checkRunOfXEqualColorAnd3(List<Cards> list){
+        for (int i = 0; i< list.size();i++){
+            System.out.print("["+ list.get(i).getValue()+" ");
+            System.out.print(list.get(i).getColor().toString()+"], ");
+    }
+        System.out.println();
         list.sort(Comparator.comparing(Cards::getValue));//2. nach Wert sortieren
+        for (int i = 0; i< list.size();i++) {
+            System.out.print("["+ list.get(i).getValue()+" ");
+            System.out.print(list.get(i).getColor().toString()+"], ");
+        }
+        System.out.println();
         list.sort(Comparator.comparing(Cards::getColor));//1. nach Farbe sortieren
+        for (int i = 0; i< list.size();i++){
+            System.out.print("["+ list.get(i).getValue()+" ");
+            System.out.print(list.get(i).getColor().toString()+"], ");
+        }
+
 
         List<Cards> helplist = new ArrayList<>(list);
         List<Cards> helplist2 = new ArrayList<>(list);
