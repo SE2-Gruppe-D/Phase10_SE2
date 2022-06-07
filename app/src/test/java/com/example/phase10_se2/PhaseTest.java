@@ -30,6 +30,10 @@ public class PhaseTest {
     private Cards card8r2;
     private Cards card8y2;
     private Cards card8g2;
+    private Cards card3y;
+    private Cards card4y;
+    private Cards card2r;
+    private Cards card2y2;
     private ArrayList<Cards> list;
 
 
@@ -53,14 +57,19 @@ public class PhaseTest {
         card3g = new Cards("GREEN", 3, null, 27);
         card8y = new Cards("YELLOW", 8, null, 8);
         card8b = new Cards("BLUE", 8, null, 32);
-        card8b2 = new Cards("BLUE", 8, null, 64);
         card6g = new Cards("GREEN", 6, null, 6);
         card9r = new Cards("RED", 9, null, 9);
         card7g = new Cards ("GREEN", 7, null, 55);
         card7r = new Cards ("RED", 7, null, 79);
+        card3y = new Cards("YELLOW", 3, null, 333);
+        card4y = new Cards("YELLOW", 4, null, 44);
+        card2r = new Cards("RED", 2, null, 222);
+
+        card8b2 = new Cards("BLUE", 8, null, 64);
         card8r2 = new Cards ("RED", 8,null,108);
         card8g2 = new Cards ("GREEN", 8, null, 116);
         card8y2 = new Cards ("YELLOW", 8, null, 124);
+        card2y2 = new Cards("YELLOW", 2, null, 82);
         list = new ArrayList<>();
     }
 
@@ -317,8 +326,7 @@ public class PhaseTest {
         Assertions.assertTrue(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
     }
 
-    //Der gleiche Value für beide 4er Folgen geht nicht
-    /*
+
     @Test
     public void whenCheckingPhase7AndListLengthIsRightAnd4CardsHaveTheSameValueTwiceInARow_ThenReturnRight() {
         list.add(card8r);
@@ -333,7 +341,7 @@ public class PhaseTest {
         Assertions.assertTrue(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
     }
 
-     */
+
 
 
     @Test
@@ -358,4 +366,84 @@ public class PhaseTest {
     }
 
     //Phase 8
+    @Test
+    public void whenCheckingPhase8AndListLengthIsRightAnd4CardsAreInSuccessionAndTheSameColorAnd3CardsHaveTheSameValue_ThenReturnRight() {
+        list.add(card2y);
+        list.add(card1y);
+        list.add(card3y);
+        list.add(card4y);
+        list.add(card7g);
+        list.add(card7r);
+        list.add(card7y);
+        player.setPhaseNumber(8);
+        Assertions.assertTrue(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
+    }
+
+    @Test
+    public void whenCheckingPhase8AndListLengthIsRightAnd4CardsAreInSuccessionAndTheSameColorAnd3CardsHaveTheSameValueAsACardOfTheSuccession_ThenReturnRight() {
+        list.add(card2y);
+        list.add(card1y);
+        list.add(card2g);
+        list.add(card2r);
+        list.add(card2y2);
+        list.add(card3y);
+        list.add(card4y);
+        player.setPhaseNumber(8);
+        Assertions.assertTrue(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
+    }
+
+    @Test
+    public void whenCheckingPhase8AndListLengthIsRightBut4CardsAreInSuccessionButNotOfTheSameColorEvenWhen3CardsHaveTheSameValue_ThenReturnFalse() {
+        list.add(card2y);
+        list.add(card1y);
+        list.add(card2g);
+        list.add(card2r);
+        list.add(card2y2);
+        list.add(card3y);
+        list.add(card4b);
+        player.setPhaseNumber(8);
+        Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
+    }
+
+    @Test
+    public void whenCheckingPhase8AndListLengthIsRightBut4CardsAreNotInSuccessionEvenIfTheyHaveTheSameColorAnd3CardsHaveTheSameValue_ThenReturnFalse() {
+        list.add(card2y);
+        list.add(card1y);
+        list.add(card2g);
+        list.add(card2r);
+        list.add(card2y2);
+        list.add(card3y);
+        list.add(card5y);
+        player.setPhaseNumber(8);
+        Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
+    }
+/*
+//Überprüfung der Folge funktioniert nicht richtig
+    @Test
+    public void whenCheckingPhase8AndListLengthIsRightAnd4CardsAreInSuccessionAndTheSameColorBut3CardsDoNotHaveTheSameValue_ThenReturnFalse() {
+        list.add(card2y);
+        list.add(card1y);
+        list.add(card4b);
+        list.add(card2r);
+        list.add(card2y2);
+        list.add(card3y);
+        list.add(card4y);
+        player.setPhaseNumber(8);
+        Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
+    }
+    @Test
+    public void whenCheckingPhase8AndListLengthIsRightAnd4CardsAreInSuccessionAndTheSameColorBut3CardsDoNotHaveTheSameValue2_ThenReturnFalse() {
+        list.add(card2y);
+        list.add(card1y);
+        list.add(card8b);
+        list.add(card3y);
+        list.add(card4y);
+        list.add(card8g);
+        list.add(card7y);
+        player.setPhaseNumber(8);
+        Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
+    }
+
+ */
+
 }
