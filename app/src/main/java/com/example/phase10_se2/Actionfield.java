@@ -83,6 +83,7 @@ public class Actionfield {
         cardToPullDiscardpileList=0;
     }
 
+    //noch nicht testen, weil noch nicht sicher ob das Würfeln so funktioniert
     //PINK = nimm 1 Karte vom Aufnahme- oder Ziehstapel. Mache einen weiteren Zug
     public void pinkFieldColor() {
         cardToPullBoth =1;
@@ -90,8 +91,4 @@ public class Actionfield {
         cardToPullDiscardpileList=0;
         diceFragment.setMoved(false);
     }
-
-
-
-
 }
