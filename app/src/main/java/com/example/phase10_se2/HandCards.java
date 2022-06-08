@@ -1,6 +1,5 @@
 package com.example.phase10_se2;
 
-import android.view.View;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
