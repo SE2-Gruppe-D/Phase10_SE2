@@ -14,8 +14,15 @@ public class HandCards {
     Player playerBlue;
     Player primaryPlayer;
 
-    CardsPrimaryPlayer cardsPrimaryPlayer= new CardsPrimaryPlayer();
 
+    CardsPrimaryPlayer cardsPrimaryPlayer;
+
+    public HandCards() {
+        cardsPrimaryPlayer=new CardsPrimaryPlayer();
+    }
+    public HandCards(CardsPrimaryPlayer cardsPrimaryPlayer) {
+        this.cardsPrimaryPlayer = cardsPrimaryPlayer;
+    }
 
     //Handkarten werden ausgeteilt
     public void HandCardsPlayer(LinearLayout layoutPlayer1, LinearLayout layoutPlayer2, LinearLayout layoutPlayer3, LinearLayout layoutPlayer4,ArrayList<Cards> cardlist, Player playerblue,  Player playergreen,  Player playeryellow,  Player playerred, Player primaryplayer) {
@@ -74,27 +81,21 @@ public class HandCards {
         //Karten nur fuer primary player sichtbar
 
         if(playerYellow!=null&&playerYellow.getColor().equals(primaryPlayer.getColor())){
-            cards.getCardUI().setVisibility(View.VISIBLE);
-            //cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerYellow);
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerYellow);
         }
         if(playerBlue!=null&&playerBlue.getColor().equals(primaryPlayer.getColor())){
-            cards.getCardUI().setVisibility(View.VISIBLE);
-            //cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerBlue);
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerBlue);
         }
         if (playerRed!=null&&playerRed.getColor().equals(primaryPlayer.getColor())){
-            cards.getCardUI().setVisibility(View.VISIBLE);
-            //cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerRed);
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerRed);
         }
         if(playerGreen!=null&&playerGreen.getColor().equals(primaryPlayer.getColor())){
-            cards.getCardUI().setVisibility(View.VISIBLE);
-            //cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerGreen);
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerGreen);
         }
 
         cardlist.remove(0);
         //cards.getCardUI().setRotation(grad);
+        cards.getCardUIObject().setRotation(grad);
     }
-
-
-
-    }
+}
 

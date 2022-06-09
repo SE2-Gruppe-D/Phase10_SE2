@@ -460,9 +460,10 @@ public class Playfield extends AppCompatActivity {
 
         cardlist.addAll(cardDrawer.getInitialCardsList());
         //dynamisches erstellen der Karten ImageViews
-        for (int i = 0; i < 96; i++) {
+        /*for (int i = 0; i < 96; i++) {
             cardlist.get(i).setCardUI(createCardUI(cardlist.get(i)));
-        }
+        }*/
+        setUI(cardlist);
 
         allCards.addAll(cardlist);  //copy card list
         allCards.sort(Comparator.comparing(Cards::getID));
@@ -527,7 +528,7 @@ public class Playfield extends AppCompatActivity {
         Cards randomCard = cardlist.get(rand.nextInt(cardlist.size()));
         cardlist.remove(randomCard);
         discardpileList.add(randomCard);
-        defaultcard.setImageDrawable(createCardUI(discardpileList.get(0)).getDrawable());
+        defaultcard.setImageDrawable(createCardUI(discardpileList.get(0)).imageView.getDrawable());
         defaultcard.setOnDragListener(new ChoiceDragListener1());
 
         if (currentPlayer.getColor().equals(primaryPlayer.getColor())) {
@@ -767,7 +768,11 @@ public class Playfield extends AppCompatActivity {
             playerGreen.getPlayerview().setVisibility(View.VISIBLE);
         }
     }
-
+    public void setUI(ArrayList<Cards> cardlist){
+        for (int i = 0; i < 96; i++) {
+            cardlist.get(i).setCardUI(createCardUI(cardlist.get(i)));
+        }
+    }
 
     //Eine Karte vom Ablagestapel ziehen
     protected void addCardsDiscardpile() {
@@ -801,7 +806,7 @@ public class Playfield extends AppCompatActivity {
                 }
 
                 if ((size - 1) != 0) {
-                    defaultcard.setImageDrawable(createCardUI(discardpileList.get(size - 2)).getDrawable());
+                    defaultcard.setImageDrawable(createCardUI(discardpileList.get(size - 2)).imageView.getDrawable());
                 }
                 actionfield.cardToPullBoth--;
                 actionfield.cardToPullDiscardpileList--;
@@ -841,7 +846,7 @@ public class Playfield extends AppCompatActivity {
                 }
                 discardpileList.remove(randomCard);
                 if ((size - 1) != 0) {
-                    defaultcard.setImageDrawable(createCardUI(discardpileList.get(size - 2)).getDrawable());
+                    defaultcard.setImageDrawable(createCardUI(discardpileList.get(size - 2)).imageView.getDrawable());
                 }
                 actionfield.cardToPullBoth--;
                 actionfield.cardToPullDiscardpileList--;
@@ -914,7 +919,7 @@ public class Playfield extends AppCompatActivity {
         }
     }
 
-    private ImageView createCardUI(Cards cards) {
+    private CardUI createCardUI(Cards cards) {
         ImageView imageView = new ImageView(getApplicationContext());
         cardUIManager.setCardImage(cards, imageView);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(35, 120, 1);
@@ -923,7 +928,7 @@ public class Playfield extends AppCompatActivity {
         imageView.setVisibility(View.INVISIBLE);
         imageView.setClickable(true);
         imageView.setFocusable(true);
-        return imageView;
+        return new CardUI(imageView);
     }
 
     //Karten auslegen - 1x Click Karte wird ausgelegt, 2x Click Karte zurück auf die Hand
@@ -1028,7 +1033,7 @@ public class Playfield extends AppCompatActivity {
                             for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                                 if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
                                     discardpileList.add(playerHandPrimaryPlayer.get(i));
-                                    defaultcard.setImageDrawable(createCardUI(playerHandPrimaryPlayer.get(i)).getDrawable());
+                                    defaultcard.setImageDrawable(createCardUI(playerHandPrimaryPlayer.get(i)).imageView.getDrawable());
                                     playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
                                     setNextCurrentPlayer();
                                     updateDiscardpileListDB();

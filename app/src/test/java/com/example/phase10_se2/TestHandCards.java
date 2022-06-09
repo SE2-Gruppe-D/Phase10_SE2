@@ -2,6 +2,7 @@ package com.example.phase10_se2;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockConstructionWithAnswer;
+import static org.mockito.Mockito.when;
 
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,27 +16,22 @@ import java.util.ArrayList;
 
 public class TestHandCards {
     HandCards handCards;
-
     CardDrawer cardDrawer= new CardDrawer();
-    CardsPrimaryPlayer cardsPrimaryPlayer = new CardsPrimaryPlayer();
+    CardsPrimaryPlayer cardsPrimaryPlayer;
+
     private ArrayList<Cards> cardListPrim=new ArrayList<>();
     private ArrayList<Cards> cardList=new ArrayList<>();
+
     LinearLayout linearLayout1;
     LinearLayout linearLayout2;
     LinearLayout linearLayout3;
     LinearLayout linearLayout4;
-    ImageView imageView;
 
     Player playerBlue;
     Player playerYellow;
     Player playerGreen;
     Player playerRed;
     Player primary;
-
-    Cards card1;
-    Cards card2;
-    Cards card3;
-    Cards card4;
 
     ImageView imageView1;
     ImageView imageView2;
@@ -44,19 +40,25 @@ public class TestHandCards {
 
     @BeforeEach
     public void init(){
-        handCards=new HandCards();
+        cardsPrimaryPlayer=mock(CardsPrimaryPlayer.class);
+        handCards=new HandCards(cardsPrimaryPlayer);
         cardList=cardDrawer.generateInitialCards();
-        playerBlue=new Player("Blau", PlayerColor.BLUE, 0,0);
-        playerYellow=new Player("Yellow", PlayerColor.YELLOW, 0,0);
-        playerRed= new Player("Red", PlayerColor.RED, 0,0);
-        playerGreen= new Player("Green", PlayerColor.GREEN, 0,0);
+        for (int i = 0; i<96; i++){
+            CardUI cardUI= mock(CardUI.class);
+            cardList.get(i).setCardUI(cardUI);
+        }
+
+        playerBlue=new Player("Max", PlayerColor.BLUE, 0,0);
+        playerYellow=new Player("Lea", PlayerColor.YELLOW, 0,0);
+        playerRed= new Player("Lia", PlayerColor.RED, 0,0);
+        playerGreen= new Player("Hans", PlayerColor.GREEN, 0,0);
 
         linearLayout1= mock(LinearLayout.class);
         linearLayout2=mock(LinearLayout.class);
         linearLayout3=mock(LinearLayout.class);
         linearLayout4=mock(LinearLayout.class);
 
-        cardsPrimaryPlayer=new CardsPrimaryPlayer();
+
         primary=new Player();
         imageView1= mock(ImageView.class);
         imageView2= mock(ImageView.class);
@@ -81,7 +83,7 @@ public class TestHandCards {
 
     @Test
     public void PrimaryPlayerGreen(){
-        playerGreen= primary;
+        primary=playerGreen;
         handCards.HandCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
 
         Assertions.assertEquals(56, cardList.size());
@@ -90,7 +92,7 @@ public class TestHandCards {
 
     @Test
     public void PrimaryPlayerYellow(){
-        playerYellow= primary;
+        primary=playerYellow;
         handCards.HandCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
 
         Assertions.assertEquals(56, cardList.size());
@@ -99,44 +101,13 @@ public class TestHandCards {
 
     @Test
     public void PrimaryPlayerRed(){
-        playerRed= primary;
+        primary=playerRed;
         handCards.HandCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
 
         Assertions.assertEquals(56, cardList.size());
         Assertions.assertEquals(10, primary.getPlayerHand().size());
     }
 
-    @Test
-    public void PlayerNull(){
-        playerRed= primary;
-        playerBlue=new Player();
-        handCards.HandCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
-
-        Assertions.assertEquals(66, cardList.size());
-        Assertions.assertEquals(10, primary.getPlayerHand().size());
-    }
-
-    @Test
-    public void testVisibilityCards(){
-        card1 = new Cards("blue", 1, imageView1, 1);
-        card2 = new Cards("red", 2, imageView2, 2);
-        card3 = new Cards("yellow", 6, imageView3, 3);
-        card4 = new Cards("green", 12, imageView4, 4);
-
-        cardListPrim.add(card1);
-        cardListPrim.add(card2);
-        cardListPrim.add(card3);
-        cardListPrim.add(card4);
-
-
-        if(primary!=null){
-            primary.setPlayerHand(cardListPrim);
-            handCards.HandCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
-            for (Cards card : primary.getPlayerHand()) {
-                Assertions.assertEquals(0, card.getCardUI().getVisibility());
-            }
-        }
-    }
     @Test
     public void PrimaryPlayerNull(){
         Assertions.assertNotNull(primary);
