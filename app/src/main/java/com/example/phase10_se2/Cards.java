@@ -6,7 +6,7 @@ public class Cards {
 
     private String color;
     private int value;
-    private ImageView cardUI;
+    private CardUI cardUI;
     private int ID;
 
     public int getID() {
@@ -17,16 +17,19 @@ public class Cards {
         this.ID = ID;
     }
 
+    public CardUI getCardUIObject(){
+        return cardUI;
+    }
 
-    public void setCardUI(ImageView cardUI) {
+    public void setCardUI(CardUI cardUI) {
         this.cardUI = cardUI;
     }
 
     public ImageView getCardUI() {
-        return cardUI;
+        return cardUI.imageView;
     }
 
-    public Cards(String color, int value, ImageView cardUI, int ID) {
+    public Cards(String color, int value, CardUI cardUI, int ID) {
         this.color = color;
         this.value = value;
         this.cardUI = cardUI;
