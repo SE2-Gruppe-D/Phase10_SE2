@@ -1,7 +1,7 @@
 package com.example.phase10_se2;
 
-
 import android.util.Log;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,7 +31,8 @@ public class Player {
     private int startingOrder;
     private PlayerState state;
     private int currentPosition;
-    private int positionX, positionY;
+    private int positionX;
+    private int positionY;
     private int minusPoints;
     private ImageView playerview;
     private ArrayList<Cards> playerHand;
@@ -39,7 +40,6 @@ public class Player {
     private int phaseNumber;
     //für das Auslegen der Karten
     private ArrayList<Cards> cardField;
-    private ArrayList<Cards> cards;
     boolean abgelegt;
     LinearLayout linearLayout;
 
@@ -65,8 +65,6 @@ public class Player {
         phaseText = "/";
 
         this.cardField=cardField;
-        this.cards=cards;
-
     }
 
     public Player(String name, PlayerColor color, int positionX, int positionY) {
@@ -166,16 +164,16 @@ public class Player {
 
     //übergeben der restlichen Handkarten am ende einer Runde - Zusammenfügen der Minuspunkte
     public void updateMinusPoints(ArrayList<Cards> cards) {
-            for (Cards card : cards) {
-                if (!cards.isEmpty() && card != null) {
-                    if (card.getValue() <= 9) {
-                        this.minusPoints += 5;
-                    } else if (card.getValue() <= 12) {
-                        this.minusPoints += 10;
-                    }
+        for (Cards card : cards) {
+            if (!cards.isEmpty() && card != null) {
+                if (card.getValue() <= 9) {
+                    this.minusPoints += 5;
+                } else if (card.getValue() <= 12) {
+                    this.minusPoints += 10;
                 }
             }
         }
+    }
 
 
     public PlayerState getState() {
@@ -395,4 +393,5 @@ public class Player {
             }
         }
     }
+
 }
