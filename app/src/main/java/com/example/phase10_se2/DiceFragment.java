@@ -39,7 +39,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
     private Dice dice;
     private SensorManager sensorManager;
     private Sensor accelerometer;
-    private int lastDiceValue;
+    private int lastDiceValue = -1;
     private int lastDiceValueDB_old;
     private float acceleration;
     private PlayerColor currentPlayerColor = null;

@@ -1,6 +1,5 @@
 package com.example.phase10_se2;
 
-import android.view.View;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -94,8 +93,8 @@ public class HandCards {
         }
 
         cardlist.remove(0);
-        //cards.getCardUI().setRotation(grad);
         cards.getCardUIObject().setRotation(grad);
+
     }
 }
 
