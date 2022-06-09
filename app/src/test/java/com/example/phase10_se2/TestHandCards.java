@@ -18,6 +18,10 @@ public class TestHandCards {
     HandCards handCards;
     CardDrawer cardDrawer= new CardDrawer();
     CardsPrimaryPlayer cardsPrimaryPlayer;
+    Cards card1;
+    Cards card2;
+    Cards card3;
+    Cards card4;
 
     private ArrayList<Cards> cardListPrim=new ArrayList<>();
     private ArrayList<Cards> cardList=new ArrayList<>();
@@ -106,6 +110,27 @@ public class TestHandCards {
 
         Assertions.assertEquals(56, cardList.size());
         Assertions.assertEquals(10, primary.getPlayerHand().size());
+    }
+
+    @Test
+    public void testVisibilityCards(){
+        ArrayList<Cards> cardlist= new ArrayList<>();
+        card1 = new Cards("blue", 1, new CardUI(imageView1), 1);
+        card2 = new Cards("red", 2, new CardUI(imageView2), 2);
+        card3 = new Cards("yellow", 6, new CardUI(imageView3), 3);
+        card4 = new Cards("green", 12, new CardUI(imageView4), 4);
+
+        cardlist.add(card1);
+        cardlist.add(card2);
+        cardlist.add(card3);
+        cardlist.add(card4);
+
+        if(primary!=null){
+            primary.setPlayerHand(cardlist);
+            for (Cards card : primary.getPlayerHand()) {
+                Assertions.assertEquals(0, card.getCardUI().getVisibility());
+            }
+        }
     }
 
     @Test
