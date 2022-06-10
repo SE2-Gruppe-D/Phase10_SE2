@@ -1,6 +1,5 @@
 package com.example.phase10_se2;
 
-import android.view.View;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -14,8 +13,15 @@ public class HandCards {
     Player playerBlue;
     Player primaryPlayer;
 
-    CardsPrimaryPlayer cardsPrimaryPlayer= new CardsPrimaryPlayer();
 
+    CardsPrimaryPlayer cardsPrimaryPlayer;
+
+    public HandCards() {
+        cardsPrimaryPlayer=new CardsPrimaryPlayer();
+    }
+    public HandCards(CardsPrimaryPlayer cardsPrimaryPlayer) {
+        this.cardsPrimaryPlayer = cardsPrimaryPlayer;
+    }
 
     //Handkarten werden ausgeteilt
     public void HandCardsPlayer(LinearLayout layoutPlayer1, LinearLayout layoutPlayer2, LinearLayout layoutPlayer3, LinearLayout layoutPlayer4,ArrayList<Cards> cardlist, Player playerblue,  Player playergreen,  Player playeryellow,  Player playerred, Player primaryplayer) {
@@ -87,12 +93,8 @@ public class HandCards {
         }
 
         cardlist.remove(0);
-        cards.getCardUI().setRotation(grad);
-
-
-    }
-
-
+        cards.getCardUIObject().setRotation(grad);
 
     }
+}
 

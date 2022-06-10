@@ -41,24 +41,22 @@ public class TestCardsVisibility {
 
     @Test
     public void testVisibilityCards(){
-        card1 = new Cards("blue", 1, imageView1, 1);
-        card2 = new Cards("red", 2, imageView2, 2);
-        card3 = new Cards("yellow", 6, imageView3, 3);
-        card4 = new Cards("green", 12, imageView4, 4);
+        card1 = new Cards("blue", 1, new CardUI(imageView1), 1);
+        card2 = new Cards("red", 2, new CardUI(imageView2), 2);
+        card3 = new Cards("yellow", 6, new CardUI(imageView3), 3);
+        card4 = new Cards("green", 12, new CardUI(imageView4), 4);
 
         cardList.add(card1);
         cardList.add(card2);
         cardList.add(card3);
         cardList.add(card4);
 
-
-       if(primary!=null){
-           primary.setPlayerHand(cardList);
-           cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(primary);
-           for (Cards card : primary.getPlayerHand()) {
-               Assertions.assertEquals(0, card.getCardUI().getVisibility());
-           }
-       }
+        if(primary!=null){
+            primary.setPlayerHand(cardList);
+            for (Cards card : primary.getPlayerHand()) {
+                Assertions.assertEquals(0, card.getCardUI().getVisibility());
+            }
+        }
     }
 
     @Test

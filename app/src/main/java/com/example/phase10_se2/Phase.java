@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Phase {
 
-    Player player;
+
 
     //zur Überprüfung, ob der currentplayer die Phase richtig abgelegt hat
     public boolean getRightPhase(int phasenumber, ArrayList<Cards> cardfieldCardlist){
@@ -31,7 +31,7 @@ public class Phase {
             case 9: return checkPhase9(cardfieldCardlist);
             case 10: return checkPhase10(cardfieldCardlist);
             default: return false;
-            //Phase 8 und 10 noch nicht richtig
+
         }
     }
 
@@ -365,20 +365,20 @@ public class Phase {
     //-------------------------------Ab hier nicht Testen ----------------
 
     //zur Überprüfung, ob der currentplayer bei einem Mitspieler eine richtige Karte dazu gelegt hat
-    public boolean getRightPhaseOtherPlayer(int phasenumber, Cards cards, Player player){
+    public boolean getRightPhaseOtherPlayer(int phasenumber, Cards cards, List<Cards> list){
         switch (phasenumber){
-            case 1: return checkPhase1FromOtherPlayer(cards,player);
-            case 2: return checkPhase2FromOtherPlayer(cards,player);
+            case 1: return checkPhase1FromOtherPlayer(cards,list);
+            case 2: return checkPhase2FromOtherPlayer(cards,list);
             default: return false;
         }
     }
 
-    public boolean checkPhase1FromOtherPlayer(Cards cards, Player player){
-        return checkEqualValueOneCard(cards, player.getCardField());
+    public boolean checkPhase1FromOtherPlayer(Cards cards, List<Cards> list){
+        return checkEqualValueOneCard(cards, list);
     }
 
-    public boolean checkPhase2FromOtherPlayer(Cards cards, Player player){
-        return checkEqualColorOneCard(cards, player.getCardField());
+    public boolean checkPhase2FromOtherPlayer(Cards cards, List<Cards> list){
+        return checkEqualColorOneCard(cards, list);
     }
 
     //Überprüfen, ob ich meine Karte zum Mitspieler dazu legen kann (Zwilling, Drilling, Vierling, Fünfling)
