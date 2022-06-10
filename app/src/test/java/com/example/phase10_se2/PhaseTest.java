@@ -523,10 +523,10 @@ public class PhaseTest {
     }
 
     @Test
-    public void whenCheckingPhase10AndListLengthIsWrong_ThenReturnTrue(){
+    public void whenCheckingPhase10AndListLengthIsWrong_ThenReturnFalse(){
         list.add(card8r);
         player.setPhaseNumber(10);
-        Assertions.assertTrue(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
+        Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
     }
 
 /*
