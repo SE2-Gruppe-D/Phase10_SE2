@@ -31,8 +31,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FindGameActivity extends AppCompatActivity {
-    String roomName = "";
     final String[] color = new String[1];
+    String roomName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +68,8 @@ public class FindGameActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                                 activeGames.add(documentSnapshot.getString("RoomName"));
                             }
                         }
@@ -84,8 +84,8 @@ public class FindGameActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //add all available rooms to gameRoomsList
-                                if(!gameRoomsList.contains(document.getString("Room"))){
-                                    if(!activeGames.contains(document.getString("Room"))) {
+                                if (!gameRoomsList.contains(document.getString("Room"))) {
+                                    if (!activeGames.contains(document.getString("Room"))) {
                                         gameRoomsList.add(document.getString("Room"));
                                         adapter.notifyDataSetChanged();
                                     }
@@ -146,7 +146,6 @@ public class FindGameActivity extends AppCompatActivity {
                         });
 
 
-
                 joinRoom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -203,7 +202,8 @@ public class FindGameActivity extends AppCompatActivity {
             }
         });
     }
-    public void goToFindPlayer(){
+
+    public void goToFindPlayer() {
         Intent intent = new Intent(FindGameActivity.this, FindPlayer.class);
         intent.putExtra("CurrentRoom", roomName);
         intent.putExtra("Color", color[0]);

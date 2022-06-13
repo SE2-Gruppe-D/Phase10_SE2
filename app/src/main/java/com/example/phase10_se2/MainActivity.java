@@ -21,30 +21,33 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        spielErstellen=findViewById(R.id.createGameBtn);
+        spielErstellen = findViewById(R.id.createGameBtn);
         spielErstellen.setOnClickListener(view -> createGame());
 
-        spielBeitreten=findViewById(R.id.joinGameBtn);
+        spielBeitreten = findViewById(R.id.joinGameBtn);
         spielBeitreten.setOnClickListener(view -> joinGame());
 
-        hint=findViewById(R.id.button4);
+        hint = findViewById(R.id.button4);
         hint.setOnClickListener(view -> showPlayRules());
 
-        mediaPlayer = MediaPlayer.create(MainActivity.this,R.raw.jazzcomedy);
+        mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.jazzcomedy);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
 
     }
-    public void createGame(){
+
+    public void createGame() {
         Intent intent = new Intent(this, CreateGameActivity.class);
         startActivity(intent);
     }
+
     public void joinGame() {
         Intent intent = new Intent(this, FindGameActivity.class);
         startActivity(intent);
     }
-    public void showPlayRules(){
-        Intent intent= new Intent(this, PlayRules.class);
+
+    public void showPlayRules() {
+        Intent intent = new Intent(this, PlayRules.class);
         startActivity(intent);
     }
 
@@ -57,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-      //  mediaPlayer.pause();
+        //  mediaPlayer.pause();
     }
 
     @Override

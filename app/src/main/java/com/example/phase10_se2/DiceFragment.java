@@ -32,10 +32,9 @@ import java.util.Objects;
 
 public class DiceFragment extends Fragment implements SensorEventListener {
     private final boolean TESTMODE = false; //TODO: remove or set to false when multiplayer is implemented
-
+    public boolean moved;
     private float shakeThreshold;  //Threshold for the acceleration sensor to trigger dice generation
     private ImageView diceView;
-    public boolean moved;
     private Dice dice;
     private SensorManager sensorManager;
     private Sensor accelerometer;
@@ -48,7 +47,6 @@ public class DiceFragment extends Fragment implements SensorEventListener {
     private String room;
     private FirebaseFirestore database;
     private Playfield playfield;
-
 
 
     public static DiceFragment newInstance() {

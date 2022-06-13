@@ -1,7 +1,5 @@
 package com.example.phase10_se2;
 
-import android.util.Log;
-
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,6 +23,8 @@ public class Player {
             FieldColor.ORANGE, FieldColor.GREY, FieldColor.RED, FieldColor.GREY, FieldColor.PURPLE, FieldColor.PINK,
             FieldColor.BLUE, FieldColor.GREY, FieldColor.ORANGE, FieldColor.GREEN, FieldColor.GREY, FieldColor.RED,
             FieldColor.PINK};
+    boolean abgelegt;
+    LinearLayout linearLayout;
     private String name;
     private PlayerColor color;
     private String room;
@@ -40,9 +40,6 @@ public class Player {
     private int phaseNumber;
     //für das Auslegen der Karten
     private ArrayList<Cards> cardField;
-    boolean abgelegt;
-    LinearLayout linearLayout;
-
 
 
     // no-argument constructor
@@ -64,7 +61,7 @@ public class Player {
         playerHand = new ArrayList<Cards>();
         phaseText = "/";
 
-        this.cardField=cardField;
+        this.cardField = cardField;
     }
 
     public Player(String name, PlayerColor color, int positionX, int positionY) {
@@ -143,22 +140,19 @@ public class Player {
     }
 
     //bewegen des Players auf dem Spielbrett
-    public void updateMapPosition () {
-        if(this.color == PlayerColor.BLUE && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)122 + (float) 42);
-            this.playerview.setTranslationY(getPositionY() * (float)135 + (float) 153);
-        }
-        else if(this.color == PlayerColor.YELLOW && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)122 + (float)94);
-            this.playerview.setTranslationY(getPositionY() * (float)135 + (float)153);
-        }
-        else if(this.color == PlayerColor.RED && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)122 + (float)94);
-            this.playerview.setTranslationY(getPositionY() * (float)135 + (float)206);
-        }
-        else if(this.color == PlayerColor.GREEN && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)122 + (float)42);
-            this.playerview.setTranslationY(getPositionY() * (float)135 + (float)207);
+    public void updateMapPosition() {
+        if (this.color == PlayerColor.BLUE && this.playerview != null) {
+            this.playerview.setTranslationX(getPositionX() * (float) 122 + (float) 42);
+            this.playerview.setTranslationY(getPositionY() * (float) 135 + (float) 153);
+        } else if (this.color == PlayerColor.YELLOW && this.playerview != null) {
+            this.playerview.setTranslationX(getPositionX() * (float) 122 + (float) 94);
+            this.playerview.setTranslationY(getPositionY() * (float) 135 + (float) 153);
+        } else if (this.color == PlayerColor.RED && this.playerview != null) {
+            this.playerview.setTranslationX(getPositionX() * (float) 122 + (float) 94);
+            this.playerview.setTranslationY(getPositionY() * (float) 135 + (float) 206);
+        } else if (this.color == PlayerColor.GREEN && this.playerview != null) {
+            this.playerview.setTranslationX(getPositionX() * (float) 122 + (float) 42);
+            this.playerview.setTranslationY(getPositionY() * (float) 135 + (float) 207);
         }
     }
 
@@ -328,9 +322,9 @@ public class Player {
         }
     }
 
-    public void getCardsLayOut(LinearLayout layoutPlayer1CardField,LinearLayout layoutPlayer2CardField, LinearLayout layoutPlayer3CardField, LinearLayout layoutPlayer4CardField,Player playerblue,  Player playergreen,  Player playeryellow,  Player playerred, Player primaryplayer){
+    public void getCardsLayOut(LinearLayout layoutPlayer1CardField, LinearLayout layoutPlayer2CardField, LinearLayout layoutPlayer3CardField, LinearLayout layoutPlayer4CardField, Player playerblue, Player playergreen, Player playeryellow, Player playerred, Player primaryplayer) {
         if (playerblue != null) {
-            if (playerblue.getColor().equals(primaryplayer.getColor())){
+            if (playerblue.getColor().equals(primaryplayer.getColor())) {
                 layoutPlayer1CardField.setVisibility(View.VISIBLE); //Auslegefeld für Spieler sichbar machen
                 playerblue.setLinearLayout(layoutPlayer1CardField);
 
@@ -343,10 +337,10 @@ public class Player {
             if (playerred.getColor().equals(primaryplayer.getColor())) {
                 layoutPlayer1CardField.setVisibility(View.VISIBLE);
                 playerred.setLinearLayout(layoutPlayer1CardField);
-            } else if (layoutPlayer2CardField.getVisibility()!=View.VISIBLE){
+            } else if (layoutPlayer2CardField.getVisibility() != View.VISIBLE) {
                 layoutPlayer2CardField.setVisibility(View.VISIBLE);
                 playerred.setLinearLayout(layoutPlayer2CardField);
-            }else{
+            } else {
                 layoutPlayer3CardField.setVisibility(View.VISIBLE);
                 playerred.setLinearLayout(layoutPlayer3CardField);
             }
@@ -356,15 +350,15 @@ public class Player {
                 layoutPlayer1CardField.setVisibility(View.VISIBLE);
                 playeryellow.setLinearLayout(layoutPlayer1CardField);
 
-            }else if(layoutPlayer2CardField.getVisibility()!=View.VISIBLE){
+            } else if (layoutPlayer2CardField.getVisibility() != View.VISIBLE) {
                 layoutPlayer2CardField.setVisibility(View.VISIBLE);
                 playeryellow.setLinearLayout(layoutPlayer2CardField);
 
-            }else if(layoutPlayer3CardField.getVisibility()!=View.VISIBLE){
+            } else if (layoutPlayer3CardField.getVisibility() != View.VISIBLE) {
                 layoutPlayer3CardField.setVisibility(View.VISIBLE);
                 playeryellow.setLinearLayout(layoutPlayer3CardField);
 
-            }else {
+            } else {
                 layoutPlayer4CardField.setVisibility(View.VISIBLE);
                 playeryellow.setLinearLayout(layoutPlayer4CardField);
 
@@ -375,18 +369,15 @@ public class Player {
                 layoutPlayer1CardField.setVisibility(View.VISIBLE);
                 playergreen.setLinearLayout(layoutPlayer1CardField);
 
-            }
-            else if(layoutPlayer2CardField.getVisibility()!=View.VISIBLE){
+            } else if (layoutPlayer2CardField.getVisibility() != View.VISIBLE) {
                 layoutPlayer2CardField.setVisibility(View.VISIBLE);
                 playergreen.setLinearLayout(layoutPlayer2CardField);
 
-            }
-            else if(layoutPlayer3CardField.getVisibility()!=View.VISIBLE){
+            } else if (layoutPlayer3CardField.getVisibility() != View.VISIBLE) {
                 layoutPlayer3CardField.setVisibility(View.VISIBLE);
                 playergreen.setLinearLayout(layoutPlayer3CardField);
 
-            }
-            else {
+            } else {
                 layoutPlayer4CardField.setVisibility(View.VISIBLE);
                 playergreen.setLinearLayout(layoutPlayer4CardField);
 

@@ -23,9 +23,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CreateGameActivity extends AppCompatActivity {
-    String roomName = "";
     final String[] color = {""};
-
+    String roomName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,7 @@ public class CreateGameActivity extends AppCompatActivity {
         EditText editTextName = findViewById(R.id.playerName);
         EditText editTextRoom = findViewById(R.id.roomName);
 
-        RadioGroup rg =  findViewById(R.id.radioGroup);
+        RadioGroup rg = findViewById(R.id.radioGroup);
         Button createGame = findViewById(R.id.createGameRoomBtn);
 
         final PlayerColor[] playerColor = {null};
@@ -70,7 +69,6 @@ public class CreateGameActivity extends AppCompatActivity {
         });
 
 
-
         CollectionReference dbPlayers = database.collection("users");
         createGame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +78,7 @@ public class CreateGameActivity extends AppCompatActivity {
                 roomName = editTextRoom.getText().toString();
 
                 //create player with given input
-                Player player = new Player (playerName, playerColor[0], roomName, 1,0, new ArrayList<>(),new ArrayList<>());
+                Player player = new Player(playerName, playerColor[0], roomName, 1, 0, new ArrayList<>(), new ArrayList<>());
 
                 //add player and room to database
                 Map<String, Object> user = new HashMap<>();
@@ -116,7 +114,8 @@ public class CreateGameActivity extends AppCompatActivity {
         });
 
     }
-    public void goToFindPlayer(){
+
+    public void goToFindPlayer() {
         Intent intent = new Intent(CreateGameActivity.this, FindPlayer.class);
         intent.putExtra("CurrentRoom", roomName);
         intent.putExtra("Color", color[0]);
