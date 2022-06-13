@@ -27,6 +27,7 @@ public class PhaseTest {
     private Cards card9r;
     private Cards card7g;
     private Cards card7r;
+    private Cards card6y;
     private Cards card8r2;
     private Cards card8y2;
     private Cards card8g2;
@@ -64,6 +65,7 @@ public class PhaseTest {
         card3y = new Cards("YELLOW", 3, null, 333);
         card4y = new Cards("YELLOW", 4, null, 44);
         card2r = new Cards("RED", 2, null, 222);
+        card6y = new Cards("YELLOW", 6,null,666);
 
         card8b2 = new Cards("BLUE", 8, null, 64);
         card8r2 = new Cards ("RED", 8,null,108);
@@ -443,9 +445,9 @@ public class PhaseTest {
         player.setPhaseNumber(8);
         Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
     }
-
-
  */
+
+
 
     @Test
     public void whenCheckingPhase8AndListLengthIsWrong_ThenReturnFalse() {
@@ -455,37 +457,111 @@ public class PhaseTest {
     }
 
     //Phase9
-/*
+
     @Test
     public void whenCheckingPhase9AndListLengthIsRightAnd5CardsAnd3CardsHaveTheSameValue_ThenReturnTrue() {
+        list.add(card8r);
+        list.add(card8r2);
+        list.add(card8y);
+        list.add(card8b);
         list.add(card8g);
-        list.add(card2y);
-        list.add(card12y);
-        list.add(card9r);
-        list.add(card10y);
-        list.add(card11y);
-        list.add(card4r);
-        list.add(card3g);
+        list.add(card7b);
+        list.add(card7r);
+        list.add(card7g);
         player.setPhaseNumber(9);
         Assertions.assertTrue(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
     }
 
     @Test
-    public void whenCheckingPhase9AndListLengthIsRightAnd5CardsAnd3CardsAreInSuccessionWithSameNumbersInBothConditions_ThenReturnTrue() {
-        list.add(card8g);
-        list.add(card7y);
-        list.add(card12y);
-        list.add(card9r);
-        list.add(card10y);
-        list.add(card11y);
-        list.add(card9r);
+    public void whenCheckingPhase9AndListLengthIsRightAnd5CardsAnd3CardsHaveTheSameValueWithSameNumbersInBothConditions_ThenReturnTrue() {
         list.add(card8r);
+        list.add(card8r2);
+        list.add(card8y);
+        list.add(card8b);
+        list.add(card8g);
+        list.add(card8g2);
+        list.add(card8y2);
+        list.add(card8b2);
         player.setPhaseNumber(9);
         Assertions.assertTrue(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
     }
 
+    @Test
+    public void whenCheckingPhase9AndListLengthIsWrong_ThenReturnFalse() {
+        list.add(card8r);
+        player.setPhaseNumber(9);
+        Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
+    }
+
+    //Phase10
+    @Test
+    public void whenCheckingPhase10AndListLengthIsRightAndThereAre5CardsOfTheSameValueAnd3CardsOf1ColorInSuccession_ThenReturnTrue(){
+        list.add(card8r);
+        list.add(card3y);
+        list.add(card8r2);
+        list.add(card8y);
+        list.add(card5y);
+        list.add(card8b);
+        list.add(card8g);
+        list.add(card4y);
+        player.setPhaseNumber(10);
+        Assertions.assertTrue(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
+    }
+
+    @Test
+    public void whenCheckingPhase10AndListLengthIsRightAndThereAre5CardsOfTheSameValueAnd3CardsOf1ColorInSuccessionButTheNumbersInterfere_ThenReturnTrue(){
+        list.add(card8r);
+        list.add(card6y);
+        list.add(card8r2);
+        list.add(card8y);
+        list.add(card7y);
+        list.add(card8b);
+        list.add(card8g);
+        list.add(card8y2);
+        player.setPhaseNumber(10);
+        Assertions.assertTrue(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
+    }
+
+    @Test
+    public void whenCheckingPhase10AndListLengthIsWrong_ThenReturnFalse(){
+        list.add(card8r);
+        player.setPhaseNumber(10);
+        Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
+    }
+
+/*
+    @Test
+    public void whenCheckingPhase10AndListLengthIsRightButThereAreNot5CardsOfTheSameValueAnd3CardsOf1ColorInSuccession_ThenReturnFalse(){
+        list.add(card8r);
+        list.add(card3y);
+        list.add(card7g);
+        list.add(card8y);
+        list.add(card5y);
+        list.add(card8b);
+        list.add(card8g);
+        list.add(card4y);
+        player.setPhaseNumber(10);
+        Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
+    }
 
  */
+
+    @Test
+    public void whenCheckingPhase10AndListLengthIsRightAndThereAre5CardsOfTheSameValueButNot3CardsOf1ColorInSuccession_ThenReturnFalse(){
+            list.add(card8r);
+            list.add(card3y);
+            list.add(card8g2);
+            list.add(card8y);
+            list.add(card7y);
+            list.add(card8b);
+            list.add(card8g);
+            list.add(card4y);
+            player.setPhaseNumber(10);
+            Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
+    }
+
+
+
 
 
 
