@@ -260,10 +260,10 @@ public class Playfield extends AppCompatActivity {
                                                         goToMainMenu();
                                                     }
 
-
+                                                    //sync discardpile
                                                     String discardpileListString = String.valueOf(document.get("DiscardpileList"));
                                                     String[] discardpileListArray = discardpileListString.trim().split(" ");
-                                                    if (!discardpileListString.equals("") && discardpileListArray.length != discardpileList.size()) {
+                                                    if (!discardpileListString.equals("") && (discardpileListArray.length != discardpileList.size() || !discardpileListArray[0].equals(discardpileList.get(0)))) {
                                                         discardpileList = addCardsToList(discardpileListString);
                                                         discardpileList.get(discardpileList.size() - 1).getCardUI().setVisibility(View.VISIBLE);
                                                         defaultcard.setImageDrawable(discardpileList.get(discardpileList.size() - 1).getCardUI().getDrawable());
@@ -465,6 +465,11 @@ public class Playfield extends AppCompatActivity {
         }*/
         setUI(cardlist);
 
+        for (Cards card : cardlist) {
+            card.getCardUI().setOnClickListener(listener);
+            card.getCardUI().setOnTouchListener(new ChoiceTouchListener());
+        }
+
         allCards.addAll(cardlist);  //copy card list
         allCards.sort(Comparator.comparing(Cards::getID));
 
@@ -477,31 +482,6 @@ public class Playfield extends AppCompatActivity {
         //Handkarten werden ausgeteilt
         handCards.HandCardsPlayer(layoutPlayer1, layoutPlayer2, layoutPlayer3, layoutPlayer4, cardlist, playerBlue, playerGreen, playerYellow, playerRed, primaryPlayer);
 
-        if (playerBlue != null) {
-            for (Cards card : playerBlue.getPlayerHand()) {
-                card.getCardUI().setOnClickListener(listener);
-                card.getCardUI().setOnTouchListener(new ChoiceTouchListener());
-            }
-        }
-
-        if (playerGreen != null) {
-            for (Cards card : playerGreen.getPlayerHand()) {
-                card.getCardUI().setOnClickListener(listener);
-                card.getCardUI().setOnTouchListener(new ChoiceTouchListener());
-            }
-        }
-        if (playerYellow != null) {
-            for (Cards card : playerYellow.getPlayerHand()) {
-                card.getCardUI().setOnClickListener(listener);
-                card.getCardUI().setOnTouchListener(new ChoiceTouchListener());
-            }
-        }
-        if (playerRed != null) {
-            for (Cards card : playerRed.getPlayerHand()) {
-                card.getCardUI().setOnClickListener(listener);
-                card.getCardUI().setOnTouchListener(new ChoiceTouchListener());
-            }
-        }
         //Auslegefelder werden zugeteilt
         currentPlayer.getCardsLayOut(layoutPlayer1CardField, layoutPlayer2CardField, layoutPlayer3CardField, layoutPlayer4CardField, playerBlue, playerGreen, playerYellow, playerRed, primaryPlayer);
         if(playerBlue != null){
