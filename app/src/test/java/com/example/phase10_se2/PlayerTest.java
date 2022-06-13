@@ -44,6 +44,17 @@ public class PlayerTest {
     @Test
     public void testMove_simple2() {
         if(player != null) {
+            player.setCurrentPosition(5);
+            player.move(4);
+            Assertions.assertEquals(9, player.getCurrentPosition());
+            Assertions.assertEquals(2, player.getPositionX());
+            Assertions.assertEquals(5, player.getPositionY());
+        }
+    }
+
+    @Test
+    public void testMove_simple3() {
+        if(player != null) {
             player.move(13);
             Assertions.assertEquals(13, player.getCurrentPosition());
             Assertions.assertEquals(0, player.getPositionX());
@@ -122,6 +133,26 @@ public class PlayerTest {
         Assertions.assertEquals("GREEN",player.getColorAsString());
         player.setColor(PlayerColor.YELLOW);
         Assertions.assertEquals("YELLOW",player.getColorAsString());
+    }
+
+    //Funktionalität von setStartingOrder wirkt komisch...
+    @Test
+    public void testForPlayerGetterAndSetter () {
+        Assertions.assertEquals(-1,player.getStartingOrder());
+        player.setStartingOrder(3);
+        Assertions.assertEquals(-1,player.getStartingOrder());
+        Assertions.assertEquals(PlayerState.WAITING,player.getState());
+        player.setState(PlayerState.PLAYING);
+        Assertions.assertEquals(PlayerState.PLAYING,player.getState());
+        Assertions.assertEquals("Test-Player", player.getName());
+        Assertions.assertEquals(null, playerCon1.getRoom());
+        Assertions.assertEquals(0,player.getMinusPoints());
+        player.setMinusPoints(5);
+        Assertions.assertEquals(5,player.getMinusPoints());
+        playerCon1.setPlayerview(null);
+        Assertions.assertEquals(null, playerCon1.getPlayerview());
+        playerCon1.setCardField(null);
+        Assertions.assertEquals(null, playerCon1.getCardField());
     }
 
 
