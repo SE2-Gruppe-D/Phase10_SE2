@@ -145,20 +145,20 @@ public class Player {
     //bewegen des Players auf dem Spielbrett
     public void updateMapPosition () {
         if(this.color == PlayerColor.BLUE && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)122 + (float) 42);
-            this.playerview.setTranslationY(getPositionY() * (float)135 + (float) 153);
+            this.playerview.setTranslationX(getPositionX() * 122f + 42f);
+            this.playerview.setTranslationY(getPositionY() * 135f + 153f);
         }
         else if(this.color == PlayerColor.YELLOW && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)122 + (float)94);
-            this.playerview.setTranslationY(getPositionY() * (float)135 + (float)153);
+            this.playerview.setTranslationX(getPositionX() * 122f + 94f);
+            this.playerview.setTranslationY(getPositionY() * 135f + 153f);
         }
         else if(this.color == PlayerColor.RED && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)122 + (float)94);
-            this.playerview.setTranslationY(getPositionY() * (float)135 + (float)206);
+            this.playerview.setTranslationX(getPositionX() * 122f + 94f);
+            this.playerview.setTranslationY(getPositionY() * 135f + 206f);
         }
         else if(this.color == PlayerColor.GREEN && this.playerview != null) {
-            this.playerview.setTranslationX(getPositionX() * (float)122 + (float)42);
-            this.playerview.setTranslationY(getPositionY() * (float)135 + (float)207);
+            this.playerview.setTranslationX(getPositionX() * 122f + 42f);
+            this.playerview.setTranslationY(getPositionY() * 135f + 207f);
         }
     }
 

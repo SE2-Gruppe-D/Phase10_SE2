@@ -32,6 +32,7 @@ public class ActionFieldTest {
         Assertions.assertEquals(FieldColor.GREY, actionfield.getRightFieldColor(13));
         Assertions.assertEquals(FieldColor.RED, actionfield.getRightFieldColor(14));
         Assertions.assertEquals(FieldColor.PINK, actionfield.getRightFieldColor(15));
+        Assertions.assertEquals(null, actionfield.getRightFieldColor(16));
     }
 
     @Test
