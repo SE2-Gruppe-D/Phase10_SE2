@@ -260,10 +260,10 @@ public class Playfield extends AppCompatActivity {
                                                         goToMainMenu();
                                                     }
 
-
+                                                    //sync discardpile
                                                     String discardpileListString = String.valueOf(document.get("DiscardpileList"));
                                                     String[] discardpileListArray = discardpileListString.trim().split(" ");
-                                                    if (!discardpileListString.equals("") && discardpileListArray.length != discardpileList.size()) {
+                                                    if (!discardpileListString.equals("") && (discardpileListArray.length != discardpileList.size() || !discardpileListArray[0].equals(discardpileList.get(0)))) {
                                                         discardpileList = addCardsToList(discardpileListString);
                                                         discardpileList.get(discardpileList.size() - 1).getCardUI().setVisibility(View.VISIBLE);
                                                         defaultcard.setImageDrawable(discardpileList.get(discardpileList.size() - 1).getCardUI().getDrawable());
@@ -465,6 +465,11 @@ public class Playfield extends AppCompatActivity {
         }*/
         setUI(cardlist);
 
+        for (Cards card : cardlist) {
+            card.getCardUI().setOnClickListener(listener);
+            card.getCardUI().setOnTouchListener(new ChoiceTouchListener());
+        }
+
         allCards.addAll(cardlist);  //copy card list
         allCards.sort(Comparator.comparing(Cards::getID));
 
@@ -477,31 +482,6 @@ public class Playfield extends AppCompatActivity {
         //Handkarten werden ausgeteilt
         handCards.HandCardsPlayer(layoutPlayer1, layoutPlayer2, layoutPlayer3, layoutPlayer4, cardlist, playerBlue, playerGreen, playerYellow, playerRed, primaryPlayer);
 
-        if (playerBlue != null) {
-            for (Cards card : playerBlue.getPlayerHand()) {
-                card.getCardUI().setOnClickListener(listener);
-                card.getCardUI().setOnTouchListener(new ChoiceTouchListener());
-            }
-        }
-
-        if (playerGreen != null) {
-            for (Cards card : playerGreen.getPlayerHand()) {
-                card.getCardUI().setOnClickListener(listener);
-                card.getCardUI().setOnTouchListener(new ChoiceTouchListener());
-            }
-        }
-        if (playerYellow != null) {
-            for (Cards card : playerYellow.getPlayerHand()) {
-                card.getCardUI().setOnClickListener(listener);
-                card.getCardUI().setOnTouchListener(new ChoiceTouchListener());
-            }
-        }
-        if (playerRed != null) {
-            for (Cards card : playerRed.getPlayerHand()) {
-                card.getCardUI().setOnClickListener(listener);
-                card.getCardUI().setOnTouchListener(new ChoiceTouchListener());
-            }
-        }
         //Auslegefelder werden zugeteilt
         currentPlayer.getCardsLayOut(layoutPlayer1CardField, layoutPlayer2CardField, layoutPlayer3CardField, layoutPlayer4CardField, playerBlue, playerGreen, playerYellow, playerRed, primaryPlayer);
         if(playerBlue != null){
@@ -1683,13 +1663,11 @@ public class Playfield extends AppCompatActivity {
     }
 
 
-ArrayList tempPlayerList;
+    ArrayList tempPlayerList;
     ArrayList lol;
 
     //get playerArray from DB and save as Player
-    public Player getPlayerFromDB(String color) {
-        final PlayerColor[] tempColor = {null};
-
+    public void getPlayerFromDB(String color) {
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
                 .get()
@@ -1701,36 +1679,32 @@ ArrayList tempPlayerList;
                                 if (Objects.equals(color, "BLUE")) {
                                     tempPlayerList = (ArrayList) document.get("PlayerBlue");
                                     lol = is(tempPlayerList);
-                                    tempColor[0] = PlayerColor.BLUE;
-                                   playerBlue.setPhaseNumber(Integer.parseInt(playerList.get(3).toString()));
-                                    playerBlue.setMinusPoints(Integer.parseInt(playerList.get(4).toString()));
-                                     playerBlue.setPlayerHand((ArrayList<Cards>) lol.get(0));
+                                    playerBlue.setPhaseNumber(Integer.parseInt(tempPlayerList.get(3).toString()));
+                                    playerBlue.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
+                                    playerBlue.setPlayerHand((ArrayList<Cards>) lol.get(0));
                                     playerBlue.setCardField((ArrayList<Cards>)lol.get(1));
+
                                 } else if (Objects.equals(color, "RED")) {
                                     tempPlayerList = (ArrayList) document.get("PlayerRed");
-                                    ArrayList<ArrayList<Cards>> lol = is(tempPlayerList);
-                                    tempColor[0] = PlayerColor.RED;
-                                   playerRed.setPhaseNumber(Integer.parseInt(playerList.get(3).toString()));
-                                    playerRed.setMinusPoints(Integer.parseInt(playerList.get(4).toString()));
+                                    lol = is(tempPlayerList);
+                                    playerRed.setPhaseNumber(Integer.parseInt(tempPlayerList.get(3).toString()));
+                                    playerRed.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
                                     playerRed.setPlayerHand((ArrayList<Cards>) lol.get(0));
-                                    playerRed.setCardField((ArrayList<Cards>)lol.get(1));
+                                    playerRed.setCardField((ArrayList<Cards>) lol.get(1));
 
                                 } else if (Objects.equals(color, "YELLOW")) {
                                     tempPlayerList = (ArrayList) document.get("PlayerYellow");
                                     lol = is(tempPlayerList);
-                                    tempColor[0] = PlayerColor.YELLOW;
-                                  playerYellow.setPhaseNumber(Integer.parseInt(playerList.get(3).toString()));
-                                    playerYellow.setMinusPoints(Integer.parseInt(playerList.get(4).toString()));
+                                    playerYellow.setPhaseNumber(Integer.parseInt(tempPlayerList.get(3).toString()));
+                                    playerYellow.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
                                     playerYellow.setPlayerHand((ArrayList<Cards>) lol.get(0));
                                     playerYellow.setCardField((ArrayList<Cards>)lol.get(1));
-
 
                                 } else if (Objects.equals(color, "GREEN")) {
                                     tempPlayerList = (ArrayList) document.get("PlayerGreen");
                                     lol = is(tempPlayerList);
-                                    tempColor[0] = PlayerColor.GREEN;
-                                    playerGreen.setPhaseNumber(Integer.parseInt(playerList.get(3).toString()));
-                                    playerGreen.setMinusPoints(Integer.parseInt(playerList.get(4).toString()));
+                                    playerGreen.setPhaseNumber(Integer.parseInt(tempPlayerList.get(3).toString()));
+                                    playerGreen.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
                                     playerGreen.setPlayerHand((ArrayList<Cards>) lol.get(0));
                                     playerGreen.setCardField((ArrayList<Cards>)lol.get(1));
 
@@ -1739,11 +1713,6 @@ ArrayList tempPlayerList;
                         }
                     }
                 });
-        if(tempPlayerList!=null) {
-            return new Player(tempPlayerList.get(0).toString(), tempColor[0], tempPlayerList.get(2).toString(), Integer.parseInt(tempPlayerList.get(3).toString()), Integer.parseInt(tempPlayerList.get(4).toString()), (ArrayList<Cards>) lol.get(0), (ArrayList<Cards>)lol.get(1));
-        }else{
-            return new Player();
-        }
     }
 
 
