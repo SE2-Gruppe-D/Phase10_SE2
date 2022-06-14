@@ -222,7 +222,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                                 }
                             }
                         });
-                playfield.getActionfield(FieldColor.ORANGE); //ToDo: Methode zu startCheatTimer
+                playfield.getActionfield(); //ToDo: Methode zu startCheatTimer
             }
         }
     }

@@ -837,9 +837,8 @@ public class Playfield extends AppCompatActivity {
         }
     }
 
-    public void getActionfield(FieldColor fieldColor) {
-      // switch (actionfield.getRightFieldColor(getCurrentPositionDB())) {
-            switch (fieldColor) { //ToDO: Fieldcolor löschen und switch von Zeile oberhalb nehmen
+    public void getActionfield() {
+      switch (actionfield.getRightFieldColor(getCurrentPositionDB())) {
             case GREY:
                 actionfield.greyFieldColor();
                 break;
