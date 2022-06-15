@@ -31,19 +31,17 @@ import java.util.Objects;
 
 
 public class DiceFragment extends Fragment implements SensorEventListener {
-    private final boolean TESTMODE = false; //TODO: remove or set to false when multiplayer is implemented
-
+    private static final boolean testmode = false;
     private float shakeThreshold;  //Threshold for the acceleration sensor to trigger dice generation
     private ImageView diceView;
-    public boolean moved;
+    private boolean moved;
     private Dice dice;
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private int lastDiceValue = -1;
-    private int lastDiceValueDB_old;
+    private int lastDiceValueOld;
     private float acceleration;
     private PlayerColor currentPlayerColor = null;
-
     private PlayerColor playerColor;
     private String room;
     private FirebaseFirestore database;
@@ -94,7 +92,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                                                     //last dice value for cheating
                                                     int diceRoll = document.get("DiceRoll", Integer.class);
                                                     if (diceRoll != 0 && lastDiceValue != diceRoll) {
-                                                        lastDiceValueDB_old = lastDiceValue;
+                                                        lastDiceValueOld = lastDiceValue;
                                                         lastDiceValue = diceRoll;
                                                         setDiceView(diceRoll);
 
@@ -167,7 +165,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (TESTMODE || (currentPlayerColor != null && currentPlayerColor.equals(playerColor))) {
+        if (testmode || (currentPlayerColor != null && currentPlayerColor.equals(playerColor))) {
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
@@ -279,18 +277,6 @@ public class DiceFragment extends Fragment implements SensorEventListener {
     private FirebaseFirestore createDBConnection() {
         return FirebaseFirestore.getInstance();
     }
-
-    private PlayerColor getCurrentPlayerFromDatabase() {
-        String plCol = null;
-        //TODO: IMPLEMENT DB CALL FOR CURRENT PLAYER;
-
-        return definePlayerColor(plCol);
-    }
-
-    private void pushDiceValueToDB(int diceValue) {
-        //TODO: PUSH DICE VALUE TO DB FOR PLAYER
-    }
-
 
     public void setDiceView(int diceValue) {
         switch (diceValue) {

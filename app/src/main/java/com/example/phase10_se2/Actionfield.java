@@ -1,15 +1,5 @@
 package com.example.phase10_se2;
 
-
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.ArrayList;
-
 public class Actionfield {
 
     DiceFragment diceFragment = new DiceFragment();

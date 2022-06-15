@@ -1,12 +1,10 @@
 package com.example.phase10_se2;
-
-import android.util.Log;
-
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 enum PlayerState {
     WAITING, THROWING_DICE, PLAYING
@@ -35,21 +33,19 @@ public class Player {
     private int positionY;
     private int minusPoints;
     private ImageView playerview;
-    private ArrayList<Cards> playerHand;
+    private List<Cards> playerHand;
     private String phaseText;
     private int phaseNumber;
     //für das Auslegen der Karten
-    private ArrayList<Cards> cardField;
+    private List<Cards> cardField;
     boolean abgelegt;
     LinearLayout linearLayout;
-
-
 
     // no-argument constructor
     public Player() {
     }
 
-    public Player(String name, PlayerColor color, String room, int phaseNumber, int minusPoints, ArrayList<Cards> cards, ArrayList<Cards> cardField) {
+    public Player(String name, PlayerColor color, String room, int phaseNumber, int minusPoints, List<Cards> cards, List<Cards> cardField) {
         this.name = name;
         this.color = color;
         this.room = room;
@@ -61,7 +57,7 @@ public class Player {
         currentPosition = 0;
         startingOrder = -1;
         state = PlayerState.WAITING;
-        playerHand = new ArrayList<Cards>();
+        playerHand = new ArrayList<>();
         phaseText = "/";
 
         this.cardField=cardField;
@@ -77,7 +73,7 @@ public class Player {
         currentPosition = 0;
         startingOrder = -1;
         state = PlayerState.WAITING;
-        playerHand = new ArrayList<Cards>();
+        playerHand = new ArrayList<>();
 
         phaseText = "/";
     }
@@ -91,7 +87,7 @@ public class Player {
         currentPosition = 0;
         startingOrder = -1;
         state = PlayerState.WAITING;
-        playerHand = new ArrayList<Cards>();
+        playerHand = new ArrayList<>();
         phaseText = "/";
     }
 
@@ -105,7 +101,7 @@ public class Player {
         currentPosition = 0;
         startingOrder = -1;
         state = PlayerState.WAITING;
-        playerHand = new ArrayList<Cards>();
+        playerHand = new ArrayList<>();
 
         phaseText = "/";
     }
@@ -126,7 +122,6 @@ public class Player {
             positionX = 0;
             positionY = 16 - currentPosition;
         }
-
         updateMapPosition();
     }
 
@@ -163,7 +158,7 @@ public class Player {
     }
 
     //übergeben der restlichen Handkarten am ende einer Runde - Zusammenfügen der Minuspunkte
-    public void updateMinusPoints(ArrayList<Cards> cards) {
+    public void updateMinusPoints(List<Cards> cards) {
         for (Cards card : cards) {
             if (!cards.isEmpty() && card != null) {
                 if (card.getValue() <= 9) {
@@ -174,7 +169,6 @@ public class Player {
             }
         }
     }
-
 
     public PlayerState getState() {
         return state;
@@ -233,11 +227,11 @@ public class Player {
         this.playerview = playerview;
     }
 
-    public ArrayList<Cards> getPlayerHand() {
+    public List<Cards> getPlayerHand() {
         return playerHand;
     }
 
-    public void setPlayerHand(ArrayList<Cards> playerHand) {
+    public void setPlayerHand(List<Cards> playerHand) {
         this.playerHand = playerHand;
     }
 
@@ -297,11 +291,11 @@ public class Player {
         this.abgelegt = abgelegt;
     }
 
-    public ArrayList<Cards> getCardField() {
+    public List<Cards> getCardField() {
         return cardField;
     }
 
-    public void setCardField(ArrayList<Cards> cardField) {
+    public void setCardField(List<Cards> cardField) {
         this.cardField = cardField;
     }
 
