@@ -222,7 +222,6 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                                 }
                             }
                         });
-                playfield.getActionfield(FieldColor.ORANGE); //ToDo: Methode zu startCheatTimer
             }
         }
     }
@@ -238,6 +237,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                 if (p != null && !moved && lastDiceValue == diceValueBeforeStart) {
                     moved = true;
                     p.move(lastDiceValue);
+                    playfield.getActionfield();
                 }
             }
         }).start();

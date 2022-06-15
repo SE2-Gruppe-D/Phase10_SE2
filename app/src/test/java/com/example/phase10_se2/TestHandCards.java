@@ -4,6 +4,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockConstructionWithAnswer;
 import static org.mockito.Mockito.when;
 
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -127,8 +128,9 @@ public class TestHandCards {
 
         if(primary!=null){
             primary.setPlayerHand(cardlist);
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(primary);
             for (Cards card : primary.getPlayerHand()) {
-                Assertions.assertEquals(0, card.getCardUI().getVisibility());
+                Assertions.assertEquals(View.VISIBLE, card.getCardUI().getVisibility());
             }
         }
     }

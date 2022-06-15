@@ -837,9 +837,8 @@ public class Playfield extends AppCompatActivity {
         }
     }
 
-    public void getActionfield(FieldColor fieldColor) {
-      // switch (actionfield.getRightFieldColor(getCurrentPositionDB())) {
-            switch (fieldColor) { //ToDO: Fieldcolor löschen und switch von Zeile oberhalb nehmen
+    public void getActionfield() {
+        switch (actionfield.getRightFieldColor(getCurrentPositionDB())) {
             case GREY:
                 actionfield.greyFieldColor();
                 break;
@@ -1008,7 +1007,12 @@ public class Playfield extends AppCompatActivity {
                         ViewGroup owner = (ViewGroup) v.getParent();
                         //Karte zum Ablegestapel hinzufügen
                         //ToDO: DB Anpassen
+
+                        System.out.println("POOP 1");
+
                         playerHandPrimaryPlayer = getHandCardsDB();
+
+
                         if (playerHandPrimaryPlayer.size() != 0) {
                             for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                                 if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
@@ -1723,7 +1727,7 @@ public class Playfield extends AppCompatActivity {
 
         for (String id : cardIds) {
             if (id.length()!=0) {
-                cards.add(cardDrawer.getInitialCardsList().get(Integer.parseInt(id) - 1));
+                cards.add(allCards.get(Integer.parseInt(id) - 1));
             }
         }
 
@@ -1732,7 +1736,7 @@ public class Playfield extends AppCompatActivity {
         ArrayList<Cards> cardsDepo = new ArrayList<Cards>();
         for (String id : cardIdsDepo) {
             if (id.length()!=0) {
-                cardsDepo.add(cardDrawer.getInitialCardsList().get(Integer.parseInt(id)));
+                cardsDepo.add(allCards.get(Integer.parseInt(id)));
             }
         }
 
