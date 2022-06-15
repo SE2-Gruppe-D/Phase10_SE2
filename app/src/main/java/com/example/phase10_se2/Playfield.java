@@ -264,8 +264,7 @@ public class Playfield extends AppCompatActivity {
 
                                                     //sync discardpile
                                                     String discardpileListString = String.valueOf(document.get("DiscardpileList"));
-                                                    String[] discardpileListArray = discardpileListString.trim().split(" ");
-                                                    if (!discardpileListString.equals("") && (discardpileListArray.length != discardpileList.size() || !discardpileListArray[0].equals(discardpileList.get(0)))) {
+                                                    if (!discardpileListString.isEmpty()) {
                                                         discardpileList = addCardsToList(discardpileListString);
                                                         discardpileList.get(discardpileList.size() - 1).getCardUI().setVisibility(View.VISIBLE);
                                                         defaultcard.setImageDrawable(discardpileList.get(discardpileList.size() - 1).getCardUI().getDrawable());

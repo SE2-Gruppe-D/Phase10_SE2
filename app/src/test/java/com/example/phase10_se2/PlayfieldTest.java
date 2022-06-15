@@ -64,12 +64,12 @@ public class PlayfieldTest {
 
     }
 
-    @Test
-    public void testGetPhasenumberDB() {
-        try {
-            Assertions.assertEquals(1, mockedPlayfield.getPhasenumberDB());
-        }catch (NullPointerException e){
-
-        }
-    }
+//    @Test
+//    public void testGetPhasenumberDB() {
+//        try {
+//            Assertions.assertEquals(1, mockedPlayfield.getPhasenumberDB());
+//        }catch (NullPointerException e){
+//
+//        }
+//    }
 }
