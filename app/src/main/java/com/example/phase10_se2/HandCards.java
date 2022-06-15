@@ -29,52 +29,56 @@ public class HandCards {
             if (playerblue != null) {
                 playerBlue= playerblue;
                 if (playerblue.getColor().equals(primaryplayer.getColor())){
-                    updateHand(playerblue.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0, cardlist);  //Primary player bekommt immer Layout1
+                    updateHand(playerblue.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0, cardlist, true);  //Primary player bekommt immer Layout1
                 } else {
-                    updateHand(playerblue.getPlayerHand(), cardlist.get(0), layoutPlayer2, 0, cardlist);
+                    updateHand(playerblue.getPlayerHand(), cardlist.get(0), layoutPlayer2, 0, cardlist, false);
                 }
             }
             if (playerred != null) {
                 playerRed= playerred;
 
                 if (playerred.getColor().equals(primaryplayer.getColor())) {
-                    updateHand(playerred.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0, cardlist);
+                    updateHand(playerred.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0, cardlist, true);
                 } else {
-                    updateHand(playerred.getPlayerHand(), cardlist.get(0), layoutPlayer3, 90, cardlist);
+                    updateHand(playerred.getPlayerHand(), cardlist.get(0), layoutPlayer3, 90, cardlist, false);
                 }
             }
             if (playeryellow != null) {
                 playerYellow= playeryellow;
 
                 if (playeryellow.getColor().equals(primaryplayer.getColor())) {
-                    updateHand(playeryellow.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0, cardlist);
+                    updateHand(playeryellow.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0, cardlist, true);
 
                 } else {
-                    updateHand(playeryellow.getPlayerHand(), cardlist.get(0), layoutPlayer4, -90, cardlist);
+                    updateHand(playeryellow.getPlayerHand(), cardlist.get(0), layoutPlayer4, -90, cardlist, false);
                 }
             }
             if (playergreen != null) {
                 playerGreen=playergreen;
                 if (playergreen.getColor().equals(primaryplayer.getColor())) {
-                    updateHand(playergreen.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0, cardlist);
+                    updateHand(playergreen.getPlayerHand(), cardlist.get(0), layoutPlayer1, 0, cardlist, true);
                 } else {
                     if (playerblue!=null&&playerblue.getColor().equals(primaryplayer.getColor())) {
-                        updateHand(playergreen.getPlayerHand(), cardlist.get(0), layoutPlayer2, 0, cardlist);
+                        updateHand(playergreen.getPlayerHand(), cardlist.get(0), layoutPlayer2, 0, cardlist, true);
 
                     } else if (playerred!=null&&playerred.getColor().equals(primaryplayer.getColor())) {
-                        updateHand(playergreen.getPlayerHand(), cardlist.get(0), layoutPlayer3, 90, cardlist);
+                        updateHand(playergreen.getPlayerHand(), cardlist.get(0), layoutPlayer3, 90, cardlist, true);
 
                     } else if(playeryellow!=null&&playeryellow.getColor().equals(primaryplayer.getColor())){
-                        updateHand(playergreen.getPlayerHand(), cardlist.get(0), layoutPlayer4, -90, cardlist);
+                        updateHand(playergreen.getPlayerHand(), cardlist.get(0), layoutPlayer4, -90, cardlist, true);
                     }
                 }
             }
         }
     }
+
     //Karten werden den Spieler angepasst/ Handkarten-Layout
-    public void updateHand(List<Cards> list, Cards cards, LinearLayout linearLayout, int grad, List<Cards> cardlist) {
+    public void updateHand(List<Cards> list, Cards cards, LinearLayout linearLayout, int grad, List<Cards> cardlist, boolean isPrimary) {
         list.add(cards);
-        linearLayout.addView(cards.getCardUI());
+
+        if (isPrimary) { //only add cards to the view, if its the primary player
+            linearLayout.addView(cards.getCardUI());
+        }
 
         //Karten nur fuer primary player sichtbar
 

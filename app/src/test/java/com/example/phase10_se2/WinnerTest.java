@@ -1,5 +1,7 @@
 package com.example.phase10_se2;
 
+import com.example.phase10_se2.ENUM.PlayerColor;
+
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ public class WinnerTest
     @BeforeEach
     public void setup()
     {
-        player1 = new Player("Lorem",PlayerColor.BLUE, 1);
+        player1 = new Player("Lorem", PlayerColor.BLUE, 1);
         player2 = new Player("Ipsum",PlayerColor.GREEN, 3);
         player3 = new Player("Marce", PlayerColor.RED, 3);
         player4 = new Player("Lippi", PlayerColor.YELLOW, 1);

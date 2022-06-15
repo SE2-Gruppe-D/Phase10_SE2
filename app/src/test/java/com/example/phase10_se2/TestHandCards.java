@@ -2,8 +2,11 @@ package com.example.phase10_se2;
 
 import static org.mockito.Mockito.mock;
 
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.example.phase10_se2.ENUM.PlayerColor;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -126,8 +129,9 @@ public class TestHandCards {
         if(primary!=null){
             cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(primary);
             primary.setPlayerHand(cardlist);
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(primary);
             for (Cards card : primary.getPlayerHand()) {
-                Assertions.assertEquals(0, card.getCardUI().getVisibility());
+                Assertions.assertEquals(View.VISIBLE, card.getCardUI().getVisibility());
             }
         }
     }

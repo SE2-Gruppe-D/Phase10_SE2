@@ -1,5 +1,7 @@
 package com.example.phase10_se2;
 
+import com.example.phase10_se2.ENUM.FieldColor;
+
 public class Actionfield {
 
     DiceFragment diceFragment = new DiceFragment();

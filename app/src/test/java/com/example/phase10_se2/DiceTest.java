@@ -1,6 +1,8 @@
 package com.example.phase10_se2;
 
 
+import com.example.phase10_se2.helper.Dice;
+
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
