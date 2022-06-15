@@ -136,6 +136,4 @@ public class TestHandCards {
     public void PrimaryPlayerNull(){
         Assertions.assertNotNull(primary);
     }
-
-
 }

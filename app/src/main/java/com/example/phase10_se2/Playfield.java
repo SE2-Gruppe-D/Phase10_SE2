@@ -1323,35 +1323,6 @@ public class Playfield extends AppCompatActivity {
         return playerlist;
     }
 
-    public void updateCardlistDB() {
-        //update Database
-        database.collection("gameInfo")
-                .whereEqualTo("RoomName", currentRoom)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                //player hand cards
-                                ArrayList<Integer> newCardList = new ArrayList<>();
-                                for (Cards card : cardlist) {
-                                    newCardList.add(card.getID());
-                                }
-                                document.getReference().update("Cardlist", newCardList);
-
-                                //discard pile
-                                ArrayList<Integer> newDiscardPile = new ArrayList<>();
-                                for (Cards card : discardpileList) {
-                                    newDiscardPile.add(card.getID());
-                                }
-                                document.getReference().update("DiscardpileList", newDiscardPile);
-                            }
-                        }
-                    }
-                });
-    }
-
     public void updateDiscardpileListDB() {
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
@@ -1374,22 +1345,6 @@ public class Playfield extends AppCompatActivity {
                 });
     }
 
-    public void updateRoundDB() {
-        database.collection("gameInfo")
-                .whereEqualTo("RoomName", currentRoom)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                document.getReference().update("Round", round);
-
-                            }
-                        }
-                    }
-                });
-    }
     ArrayList tempCurrentPlayer;
     PlayerColor tempCurrentPlayerColor;
     public Player getCurrentPlayerDB() {
@@ -1509,28 +1464,6 @@ public class Playfield extends AppCompatActivity {
 
     public List<Cards> getHandCardsDB(){
         return currentPlayer.getPlayerHand();
-    }
-
-    //update currentPlayer
-    public void updateCurrentPlayer() {
-
-        database.collection("gameInfo")
-                .whereEqualTo("RoomName", currentRoom)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                document.getReference().update("CurrentPlayer", playerToList(currentPlayer));
-
-                                //reset cheated for new currentPlayer
-                                document.getReference().update("Cheated", false);
-
-                            }
-                        }
-                    }
-                });
     }
 
     //update players
