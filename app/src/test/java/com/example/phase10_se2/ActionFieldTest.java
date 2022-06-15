@@ -1,5 +1,7 @@
 package com.example.phase10_se2;
 
+import com.example.phase10_se2.ENUM.FieldColor;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +34,7 @@ public class ActionFieldTest {
         Assertions.assertEquals(FieldColor.GREY, actionfield.getRightFieldColor(13));
         Assertions.assertEquals(FieldColor.RED, actionfield.getRightFieldColor(14));
         Assertions.assertEquals(FieldColor.PINK, actionfield.getRightFieldColor(15));
-        Assertions.assertEquals(null, actionfield.getRightFieldColor(16));
+        Assertions.assertNull(actionfield.getRightFieldColor(16));
     }
 
     @Test

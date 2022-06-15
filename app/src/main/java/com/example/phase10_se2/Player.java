@@ -1,30 +1,15 @@
 package com.example.phase10_se2;
 
-import android.util.Log;
-
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.phase10_se2.ENUM.PlayerColor;
+import com.example.phase10_se2.ENUM.PlayerState;
+
 import java.util.ArrayList;
 
-enum PlayerState {
-    WAITING, THROWING_DICE, PLAYING
-}
-
-enum PlayerColor {
-    RED, BLUE, YELLOW, GREEN
-}
-
-enum FieldColor {
-    BLUE, GREY, GREEN, ORANGE, RED, PURPLE, PINK
-}
-
 public class Player {
-    final private FieldColor[] colorField = new FieldColor[]{FieldColor.BLUE, FieldColor.GREY, FieldColor.GREEN,
-            FieldColor.ORANGE, FieldColor.GREY, FieldColor.RED, FieldColor.GREY, FieldColor.PURPLE, FieldColor.PINK,
-            FieldColor.BLUE, FieldColor.GREY, FieldColor.ORANGE, FieldColor.GREEN, FieldColor.GREY, FieldColor.RED,
-            FieldColor.PINK};
     private String name;
     private PlayerColor color;
     private String room;
@@ -42,8 +27,6 @@ public class Player {
     private ArrayList<Cards> cardField;
     boolean abgelegt;
     LinearLayout linearLayout;
-
-
 
     // no-argument constructor
     public Player() {

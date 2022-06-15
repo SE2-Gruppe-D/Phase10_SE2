@@ -25,29 +25,23 @@ public class CardDrawer {
         return initialCardsList;
     }
 
+    private void initCards(String color, int maxID) {
+        for (int i = 0; i < 24; i++) {
+            Cards card = new Cards(color, (i%12) + 1, null, i + 1 + maxID-24);
+            initialCardsList.add(card);
+        }
+    }
+
     public ArrayList<Cards> generateInitialCards(){
         //alle 96 Karten werden in eine ArrayList gespeichert
         //erstelle alle Blauen Karten
         initialCardsList= new ArrayList<>();
-        for (int i = 0; i < 24; i++) {
-            Cards card = new Cards("blue", (i % 12) + 1, null, i+1);  //%12 weil, es wird bei 0 gestartet und immer +1 gerechnet & somit wird jeder Karte doppelt eingefügt
-            initialCardsList.add(card);
-        }
-        //erstelle alle Roten Karten
-        for (int i = 0; i < 24; i++) {
-            Cards card = new Cards("red", (i % 12) + 1, null, i+25);
-            initialCardsList.add(card);
-        }
-        //erstelle alle Gelben Karten
-        for (int i = 0; i < 24; i++) {
-            Cards card = new Cards("yellow", (i % 12) + 1, null, i+49);
-            initialCardsList.add(card);
-        }
-        //erstelle alle Gruenen Karte
-        for (int i = 0; i < 24; i++) {
-            Cards card = new Cards("green", (i % 12) + 1, null, i+73);
-            initialCardsList.add(card);
-        }
+
+        initCards("blue", 24);
+        initCards("red", 48);
+        initCards("yellow", 72);
+        initCards("green", 96);
+
         return initialCardsList;
     }
     //Karten werden gemischt
