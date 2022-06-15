@@ -30,6 +30,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.phase10_se2.ENUM.PlayerColor;
+import com.example.phase10_se2.helper.Timer;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -1469,11 +1471,6 @@ public class Playfield extends AppCompatActivity {
                 });
     }
 
-
-
-
-
-
     public void updateRoundDB() {
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
@@ -1490,9 +1487,10 @@ public class Playfield extends AppCompatActivity {
                     }
                 });
     }
+
     ArrayList tempCurrentPlayer;
     PlayerColor tempCurrentPlayerColor;
-    public Player getCurrentPlayerDB() {
+    public void getCurrentPlayerDB() {
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
                 .get()
@@ -1516,11 +1514,7 @@ public class Playfield extends AppCompatActivity {
 
                         }
                     }
-
-
                 });
-        return new Player(tempCurrentPlayer.get(0).toString(), tempCurrentPlayerColor, tempPlayerList.get(2).toString(), Integer.parseInt(tempPlayerList.get(3).toString()), Integer.parseInt(tempPlayerList.get(4).toString()), (ArrayList<Cards>) lol.get(0), (ArrayList<Cards>)lol.get(1));
-
     }
 
     //currentPlayer cheats
@@ -1666,10 +1660,6 @@ public class Playfield extends AppCompatActivity {
                 });
     }
 
-
-    ArrayList tempPlayerList;
-    ArrayList lol;
-
     //get playerArray from DB and save as Player
     public void getPlayerFromDB(String color) {
         database.collection("gameInfo")
@@ -1680,6 +1670,9 @@ public class Playfield extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
+                                ArrayList tempPlayerList;
+                                ArrayList lol;
+
                                 if (Objects.equals(color, "BLUE")) {
                                     tempPlayerList = (ArrayList) document.get("PlayerBlue");
                                     lol = is(tempPlayerList);
@@ -1736,7 +1729,7 @@ public class Playfield extends AppCompatActivity {
         ArrayList<Cards> cardsDepo = new ArrayList<Cards>();
         for (String id : cardIdsDepo) {
             if (id.length()!=0) {
-                cardsDepo.add(allCards.get(Integer.parseInt(id)));
+                cardsDepo.add(allCards.get(Integer.parseInt(id) - 1));
             }
         }
 

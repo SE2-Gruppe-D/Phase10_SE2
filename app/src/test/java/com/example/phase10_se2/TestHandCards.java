@@ -1,12 +1,12 @@
 package com.example.phase10_se2;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockConstructionWithAnswer;
-import static org.mockito.Mockito.when;
 
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.example.phase10_se2.ENUM.PlayerColor;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
