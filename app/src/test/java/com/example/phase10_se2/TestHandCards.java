@@ -79,7 +79,7 @@ public class TestHandCards {
     @Test
     public void PrimaryPlayerBlue(){
         primary=playerBlue;
-        handCards.HandCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
+        handCards.handCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
 
         Assertions.assertEquals(56, cardList.size());
         Assertions.assertEquals(10, primary.getPlayerHand().size());
@@ -89,7 +89,7 @@ public class TestHandCards {
     @Test
     public void PrimaryPlayerGreen(){
         primary=playerGreen;
-        handCards.HandCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
+        handCards.handCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
 
         Assertions.assertEquals(56, cardList.size());
         Assertions.assertEquals(10, primary.getPlayerHand().size());
@@ -98,7 +98,7 @@ public class TestHandCards {
     @Test
     public void PrimaryPlayerYellow(){
         primary=playerYellow;
-        handCards.HandCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
+        handCards.handCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
 
         Assertions.assertEquals(56, cardList.size());
         Assertions.assertEquals(10, primary.getPlayerHand().size());
@@ -107,7 +107,7 @@ public class TestHandCards {
     @Test
     public void PrimaryPlayerRed(){
         primary=playerRed;
-        handCards.HandCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
+        handCards.handCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
 
         Assertions.assertEquals(56, cardList.size());
         Assertions.assertEquals(10, primary.getPlayerHand().size());

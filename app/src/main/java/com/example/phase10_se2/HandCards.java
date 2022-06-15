@@ -24,7 +24,7 @@ public class HandCards {
     }
 
     //Handkarten werden ausgeteilt
-    public void HandCardsPlayer(LinearLayout layoutPlayer1, LinearLayout layoutPlayer2, LinearLayout layoutPlayer3, LinearLayout layoutPlayer4,ArrayList<Cards> cardlist, Player playerblue,  Player playergreen,  Player playeryellow,  Player playerred, Player primaryplayer) {
+    public void handCardsPlayer(LinearLayout layoutPlayer1, LinearLayout layoutPlayer2, LinearLayout layoutPlayer3, LinearLayout layoutPlayer4,ArrayList<Cards> cardlist, Player playerblue,  Player playergreen,  Player playeryellow,  Player playerred, Player primaryplayer) {
         primaryPlayer= primaryplayer;
         for (int i = 0; i < 10; i++) {
             if (playerblue != null) {
@@ -72,6 +72,7 @@ public class HandCards {
             }
         }
     }
+
     //Karten werden den Spieler angepasst/ Handkarten-Layout
     public void updateHand(List<Cards> list, Cards cards, LinearLayout linearLayout, int grad, ArrayList<Cards> cardlist) {
         list.add(cards);
@@ -93,8 +94,7 @@ public class HandCards {
         }
 
         cardlist.remove(0);
-        cards.getCardUIObject().setRotation(grad);
-
+        cards.getCardUIObject().setRotation(0); //set rotation to 0
     }
 }
 

@@ -482,7 +482,7 @@ public class Playfield extends AppCompatActivity {
         cardDrawer.isInitialCardsEmpty();
 
         //Handkarten werden ausgeteilt
-        handCards.HandCardsPlayer(layoutPlayer1, layoutPlayer2, layoutPlayer3, layoutPlayer4, cardlist, playerBlue, playerGreen, playerYellow, playerRed, primaryPlayer);
+        handCards.handCardsPlayer(layoutPlayer1, layoutPlayer2, layoutPlayer3, layoutPlayer4, cardlist, playerBlue, playerGreen, playerYellow, playerRed, primaryPlayer);
 
         //Auslegefelder werden zugeteilt
         currentPlayer.getCardsLayOut(layoutPlayer1CardField, layoutPlayer2CardField, layoutPlayer3CardField, layoutPlayer4CardField, playerBlue, playerGreen, playerYellow, playerRed, primaryPlayer);
@@ -865,12 +865,6 @@ public class Playfield extends AppCompatActivity {
         }
     }
 
-
-
-
-
-
-
     //Karte ziehen
     protected void addCard() {
         //only currentPlayer kann ziehen
@@ -1010,10 +1004,7 @@ public class Playfield extends AppCompatActivity {
                         //Karte zum Ablegestapel hinzufügen
                         //ToDO: DB Anpassen
 
-                        System.out.println("POOP 1");
-
                         playerHandPrimaryPlayer = getHandCardsDB();
-
 
                         if (playerHandPrimaryPlayer.size() != 0) {
                             for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
@@ -1036,14 +1027,10 @@ public class Playfield extends AppCompatActivity {
                     default:
                         break;
                 }
-
             }
             return true;
         }
-
     }
-
-
 
     //Drag and Drop Auslegefeld Spieler 2
     private class ChoiceDragListener2 implements View.OnDragListener {
