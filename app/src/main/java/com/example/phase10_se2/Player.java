@@ -28,8 +28,6 @@ public class Player {
     boolean abgelegt;
     LinearLayout linearLayout;
 
-
-
     // no-argument constructor
     public Player() {
     }

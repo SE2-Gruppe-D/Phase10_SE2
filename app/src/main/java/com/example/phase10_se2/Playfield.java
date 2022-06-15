@@ -1218,7 +1218,6 @@ public class Playfield extends AppCompatActivity {
     public void setPhasenTextTextView() {
         primaryPlayer.setPhaseText();
         tvAktuellePhase.setText(primaryPlayer.getPhaseText());
-
     }
 
     public void decideStartingPlayer() { //TODO: problem: player != primary player wont get put into map
