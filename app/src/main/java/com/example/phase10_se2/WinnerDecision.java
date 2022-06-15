@@ -49,7 +49,7 @@ public class WinnerDecision
     }
 
     //gibt eine ArrayList mit den Gewinnern aus
-    public List getWinner()
+    public List<Player> getWinner()
     {
         ArrayList<Player> winners = new ArrayList<>();
         int phaseCheck = 0;

@@ -33,7 +33,7 @@ import java.util.Objects;
 
 
 public class DiceFragment extends Fragment implements SensorEventListener {
-    private static final boolean testmode = false;
+    private static final boolean TESTMODE = false;
     private float shakeThreshold;  //Threshold for the acceleration sensor to trigger dice generation
     private ImageView diceView;
     private boolean moved;
@@ -167,7 +167,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (testmode || (currentPlayerColor != null && currentPlayerColor.equals(playerColor))) {
+        if (TESTMODE || (currentPlayerColor != null && currentPlayerColor.equals(playerColor))) {
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];

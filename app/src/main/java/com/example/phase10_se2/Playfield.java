@@ -530,8 +530,8 @@ public class Playfield extends AppCompatActivity {
                                                     //give consequences
                                                     //if accused right:
                                                     ArrayList player = (ArrayList) document.get("CurrentPlayer");
-                                                    int phase = (int) player.get(3) - 1;
-                                                    player.set(3, phase);
+                                                    int Phaseplayer = (int) player.get(3) - 1;
+                                                    player.set(3, Phaseplayer);
                                                     document.getReference().update("CurrentPlayer", player);
                                                     Toast.makeText(Playfield.this, "Player " + currentPlayer + " cheated, you were right!", Toast.LENGTH_SHORT).show();
 
@@ -1182,24 +1182,6 @@ public class Playfield extends AppCompatActivity {
         return playerYellow;
     }
 
-    private ArrayList<Player> getActivePlayers() {
-        ArrayList<Player> activePlayers = new ArrayList<>();
-        if (playerYellow != null) {
-            activePlayers.add(playerYellow);
-        }
-        if (playerGreen != null) {
-            activePlayers.add(playerGreen);
-        }
-        if (playerBlue != null) {
-            activePlayers.add(playerBlue);
-        }
-        if (playerRed != null) {
-            activePlayers.add(playerRed);
-        }
-
-        return activePlayers;
-    }
-
     public String getCurrentRoom() {
         return currentRoom;
     }
@@ -1287,7 +1269,7 @@ public class Playfield extends AppCompatActivity {
                 });
     }
 
-    public ArrayList<String> playerToList(Player player) {
+    public List<String> playerToList(Player player) {
         ArrayList<String> playerlist = new ArrayList<>();
         playerlist.add(player.getName());
         playerlist.add(player.getColor().toString());
@@ -1539,7 +1521,7 @@ public class Playfield extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //give consequences
                                 //if accused right:
-                                ArrayList playerC = playerToList(currentplayer);
+                                List<String> playerC = playerToList(currentplayer);
                                 document.getReference().update("CurrentPlayer", playerC);
                             }
                         }
