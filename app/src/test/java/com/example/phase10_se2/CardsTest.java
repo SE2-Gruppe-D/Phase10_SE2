@@ -3,10 +3,11 @@ package com.example.phase10_se2;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CardsTest {
     private CardDrawer cardDrawer;
-    private ArrayList<Cards> cardList=new ArrayList<>();
+    private List<Cards> cardList=new ArrayList<>();
 
     @BeforeEach
     public void init(){

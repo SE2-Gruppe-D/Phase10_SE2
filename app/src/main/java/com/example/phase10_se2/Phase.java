@@ -1,24 +1,12 @@
 package com.example.phase10_se2;
-
-
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.LinearLayout;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 public class Phase {
 
-
-
     //zur Überprüfung, ob der currentplayer die Phase richtig abgelegt hat
-    public boolean getRightPhase(int phasenumber, ArrayList<Cards> cardfieldCardlist){
+    public boolean getRightPhase(int phasenumber, List<Cards> cardfieldCardlist){
         switch (phasenumber){
             case 1: return checkPhase1(cardfieldCardlist);
             case 2: return checkPhase2(cardfieldCardlist);

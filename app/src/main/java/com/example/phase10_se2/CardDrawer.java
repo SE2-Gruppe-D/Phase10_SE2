@@ -1,8 +1,4 @@
 package com.example.phase10_se2;
-
-import android.view.View;
-import android.widget.LinearLayout;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +8,7 @@ public class CardDrawer {
     private ArrayList<Cards> initialCardsList=new ArrayList<>();
     private ArrayList<Cards> discardpileList=new ArrayList<>();      //Ablagestapel
 
-    public ArrayList<Cards> getDiscardpileList() {
+    public List<Cards> getDiscardpileList() {
         return discardpileList;
     }
 
@@ -21,7 +17,7 @@ public class CardDrawer {
         shuffleCards(initialCardsList);
     }
 
-    public ArrayList<Cards> getInitialCardsList() {
+    public List<Cards> getInitialCardsList() {
         return initialCardsList;
     }
 
@@ -32,7 +28,7 @@ public class CardDrawer {
         }
     }
 
-    public ArrayList<Cards> generateInitialCards(){
+    public List<Cards> generateInitialCards(){
         //alle 96 Karten werden in eine ArrayList gespeichert
         //erstelle alle Blauen Karten
         initialCardsList= new ArrayList<>();
@@ -45,7 +41,7 @@ public class CardDrawer {
         return initialCardsList;
     }
     //Karten werden gemischt
-    public void shuffleCards(ArrayList<Cards> initialCardsList){
+    public void shuffleCards(List<Cards> initialCardsList){
         Collections.shuffle(initialCardsList);
     }
 

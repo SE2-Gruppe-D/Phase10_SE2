@@ -2,7 +2,6 @@ package com.example.phase10_se2;
 
 import android.widget.LinearLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HandCards {
@@ -24,7 +23,7 @@ public class HandCards {
     }
 
     //Handkarten werden ausgeteilt
-    public void handCardsPlayer(LinearLayout layoutPlayer1, LinearLayout layoutPlayer2, LinearLayout layoutPlayer3, LinearLayout layoutPlayer4,ArrayList<Cards> cardlist, Player playerblue,  Player playergreen,  Player playeryellow,  Player playerred, Player primaryplayer) {
+    public void handCardsPlayer(LinearLayout layoutPlayer1, LinearLayout layoutPlayer2, LinearLayout layoutPlayer3, LinearLayout layoutPlayer4, List<Cards> cardlist, Player playerblue, Player playergreen, Player playeryellow, Player playerred, Player primaryplayer) {
         primaryPlayer= primaryplayer;
         for (int i = 0; i < 10; i++) {
             if (playerblue != null) {
@@ -74,7 +73,7 @@ public class HandCards {
     }
 
     //Karten werden den Spieler angepasst/ Handkarten-Layout
-    public void updateHand(List<Cards> list, Cards cards, LinearLayout linearLayout, int grad, ArrayList<Cards> cardlist, boolean isPrimary) {
+    public void updateHand(List<Cards> list, Cards cards, LinearLayout linearLayout, int grad, List<Cards> cardlist, boolean isPrimary) {
         list.add(cards);
 
         if (isPrimary) { //only add cards to the view, if its the primary player
@@ -97,7 +96,7 @@ public class HandCards {
         }
 
         cardlist.remove(0);
-        cards.getCardUIObject().setRotation(0); //set rotation to 0
+        cards.getCardUIObject().setRotation(grad);
     }
 }
 

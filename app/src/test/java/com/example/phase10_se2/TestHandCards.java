@@ -47,7 +47,7 @@ public class TestHandCards {
     public void init(){
         cardsPrimaryPlayer=mock(CardsPrimaryPlayer.class);
         handCards=new HandCards(cardsPrimaryPlayer);
-        cardList=cardDrawer.generateInitialCards();
+        cardList= (ArrayList<Cards>) cardDrawer.generateInitialCards();
         for (int i = 0; i<96; i++){
             CardUI cardUI= mock(CardUI.class);
             cardList.get(i).setCardUI(cardUI);
@@ -127,6 +127,7 @@ public class TestHandCards {
         cardlist.add(card4);
 
         if(primary!=null){
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(primary);
             primary.setPlayerHand(cardlist);
             cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(primary);
             for (Cards card : primary.getPlayerHand()) {
@@ -139,6 +140,4 @@ public class TestHandCards {
     public void PrimaryPlayerNull(){
         Assertions.assertNotNull(primary);
     }
-
-
 }

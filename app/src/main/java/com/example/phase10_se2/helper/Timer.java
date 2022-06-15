@@ -9,10 +9,10 @@ import java.util.Locale;
 
 public class Timer {
     //Timer
-    private static final long startTimer = 120000;
+    private static final long START_TIMER = 120000;
     private final TextView textView;
     private CountDownTimer timerturn;
-    private long leftTime= startTimer;
+    private long leftTime= START_TIMER;
     Playfield playfield;
 
     public Timer(TextView textView, CountDownTimer timerturn, long leftTime, Playfield playfield) {
