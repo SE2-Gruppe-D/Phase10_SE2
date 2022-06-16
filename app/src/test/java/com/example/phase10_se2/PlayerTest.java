@@ -6,12 +6,12 @@ import java.util.ArrayList;
 
 
 public class PlayerTest {
-    Player player;
-    Player playerCon1;
-    Player playerCon3;
-    Player playerCon4;
+    private Player player;
+    private Player playerCon1;
+    private Player playerCon3;
+    private Player playerCon4;
     private CardsForTesting cfg = new CardsForTesting();
-    ArrayList<Cards> cards;
+    private ArrayList<Cards> cards;
 
     @BeforeEach
     public void init() {
@@ -212,7 +212,7 @@ public class PlayerTest {
         playerCon1.setPlayerview(null);
         Assertions.assertEquals(null, playerCon1.getPlayerview());
     }
-    
+
     @Test
     public void testForPlayerGetterAndSetterCardField () {
         playerCon1.setCardField(null);
