@@ -1,11 +1,12 @@
 package com.example.phase10_se2;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockConstructionWithAnswer;
-import static org.mockito.Mockito.when;
 
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.example.phase10_se2.ENUM.PlayerColor;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -46,7 +47,7 @@ public class TestHandCards {
     public void init(){
         cardsPrimaryPlayer=mock(CardsPrimaryPlayer.class);
         handCards=new HandCards(cardsPrimaryPlayer);
-        cardList=cardDrawer.generateInitialCards();
+        cardList= (ArrayList<Cards>) cardDrawer.generateInitialCards();
         for (int i = 0; i<96; i++){
             CardUI cardUI= mock(CardUI.class);
             cardList.get(i).setCardUI(cardUI);
@@ -78,7 +79,7 @@ public class TestHandCards {
     @Test
     public void PrimaryPlayerBlue(){
         primary=playerBlue;
-        handCards.HandCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
+        handCards.handCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
 
         Assertions.assertEquals(56, cardList.size());
         Assertions.assertEquals(10, primary.getPlayerHand().size());
@@ -88,7 +89,7 @@ public class TestHandCards {
     @Test
     public void PrimaryPlayerGreen(){
         primary=playerGreen;
-        handCards.HandCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
+        handCards.handCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
 
         Assertions.assertEquals(56, cardList.size());
         Assertions.assertEquals(10, primary.getPlayerHand().size());
@@ -97,7 +98,7 @@ public class TestHandCards {
     @Test
     public void PrimaryPlayerYellow(){
         primary=playerYellow;
-        handCards.HandCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
+        handCards.handCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
 
         Assertions.assertEquals(56, cardList.size());
         Assertions.assertEquals(10, primary.getPlayerHand().size());
@@ -106,7 +107,7 @@ public class TestHandCards {
     @Test
     public void PrimaryPlayerRed(){
         primary=playerRed;
-        handCards.HandCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
+        handCards.handCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
 
         Assertions.assertEquals(56, cardList.size());
         Assertions.assertEquals(10, primary.getPlayerHand().size());
@@ -126,9 +127,11 @@ public class TestHandCards {
         cardlist.add(card4);
 
         if(primary!=null){
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(primary);
             primary.setPlayerHand(cardlist);
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(primary);
             for (Cards card : primary.getPlayerHand()) {
-                Assertions.assertEquals(0, card.getCardUI().getVisibility());
+                Assertions.assertEquals(View.VISIBLE, card.getCardUI().getVisibility());
             }
         }
     }
@@ -137,6 +140,4 @@ public class TestHandCards {
     public void PrimaryPlayerNull(){
         Assertions.assertNotNull(primary);
     }
-
-
 }

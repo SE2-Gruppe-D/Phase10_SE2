@@ -1,15 +1,18 @@
-package com.example.phase10_se2;
+package com.example.phase10_se2.helper;
 
 import android.os.CountDownTimer;
 import android.widget.TextView;
+
+import com.example.phase10_se2.Playfield;
+
 import java.util.Locale;
 
 public class Timer {
     //Timer
-    private static final long startTimer = 120000;
+    private static final long START_TIMER = 120000;
     private final TextView textView;
     private CountDownTimer timerturn;
-    private long leftTime= startTimer;
+    private long leftTime= START_TIMER;
     Playfield playfield;
 
     public Timer(TextView textView, CountDownTimer timerturn, long leftTime, Playfield playfield) {
@@ -19,7 +22,7 @@ public class Timer {
         this.playfield = playfield;
     }
 
-    final void startTimer(){
+    public final void startTimer(){
         timerturn= new CountDownTimer(leftTime, 1000) {
             @Override
             public void onTick(long miliUntilFinish
@@ -35,12 +38,12 @@ public class Timer {
         }.start();
     }
 
-    void restart() {
+    public void restart() {
         timerturn.cancel();
         timerturn.start();
     }
 
-    void updateCountDownText(){
+    private void updateCountDownText(){
         int minutes= (int) (leftTime/1000)/60;
         int seconds= (int) (leftTime/1000)%60;
 

@@ -1,9 +1,5 @@
 package com.example.phase10_se2;
-
-import android.graphics.Color;
 import android.widget.ImageView;
-
-import com.google.firebase.database.collection.LLRBNode;
 
 public class CardUIManager {
 
