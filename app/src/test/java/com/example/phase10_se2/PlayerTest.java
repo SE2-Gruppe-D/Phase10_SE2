@@ -10,20 +10,12 @@ public class PlayerTest {
     Player playerCon1;
     Player playerCon3;
     Player playerCon4;
-
-    Cards card1;
-    Cards card2;
-    Cards card3;
-    Cards cards1;
+    private CardsForTesting cfg = new CardsForTesting();
     ArrayList<Cards> cards;
 
     @BeforeEach
     public void init() {
         player = new Player("Test-Player", null, 0,0);
-        card1 = new Cards("blue",7,null,7);
-        card2 = new Cards("yellow",5,null,53);
-        card3 = new Cards("green",11,null,83);
-        cards1= new Cards("blue", 11, null, 1);
         cards = new ArrayList<Cards>();
         playerCon1 = new Player("TesterCon1",null, null,1,0,null,null);
         playerCon3 = new Player("TesterCon3", null,1);
@@ -75,86 +67,156 @@ public class PlayerTest {
 
     @Test
     public void ifTwoOneDigitCardsAreLeft_ThenMinusPointsShouldBe10(){
-                cards.add(card1);
-                cards.add(card2);
+                cards.add(cfg.card1y);
+                cards.add(cfg.card2g);
                 player.updateMinusPoints(cards);
                 Assertions.assertEquals(10, player.getMinusPoints());
     }
 
     @Test
     public void ifOneTwoDigitAndOneOneDigitCardsAreLeft_ThenMinusPointsShouldBe15(){
-            cards.add(card1);
-            cards.add(card3);
+            cards.add(cfg.card1y);
+            cards.add(cfg.card11y);
             player.updateMinusPoints(cards);
             Assertions.assertEquals(15, player.getMinusPoints());
     }
 
     @Test
-    public void ifPhaseNumberIs10_ThenAssignTheRightText() {
+    public void ifPhaseNumberIs1_ThenAssignTheRightText() {
         player.setPhaseNumber(1);
         player.setPhaseText();
         Assertions.assertEquals("4 Zwillinge", player.getPhaseText());
+
+       }
+
+    @Test
+    public void ifPhaseNumberIs2_ThenAssignTheRightText() {
         player.setPhaseNumber(2);
         player.setPhaseText();
         Assertions.assertEquals("6 Karten einer Farbe", player.getPhaseText());
+    }
+
+    @Test
+    public void ifPhaseNumberIs3_ThenAssignTheRightText() {
         player.setPhaseNumber(3);
         player.setPhaseText();
         Assertions.assertEquals("1 Vierling + 1 Viererfolge", player.getPhaseText());
+    }
+
+    @Test
+    public void ifPhaseNumberIs4_ThenAssignTheRightText() {
         player.setPhaseNumber(4);
         player.setPhaseText();
         Assertions.assertEquals("1 Achterfolge", player.getPhaseText());
+    }
+
+    @Test
+    public void ifPhaseNumberIs5_ThenAssignTheRightText() {
         player.setPhaseNumber(5);
         player.setPhaseText();
         Assertions.assertEquals("7 Karten einer Farbe", player.getPhaseText());
+    }
+
+    @Test
+    public void ifPhaseNumberIs6_ThenAssignTheRightText() {
         player.setPhaseNumber(6);
         player.setPhaseText();
         Assertions.assertEquals("1 Neunerfolge", player.getPhaseText());
+    }
+
+    @Test
+    public void ifPhaseNumberIs7_ThenAssignTheRightText() {
         player.setPhaseNumber(7);
         player.setPhaseText();
         Assertions.assertEquals("2 Vierlinge", player.getPhaseText());
+    }
+
+    @Test
+    public void ifPhaseNumberIs8_ThenAssignTheRightText() {
         player.setPhaseNumber(8);
         player.setPhaseText();
         Assertions.assertEquals("1 Viererfolge einer Farbe + 1 Drilling", player.getPhaseText());
+    }
+
+    @Test
+    public void ifPhaseNumberIs9_ThenAssignTheRightText() {
         player.setPhaseNumber(9);
         player.setPhaseText();
         Assertions.assertEquals("1 Fünfling + 1 Drilling", player.getPhaseText());
+    }
+
+    @Test
+    public void ifPhaseNumberIs10_ThenAssignTheRightText() {
         player.setPhaseNumber(10);
         player.setPhaseText();
         Assertions.assertEquals("1 Fünfling + 1 Dreierfolge einer Farbe", player.getPhaseText());
     }
 
+
     @Test
-    public void ifGetColorAsStringisUsed_ThenReturnColorAsAString () {
+    public void ifGetColorAsStringIsUsedAsRED_ThenReturnColorAsAString () {
         player.setColor(PlayerColor.RED);
         Assertions.assertEquals("RED",player.getColorAsString());
+    }
+
+    @Test
+    public void ifGetColorAsStringIsUsedAsBLUE_ThenReturnColorAsAString () {
         player.setColor(PlayerColor.BLUE);
         Assertions.assertEquals("BLUE",player.getColorAsString());
+    }
+
+    @Test
+    public void ifGetColorAsStringIsUsedAsGREEN_ThenReturnColorAsAString () {
         player.setColor(PlayerColor.GREEN);
         Assertions.assertEquals("GREEN",player.getColorAsString());
+    }
+
+    @Test
+    public void ifGetColorAsStringIsUsedAsYELLOW_ThenReturnColorAsAString () {
         player.setColor(PlayerColor.YELLOW);
         Assertions.assertEquals("YELLOW",player.getColorAsString());
     }
 
+
     //Funktionalität von setStartingOrder wirkt komisch...
     @Test
-    public void testForPlayerGetterAndSetter () {
-        Assertions.assertEquals(-1,player.getStartingOrder());
+    public void testForPlayerGetterAndSetterStartingOrder () {
         player.setStartingOrder(3);
         Assertions.assertEquals(-1,player.getStartingOrder());
-        Assertions.assertEquals(PlayerState.WAITING,player.getState());
+    }
+
+    @Test
+    public void testForPlayerGetterAndSetterPlayerState () {
         player.setState(PlayerState.PLAYING);
         Assertions.assertEquals(PlayerState.PLAYING,player.getState());
+    }
+
+    @Test
+    public void testForPlayerGetterName () {
         Assertions.assertEquals("Test-Player", player.getName());
+    }
+
+    @Test
+    public void testForPlayerGetterRoom () {
         Assertions.assertEquals(null, playerCon1.getRoom());
-        Assertions.assertEquals(0,player.getMinusPoints());
+    }
+
+    @Test
+    public void testForPlayerGetterAndSetterMinusPoints () {
         player.setMinusPoints(5);
         Assertions.assertEquals(5,player.getMinusPoints());
+    }
+
+    @Test
+    public void testForPlayerGetterAndSetterPlayerView () {
         playerCon1.setPlayerview(null);
         Assertions.assertEquals(null, playerCon1.getPlayerview());
+    }
+    
+    @Test
+    public void testForPlayerGetterAndSetterCardField () {
         playerCon1.setCardField(null);
         Assertions.assertEquals(null, playerCon1.getCardField());
     }
-
-
 
 }
