@@ -255,26 +255,11 @@ public class Phase {
     //check Phase 8
     //sehr große Methode - eventuell aufteilen
     private boolean checkRunOfXEqualColorAnd3(List<Cards> list){
-        for (int i = 0; i< list.size();i++){
-            System.out.print("["+ list.get(i).getValue()+" ");
-            System.out.print(list.get(i).getColor().toString()+"], ");
-    }
-        System.out.println();
         list.sort(Comparator.comparing(Cards::getValue));//2. nach Wert sortieren
-        for (int i = 0; i< list.size();i++) {
-            System.out.print("["+ list.get(i).getValue()+" ");
-            System.out.print(list.get(i).getColor().toString()+"], ");
-        }
-        System.out.println();
         list.sort(Comparator.comparing(Cards::getColor));//1. nach Farbe sortieren
-        for (int i = 0; i< list.size();i++){
-            System.out.print("["+ list.get(i).getValue()+" ");
-            System.out.print(list.get(i).getColor().toString()+"], ");
-        }
-
 
         List<Cards> helplist = new ArrayList<>(list);
-        List<Cards> helplist2 = new ArrayList<>(list);
+        List<Cards> helplist2 = new ArrayList<>();
         Cards helpCard;
 
         //zuerst Folge
@@ -315,7 +300,7 @@ public class Phase {
         list.sort(Comparator.comparing(Cards::getColor));//1. nach Farbe sortieren
 
         List<Cards> helplist = new ArrayList<>(list);
-        List<Cards> helplist2 = new ArrayList<>(list);
+        List<Cards> helplist2 = new ArrayList<>();
         Cards helpCard;
 
         //zuerst Folge
