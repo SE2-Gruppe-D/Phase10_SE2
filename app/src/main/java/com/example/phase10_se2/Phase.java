@@ -185,7 +185,7 @@ public class Phase {
     public boolean checkEqualValue4AndRunOf4(List<Cards> list){
         list.sort(Comparator.comparing(Cards::getValue));//nach Wert sortieren
         List<Cards> helplist = new ArrayList<>(list);
-        List<Cards> helplist2 = new ArrayList<>(list);
+        List<Cards> helplist2 = new ArrayList<>();
         Cards helpCard;
 
         //zuerst Folge
