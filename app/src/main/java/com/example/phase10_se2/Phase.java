@@ -129,7 +129,6 @@ public class Phase {
                return false;
            }
        }
-
        return true;
    }
 
@@ -340,20 +339,26 @@ public class Phase {
     //zur Überprüfung, ob der currentplayer bei einem Mitspieler eine richtige Karte dazu gelegt hat
     public boolean getRightPhaseOtherPlayer(int phasenumber, Cards cards, List<Cards> list){
         switch (phasenumber){
-            case 1: return checkPhase1FromOtherPlayer(cards,list);
-            case 2: return checkPhase2FromOtherPlayer(cards,list);
+            case 1:
+            case 7:
+            case 9:
+                return checkEqualValueOneCard(cards,list);
+            case 2:
+            case 5:
+                return checkEqualColorOneCard(cards,list);
+            case 3: return checkPhase3FromOtherPlayer(cards,list);
+            case 4:
+            case 6:
+                return checkFirstOrLastValue(cards,list);
+            case 8: return checkPhase8FromOtherPlayer(cards,list);
+            case 10: return checkPhase10FromOtherPlayer(cards,list);
             default: return false;
         }
     }
 
-    public boolean checkPhase1FromOtherPlayer(Cards cards, List<Cards> list){
-        return checkEqualValueOneCard(cards, list);
-    }
-
-    public boolean checkPhase2FromOtherPlayer(Cards cards, List<Cards> list){
-        return checkEqualColorOneCard(cards, list);
-    }
-
+    //Phase 1: 4 Zwillinge
+    //Phase 7: 2 Vierlinge
+    //Phase 9: 1 Fünfling + 1 Drilling
     //Überprüfen, ob ich meine Karte zum Mitspieler dazu legen kann (Zwilling, Drilling, Vierling, Fünfling)
     public boolean checkEqualValueOneCard(Cards cards, List<Cards> list){
         for (int i = 0; i < list.size(); i++) {
@@ -364,6 +369,9 @@ public class Phase {
         return false;
     }
 
+
+    //Phase 2: 6 Karten einer Farbe
+    //Phase 5: 7 Karten einer Farbe
     private boolean checkEqualColorOneCard(Cards cards, List<Cards> list){
         for (int i = 0; i < list.size(); i++) {
             if(cards.getColor().equals(list.get(i).getColor())){
@@ -372,4 +380,45 @@ public class Phase {
         }
         return false;
     }
+
+    //Phase 4: 1 Achterfolge
+    //Phase 6: 1 Neunerfolge
+    private boolean checkFirstOrLastValue(Cards cards, List<Cards> list){
+        list.sort(Comparator.comparing(Cards::getValue));//2. nach Wert sortieren
+            if(cards.getValue()+1==list.get(0).getValue() || cards.getValue()-1==list.get(list.size()-1).getValue()){
+                return true;
+            }else{
+                return false;
+            }
+    }
+
+    //Phase 3: 1 Vierling + 1 Viererfolge
+    private boolean checkPhase3FromOtherPlayer(Cards cards, List<Cards> list){
+        return true;
+    }
+
+    //Phase 8: 1 Viererfolge einer Farbe + 1 Drilling
+    private boolean checkPhase8FromOtherPlayer(Cards cards, List<Cards> list){
+        return true;
+    }
+
+    //Phase 10: 1 Fünfling + 1 Dreierfolge einer Farbe
+    private boolean checkPhase10FromOtherPlayer(Cards cards, List<Cards> list){
+        list.sort(Comparator.comparing(Cards::getColor));//1. nach Farbe sortieren
+
+        return true;
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+

@@ -77,10 +77,6 @@ public class Playfield extends AppCompatActivity {
     ArrayList<Cards> cardlist;
     ArrayList<Cards> allCards = new ArrayList<>();
     ArrayList<Cards> discardpileList;//Ablagestapel
-    ArrayList<Cards> cardfieldCardlist;
-    ArrayList<Cards> cardfieldCardlistPlayer2 = new ArrayList<>();
-    ArrayList<Cards> cardfieldCardlistPlayer3 = new ArrayList<>();
-    ArrayList<Cards> cardfieldCardlistPlayer4 = new ArrayList<>();
 
     ArrayList<ImageView> imageList;
     TextView leererAblagestapel;
@@ -427,7 +423,6 @@ public class Playfield extends AppCompatActivity {
         layoutPlayer4CardField.setOnDragListener(new ChoiceDragListener4());
 
         //Button, um zu überprüfen, ob die Phase richtig ist
-        cardfieldCardlist = new ArrayList<>();
         phase = new Phase();
         actionfield = new Actionfield();
         btnCheckPhase.setVisibility(View.VISIBLE);
@@ -435,13 +430,15 @@ public class Playfield extends AppCompatActivity {
         btnCheckPhase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                getHandCardsDB().removeAll(getCardfieldCardlistDB());
                 if (phase.getRightPhase(getPhasenumberDB(), getCardfieldCardlistDB())) {
                     if (getPhasenumberDB() != 10) {
                         btnCheckPhase.setVisibility(View.INVISIBLE);
-                        setPhasenumberDB(); //Phase wird um 1 erhöht und abgelegt wird auch true gesetzt
+                        setPhasenumberDB(); //Phase wird um 1 erhöht und abgelegt wird auf true gesetzt
                         for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
                             getCardfieldCardlistDB().get(i).getCardUI().setClickable(false);
                             getCardfieldCardlistDB().get(i).getCardUI().setVisibility(View.VISIBLE);
+                            layoutPlayer1CardField.setVisibility(View.VISIBLE);
                         }
                     }
                 } else {
@@ -911,41 +908,37 @@ public class Playfield extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
+                //Karte zurück
                 if (System.currentTimeMillis() - doubleClickLastTime < 700) {
                     doubleClickLastTime = 0;
                     View v = view;
                     ViewGroup owner = (ViewGroup) v.getParent();
                     //Handkarte zurück nehmen
-                    playerHandPrimaryPlayer = getHandCardsDB();
                     for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
                         if (v.equals(getCardfieldCardlistDB().get(i).getCardUI())) {
-                            playerHandPrimaryPlayer.add(getCardfieldCardlistDB().get(i));
                             getCardfieldCardlistDB().remove(getCardfieldCardlistDB().get(i));
+                            break;
                         }
                     }
                     owner.removeView(v);
                     layoutPlayer1.addView(v);
                     v.setVisibility(View.VISIBLE);
                     v.setOnTouchListener(new ChoiceTouchListener());
-
-
                 } else {
                     doubleClickLastTime = System.currentTimeMillis();
                     View v = view;
                     ViewGroup owner = (ViewGroup) v.getParent();
-                    //Array mit den ausgelegten Karten befüllen
+                    //Hilfsarray mit den ausgelegten Karten befüllen
                     playerHandPrimaryPlayer = getHandCardsDB();
                     if (playerHandPrimaryPlayer.size() != 0) {
                         for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                             if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
                                 getCardfieldCardlistDB().add(playerHandPrimaryPlayer.get(i));
-                                playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
                             }
                         }
                         owner.removeView(v);
                         layoutPlayer1CardField.addView(v);
                         v.setOnTouchListener(null);
-
                     }
                 }
             }
@@ -955,11 +948,9 @@ public class Playfield extends AppCompatActivity {
     //Class allows us to drag view
     private final class ChoiceTouchListener implements View.OnTouchListener {
         boolean isMoved = true;
-
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
-
                 switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
                     case MotionEvent.ACTION_MOVE:
                         ClipData data = ClipData.newPlainText("", "");
@@ -1003,17 +994,18 @@ public class Playfield extends AppCompatActivity {
                         ViewGroup owner = (ViewGroup) v.getParent();
                         //Karte zum Ablegestapel hinzufügen
                         playerHandPrimaryPlayer = getHandCardsDB();
-
                         if (playerHandPrimaryPlayer.size() != 0) {
                             for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                                 if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
                                     discardpileList.add(playerHandPrimaryPlayer.get(i));
                                     defaultcard.setImageDrawable(createCardUI(playerHandPrimaryPlayer.get(i)).imageView.getDrawable());
                                     playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
-                                    setNextCurrentPlayer();
                                     updateDiscardpileListDB();
                                     break; //break, because you can only drag one card
                                 }
+                            }
+                            if(playerHandPrimaryPlayer.size()<=10){
+                                setNextCurrentPlayer();
                             }
                             owner.removeView(v);
                             v.setVisibility(View.INVISIBLE);
@@ -1030,7 +1022,7 @@ public class Playfield extends AppCompatActivity {
         }
     }
 
-    //Drag and Drop Auslegefeld Spieler 2
+    //Drag and Drop Auslegefeld vom Spieler 2
     private class ChoiceDragListener2 implements View.OnDragListener {
         @Override
         public boolean onDrag(View view, DragEvent dragEvent) {
@@ -1049,7 +1041,6 @@ public class Playfield extends AppCompatActivity {
                         break;
 
                     case DragEvent.ACTION_DROP: //Action 3
-
                         View v = (View) dragEvent.getLocalState();
                         ViewGroup owner = (ViewGroup) v.getParent();
                         if(true) { // --> getPhaseAusgelegtDB(currentPlayer) currentPlayer hat Phase ausgelegt
@@ -1064,20 +1055,19 @@ public class Playfield extends AppCompatActivity {
 
                             } else if (playerRed != null && idLayoutPlayerRed == layoutPlayer2CardField.getId()) {
                                 player = playerRed;
-
                             }
                             if (true) { //-> getPhaseAusgelegtDB(player) vom Mitspieler
-                                Log.e("Feld Spieler", String.valueOf(player.getCardField()));
+                                Log.e("Feld Spieler", String.valueOf(getCardfieldCardlistPlayersDB(player)));
                                 playerHandPrimaryPlayer = getHandCardsDB(); //Handkarten vom Currentplayer
                                 if (playerHandPrimaryPlayer.size() != 0) {
                                     for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                                         if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
-                                            if (true) {// --> phase.getRightPhaseOtherPlayer(getPhasenumberPlayersDB(player), playerHandPrimaryPlayer.get(i), getCardfieldCardlistPlayersDB(player))) {
-                                                Log.e("Feld Spieler", String.valueOf(player.getCardField()));
-                                                getCardfieldCardlistDB().add(playerHandPrimaryPlayer.get(i));
+                                            if (true) {// --> phase.getRightPhaseOtherPlayer((getPhasenumberPlayersDB(player)-1), playerHandPrimaryPlayer.get(i), getCardfieldCardlistPlayersDB(player))) {
+                                                Log.e("Feld Spieler", String.valueOf(getCardfieldCardlistPlayersDB(player)));
+                                                getCardfieldCardlistPlayersDB(player).add(playerHandPrimaryPlayer.get(i)); //ToDO: in DB aktualisieren
                                                 playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
-                                                Log.e("Feld Spieler", String.valueOf(player.getCardField()));
-
+                                                Log.e("Feld Spieler", String.valueOf(getCardfieldCardlistPlayersDB(player)));
+                                                break;
                                             }
                                         }
                                     }
@@ -1126,7 +1116,7 @@ public class Playfield extends AppCompatActivity {
                         if (playerHandPrimaryPlayer.size() != 0) {
                             for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                                 if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
-                                    cardfieldCardlistPlayer3.add(playerHandPrimaryPlayer.get(i));
+                                    getCardfieldCardlistPlayersDB(player).add(playerHandPrimaryPlayer.get(i));
                                     playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
                                 }
                             }
@@ -1174,7 +1164,7 @@ public class Playfield extends AppCompatActivity {
                         if (playerHandPrimaryPlayer.size() != 0) {
                             for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                                 if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
-                                    cardfieldCardlistPlayer4.add(playerHandPrimaryPlayer.get(i));
+                                    getCardfieldCardlistPlayersDB(player).add(playerHandPrimaryPlayer.get(i));
                                     playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
                                 }
                             }
