@@ -7,14 +7,14 @@ public class Cards {
     private String color;
     private int value;
     private CardUI cardUI;
-    private int ID;
+    private int cardID;
 
     public int getID() {
-        return ID;
+        return cardID;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setID(int cardID) {
+        this.cardID = cardID;
     }
 
     public CardUI getCardUIObject(){
@@ -29,11 +29,11 @@ public class Cards {
         return cardUI.imageView;
     }
 
-    public Cards(String color, int value, CardUI cardUI, int ID) {
+    public Cards(String color, int value, CardUI cardUI, int cardID) {
         this.color = color;
         this.value = value;
         this.cardUI = cardUI;
-        this.ID= ID;
+        this.cardID = cardID;
     }
 
     public String getColor() {
@@ -43,6 +43,4 @@ public class Cards {
     public int getValue() {
         return value;
     }
-
-
 }

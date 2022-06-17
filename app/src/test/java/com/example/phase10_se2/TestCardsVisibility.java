@@ -53,6 +53,7 @@ public class TestCardsVisibility {
 
         if(primary!=null){
             primary.setPlayerHand(cardList);
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(primary);
             for (Cards card : primary.getPlayerHand()) {
                 Assertions.assertEquals(0, card.getCardUI().getVisibility());
             }

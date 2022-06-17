@@ -1,8 +1,9 @@
 package com.example.phase10_se2;
 
-import android.widget.Toast;
+import com.example.phase10_se2.ENUM.PlayerColor;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WinnerDecision
 {
@@ -14,7 +15,7 @@ public class WinnerDecision
     ArrayList<Player> actualPlayers = new ArrayList<>();
 
     //Konstruktor für WinnerDecision, speichern der Spieler in eigene Variablen + einer Sammlung(ArrayList) von Spielern(Spielerliste)
-    public WinnerDecision(ArrayList<Player> playerList)
+    public WinnerDecision(List<Player> playerList)
     {
         if (playerList!=null)
         {
@@ -48,7 +49,7 @@ public class WinnerDecision
     }
 
     //gibt eine ArrayList mit den Gewinnern aus
-    public ArrayList getWinner()
+    public List<Player> getWinner()
     {
         ArrayList<Player> winners = new ArrayList<>();
         int phaseCheck = 0;
