@@ -363,8 +363,7 @@ public class PhaseTest {
         player.setPhaseNumber(8);
         Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
     }
-/*
-//Überprüfung der Folge funktioniert nicht richtig
+
     @Test
     public void whenCheckingPhase8AndListLengthIsRightAnd4CardsAreInSuccessionAndTheSameColorBut3CardsDoNotHaveTheSameValue_ThenReturnFalse() {
         list.add(cft.card2y);
@@ -389,9 +388,6 @@ public class PhaseTest {
         player.setPhaseNumber(8);
         Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
     }
- */
-
-
 
     @Test
     public void whenCheckingPhase8AndListLengthIsWrong_ThenReturnFalse() {
@@ -400,8 +396,8 @@ public class PhaseTest {
         Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
     }
 
-    //Phase9
 
+    //Phase9
     @Test
     public void whenCheckingPhase9AndListLengthIsRightAnd5CardsAnd3CardsHaveTheSameValue_ThenReturnTrue() {
         list.add(cft.card8r);
@@ -473,22 +469,22 @@ public class PhaseTest {
         Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
     }
 
-/*
+
     @Test
     public void whenCheckingPhase10AndListLengthIsRightButThereAreNot5CardsOfTheSameValueAnd3CardsOf1ColorInSuccession_ThenReturnFalse(){
-        list.add(card8r);
-        list.add(card3y);
-        list.add(card7g);
-        list.add(card8y);
-        list.add(card5y);
-        list.add(card8b);
-        list.add(card8g);
-        list.add(card4y);
+        list.add(cft.card8r);
+        list.add(cft.card3y);
+        list.add(cft.card7g);
+        list.add(cft.card8y);
+        list.add(cft.card5y);
+        list.add(cft.card8b);
+        list.add(cft.card8g);
+        list.add(cft.card4y);
         player.setPhaseNumber(10);
         Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
     }
 
- */
+
 
     @Test
     public void whenCheckingPhase10AndListLengthIsRightAndThereAre5CardsOfTheSameValueButNot3CardsOf1ColorInSuccession_ThenReturnFalse(){

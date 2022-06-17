@@ -40,10 +40,8 @@ public class WinnerTest
             cards.add(cfg.card1y);
             cards.add(cfg.card2g);
             player1.updateMinusPoints(cards);
-            Assertions.assertEquals(10, player1.getMinusPoints());
             cards.add(cfg.card11y);
             player2.updateMinusPoints(cards);
-            Assertions.assertEquals(20, player2.getMinusPoints());
             players.add(player1);
             players.add(player2);
             winnerDecision = new WinnerDecision(players);
@@ -60,9 +58,7 @@ public class WinnerTest
             cards.add(cfg.card1y);
             cards.add(cfg.card2g);
             player1.updateMinusPoints(cards);
-            Assertions.assertEquals(10, player1.getMinusPoints());
             player2.updateMinusPoints(cards);
-            Assertions.assertEquals(10, player2.getMinusPoints());
             players.add(player1);
             players.add(player2);
             winnerDecision = new WinnerDecision(players);
@@ -79,9 +75,7 @@ public class WinnerTest
             cards.add(cfg.card2g);
             cards.add(cfg.card1y);
             player1.updateMinusPoints(cards);
-            Assertions.assertEquals(10, player1.getMinusPoints());
             player2.updateMinusPoints(cards);
-            Assertions.assertEquals(10, player2.getMinusPoints());
             player1.setPhaseNumber(4);
             players.add(player1);
             players.add(player2);
@@ -97,10 +91,8 @@ public class WinnerTest
             cards.add(cfg.card1y);
             cards.add(cfg.card2g);
             player1.updateMinusPoints(cards);
-            Assertions.assertEquals(10, player1.getMinusPoints());
             cards.add(cfg.card11y);
             player2.updateMinusPoints(cards);
-            Assertions.assertEquals(20, player2.getMinusPoints());
             player1.setPhaseNumber(3);
             players.add(player1);
             players.add(player2);
@@ -115,10 +107,8 @@ public class WinnerTest
             cards.add(cfg.card2g);
             cards.add(cfg.card1y);
             player1.updateMinusPoints(cards);
-            Assertions.assertEquals(10, player1.getMinusPoints());
             cards.add(cfg.card11y);
             player2.updateMinusPoints(cards);
-            Assertions.assertEquals(20, player2.getMinusPoints());
             players.add(player1);
             players.add(player2);
             players.add(player3);
