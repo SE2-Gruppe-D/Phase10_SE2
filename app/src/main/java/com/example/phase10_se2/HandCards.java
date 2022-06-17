@@ -98,5 +98,29 @@ public class HandCards {
         cardlist.remove(0);
         cards.getCardUIObject().setRotation(grad);
     }
+
+
+    public void updateHandCompletely(List<Cards> list, List<Cards> cards, LinearLayout linearLayout) {
+        linearLayout.removeAllViews();
+        list.addAll(cards);
+
+        for (Cards card : cards) {
+            linearLayout.addView(card.getCardUI());
+        }
+
+        //Karten nur fuer primary player sichtbar
+        if(playerYellow!=null&&playerYellow.getColor().equals(primaryPlayer.getColor())){
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerYellow);
+        }
+        if(playerBlue!=null&&playerBlue.getColor().equals(primaryPlayer.getColor())){
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerBlue);
+        }
+        if (playerRed!=null&&playerRed.getColor().equals(primaryPlayer.getColor())){
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerRed);
+        }
+        if(playerGreen!=null&&playerGreen.getColor().equals(primaryPlayer.getColor())){
+            cardsPrimaryPlayer.showOnlyPrimaryPlayerCards(playerGreen);
+        }
+    }
 }
 

@@ -254,6 +254,44 @@ public class Playfield extends AppCompatActivity {
                                                         discardpileList.get(discardpileList.size() - 1).getCardUI().setVisibility(View.VISIBLE);
                                                         defaultcard.setImageDrawable(discardpileList.get(discardpileList.size() - 1).getCardUI().getDrawable());
                                                     }
+
+                                                    //sync handcards
+                                                    if (playerBlueArr != null) {
+                                                        ArrayList<Cards> newHandCards = addCardsToList(String.valueOf(playerBlueArr.get(5)));
+
+                                                        if (playerBlue.getColor().equals(primaryPlayer.getColor())) {
+                                                            handCards.updateHandCompletely(playerBlue.getPlayerHand(), newHandCards, layoutPlayer1);
+                                                        }
+
+                                                        playerBlue.setPlayerHand(newHandCards);
+                                                    }
+                                                    if (playerRedArr != null) {
+                                                        ArrayList<Cards> newHandCards = addCardsToList(String.valueOf(playerRedArr.get(5)));
+
+                                                        if (playerRed.getColor().equals(primaryPlayer.getColor())) {
+                                                            handCards.updateHandCompletely(playerRed.getPlayerHand(), newHandCards, layoutPlayer1);
+                                                        }
+
+                                                        playerRed.setPlayerHand(newHandCards);
+                                                    }
+                                                    if (playerYellowArr != null) {
+                                                        ArrayList<Cards> newHandCards = addCardsToList(String.valueOf(playerYellowArr.get(5)));
+
+                                                        if (playerYellow.getColor().equals(primaryPlayer.getColor())) {
+                                                            handCards.updateHandCompletely(playerYellow.getPlayerHand(), newHandCards, layoutPlayer1);
+                                                        }
+
+                                                        playerYellow.setPlayerHand(newHandCards);
+                                                    }
+                                                    if (playerGreenArr != null) {
+                                                        ArrayList<Cards> newHandCards = addCardsToList(String.valueOf(playerGreenArr.get(5)));
+
+                                                        if (playerGreen.getColor().equals(primaryPlayer.getColor())) {
+                                                            handCards.updateHandCompletely(playerGreen.getPlayerHand(), newHandCards, layoutPlayer1);
+                                                        }
+
+                                                        playerGreen.setPlayerHand(newHandCards);
+                                                    }
                                                 }
                                             } else {
                                                 Log.d(TAG, "Error getting Data from Firestore: ", task.getException());
