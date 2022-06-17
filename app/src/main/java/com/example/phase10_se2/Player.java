@@ -125,7 +125,7 @@ public class Player {
     }
 
     //bewegen des Players auf dem Spielbrett
-    public void updateMapPosition () {
+    private void updateMapPosition () {
         if(this.color == PlayerColor.BLUE && this.playerview != null) {
             this.playerview.setTranslationX(getPositionX() * 122f + 42f);
             this.playerview.setTranslationY(getPositionY() * 135f + 153f);
