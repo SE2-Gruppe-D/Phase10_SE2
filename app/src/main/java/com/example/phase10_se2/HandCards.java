@@ -101,7 +101,7 @@ public class HandCards {
     }
 
 
-    public void updateHandCompletely(List<Cards> list, ArrayList<Cards> cards, LinearLayout linearLayout) {
+    public void updateHandCompletely(List<Cards> list, List<Cards> cards, LinearLayout linearLayout) {
         linearLayout.removeAllViews();
         list.addAll(cards);
 
