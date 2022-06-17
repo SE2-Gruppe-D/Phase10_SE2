@@ -396,7 +396,7 @@ public class PhaseTest {
         Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
     }
 
-    
+
     //Phase9
     @Test
     public void whenCheckingPhase9AndListLengthIsRightAnd5CardsAnd3CardsHaveTheSameValue_ThenReturnTrue() {
