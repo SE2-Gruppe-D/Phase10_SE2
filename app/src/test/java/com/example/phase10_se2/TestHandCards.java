@@ -24,7 +24,6 @@ public class TestHandCards {
     Cards card3;
     Cards card4;
 
-    private ArrayList<Cards> cardListPrim=new ArrayList<>();
     private ArrayList<Cards> cardList=new ArrayList<>();
 
     LinearLayout linearLayout1;
@@ -83,7 +82,6 @@ public class TestHandCards {
 
         Assertions.assertEquals(56, cardList.size());
         Assertions.assertEquals(10, primary.getPlayerHand().size());
-
     }
 
     @Test

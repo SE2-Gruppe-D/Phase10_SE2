@@ -1,5 +1,6 @@
 package com.example.phase10_se2;
 
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import java.util.List;
@@ -97,12 +98,19 @@ public class HandCards {
         }
 
         cardlist.remove(0);
-        cards.getCardUIObject().setRotation(grad);
+        cards.getCardUIObject().setRotation(0); //set rotation to 0
     }
 
 
     public void updateHandCompletely(List<Cards> list, List<Cards> cards, LinearLayout linearLayout) {
         linearLayout.removeAllViews();
+
+        for (Cards card : cards) {
+            if(card.getCardUI().getParent() != null) {
+                ((ViewGroup)card.getCardUI().getParent()).removeView(card.getCardUI());
+            }
+        }
+
         list.addAll(cards);
 
         for (Cards card : cards) {

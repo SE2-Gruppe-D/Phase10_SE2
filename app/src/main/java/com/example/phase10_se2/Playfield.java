@@ -214,6 +214,9 @@ public class Playfield extends AppCompatActivity {
                                                 if (currentPlayer != null && !currentPlayer.getColorAsString().equals(currentPlayerArray.get(1))) {
                                                     getPlayerFromDB(String.valueOf(currentPlayerArray.get(1)));
 
+                                                    //current player toast
+                                                    currentPlayerToast(currentPlayerArray.get(1).toString());
+
                                                     if (currentPlayerArray.get(1).equals("RED")) {
                                                         currentPlayer = playerRed;
                                                     }
@@ -447,6 +450,7 @@ public class Playfield extends AppCompatActivity {
             if (phase.getRightPhase(getPhasenumberDB(), getCardfieldCardlistDB())) {
                 if (getPhasenumberDB() != 10) {
                     btnCheckPhase.setVisibility(View.INVISIBLE);
+                    setPhasenTextTextView();
                     setPhasenumberDB(); //Phase wird um 1 erhöht und abgelegt wird auch true gesetzt
                     for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
                         getCardfieldCardlistDB().get(i).getCardUI().setClickable(false);
@@ -973,7 +977,7 @@ public class Playfield extends AppCompatActivity {
         gameInfo.put("DiceRoll", currentDiceRoll);
         gameInfo.put("Cheated", cheated);
         gameInfo.put("Cardlist", newCardList);
-        gameInfo.put("DiscardpileList", newDiscardPile);
+        gameInfo.put("DiscardpileList", newDiscardPile.toString());
 
 
         Log.i("gameInfo------------------------------------------------------------", gameInfo.toString());
@@ -1136,6 +1140,49 @@ public class Playfield extends AppCompatActivity {
         return currentPlayer.getPlayerHand();
     }
 
+    public void nextRoundCards() {
+        if (getHandCardsDB().size() == 0) {
+            //handcards
+            cardlist = new ArrayList<>(allCards);
+            cardDrawer.shuffleCards(cardlist);
+
+            ArrayList<Player> playerArrayList = new ArrayList<>();
+            playerArrayList.add(playerBlue);
+            playerArrayList.add(playerYellow);
+            playerArrayList.add(playerRed);
+            playerArrayList.add(playerGreen);
+
+            for (Player p : playerArrayList) {
+                if (p != null) {
+                    p.setPlayerHand(new ArrayList<>());
+                }
+            }
+
+            layoutPlayer1.removeAllViews();
+            handCards.handCardsPlayer(layoutPlayer1, layoutPlayer2, layoutPlayer3, layoutPlayer4, cardlist, playerBlue, playerGreen, playerYellow, playerRed, primaryPlayer);
+
+
+            //discardpile
+            discardpileList = new ArrayList<>();
+
+            SecureRandom rand = new SecureRandom();
+            Cards randomCard = cardlist.get(rand.nextInt(cardlist.size()));
+            cardlist.remove(randomCard);
+            discardpileList.add(randomCard);
+            defaultcard.setImageDrawable(createCardUI(discardpileList.get(0)).imageView.getDrawable());
+            defaultcard.setOnDragListener(new ChoiceDragListener1());
+
+
+            //cardfield and phase_abgelegt
+            for (Player p : playerArrayList) {
+                if (p != null) {
+                    p.setCardField(new ArrayList<>());
+                    p.setAbgelegt(false);
+                }
+            }
+        }
+    }
+
     //update players
     private void updatePlayers() {
         database.collection("gameInfo")
@@ -1161,6 +1208,10 @@ public class Playfield extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    private void currentPlayerToast(String color) {
+        Toast.makeText(Playfield.this, "Player " + color + " is current Player", Toast.LENGTH_SHORT).show();
     }
 
     //get playerArray from DB and save as Player
@@ -1322,6 +1373,7 @@ public class Playfield extends AppCompatActivity {
                                     discardpileList.add(playerHandPrimaryPlayer.get(i));
                                     defaultcard.setImageDrawable(createCardUI(playerHandPrimaryPlayer.get(i)).imageView.getDrawable());
                                     playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                                    nextRoundCards();
                                     setNextCurrentPlayer();
                                     updateDiscardpileListDB();
                                     break; //break, because you can only drag one card
