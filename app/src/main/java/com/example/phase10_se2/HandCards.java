@@ -97,7 +97,7 @@ public class HandCards {
         }
 
         cardlist.remove(0);
-        cards.getCardUIObject().setRotation(grad);
+        cards.getCardUIObject().setRotation(0); //set rotation to 0
     }
 
 

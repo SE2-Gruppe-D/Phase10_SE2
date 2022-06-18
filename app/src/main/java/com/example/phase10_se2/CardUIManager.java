@@ -12,7 +12,7 @@ public class CardUIManager {
     }
 
     //ID zuweisung Karten
-    public void cardID(int card, ImageView image, String color) {
+    public void cardID(int card, ImageView image, String color) { //TODO
 
         switch (color) {
             case ("blue"):
