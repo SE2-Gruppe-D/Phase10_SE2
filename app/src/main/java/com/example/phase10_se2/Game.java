@@ -15,7 +15,7 @@ import java.util.TreeMap;
 public class Game {
     private final String room;
     private DiceFragment diceFragment;
-    private ArrayList<Player> players;
+    private final ArrayList<Player> players;
     private int roundsFinished;
 
     public Game(String room) {

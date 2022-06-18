@@ -1,8 +1,8 @@
 package com.example.phase10_se2;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class PlayRules extends AppCompatActivity {
 

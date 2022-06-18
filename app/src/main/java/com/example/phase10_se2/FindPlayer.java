@@ -32,9 +32,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FindPlayer extends AppCompatActivity {
+    final String[] color = new String[1];
     String currentRoom = "";
     boolean started = false;
-    final String[] color = new String[1];
     FirebaseFirestore database;
     ArrayAdapter<String> adapter;
     ArrayList<String> playerList = new ArrayList<>();
@@ -55,8 +55,8 @@ public class FindPlayer extends AppCompatActivity {
 
         listView.setAdapter(adapter);
 
-        currentRoom= getIntent().getExtras().getString("CurrentRoom");
-        color[0]= getIntent().getExtras().getString("Color");
+        currentRoom = getIntent().getExtras().getString("CurrentRoom");
+        color[0] = getIntent().getExtras().getString("Color");
         roomName.setText(currentRoom);
         database.collection("users").addSnapshotListener(new EventListener<QuerySnapshot>() {
 
@@ -91,7 +91,7 @@ public class FindPlayer extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot document : task.getResult()) {
-                                            if (currentRoom.equals(document.getString("RoomName"))  && !started) {
+                                            if (currentRoom.equals(document.getString("RoomName")) && !started) {
                                                 started = true;
                                                 goToPlayfield();
                                             }
@@ -138,7 +138,7 @@ public class FindPlayer extends AppCompatActivity {
                 }
             }
         });
-            }
+    }
 
     @Override
     protected void onResume() {
@@ -152,13 +152,14 @@ public class FindPlayer extends AppCompatActivity {
         started = false;
     }
 
-    public void goToPlayfield(){
+    public void goToPlayfield() {
         Intent intent = new Intent(FindPlayer.this, Playfield.class);
         intent.putExtra("CurrentRoom", currentRoom);
         intent.putExtra("Color", color[0]);
         startActivity(intent);
     }
-    public  void getDataFromDatabase(){
+
+    public void getDataFromDatabase() {
         database.collection("users")
                 .whereEqualTo("Room", currentRoom)
                 .get()
@@ -167,7 +168,7 @@ public class FindPlayer extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                if (!playerList.contains(document.getString("Color"))&&!playerList.contains(document.getString("Name"))) {
+                                if (!playerList.contains(document.getString("Color")) && !playerList.contains(document.getString("Name"))) {
                                     playerList.add(document.getString("Name"));
 
                                     adapter.notifyDataSetChanged();

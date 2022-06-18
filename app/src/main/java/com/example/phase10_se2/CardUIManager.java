@@ -1,4 +1,5 @@
 package com.example.phase10_se2;
+
 import android.widget.ImageView;
 
 public class CardUIManager {
@@ -11,7 +12,7 @@ public class CardUIManager {
     }
 
     //ID zuweisung Karten
-    public void cardID(int card, ImageView image, String color) {
+    public void cardID(int card, ImageView image, String color) { //TODO
 
         switch (color) {
             case ("blue"):

@@ -71,24 +71,24 @@ public class Actionfield {
 
     //RED =nimm 3 Karten vom Ziehstapel
     public void redFieldColor() {
-        cardToPullBoth =0;
-        cardToPullCardlist=3;
-        cardToPullDiscardpileList=0;
+        cardToPullBoth = 0;
+        cardToPullCardlist = 3;
+        cardToPullDiscardpileList = 0;
     }
 
     //PURPLE = der Spieler darf keine Karte ziehen
     public void purpleFieldColor() {
-        cardToPullBoth =0;
-        cardToPullCardlist=0;
-        cardToPullDiscardpileList=0;
+        cardToPullBoth = 0;
+        cardToPullCardlist = 0;
+        cardToPullDiscardpileList = 0;
     }
 
     //noch nicht testen, weil noch nicht sicher ob das Würfeln so funktioniert
     //PINK = nimm 1 Karte vom Aufnahme- oder Ziehstapel. Mache einen weiteren Zug
     public void pinkFieldColor() {
-        cardToPullBoth =1;
-        cardToPullCardlist=0;
-        cardToPullDiscardpileList=0;
+        cardToPullBoth = 1;
+        cardToPullCardlist = 0;
+        cardToPullDiscardpileList = 0;
         diceFragment.setMoved(false);
     }
 }
