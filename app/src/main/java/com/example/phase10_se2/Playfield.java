@@ -214,6 +214,9 @@ public class Playfield extends AppCompatActivity {
                                                 if (currentPlayer != null && !currentPlayer.getColorAsString().equals(currentPlayerArray.get(1))) {
                                                     getPlayerFromDB(String.valueOf(currentPlayerArray.get(1)));
 
+                                                    //current player toast
+                                                    currentPlayerToast(currentPlayerArray.get(1).toString());
+
                                                     if (currentPlayerArray.get(1).equals("RED")) {
                                                         currentPlayer = playerRed;
                                                     }
@@ -447,6 +450,7 @@ public class Playfield extends AppCompatActivity {
             if (phase.getRightPhase(getPhasenumberDB(), getCardfieldCardlistDB())) {
                 if (getPhasenumberDB() != 10) {
                     btnCheckPhase.setVisibility(View.INVISIBLE);
+                    setPhasenTextTextView();
                     setPhasenumberDB(); //Phase wird um 1 erhöht und abgelegt wird auch true gesetzt
                     for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
                         getCardfieldCardlistDB().get(i).getCardUI().setClickable(false);
@@ -1204,6 +1208,10 @@ public class Playfield extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    private void currentPlayerToast(String color) {
+        Toast.makeText(Playfield.this, "Player " + color + " is current Player", Toast.LENGTH_SHORT).show();
     }
 
     //get playerArray from DB and save as Player

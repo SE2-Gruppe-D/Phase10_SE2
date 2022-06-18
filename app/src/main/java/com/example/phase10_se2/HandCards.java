@@ -1,5 +1,6 @@
 package com.example.phase10_se2;
 
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import java.util.List;
@@ -103,6 +104,13 @@ public class HandCards {
 
     public void updateHandCompletely(List<Cards> list, List<Cards> cards, LinearLayout linearLayout) {
         linearLayout.removeAllViews();
+
+        for (Cards card : cards) {
+            if(card.getCardUI().getParent() != null) {
+                ((ViewGroup)card.getCardUI().getParent()).removeView(card.getCardUI());
+            }
+        }
+
         list.addAll(cards);
 
         for (Cards card : cards) {
