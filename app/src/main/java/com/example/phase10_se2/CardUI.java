@@ -8,7 +8,8 @@ public class CardUI {
     public CardUI(ImageView imageView) {
         this.imageView = imageView;
     }
-    public void setRotation(float rotation){
+
+    public void setRotation(float rotation) {
         imageView.setRotation(rotation);
     }
 }

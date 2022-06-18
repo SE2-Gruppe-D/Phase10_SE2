@@ -4,10 +4,17 @@ import android.widget.ImageView;
 
 public class Cards {
 
-    private String color;
-    private int value;
+    private final String color;
+    private final int value;
     private CardUI cardUI;
     private int cardID;
+
+    public Cards(String color, int value, CardUI cardUI, int cardID) {
+        this.color = color;
+        this.value = value;
+        this.cardUI = cardUI;
+        this.cardID = cardID;
+    }
 
     public int getID() {
         return cardID;
@@ -17,23 +24,16 @@ public class Cards {
         this.cardID = cardID;
     }
 
-    public CardUI getCardUIObject(){
+    public CardUI getCardUIObject() {
         return cardUI;
-    }
-
-    public void setCardUI(CardUI cardUI) {
-        this.cardUI = cardUI;
     }
 
     public ImageView getCardUI() {
         return cardUI.imageView;
     }
 
-    public Cards(String color, int value, CardUI cardUI, int cardID) {
-        this.color = color;
-        this.value = value;
+    public void setCardUI(CardUI cardUI) {
         this.cardUI = cardUI;
-        this.cardID = cardID;
     }
 
     public String getColor() {

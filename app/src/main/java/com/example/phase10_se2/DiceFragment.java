@@ -20,13 +20,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.phase10_se2.ENUM.PlayerColor;
 import com.example.phase10_se2.helper.Dice;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -50,7 +45,6 @@ public class DiceFragment extends Fragment implements SensorEventListener {
     private Playfield playfield;
 
 
-
     public static DiceFragment newInstance() {
         return new DiceFragment();
     }
@@ -66,50 +60,44 @@ public class DiceFragment extends Fragment implements SensorEventListener {
 
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", room)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                .addSnapshotListener((value, error) -> {
 
-                        if (error != null) {
-                            Log.w(TAG, "Listen failed.", error);
-                            return;
-                        }
+                    if (error != null) {
+                        Log.w(TAG, "Listen failed.", error);
+                        return;
+                    }
 
-                        if (value != null) {
-                            database.collection("gameInfo")
-                                    .whereEqualTo("RoomName", room)
-                                    .get()
-                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                            if (task.isSuccessful()) {
-                                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                                    //CurrentPlayer for dice throwing
-                                                    ArrayList currentPlayer = (ArrayList) document.get("CurrentPlayer");
-                                                    if ((currentPlayer != null && currentPlayerColor == null) || (currentPlayer != null && !currentPlayerColor.equals(definePlayerColor((String) currentPlayer.get(1))))) {
-                                                        currentPlayerColor = definePlayerColor((String) currentPlayer.get(1));
-                                                        moved = false;
-                                                    }
+                    if (value != null) {
+                        database.collection("gameInfo")
+                                .whereEqualTo("RoomName", room)
+                                .get()
+                                .addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            //CurrentPlayer for dice throwing
+                                            ArrayList currentPlayer = (ArrayList) document.get("CurrentPlayer");
+                                            if ((currentPlayer != null && currentPlayerColor == null) || (currentPlayer != null && !currentPlayerColor.equals(definePlayerColor((String) currentPlayer.get(1))))) {
+                                                currentPlayerColor = definePlayerColor((String) currentPlayer.get(1));
+                                                moved = false;
+                                            }
 
-                                                    //last dice value for cheating
-                                                    int diceRoll = document.get("DiceRoll", Integer.class);
-                                                    if (diceRoll != 0 && lastDiceValue != diceRoll) {
-                                                        lastDiceValueOld = lastDiceValue;
-                                                        lastDiceValue = diceRoll;
-                                                        setDiceView(diceRoll);
+                                            //last dice value for cheating
+                                            int diceRoll = document.get("DiceRoll", Integer.class);
+                                            if (diceRoll != 0 && lastDiceValue != diceRoll) {
+                                                lastDiceValueOld = lastDiceValue;
+                                                lastDiceValue = diceRoll;
+                                                setDiceView(diceRoll);
 
-                                                        startCheatTimer();
-                                                    }
-                                                }
-
-                                            } else {
-                                                Log.d(TAG, "Error getting Data from Firestore: ", task.getException());
+                                                startCheatTimer();
                                             }
                                         }
-                                    });
-                        } else {
-                            Log.d(TAG, "Current data: null");
-                        }
+
+                                    } else {
+                                        Log.d(TAG, "Error getting Data from Firestore: ", task.getException());
+                                    }
+                                });
+                    } else {
+                        Log.d(TAG, "Current data: null");
                     }
                 });
 
@@ -209,17 +197,14 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                 database.collection("gameInfo")
                         .whereEqualTo("RoomName", room)
                         .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        document.getReference().update("DiceRoll", lastDiceValue);
-                                    }
-
-                                } else {
-                                    Log.d(TAG, "Error getting Data from Firestore: ", task.getException());
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    document.getReference().update("DiceRoll", lastDiceValue);
                                 }
+
+                            } else {
+                                Log.d(TAG, "Error getting Data from Firestore: ", task.getException());
                             }
                         });
             }
