@@ -8,26 +8,33 @@ public class Actionfield {
      int cardToPullBoth=0;
      int cardToPullCardlist = 0;
      int cardToPullDiscardpileList = 0;
+     boolean randomCard = false;
 
 
     public FieldColor getRightFieldColor(int currentPosition){
         switch (currentPosition){
-            case 0: return FieldColor.BLUE;
-            case 1: return FieldColor.GREY;
-            case 2: return FieldColor.GREEN;
-            case 3: return FieldColor.ORANGE;
-            case 4: return FieldColor.GREY;
-            case 5: return FieldColor.RED;
-            case 6: return FieldColor.GREY;
+            case 0:
+            case 9:
+                return FieldColor.BLUE;
+            case 1:
+            case 4:
+            case 6:
+            case 10:
+            case 13:
+                return FieldColor.GREY;
+            case 2:
+            case 12:
+                return FieldColor.GREEN;
+            case 3:
+            case 11:
+                return FieldColor.ORANGE;
+            case 5:
+            case 14:
+                return FieldColor.RED;
             case 7: return FieldColor.PURPLE;
-            case 8: return FieldColor.PINK;
-            case 9: return FieldColor.BLUE;
-            case 10: return FieldColor.GREY;
-            case 11: return FieldColor.ORANGE;
-            case 12: return FieldColor.GREEN;
-            case 13: return FieldColor.GREY;
-            case 14: return FieldColor.RED;
-            case 15: return FieldColor.PINK;
+            case 8:
+            case 15:
+                return FieldColor.PINK;
             default: return null;
         }
     }
@@ -42,6 +49,7 @@ public class Actionfield {
 
     //GREEN = ziehe 1 zufällige Karte aus dem gesamten Ablagestapel aus
     public void greenFieldColor() {
+        randomCard=true;
         cardToPullBoth =0;
         cardToPullCardlist=0;
         cardToPullDiscardpileList=1;
