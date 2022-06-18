@@ -31,7 +31,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
     private static final boolean TESTMODE = false;
     private float shakeThreshold;  //Threshold for the acceleration sensor to trigger dice generation
     private ImageView diceView;
-    private boolean moved;
+    private boolean moved = false;
     private Dice dice;
     private SensorManager sensorManager;
     private Sensor accelerometer;

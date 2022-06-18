@@ -101,6 +101,8 @@ public class Playfield extends AppCompatActivity {
     List<Cards> playerHandPrimaryPlayer;
     Player player;
     Actionfield actionfield;
+    private boolean toastShown = false;
+    private boolean initToastShown = false;
     //Round and phase
     Phase phase;
     int round = 1;
@@ -174,7 +176,6 @@ public class Playfield extends AppCompatActivity {
 
         currentRoom = getIntent().getExtras().getString("CurrentRoom");
         userColor = getIntent().getExtras().getString("Color");
-        Toast.makeText(this, "YOU ARE THE " + userColor + " PLAYER!", Toast.LENGTH_LONG).show();
         database = FirebaseFirestore.getInstance();    //verknuepfung
         FirebaseFirestore.setLoggingEnabled(true);
 
@@ -209,6 +210,12 @@ public class Playfield extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                         if (task.isSuccessful()) {
                                             for (QueryDocumentSnapshot document : task.getResult()) {
+                                                //show current player on init
+                                                if (!initToastShown) {
+                                                    currentPlayerToast(currentPlayer.getColorAsString());
+                                                    initToastShown = true;
+                                                }
+
                                                 //current player
                                                 ArrayList currentPlayerArray = (ArrayList) document.get("CurrentPlayer");
                                                 if (currentPlayer != null && !currentPlayer.getColorAsString().equals(currentPlayerArray.get(1))) {
@@ -216,6 +223,7 @@ public class Playfield extends AppCompatActivity {
 
                                                     //current player toast
                                                     currentPlayerToast(currentPlayerArray.get(1).toString());
+
 
                                                     if (currentPlayerArray.get(1).equals("RED")) {
                                                         currentPlayer = playerRed;
