@@ -1227,7 +1227,7 @@ public class Playfield extends AppCompatActivity {
         gameInfo.put("DiceRoll", currentDiceRoll);
         gameInfo.put("Cheated", cheated);
         gameInfo.put("Cardlist", newCardList);
-        gameInfo.put("DiscardpileList", newDiscardPile);
+        gameInfo.put("DiscardpileList", newDiscardPile.toString());
 
 
         Log.i("gameInfo------------------------------------------------------------", gameInfo.toString());
