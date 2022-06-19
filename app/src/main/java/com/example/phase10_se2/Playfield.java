@@ -74,10 +74,7 @@ public class Playfield extends AppCompatActivity {
     ArrayList<Cards> cardlist;
     ArrayList<Cards> allCards = new ArrayList<>();
     ArrayList<Cards> discardpileList;//Ablagestapel
-    ArrayList<Cards> cardfieldCardlist;
-    ArrayList<Cards> cardfieldCardlistPlayer2 = new ArrayList<>();
-    ArrayList<Cards> cardfieldCardlistPlayer3 = new ArrayList<>();
-    ArrayList<Cards> cardfieldCardlistPlayer4 = new ArrayList<>();
+
     ArrayList<ImageView> imageList;
     TextView leererAblagestapel;
     Button exitGame;        //Spiel verlassen Button
@@ -119,51 +116,6 @@ public class Playfield extends AppCompatActivity {
     FirebaseFirestore database;
     ArrayList<String> playerList = new ArrayList();
     private long doubleClickLastTime = 0L;
-    //Karten auslegen - 1x Click Karte wird ausgelegt, 2x Click Karte zurück auf die Hand
-    private final View.OnClickListener listener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
-                if (System.currentTimeMillis() - doubleClickLastTime < 700) {
-                    doubleClickLastTime = 0;
-                    View v = view;
-                    ViewGroup owner = (ViewGroup) v.getParent();
-                    //Handkarte zurück nehmen
-                    playerHandPrimaryPlayer = getHandCardsDB();
-                    for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
-                        if (v.equals(getCardfieldCardlistDB().get(i).getCardUI())) {
-                            playerHandPrimaryPlayer.add(getCardfieldCardlistDB().get(i));
-                            getCardfieldCardlistDB().remove(getCardfieldCardlistDB().get(i));
-                        }
-                    }
-                    owner.removeView(v);
-                    layoutPlayer1.addView(v);
-                    v.setVisibility(View.VISIBLE);
-                    v.setOnTouchListener(new ChoiceTouchListener());
-
-
-                } else {
-                    doubleClickLastTime = System.currentTimeMillis();
-                    View v = view;
-                    ViewGroup owner = (ViewGroup) v.getParent();
-                    //Array mit den ausgelegten Karten befüllen
-                    playerHandPrimaryPlayer = getHandCardsDB();
-                    if (playerHandPrimaryPlayer.size() != 0) {
-                        for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
-                            if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
-                                getCardfieldCardlistDB().add(playerHandPrimaryPlayer.get(i));
-                                playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
-                            }
-                        }
-                        owner.removeView(v);
-                        layoutPlayer1CardField.addView(v);
-                        v.setOnTouchListener(null);
-
-                    }
-                }
-            }
-        }
-    };
     private CountDownTimer timerturn;
 
     @Override
@@ -441,7 +393,6 @@ public class Playfield extends AppCompatActivity {
         layoutPlayer4CardField.setOnDragListener(new ChoiceDragListener4());
 
         //Button, um zu überprüfen, ob die Phase richtig ist
-        cardfieldCardlist = new ArrayList<>();
         phase = new Phase();
         actionfield = new Actionfield();
         btnCheckPhase.setVisibility(View.VISIBLE);
@@ -450,8 +401,7 @@ public class Playfield extends AppCompatActivity {
             if (phase.getRightPhase(getPhasenumberDB(), getCardfieldCardlistDB())) {
                 if (getPhasenumberDB() != 10) {
                     btnCheckPhase.setVisibility(View.INVISIBLE);
-                    setPhasenTextTextView();
-                    setPhasenumberDB(); //Phase wird um 1 erhöht und abgelegt wird auch true gesetzt
+                    setPhasenumberDB(); //Phase wird um 1 erhöht und abgelegt wird auf true gesetzt
                     for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
                         getCardfieldCardlistDB().get(i).getCardUI().setClickable(false);
                         getCardfieldCardlistDB().get(i).getCardUI().setVisibility(View.VISIBLE);
@@ -534,7 +484,7 @@ public class Playfield extends AppCompatActivity {
         }
 
         defaultcard.setOnClickListener(view ->
-                addCardsDiscardpile()
+                    addCardsDiscardpile()
         );
 
         //Timer
@@ -639,11 +589,10 @@ public class Playfield extends AppCompatActivity {
     }
 
     public void setNextCurrentPlayer() {
-        String color = playerList.get((playerList.indexOf(currentPlayer.getColorAsString()) + 1) % playerList.size());
-        Player player = getPlayerFromColor(color);
-
-        updatePlayers();
-        setCurrentPlayerInDB(player);
+            String color = playerList.get((playerList.indexOf(currentPlayer.getColorAsString()) + 1) % playerList.size());
+            Player player = getPlayerFromColor(color);
+            updatePlayers();
+            setCurrentPlayerInDB(player);
     }
 
     private Player getPlayerFromColor(String color) {
@@ -755,80 +704,49 @@ public class Playfield extends AppCompatActivity {
             cardlist.get(i).setCardUI(createCardUI(cardlist.get(i)));
         }
     }
-
     //Eine Karte vom Ablagestapel ziehen
     private void addCardsDiscardpile() {
         int size = discardpileList.size();
         if ((actionfield.cardToPullBoth > 0 && actionfield.cardToPullDiscardpileList < 1 && actionfield.cardToPullCardlist < 1) || (actionfield.cardToPullBoth < 1 && actionfield.cardToPullDiscardpileList > 0 && actionfield.cardToPullCardlist < 1)) {
             if (size != 0) {
-                discardpileList.get(size - 1).getCardUI().setVisibility(View.VISIBLE); //Karte die man zieht wird auf der Hand sichbar
+                Cards helpcard;
+                if(actionfield.randomCard){
+                    SecureRandom rand = new SecureRandom();
+                    helpcard = discardpileList.get(rand.nextInt(discardpileList.size()));
+                    helpcard.getCardUI().setVisibility(View.VISIBLE);
+                }else{
+                    helpcard =discardpileList.get(size - 1);
+                    discardpileList.get(size - 1).getCardUI().setVisibility(View.VISIBLE); //Karte die man zieht wird auf der Hand sichbar
+                }
                 if (playerYellow != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerYellow.getColor().equals(primaryPlayer.getColor())) {
-                    handCards.updateHand(getHandCardsDB(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist, true);
-                    discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
-                    discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
-                    discardpileList.remove(size - 1);
+                    handCards.updateHand(getHandCardsDB(), helpcard, layoutPlayer1, 0, cardlist, true);
+                    helpcard.getCardUI().setOnClickListener(listener);
+                    helpcard.getCardUI().setOnTouchListener(new ChoiceTouchListener());
+                    discardpileList.remove(helpcard);
                 }
                 if (playerBlue != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerBlue.getColor().equals(primaryPlayer.getColor())) {
-                    handCards.updateHand(getHandCardsDB(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist, true);
-                    discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
-                    discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
-                    discardpileList.remove(size - 1);
+                    handCards.updateHand(getHandCardsDB(), helpcard, layoutPlayer1, 0, cardlist, true);
+                    helpcard.getCardUI().setOnClickListener(listener);
+                    helpcard.getCardUI().setOnTouchListener(new ChoiceTouchListener());
+                    discardpileList.remove(helpcard);
                 }
                 if (playerRed != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerRed.getColor().equals(primaryPlayer.getColor())) {
-                    handCards.updateHand(getHandCardsDB(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist, true);
-                    discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
-                    discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
-                    discardpileList.remove(size - 1);
+                    handCards.updateHand(getHandCardsDB(), helpcard, layoutPlayer1, 0, cardlist, true);
+                    helpcard.getCardUI().setOnClickListener(listener);
+                    helpcard.getCardUI().setOnTouchListener(new ChoiceTouchListener());
+                    discardpileList.remove(helpcard);
                 }
                 if (playerGreen != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerGreen.getColor().equals(primaryPlayer.getColor())) {
-                    handCards.updateHand(getHandCardsDB(), discardpileList.get(size - 1), layoutPlayer1, 0, cardlist, true);
-                    discardpileList.get(size - 1).getCardUI().setOnClickListener(listener);
-                    discardpileList.get(size - 1).getCardUI().setOnTouchListener(new ChoiceTouchListener());
-                    discardpileList.remove(size - 1);
+                    handCards.updateHand(getHandCardsDB(), helpcard, layoutPlayer1, 0, cardlist, true);
+                    helpcard.getCardUI().setOnClickListener(listener);
+                    helpcard.getCardUI().setOnTouchListener(new ChoiceTouchListener());
+                    discardpileList.remove(helpcard);
                 }
 
                 if ((size - 1) != 0) {
-                    defaultcard.setImageDrawable(createCardUI(discardpileList.get(size - 2)).imageView.getDrawable());
-                }
-                actionfield.cardToPullBoth--;
-                actionfield.cardToPullDiscardpileList--;
-            } else {
-                leererAblagestapel.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    //Für Aktionfeld
-    private void addRandomCardsDiscardpile() {
-        int size = discardpileList.size();
-        if ((actionfield.cardToPullBoth > 0 && actionfield.cardToPullDiscardpileList < 1 && actionfield.cardToPullCardlist < 1) || (actionfield.cardToPullBoth < 1 && actionfield.cardToPullDiscardpileList > 0 && actionfield.cardToPullCardlist < 1)) {
-            if (size != 0) {
-                SecureRandom rand = new SecureRandom();
-                Cards randomCard = discardpileList.get(rand.nextInt(discardpileList.size()));
-                randomCard.getCardUI().setVisibility(View.VISIBLE);
-                if (playerYellow != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerYellow.getColor().equals(primaryPlayer.getColor())) {
-                    handCards.updateHand(playerYellow.getPlayerHand(), randomCard, layoutPlayer1, 0, cardlist, true);
-                    randomCard.getCardUI().setOnClickListener(listener);
-                    randomCard.getCardUI().setOnTouchListener(new ChoiceTouchListener());
-                }
-                if (playerBlue != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerBlue.getColor().equals(primaryPlayer.getColor())) {
-                    handCards.updateHand(playerBlue.getPlayerHand(), randomCard, layoutPlayer1, 0, cardlist, true);
-                    randomCard.getCardUI().setOnClickListener(listener);
-                    randomCard.getCardUI().setOnTouchListener(new ChoiceTouchListener());
-                }
-                if (playerRed != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerRed.getColor().equals(primaryPlayer.getColor())) {
-                    handCards.updateHand(playerRed.getPlayerHand(), randomCard, layoutPlayer1, 0, cardlist, true);
-                    randomCard.getCardUI().setOnClickListener(listener);
-                    randomCard.getCardUI().setOnTouchListener(new ChoiceTouchListener());
-                }
-                if (playerGreen != null && currentPlayer.getColor().equals(primaryPlayer.getColor()) && playerGreen.getColor().equals(primaryPlayer.getColor())) {
-                    handCards.updateHand(playerGreen.getPlayerHand(), randomCard, layoutPlayer1, 0, cardlist, true);
-                    randomCard.getCardUI().setOnClickListener(listener);
-                    randomCard.getCardUI().setOnTouchListener(new ChoiceTouchListener());
-                }
-                discardpileList.remove(randomCard);
-                if ((size - 1) != 0) {
-                    defaultcard.setImageDrawable(createCardUI(discardpileList.get(size - 2)).imageView.getDrawable());
+                        defaultcard.setImageDrawable(createCardUI(discardpileList.get(size-2)).imageView.getDrawable());
+                }else{
+                    leererAblagestapel.setVisibility(View.VISIBLE);
                 }
                 actionfield.cardToPullBoth--;
                 actionfield.cardToPullDiscardpileList--;
@@ -862,6 +780,10 @@ public class Playfield extends AppCompatActivity {
                 actionfield.pinkFieldColor();
                 break;
         }
+        Log.e("Position", String.valueOf(getCurrentPositionDB()));
+        Log.e("PositionAB", String.valueOf(actionfield.cardToPullBoth));
+        Log.e("PositionA", String.valueOf(actionfield.cardToPullCardlist));
+        Log.e("PositionB", String.valueOf(actionfield.cardToPullDiscardpileList));
     }
 
     //Karte ziehen
@@ -904,6 +826,293 @@ public class Playfield extends AppCompatActivity {
         imageView.setClickable(true);
         imageView.setFocusable(true);
         return new CardUI(imageView);
+    }
+
+    //Karten auslegen - 1x Click Karte wird ausgelegt, 2x Click Karte zurück auf die Hand
+    private final View.OnClickListener listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
+                //Karte zurück
+                if (System.currentTimeMillis() - doubleClickLastTime < 700) {
+                    doubleClickLastTime = 0;
+                    View v = view;
+                    ViewGroup owner = (ViewGroup) v.getParent();
+                    //Handkarte zurück nehmen
+                    playerHandPrimaryPlayer = getHandCardsDB();
+                    for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
+                        if (v.equals(getCardfieldCardlistDB().get(i).getCardUI())) {
+                            playerHandPrimaryPlayer.add(getCardfieldCardlistDB().get(i));
+                            getCardfieldCardlistDB().remove(getCardfieldCardlistDB().get(i));
+                            break;
+                        }
+                    }
+                    owner.removeView(v);
+                    layoutPlayer1.addView(v);
+                    v.setVisibility(View.VISIBLE);
+                    v.setOnTouchListener(new ChoiceTouchListener());
+                } else {
+                    doubleClickLastTime = System.currentTimeMillis();
+                    View v = view;
+                    ViewGroup owner = (ViewGroup) v.getParent();
+                    //Hilfsarray mit den ausgelegten Karten befüllen
+                    playerHandPrimaryPlayer = getHandCardsDB();
+                    if (playerHandPrimaryPlayer.size() != 0) {
+                        for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
+                            if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
+                                getCardfieldCardlistDB().add(playerHandPrimaryPlayer.get(i));
+                                playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                            }
+                        }
+                        owner.removeView(v);
+                        layoutPlayer1CardField.addView(v);
+                        v.setOnTouchListener(null);
+                    }
+                }
+            }
+        }
+    };
+
+    //Class allows us to drag view
+    private final class ChoiceTouchListener implements View.OnTouchListener {
+        boolean isMoved = true;
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
+                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+                    case MotionEvent.ACTION_MOVE:
+                        ClipData data = ClipData.newPlainText("", "");
+                        View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+                        view.startDragAndDrop(data, shadowBuilder, view, 0);
+                        view.setVisibility(View.VISIBLE);
+                        isMoved = false;
+                        break;
+                    default:
+                        break;
+                }
+                if (!isMoved) {
+                    Log.e("click", view.toString());
+                }
+            }
+            return false;
+        }
+    }
+
+    //Class to drop
+    //ChoiceDragListener für Ablegestapel
+    private class ChoiceDragListener1 implements View.OnDragListener {
+        @Override
+        public boolean onDrag(View view, DragEvent dragEvent) {
+            if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
+                switch (dragEvent.getAction()) {
+                    case DragEvent.ACTION_DRAG_STARTED: //1
+                        //no action necessary
+                        break;
+
+                    case DragEvent.ACTION_DRAG_EXITED: //6
+                        //no action necessary
+                        break;
+
+                    case DragEvent.ACTION_DRAG_ENTERED: //5
+                        //no action necessary
+                        break;
+
+                    case DragEvent.ACTION_DROP: //Action 3
+                        View v = (View) dragEvent.getLocalState();
+                        ViewGroup owner = (ViewGroup) v.getParent();
+                        //Karte zum Ablegestapel hinzufügen
+                        playerHandPrimaryPlayer = getHandCardsDB();
+                        if (playerHandPrimaryPlayer.size() != 0) {
+                            for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
+                                if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
+                                    discardpileList.add(playerHandPrimaryPlayer.get(i));
+                                    defaultcard.setImageDrawable(createCardUI(playerHandPrimaryPlayer.get(i)).imageView.getDrawable());
+                                    playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                                    updateDiscardpileListDB();
+                                    break; //break, because you can only drag one card
+                                }
+                            }
+                            setNextCurrentPlayer();
+
+                            owner.removeView(v);
+                            v.setVisibility(View.INVISIBLE);
+                            leererAblagestapel.setVisibility(View.INVISIBLE);
+                        }
+                        break;
+
+                    case DragEvent.ACTION_DRAG_ENDED: //4
+                        view.invalidate();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return true;
+        }
+    }
+
+    //Drag and Drop Auslegefeld vom Spieler 2
+    private class ChoiceDragListener2 implements View.OnDragListener {
+        @Override
+        public boolean onDrag(View view, DragEvent dragEvent) {
+            if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
+                switch (dragEvent.getAction()) {
+                    case DragEvent.ACTION_DRAG_STARTED: //1
+                        //no action necessary
+                        break;
+
+                    case DragEvent.ACTION_DRAG_EXITED: //6
+                        //no action necessary
+                        break;
+
+                    case DragEvent.ACTION_DRAG_ENTERED: //5
+                        //no action necessary
+                        break;
+
+                    case DragEvent.ACTION_DROP: //Action 3
+                        View v = (View) dragEvent.getLocalState();
+                        ViewGroup owner = (ViewGroup) v.getParent();
+                        if(true) { // --> getPhaseAusgelegtDB(currentPlayer) currentPlayer hat Phase ausgelegt
+                            //richtigen Spieler herausfinden
+                            if (playerBlue != null && idLayoutPlayerBlue == layoutPlayer2CardField.getId()) {
+                                player = playerBlue;
+                            } else if (playerGreen != null && idLayoutPlayerGreen == layoutPlayer2CardField.getId()) {
+                                player = playerGreen;
+
+                            } else if (playerYellow != null && idLayoutPlayerYellow == layoutPlayer2CardField.getId()) {
+                                player = playerYellow;
+
+                            } else if (playerRed != null && idLayoutPlayerRed == layoutPlayer2CardField.getId()) {
+                                player = playerRed;
+                            }
+                            if (true) { //-> getPhaseAusgelegtDB(player) vom Mitspieler
+                                Log.e("Feld Spieler1", String.valueOf(getCardfieldCardlistPlayersDB(player)));
+                                playerHandPrimaryPlayer = getHandCardsDB(); //Handkarten vom Currentplayer
+                                if (playerHandPrimaryPlayer.size() != 0) {
+                                    for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
+                                        if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
+                                            //if  --> phase.getRightPhaseOtherPlayer((getPhasenumberPlayersDB(player)-1), playerHandPrimaryPlayer.get(i), getCardfieldCardlistPlayersDB(player))) {
+                                                Log.e("Feld Spieler2", String.valueOf(getCardfieldCardlistPlayersDB(player)));
+                                                getCardfieldCardlistPlayersDB(player).add(playerHandPrimaryPlayer.get(i)); // in DB aktualisieren
+                                                playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                                                Log.e("Feld Spieler3", String.valueOf(getCardfieldCardlistPlayersDB(player)));
+                                                break;
+                                        }
+                                    }
+                                    owner.removeView(v);
+                                    layoutPlayer2CardField.addView(v);
+                                    v.setVisibility(View.VISIBLE);
+                                    v.setClickable(false);
+                                }
+                            }
+                        }
+                        break;
+
+                    case DragEvent.ACTION_DRAG_ENDED: //4
+                        view.invalidate();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return true;
+        }
+    }
+
+    //Drag and Drop Auslegefeld Spieler 3
+    private class ChoiceDragListener3 implements View.OnDragListener {
+        @Override
+        public boolean onDrag(View view, DragEvent dragEvent) {
+            if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
+                switch (dragEvent.getAction()) {
+                    case DragEvent.ACTION_DRAG_STARTED: //1
+                        //no action necessary
+                        break;
+
+                    case DragEvent.ACTION_DRAG_EXITED: //6
+                        //no action necessary
+                        break;
+
+                    case DragEvent.ACTION_DRAG_ENTERED: //5
+                        //no action necessary
+                        break;
+
+                    case DragEvent.ACTION_DROP: //Action 3
+                        View v = (View) dragEvent.getLocalState();
+                        ViewGroup owner = (ViewGroup) v.getParent();
+                        playerHandPrimaryPlayer = getHandCardsDB();
+                        if (playerHandPrimaryPlayer.size() != 0) {
+                            for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
+                                if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
+                                    getCardfieldCardlistPlayersDB(player).add(playerHandPrimaryPlayer.get(i));
+                                    playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                                }
+                            }
+                            owner.removeView(v);
+                            layoutPlayer3CardField.addView(v);
+                            v.setRotation(90);
+                            v.setVisibility(View.VISIBLE);
+                            v.setClickable(false);
+                        }
+                        break;
+
+                    case DragEvent.ACTION_DRAG_ENDED: //4
+                        view.invalidate();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return true;
+        }
+    }
+
+    //Drag and Drop Auslegefeld Spieler 4
+    private class ChoiceDragListener4 implements View.OnDragListener {
+        @Override
+        public boolean onDrag(View view, DragEvent dragEvent) {
+            if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
+                switch (dragEvent.getAction()) {
+                    case DragEvent.ACTION_DRAG_STARTED: //1
+                        //no action necessary
+                        break;
+
+                    case DragEvent.ACTION_DRAG_EXITED: //6
+                        //no action necessary
+                        break;
+
+                    case DragEvent.ACTION_DRAG_ENTERED: //5
+                        //no action necessary
+                        break;
+
+                    case DragEvent.ACTION_DROP: //Action 3
+                        View v = (View) dragEvent.getLocalState();
+                        ViewGroup owner = (ViewGroup) v.getParent();
+                        playerHandPrimaryPlayer = getHandCardsDB();
+                        if (playerHandPrimaryPlayer.size() != 0) {
+                            for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
+                                if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
+                                    getCardfieldCardlistPlayersDB(player).add(playerHandPrimaryPlayer.get(i));
+                                    playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                                }
+                            }
+                            owner.removeView(v);
+                            layoutPlayer4CardField.addView(v);
+                            v.setRotation(-90);
+                            v.setVisibility(View.VISIBLE);
+                            v.setClickable(false);
+                        }
+                        break;
+
+                    case DragEvent.ACTION_DRAG_ENDED: //4
+                        view.invalidate();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return true;
+        }
     }
 
     //Aktuelle in Player zugewiesene Phase wird in Textview am Spielfeld angezeigt
@@ -1132,7 +1341,6 @@ public class Playfield extends AppCompatActivity {
     }
 
     public int getCurrentPositionDB() {
-
         return currentPlayer.getCurrentPosition();
     }
 
@@ -1180,6 +1388,7 @@ public class Playfield extends AppCompatActivity {
                     p.setAbgelegt(false);
                 }
             }
+            btnCheckPhase.setVisibility(View.VISIBLE);
         }
     }
 
@@ -1315,249 +1524,4 @@ public class Playfield extends AppCompatActivity {
         return newList;
     }
 
-    //Class allows us to drag view
-    private final class ChoiceTouchListener implements View.OnTouchListener {
-        boolean isMoved = true;
-
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
-
-                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-                    case MotionEvent.ACTION_MOVE:
-                        ClipData data = ClipData.newPlainText("", "");
-                        View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-                        view.startDragAndDrop(data, shadowBuilder, view, 0);
-                        view.setVisibility(View.VISIBLE);
-                        isMoved = false;
-                        break;
-                    default:
-                        break;
-                }
-                if (!isMoved) {
-                    Log.e("click", view.toString());
-                }
-            }
-            return false;
-        }
-    }
-
-    //Class to drop
-    //ChoiceDragListener für Ablegestapel
-    private class ChoiceDragListener1 implements View.OnDragListener {
-        @Override
-        public boolean onDrag(View view, DragEvent dragEvent) {
-            if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
-                switch (dragEvent.getAction()) {
-                    case DragEvent.ACTION_DRAG_STARTED: //1
-                        //no action necessary
-                        break;
-
-                    case DragEvent.ACTION_DRAG_EXITED: //6
-                        //no action necessary
-                        break;
-
-                    case DragEvent.ACTION_DRAG_ENTERED: //5
-                        //no action necessary
-                        break;
-
-                    case DragEvent.ACTION_DROP: //Action 3
-                        View v = (View) dragEvent.getLocalState();
-                        ViewGroup owner = (ViewGroup) v.getParent();
-                        //Karte zum Ablegestapel hinzufügen
-                        playerHandPrimaryPlayer = getHandCardsDB();
-
-                        if (playerHandPrimaryPlayer.size() != 0) {
-                            for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
-                                if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
-                                    discardpileList.add(playerHandPrimaryPlayer.get(i));
-                                    defaultcard.setImageDrawable(createCardUI(playerHandPrimaryPlayer.get(i)).imageView.getDrawable());
-                                    playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
-                                    nextRoundCards();
-                                    setNextCurrentPlayer();
-                                    updateDiscardpileListDB();
-                                    break; //break, because you can only drag one card
-                                }
-                            }
-                            owner.removeView(v);
-                            v.setVisibility(View.INVISIBLE);
-                        }
-                        break;
-
-                    case DragEvent.ACTION_DRAG_ENDED: //4
-                        view.invalidate();
-                    default:
-                        break;
-                }
-            }
-            return true;
-        }
-    }
-
-    //Drag and Drop Auslegefeld Spieler 2
-    private class ChoiceDragListener2 implements View.OnDragListener {
-        @Override
-        public boolean onDrag(View view, DragEvent dragEvent) {
-            if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
-                switch (dragEvent.getAction()) {
-                    case DragEvent.ACTION_DRAG_STARTED: //1
-                        //no action necessary
-                        break;
-
-                    case DragEvent.ACTION_DRAG_EXITED: //6
-                        //no action necessary
-                        break;
-
-                    case DragEvent.ACTION_DRAG_ENTERED: //5
-                        //no action necessary
-                        break;
-
-                    case DragEvent.ACTION_DROP: //Action 3
-
-                        View v = (View) dragEvent.getLocalState();
-                        ViewGroup owner = (ViewGroup) v.getParent();
-                        if (true) { // --> getPhaseAusgelegtDB(currentPlayer) currentPlayer hat Phase ausgelegt
-                            //richtigen Spieler herausfinden
-                            if (playerBlue != null && idLayoutPlayerBlue == layoutPlayer2CardField.getId()) {
-                                player = playerBlue;
-                            } else if (playerGreen != null && idLayoutPlayerGreen == layoutPlayer2CardField.getId()) {
-                                player = playerGreen;
-
-                            } else if (playerYellow != null && idLayoutPlayerYellow == layoutPlayer2CardField.getId()) {
-                                player = playerYellow;
-
-                            } else if (playerRed != null && idLayoutPlayerRed == layoutPlayer2CardField.getId()) {
-                                player = playerRed;
-
-                            }
-                            if (true) { //-> getPhaseAusgelegtDB(player) vom Mitspieler
-                                Log.e("Feld Spieler", String.valueOf(player.getCardField()));
-                                playerHandPrimaryPlayer = getHandCardsDB(); //Handkarten vom Currentplayer
-                                if (playerHandPrimaryPlayer.size() != 0) {
-                                    for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
-                                        if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
-                                            if (true) {// --> phase.getRightPhaseOtherPlayer(getPhasenumberPlayersDB(player), playerHandPrimaryPlayer.get(i), getCardfieldCardlistPlayersDB(player))) {
-                                                Log.e("Feld Spieler", String.valueOf(player.getCardField()));
-                                                getCardfieldCardlistDB().add(playerHandPrimaryPlayer.get(i));
-                                                playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
-                                                Log.e("Feld Spieler", String.valueOf(player.getCardField()));
-
-                                            }
-                                        }
-                                    }
-                                    owner.removeView(v);
-                                    layoutPlayer2CardField.addView(v);
-                                    v.setVisibility(View.VISIBLE);
-                                    v.setClickable(false);
-                                }
-                            }
-                        }
-                        break;
-
-                    case DragEvent.ACTION_DRAG_ENDED: //4
-                        view.invalidate();
-                        break;
-                    default:
-                        break;
-                }
-            }
-            return true;
-        }
-    }
-
-    //Drag and Drop Auslegefeld Spieler 3
-    private class ChoiceDragListener3 implements View.OnDragListener {
-        @Override
-        public boolean onDrag(View view, DragEvent dragEvent) {
-            if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
-                switch (dragEvent.getAction()) {
-                    case DragEvent.ACTION_DRAG_STARTED: //1
-                        //no action necessary
-                        break;
-
-                    case DragEvent.ACTION_DRAG_EXITED: //6
-                        //no action necessary
-                        break;
-
-                    case DragEvent.ACTION_DRAG_ENTERED: //5
-                        //no action necessary
-                        break;
-
-                    case DragEvent.ACTION_DROP: //Action 3
-                        View v = (View) dragEvent.getLocalState();
-                        ViewGroup owner = (ViewGroup) v.getParent();
-                        playerHandPrimaryPlayer = getHandCardsDB();
-                        if (playerHandPrimaryPlayer.size() != 0) {
-                            for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
-                                if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
-                                    cardfieldCardlistPlayer3.add(playerHandPrimaryPlayer.get(i));
-                                    playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
-                                }
-                            }
-                            owner.removeView(v);
-                            layoutPlayer3CardField.addView(v);
-                            v.setRotation(90);
-                            v.setVisibility(View.VISIBLE);
-                            v.setClickable(false);
-                        }
-                        break;
-
-                    case DragEvent.ACTION_DRAG_ENDED: //4
-                        view.invalidate();
-                        break;
-                    default:
-                        break;
-                }
-            }
-            return true;
-        }
-    }
-
-    //Drag and Drop Auslegefeld Spieler 4
-    private class ChoiceDragListener4 implements View.OnDragListener {
-        @Override
-        public boolean onDrag(View view, DragEvent dragEvent) {
-            if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
-                switch (dragEvent.getAction()) {
-                    case DragEvent.ACTION_DRAG_STARTED: //1
-                        //no action necessary
-                        break;
-
-                    case DragEvent.ACTION_DRAG_EXITED: //6
-                        //no action necessary
-                        break;
-
-                    case DragEvent.ACTION_DRAG_ENTERED: //5
-                        //no action necessary
-                        break;
-
-                    case DragEvent.ACTION_DROP: //Action 3
-                        View v = (View) dragEvent.getLocalState();
-                        ViewGroup owner = (ViewGroup) v.getParent();
-                        playerHandPrimaryPlayer = getHandCardsDB();
-                        if (playerHandPrimaryPlayer.size() != 0) {
-                            for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
-                                if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
-                                    cardfieldCardlistPlayer4.add(playerHandPrimaryPlayer.get(i));
-                                    playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
-                                }
-                            }
-                            owner.removeView(v);
-                            layoutPlayer4CardField.addView(v);
-                            v.setRotation(-90);
-                            v.setVisibility(View.VISIBLE);
-                            v.setClickable(false);
-                        }
-                        break;
-
-                    case DragEvent.ACTION_DRAG_ENDED: //4
-                        view.invalidate();
-                        break;
-                    default:
-                        break;
-                }
-            }
-            return true;
-        }
-    }
 }
