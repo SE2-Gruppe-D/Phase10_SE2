@@ -79,7 +79,9 @@ public class HandCards {
         list.add(cards);
 
         if (isPrimary) { //only add cards to the view, if its the primary player
-            ((ViewGroup) cards.getCardUI().getParent()).removeView(cards.getCardUI());
+            if (cards.getCardUI().getParent() != null) {
+                ((ViewGroup) cards.getCardUI().getParent()).removeView(cards.getCardUI());
+            }
             linearLayout.addView(cards.getCardUI());
         }
 
