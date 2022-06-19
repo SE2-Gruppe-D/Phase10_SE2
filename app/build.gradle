@@ -66,14 +66,7 @@ sonarqube {
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.java.coveragePlugin", "jacoco"
 
-        property "sonar.coverage.exclusions","src/main/java/com/example/phase10_se2/CreateGameActivity.java"
-        property "sonar.coverage.exclusions", "src/main/java/com/example/phase10_se2/FindGameActivity.java"
-        property "sonar.coverage.exclusions", "src/main/java/com/example/phase10_se2/FindPlayer.java"
-        property "sonar.coverage.exclusions", "src/main/java/com/example/phase10_se2/MainActivity.java"
-        property "sonar.coverage.exclusions", "src/main/java/com/example/phase10_se2/DiceFragment.java"
-
-
-        property "sonar.coverage.exclusions", "' **/config/**', '**/configuration', '**/dtos', '**/*Config*', '**/*Configuration*','**/*Dto*'"
+      
         property "sonar.coverage.jacoco.xmlReportPaths", "${project.projectDir}/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml"
     }
 }
