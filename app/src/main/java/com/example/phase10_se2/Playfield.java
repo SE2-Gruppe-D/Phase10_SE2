@@ -397,31 +397,28 @@ public class Playfield extends AppCompatActivity {
         actionfield = new Actionfield();
         btnCheckPhase.setVisibility(View.VISIBLE);
 
-        btnCheckPhase.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (phase.getRightPhase(getPhasenumberDB(), getCardfieldCardlistDB())) {
-                    if (getPhasenumberDB() != 10) {
-                        btnCheckPhase.setVisibility(View.INVISIBLE);
-                        setPhasenumberDB(); //Phase wird um 1 erhöht und abgelegt wird auf true gesetzt
-                        for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
-                            getCardfieldCardlistDB().get(i).getCardUI().setClickable(false);
-                            getCardfieldCardlistDB().get(i).getCardUI().setVisibility(View.VISIBLE);
-                        }
+        btnCheckPhase.setOnClickListener(view -> {
+            if (phase.getRightPhase(getPhasenumberDB(), getCardfieldCardlistDB())) {
+                if (getPhasenumberDB() != 10) {
+                    btnCheckPhase.setVisibility(View.INVISIBLE);
+                    setPhasenumberDB(); //Phase wird um 1 erhöht und abgelegt wird auf true gesetzt
+                    for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
+                        getCardfieldCardlistDB().get(i).getCardUI().setClickable(false);
+                        getCardfieldCardlistDB().get(i).getCardUI().setVisibility(View.VISIBLE);
                     }
-                } else {
-                    playerHandPrimaryPlayer = getHandCardsDB();
-                    while (layoutPlayer1CardField.getChildCount() != 0) {
-                        View v = layoutPlayer1CardField.getChildAt(0);
-                        ViewGroup owner = (ViewGroup) v.getParent();
-                        owner.removeView(v);
-                        layoutPlayer1.addView(v);
-                        v.setVisibility(View.VISIBLE);
-                        for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
-                            if (v.equals(getCardfieldCardlistDB().get(i).getCardUI())) {
-                                playerHandPrimaryPlayer.add(getCardfieldCardlistDB().get(i));
-                                getCardfieldCardlistDB().remove(getCardfieldCardlistDB().get(i));
-                            }
+                }
+            } else {
+                playerHandPrimaryPlayer = getHandCardsDB();
+                while (layoutPlayer1CardField.getChildCount() != 0) {
+                    View v = layoutPlayer1CardField.getChildAt(0);
+                    ViewGroup owner = (ViewGroup) v.getParent();
+                    owner.removeView(v);
+                    layoutPlayer1.addView(v);
+                    v.setVisibility(View.VISIBLE);
+                    for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
+                        if (v.equals(getCardfieldCardlistDB().get(i).getCardUI())) {
+                            playerHandPrimaryPlayer.add(getCardfieldCardlistDB().get(i));
+                            getCardfieldCardlistDB().remove(getCardfieldCardlistDB().get(i));
                         }
                     }
                 }
@@ -832,7 +829,7 @@ public class Playfield extends AppCompatActivity {
     }
 
     //Karten auslegen - 1x Click Karte wird ausgelegt, 2x Click Karte zurück auf die Hand
-    private View.OnClickListener listener = new View.OnClickListener() {
+    private final View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
@@ -989,18 +986,17 @@ public class Playfield extends AppCompatActivity {
                                 player = playerRed;
                             }
                             if (true) { //-> getPhaseAusgelegtDB(player) vom Mitspieler
-                                Log.e("Feld Spieler", String.valueOf(getCardfieldCardlistPlayersDB(player)));
+                                Log.e("Feld Spieler1", String.valueOf(getCardfieldCardlistPlayersDB(player)));
                                 playerHandPrimaryPlayer = getHandCardsDB(); //Handkarten vom Currentplayer
                                 if (playerHandPrimaryPlayer.size() != 0) {
                                     for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                                         if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
-                                            if (true) {// --> phase.getRightPhaseOtherPlayer((getPhasenumberPlayersDB(player)-1), playerHandPrimaryPlayer.get(i), getCardfieldCardlistPlayersDB(player))) {
-                                                Log.e("Feld Spieler", String.valueOf(getCardfieldCardlistPlayersDB(player)));
-                                                getCardfieldCardlistPlayersDB(player).add(playerHandPrimaryPlayer.get(i)); //ToDO: in DB aktualisieren
+                                            //if  --> phase.getRightPhaseOtherPlayer((getPhasenumberPlayersDB(player)-1), playerHandPrimaryPlayer.get(i), getCardfieldCardlistPlayersDB(player))) {
+                                                Log.e("Feld Spieler2", String.valueOf(getCardfieldCardlistPlayersDB(player)));
+                                                getCardfieldCardlistPlayersDB(player).add(playerHandPrimaryPlayer.get(i)); // in DB aktualisieren
                                                 playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
-                                                Log.e("Feld Spieler", String.valueOf(getCardfieldCardlistPlayersDB(player)));
+                                                Log.e("Feld Spieler3", String.valueOf(getCardfieldCardlistPlayersDB(player)));
                                                 break;
-                                            }
                                         }
                                     }
                                     owner.removeView(v);

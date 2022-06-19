@@ -356,15 +356,17 @@ public class Phase {
             case 2:
             case 5:
                 return checkEqualColorOneCard(cards,list);
-            case 3: return checkPhase3FromOtherPlayer(cards,list);
             case 4:
             case 6:
                 return checkFirstOrLastValue(cards,list);
-            case 8: return checkPhase8FromOtherPlayer(cards,list);
-            case 10: return checkPhase10FromOtherPlayer(cards,list);
+
             default: return false;
         }
     }
+    /*
+    case 3: return checkPhase3FromOtherPlayer(cards,list);
+    case 8: return checkPhase8FromOtherPlayer(cards,list);
+    case 10: return checkPhase10FromOtherPlayer(cards,list) */
 
     //Phase 1: 4 Zwillinge
     //Phase 7: 2 Vierlinge
@@ -395,13 +397,10 @@ public class Phase {
     //Phase 6: 1 Neunerfolge
     private boolean checkFirstOrLastValue(Cards cards, List<Cards> list){
         list.sort(Comparator.comparing(Cards::getValue));//2. nach Wert sortieren
-            if(cards.getValue()+1==list.get(0).getValue() || cards.getValue()-1==list.get(list.size()-1).getValue()){
-                return true;
-            }else{
-                return false;
-            }
+        return cards.getValue() + 1 == list.get(0).getValue() || cards.getValue() - 1 == list.get(list.size() - 1).getValue();
     }
 
+    /*
     //Phase 3: 1 Vierling + 1 Viererfolge
     private boolean checkPhase3FromOtherPlayer(Cards cards, List<Cards> list){
         return true;
@@ -418,6 +417,8 @@ public class Phase {
 
         return true;
     }
+
+     */
 
 }
 
