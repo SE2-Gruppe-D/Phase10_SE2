@@ -407,7 +407,6 @@ public class Playfield extends AppCompatActivity {
                         for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
                             getCardfieldCardlistDB().get(i).getCardUI().setClickable(false);
                             getCardfieldCardlistDB().get(i).getCardUI().setVisibility(View.VISIBLE);
-                            layoutPlayer1CardField.setVisibility(View.VISIBLE);
                         }
                     }
                 } else {
@@ -839,15 +838,15 @@ public class Playfield extends AppCompatActivity {
             if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
                 //Karte zurück
                 if (System.currentTimeMillis() - doubleClickLastTime < 700) {
-                    playerHandPrimaryPlayer = getHandCardsDB();
                     doubleClickLastTime = 0;
                     View v = view;
                     ViewGroup owner = (ViewGroup) v.getParent();
                     //Handkarte zurück nehmen
+                    playerHandPrimaryPlayer = getHandCardsDB();
                     for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
                         if (v.equals(getCardfieldCardlistDB().get(i).getCardUI())) {
-                            getCardfieldCardlistDB().remove(getCardfieldCardlistDB().get(i));
                             playerHandPrimaryPlayer.add(getCardfieldCardlistDB().get(i));
+                            getCardfieldCardlistDB().remove(getCardfieldCardlistDB().get(i));
                             break;
                         }
                     }
