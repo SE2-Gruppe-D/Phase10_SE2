@@ -98,6 +98,8 @@ public class Playfield extends AppCompatActivity {
     List<Cards> playerHandPrimaryPlayer;
     Player player;
     Actionfield actionfield;
+    private boolean toastShown = false;
+    private boolean initToastShown = false;
     //Round and phase
     Phase phase;
     int round = 1;
@@ -126,7 +128,6 @@ public class Playfield extends AppCompatActivity {
 
         currentRoom = getIntent().getExtras().getString("CurrentRoom");
         userColor = getIntent().getExtras().getString("Color");
-        Toast.makeText(this, "YOU ARE THE " + userColor + " PLAYER!", Toast.LENGTH_LONG).show();
         database = FirebaseFirestore.getInstance();    //verknuepfung
         FirebaseFirestore.setLoggingEnabled(true);
 
@@ -161,6 +162,12 @@ public class Playfield extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                         if (task.isSuccessful()) {
                                             for (QueryDocumentSnapshot document : task.getResult()) {
+                                                //show current player on init
+                                                if (!initToastShown) {
+                                                    currentPlayerToast(currentPlayer.getColorAsString());
+                                                    initToastShown = true;
+                                                }
+
                                                 //current player
                                                 ArrayList currentPlayerArray = (ArrayList) document.get("CurrentPlayer");
                                                 if (currentPlayer != null && !currentPlayer.getColorAsString().equals(currentPlayerArray.get(1))) {
@@ -168,6 +175,7 @@ public class Playfield extends AppCompatActivity {
 
                                                     //current player toast
                                                     currentPlayerToast(currentPlayerArray.get(1).toString());
+
 
                                                     if (currentPlayerArray.get(1).equals("RED")) {
                                                         currentPlayer = playerRed;
@@ -232,39 +240,79 @@ public class Playfield extends AppCompatActivity {
                                                     defaultcard.setImageDrawable(discardpileList.get(discardpileList.size() - 1).getCardUI().getDrawable());
                                                 }
 
-                                                //sync handcards
+                                                //sync handcards and cardfield
                                                 if (playerBlueArr != null) {
                                                     ArrayList<Cards> newHandCards = addCardsToList(String.valueOf(playerBlueArr.get(5)));
+                                                    ArrayList<Cards> newCardField = addCardsToList(String.valueOf(playerBlueArr.get(6)));
 
                                                     if (playerBlue.getColor().equals(primaryPlayer.getColor())) {
                                                         handCards.updateHandCompletely(playerBlue.getPlayerHand(), newHandCards, layoutPlayer1);
+                                                        playerBlue.updateCardfieldCompletely(newCardField, layoutPlayer1CardField);
+                                                    } else if (playerBlue.abgelegt){
+                                                        playerBlue.updateCardfieldCompletely(newCardField, playerBlue.getLinearLayout());
+                                                    }
+
+                                                    //make player cardfield cards visible
+                                                    for (Cards card : playerBlue.getCardField()) {
+                                                        card.getCardUI().setClickable(false);
+                                                        card.getCardUI().setVisibility(View.VISIBLE);
                                                     }
 
                                                     playerBlue.setPlayerHand(newHandCards);
                                                 }
                                                 if (playerRedArr != null) {
                                                     ArrayList<Cards> newHandCards = addCardsToList(String.valueOf(playerRedArr.get(5)));
+                                                    ArrayList<Cards> newCardField = addCardsToList(String.valueOf(playerRedArr.get(6)));
 
                                                     if (playerRed.getColor().equals(primaryPlayer.getColor())) {
                                                         handCards.updateHandCompletely(playerRed.getPlayerHand(), newHandCards, layoutPlayer1);
+                                                        playerRed.updateCardfieldCompletely(newCardField, layoutPlayer1CardField);
+                                                    } else if (playerRed.abgelegt){
+                                                        playerRed.updateCardfieldCompletely(newCardField, playerRed.getLinearLayout());
+                                                    }
+
+                                                    //make player cardfield cards visible
+                                                    for (Cards card : playerRed.getCardField()) {
+                                                        card.getCardUI().setClickable(false);
+                                                        card.getCardUI().setVisibility(View.VISIBLE);
                                                     }
 
                                                     playerRed.setPlayerHand(newHandCards);
                                                 }
                                                 if (playerYellowArr != null) {
                                                     ArrayList<Cards> newHandCards = addCardsToList(String.valueOf(playerYellowArr.get(5)));
+                                                    ArrayList<Cards> newCardField = addCardsToList(String.valueOf(playerYellowArr.get(6)));
 
                                                     if (playerYellow.getColor().equals(primaryPlayer.getColor())) {
                                                         handCards.updateHandCompletely(playerYellow.getPlayerHand(), newHandCards, layoutPlayer1);
+                                                        playerYellow.updateCardfieldCompletely(newCardField, layoutPlayer1CardField);
+                                                    } else if (playerYellow.abgelegt){
+                                                        playerYellow.updateCardfieldCompletely(newCardField, playerYellow.getLinearLayout());
+                                                    }
+
+                                                    //make player cardfield cards visible
+                                                    for (Cards card : playerYellow.getCardField()) {
+                                                        card.getCardUI().setClickable(false);
+                                                        card.getCardUI().setVisibility(View.VISIBLE);
                                                     }
 
                                                     playerYellow.setPlayerHand(newHandCards);
                                                 }
                                                 if (playerGreenArr != null) {
                                                     ArrayList<Cards> newHandCards = addCardsToList(String.valueOf(playerGreenArr.get(5)));
+                                                    ArrayList<Cards> newCardField = addCardsToList(String.valueOf(playerGreenArr.get(6)));
 
                                                     if (playerGreen.getColor().equals(primaryPlayer.getColor())) {
                                                         handCards.updateHandCompletely(playerGreen.getPlayerHand(), newHandCards, layoutPlayer1);
+                                                        playerGreen.updateCardfieldCompletely(newCardField, layoutPlayer1CardField);
+                                                    } else if (playerGreen.abgelegt){
+                                                        playerGreen.updateCardfieldCompletely(newCardField, playerGreen.getLinearLayout());
+                                                    }
+
+                                                    //make player cardfield cards visible
+                                                    for (Cards card : playerGreen.getCardField()) {
+                                                        card.getCardUI().setClickable(false);
+                                                        card.getCardUI().setVisibility(View.VISIBLE);
                                                     }
 
                                                     playerGreen.setPlayerHand(newHandCards);
@@ -928,11 +976,12 @@ public class Playfield extends AppCompatActivity {
                                     discardpileList.add(playerHandPrimaryPlayer.get(i));
                                     defaultcard.setImageDrawable(createCardUI(playerHandPrimaryPlayer.get(i)).imageView.getDrawable());
                                     playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                                    nextRoundCards();
+                                    setNextCurrentPlayer();
                                     updateDiscardpileListDB();
                                     break; //break, because you can only drag one card
                                 }
                             }
-                            setNextCurrentPlayer();
 
                             owner.removeView(v);
                             v.setVisibility(View.INVISIBLE);
@@ -1363,10 +1412,28 @@ public class Playfield extends AppCompatActivity {
             for (Player p : playerArrayList) {
                 if (p != null) {
                     p.setPlayerHand(new ArrayList<>());
+                    p.getLinearLayout().removeAllViews();
                 }
             }
 
             layoutPlayer1.removeAllViews();
+            layoutPlayer2.removeAllViews();
+            layoutPlayer3.removeAllViews();
+            layoutPlayer4.removeAllViews();
+            layoutPlayer1CardField.removeAllViews();
+            layoutPlayer2CardField.removeAllViews();
+            layoutPlayer3CardField.removeAllViews();
+            layoutPlayer4CardField.removeAllViews();
+
+            for (Cards card : cardlist) {
+                card.getCardUI().setClickable(true);
+                card.getCardUI().setVisibility(View.INVISIBLE);
+            }
+            for (Cards card : allCards) {
+                card.getCardUI().setClickable(true);
+                card.getCardUI().setVisibility(View.INVISIBLE);
+            }
+
             handCards.handCardsPlayer(layoutPlayer1, layoutPlayer2, layoutPlayer3, layoutPlayer4, cardlist, playerBlue, playerGreen, playerYellow, playerRed, primaryPlayer);
 
 
@@ -1441,6 +1508,11 @@ public class Playfield extends AppCompatActivity {
                                 playerBlue.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
                                 playerBlue.setPlayerHand((ArrayList<Cards>) lol.get(0));
                                 playerBlue.setCardField((ArrayList<Cards>) lol.get(1));
+                                playerBlue.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
+
+                                if (playerBlue.abgelegt) {
+                                    playerBlue.updateCardfieldCompletely(playerBlue.getCardField(), playerBlue.getLinearLayout());
+                                }
 
                             } else if (Objects.equals(color, "RED")) {
                                 tempPlayerList = (ArrayList) document.get("PlayerRed");
@@ -1449,6 +1521,11 @@ public class Playfield extends AppCompatActivity {
                                 playerRed.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
                                 playerRed.setPlayerHand((ArrayList<Cards>) lol.get(0));
                                 playerRed.setCardField((ArrayList<Cards>) lol.get(1));
+                                playerRed.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
+
+                                if (playerRed.abgelegt) {
+                                    playerRed.updateCardfieldCompletely(playerRed.getCardField(), playerRed.getLinearLayout());
+                                }
 
                             } else if (Objects.equals(color, "YELLOW")) {
                                 tempPlayerList = (ArrayList) document.get("PlayerYellow");
@@ -1457,6 +1534,11 @@ public class Playfield extends AppCompatActivity {
                                 playerYellow.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
                                 playerYellow.setPlayerHand((ArrayList<Cards>) lol.get(0));
                                 playerYellow.setCardField((ArrayList<Cards>) lol.get(1));
+                                playerYellow.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
+
+                                if (playerYellow.abgelegt) {
+                                    playerYellow.updateCardfieldCompletely(playerYellow.getCardField(), playerYellow.getLinearLayout());
+                                }
 
                             } else if (Objects.equals(color, "GREEN")) {
                                 tempPlayerList = (ArrayList) document.get("PlayerGreen");
@@ -1465,6 +1547,11 @@ public class Playfield extends AppCompatActivity {
                                 playerGreen.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
                                 playerGreen.setPlayerHand((ArrayList<Cards>) lol.get(0));
                                 playerGreen.setCardField((ArrayList<Cards>) lol.get(1));
+                                playerGreen.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
+
+                                if (playerGreen.abgelegt) {
+                                    playerGreen.updateCardfieldCompletely(playerGreen.getCardField(), playerGreen.getLinearLayout());
+                                }
 
                             }
                         }
@@ -1517,6 +1604,10 @@ public class Playfield extends AppCompatActivity {
     private ArrayList<Cards> addCardsToList(String from) {
         ArrayList<Cards> newList = new ArrayList<>();
         String[] ids = from.trim().split(" ");
+
+        if (ids[0].isEmpty()) {
+            return new ArrayList<>();
+        }
 
         for (String id : ids) {
             newList.add(allCards.get(Integer.parseInt(id) - 1));
