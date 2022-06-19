@@ -78,7 +78,6 @@ public class CardUIManager {
         List<String> key = new ArrayList<>();
         key.add(String.valueOf((cards.getID()%12)+1));
         key.add(cards.getColor());
-        System.out.println("POOP " + key);
         int drawableID = cardIds.get(key);
         return drawableID;
     }
