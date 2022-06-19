@@ -905,16 +905,34 @@ public class Playfield extends AppCompatActivity {
                     ViewGroup owner = (ViewGroup) v.getParent();
                     //Hilfsarray mit den ausgelegten Karten befüllen
                     playerHandPrimaryPlayer = getHandCardsDB();
+                    Cards helper = null;
                     if (playerHandPrimaryPlayer.size() != 0) {
                         for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
                             if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
-                                getCardfieldCardlistDB().add(playerHandPrimaryPlayer.get(i));
-                                playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                                helper = playerHandPrimaryPlayer.get(i);
+                                break;
                             }
                         }
-                        owner.removeView(v);
-                        layoutPlayer1CardField.addView(v);
-                        v.setOnTouchListener(null);
+                        Log.e("Phase", String.valueOf(helper));
+                        Log.e("Phase", String.valueOf(helper.getValue()));
+                        Log.e("Phase", String.valueOf(currentPlayer.isAbgelegt()));
+                        Log.e("Phase", String.valueOf(phase.getRightPhaseOtherPlayer(getPhasenumberDB()-1, helper, playerHandPrimaryPlayer)));
+                        Log.e("Phase", String.valueOf(getPhasenumberDB()-1));
+
+                        if(!currentPlayer.isAbgelegt()) {
+                            getCardfieldCardlistDB().add(helper);
+                            playerHandPrimaryPlayer.remove(helper);
+                            owner.removeView(v);
+                            layoutPlayer1CardField.addView(v);
+                            v.setOnTouchListener(null);
+                        }
+                        else if(currentPlayer.isAbgelegt() && phase.getRightPhaseOtherPlayer(getPhasenumberDB()-1, helper, playerHandPrimaryPlayer)) {
+                            getCardfieldCardlistDB().add(helper);
+                            playerHandPrimaryPlayer.remove(helper);
+                            owner.removeView(v);
+                            layoutPlayer1CardField.addView(v);
+                            v.setOnTouchListener(null);
+                        }
                     }
                 }
             }
