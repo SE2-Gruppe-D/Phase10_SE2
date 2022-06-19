@@ -295,6 +295,14 @@ public class Playfield extends AppCompatActivity {
                                                     if (playerBlue.getColor().equals(primaryPlayer.getColor())) {
                                                         handCards.updateHandCompletely(playerBlue.getPlayerHand(), newHandCards, layoutPlayer1);
                                                         playerBlue.updateCardfieldCompletely(newCardField, layoutPlayer1CardField);
+                                                    } else {
+                                                        playerBlue.updateCardfieldCompletely(newCardField, playerBlue.getLinearLayout());
+                                                    }
+
+                                                    //make player cardfield cards visible
+                                                    for (Cards card : playerBlue.getCardField()) {
+                                                        card.getCardUI().setClickable(false);
+                                                        card.getCardUI().setVisibility(View.VISIBLE);
                                                     }
 
                                                     playerBlue.setPlayerHand(newHandCards);
@@ -306,6 +314,14 @@ public class Playfield extends AppCompatActivity {
                                                     if (playerRed.getColor().equals(primaryPlayer.getColor())) {
                                                         handCards.updateHandCompletely(playerRed.getPlayerHand(), newHandCards, layoutPlayer1);
                                                         playerRed.updateCardfieldCompletely(newCardField, layoutPlayer1CardField);
+                                                    } else {
+                                                        playerRed.updateCardfieldCompletely(newCardField, playerRed.getLinearLayout());
+                                                    }
+
+                                                    //make player cardfield cards visible
+                                                    for (Cards card : playerRed.getCardField()) {
+                                                        card.getCardUI().setClickable(false);
+                                                        card.getCardUI().setVisibility(View.VISIBLE);
                                                     }
 
                                                     playerRed.setPlayerHand(newHandCards);
@@ -317,6 +333,14 @@ public class Playfield extends AppCompatActivity {
                                                     if (playerYellow.getColor().equals(primaryPlayer.getColor())) {
                                                         handCards.updateHandCompletely(playerYellow.getPlayerHand(), newHandCards, layoutPlayer1);
                                                         playerYellow.updateCardfieldCompletely(newCardField, layoutPlayer1CardField);
+                                                    } else {
+                                                        playerYellow.updateCardfieldCompletely(newCardField, playerYellow.getLinearLayout());
+                                                    }
+
+                                                    //make player cardfield cards visible
+                                                    for (Cards card : playerYellow.getCardField()) {
+                                                        card.getCardUI().setClickable(false);
+                                                        card.getCardUI().setVisibility(View.VISIBLE);
                                                     }
 
                                                     playerYellow.setPlayerHand(newHandCards);
@@ -328,6 +352,14 @@ public class Playfield extends AppCompatActivity {
                                                     if (playerGreen.getColor().equals(primaryPlayer.getColor())) {
                                                         handCards.updateHandCompletely(playerGreen.getPlayerHand(), newHandCards, layoutPlayer1);
                                                         playerGreen.updateCardfieldCompletely(newCardField, layoutPlayer1CardField);
+                                                    } else {
+                                                        playerGreen.updateCardfieldCompletely(newCardField, playerGreen.getLinearLayout());
+                                                    }
+
+                                                    //make player cardfield cards visible
+                                                    for (Cards card : playerGreen.getCardField()) {
+                                                        card.getCardUI().setClickable(false);
+                                                        card.getCardUI().setVisibility(View.VISIBLE);
                                                     }
 
                                                     playerGreen.setPlayerHand(newHandCards);
