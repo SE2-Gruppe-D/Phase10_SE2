@@ -34,6 +34,20 @@ public class PhaseTest {
     }
 
     @Test
+    public void whenCheckingPhase1AndListLengthIsRightAndCardsAreRightWithSimilarNumbers_ThenReturnTrue() {
+        System.out.println(cft.card2g.getValue());
+        list.add(cft.card8g2);
+        list.add(cft.card2y);
+        list.add(cft.card2g);
+        list.add(cft.card8y);
+        list.add(cft.card8g);
+        list.add(cft.card8r2);
+        list.add(cft.card8b);
+        list.add(cft.card8r);
+        Assertions.assertTrue(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
+    }
+
+    @Test
     public void whenCheckingPhase1AndListLengthIsRightAndCardsAreRightButUnsorted_ThenReturnTrue() {
         list.add(cft.card2g);
         list.add(cft.card8g);
