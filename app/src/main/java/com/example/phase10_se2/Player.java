@@ -1,6 +1,7 @@
 package com.example.phase10_se2;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -92,6 +93,30 @@ public class Player {
         playerHand = new ArrayList<>();
 
         phaseText = "/";
+    }
+
+    public void addCardField(Cards card) {
+        cardField.add(card);
+    }
+
+    public void updateCardfieldCompletely(List<Cards> cards, LinearLayout linearLayout) {
+        linearLayout.removeAllViews();
+
+        if (cards.size() == 0) {
+            return;
+        }
+
+        cardField = cards;
+
+        for (Cards card : cards) {
+            if(card.getCardUI().getParent() != null) {
+                ((ViewGroup)card.getCardUI().getParent()).removeView(card.getCardUI());
+            }
+        }
+
+        for (Cards card : cards) {
+            linearLayout.addView(card.getCardUI());
+        }
     }
 
     public void move(int diceValue) {
