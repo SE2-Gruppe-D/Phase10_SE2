@@ -102,6 +102,7 @@ public class Playfield extends AppCompatActivity {
     int currentDiceRoll = 0;
     boolean cheated = false;
     boolean newDBCollectionNeeded = true;
+    boolean putCard = false;
     //light sensor
     SensorManager sm;
     SensorEventListener lightListener;
@@ -645,6 +646,7 @@ public class Playfield extends AppCompatActivity {
         updateCheated(false);
         updatePlayers();
         setCurrentPlayerInDB(player);
+        putCard = false;
     }
 
     private Player getPlayerFromColor(String color) {
@@ -805,7 +807,12 @@ public class Playfield extends AppCompatActivity {
             } else {
                 leererAblagestapel.setVisibility(View.VISIBLE);
             }
+            putCard=true;
         }
+    }
+
+    public boolean addEnoughCards(){
+        return putCard && actionfield.cardToPullBoth < 1 && actionfield.cardToPullDiscardpileList < 1 && actionfield.cardToPullCardlist < 1;
     }
 
     public void getActionfield() {
@@ -826,6 +833,7 @@ public class Playfield extends AppCompatActivity {
                 actionfield.redFieldColor();
                 break;
             case PURPLE:
+                putCard=true;
                 actionfield.purpleFieldColor();
                 break;
             case PINK:
@@ -861,6 +869,7 @@ public class Playfield extends AppCompatActivity {
                 actionfield.cardToPullBoth--;
                 actionfield.cardToPullCardlist--;
             }
+            putCard=true;
         }
     }
 
@@ -924,7 +933,7 @@ public class Playfield extends AppCompatActivity {
                             v.setOnTouchListener(null);
                         }
                         //Nach Phasenende bei eigenen Handkarten dazulegen
-                        else if(currentPlayer.isAbgelegt() && phase.getRightPhaseOtherPlayer(getPhasenumberDB()-1, helper, getCardfieldCardlistDB())) {
+                        else if(addEnoughCards() && currentPlayer.isAbgelegt() && phase.getRightPhaseOtherPlayer(getPhasenumberDB()-1, helper, getCardfieldCardlistDB())) {
                             getCardfieldCardlistDB().add(helper);
                             playerHandPrimaryPlayer.remove(helper);
                             owner.removeView(v);
@@ -968,7 +977,7 @@ public class Playfield extends AppCompatActivity {
     private class ChoiceDragListener1 implements View.OnDragListener {
         @Override
         public boolean onDrag(View view, DragEvent dragEvent) {
-            if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
+            if (addEnoughCards() && primaryPlayer.getColor().equals(currentPlayer.getColor())) {
                 switch (dragEvent.getAction()) {
                     case DragEvent.ACTION_DRAG_STARTED: //1
                         //no action necessary
@@ -1000,7 +1009,6 @@ public class Playfield extends AppCompatActivity {
                                     break; //break, because you can only drag one card
                                 }
                             }
-
                             owner.removeView(v);
                             v.setVisibility(View.INVISIBLE);
                             leererAblagestapel.setVisibility(View.INVISIBLE);
@@ -1022,7 +1030,7 @@ public class Playfield extends AppCompatActivity {
     private class ChoiceDragListener2 implements View.OnDragListener {
         @Override
         public boolean onDrag(View view, DragEvent dragEvent) {
-            if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
+            if (addEnoughCards() && primaryPlayer.getColor().equals(currentPlayer.getColor())) {
                 switch (dragEvent.getAction()) {
                     case DragEvent.ACTION_DRAG_STARTED: //1
                         //no action necessary
@@ -1085,7 +1093,7 @@ public class Playfield extends AppCompatActivity {
     private class ChoiceDragListener3 implements View.OnDragListener {
         @Override
         public boolean onDrag(View view, DragEvent dragEvent) {
-            if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
+            if (addEnoughCards() && primaryPlayer.getColor().equals(currentPlayer.getColor())) {
                 switch (dragEvent.getAction()) {
                     case DragEvent.ACTION_DRAG_STARTED: //1
                         //no action necessary
@@ -1148,7 +1156,7 @@ public class Playfield extends AppCompatActivity {
     private class ChoiceDragListener4 implements View.OnDragListener {
         @Override
         public boolean onDrag(View view, DragEvent dragEvent) {
-            if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
+            if (addEnoughCards() && primaryPlayer.getColor().equals(currentPlayer.getColor())) {
                 switch (dragEvent.getAction()) {
                     case DragEvent.ACTION_DRAG_STARTED: //1
                         //no action necessary

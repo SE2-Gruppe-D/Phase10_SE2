@@ -15,26 +15,26 @@ public class Actionfield {
         switch (currentPosition){
             case 0:
             case 9:
-                return FieldColor.BLUE;
+                return FieldColor.PURPLE;
             case 1:
             case 4:
             case 6:
             case 10:
             case 13:
-                return FieldColor.GREY;
+                return FieldColor.PURPLE;
             case 2:
             case 12:
-                return FieldColor.GREEN;
+                return FieldColor.PURPLE;
             case 3:
             case 11:
-                return FieldColor.ORANGE;
+                return FieldColor.PURPLE;
             case 5:
             case 14:
-                return FieldColor.RED;
+                return FieldColor.PURPLE;
             case 7: return FieldColor.PURPLE;
             case 8:
             case 15:
-                return FieldColor.PINK;
+                return FieldColor.PURPLE;
             default: return null;
         }
     }
