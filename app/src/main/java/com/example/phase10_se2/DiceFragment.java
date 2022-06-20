@@ -36,7 +36,6 @@ public class DiceFragment extends Fragment implements SensorEventListener {
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private int lastDiceValue = -1;
-    private float acceleration;
     private PlayerColor currentPlayerColor = null;
     private PlayerColor playerColor;
     private String room;
@@ -158,7 +157,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
             float y = event.values[1];
             float z = event.values[2];
 
-            acceleration = (float) (Math.sqrt(x * x + y * y + z * z) - SensorManager.GRAVITY_EARTH);
+            float acceleration = (float) (Math.sqrt(x * x + y * y + z * z) - SensorManager.GRAVITY_EARTH);
 
             if (acceleration > shakeThreshold) {
                 Log.i("DiceActivity", "sensor has been activated. Trying to set dice image");

@@ -26,7 +26,7 @@ import java.util.Map;
 public class FindGameActivity extends AppCompatActivity {
     final String[] color = new String[1];
     String roomName = "";
-    final String userPath = "users";
+    final static String userPath = "users";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

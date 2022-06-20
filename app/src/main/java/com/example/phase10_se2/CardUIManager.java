@@ -9,10 +9,10 @@ import java.util.List;
 
 public class CardUIManager {
     private HashMap<List<String>, Integer> cardIds = new HashMap<>();
-    private final String BLUE = "blue";
-    private final String RED = "red";
-    private final String YELLOW = "yellow";
-    private final String GREEN = "green";
+    private static final String BLUE = "blue";
+    private static final String RED = "red";
+    private static final String YELLOW = "yellow";
+    private static final String GREEN = "green";
 
     public CardUIManager() {
         initHashMap();

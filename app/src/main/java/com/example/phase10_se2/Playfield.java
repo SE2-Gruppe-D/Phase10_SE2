@@ -71,7 +71,6 @@ public class Playfield extends AppCompatActivity {
     ArrayList<Cards> discardpileList;//Ablagestapel
     LinearLayout[] layoutPlayers;
 
-    ArrayList<ImageView> imageList;
     TextView leererAblagestapel;
     Button exitGame;        //Spiel verlassen Button
     Button btnHideAktionskarte;
@@ -94,7 +93,6 @@ public class Playfield extends AppCompatActivity {
     List<Cards> playerHandPrimaryPlayer;
     Player player;
     Actionfield actionfield;
-    private boolean toastShown = false;
     private boolean initToastShown = false;
     //Round and phase
     Phase phase;

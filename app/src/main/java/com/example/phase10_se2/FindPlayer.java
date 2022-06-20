@@ -28,8 +28,8 @@ public class FindPlayer extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     ArrayList<String> playerList = new ArrayList<>();
     Map<String, Object> currentRoomMap = new HashMap<>();
-    final String colorConst = "Color";
-    final String activeGamesConst = "activeGames";
+    final static String colorConst = "Color";
+    final static String activeGamesConst = "activeGames";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
