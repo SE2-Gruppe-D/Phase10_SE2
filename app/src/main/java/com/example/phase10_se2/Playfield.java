@@ -445,7 +445,7 @@ public class Playfield extends AppCompatActivity {
         btnCheckPhase.setVisibility(View.VISIBLE);
 
         btnCheckPhase.setOnClickListener(view -> {
-            if (phase.getRightPhase(getPhasenumberDB(), getCardfieldCardlistDB())) {
+            if (phase.getRightPhase(4, getCardfieldCardlistDB())) {
                 if (getPhasenumberDB() != 10) {
                     btnCheckPhase.setVisibility(View.INVISIBLE);
                     setPhasenumberDB(); //Phase wird um 1 erhöht und abgelegt wird auf true gesetzt
@@ -462,6 +462,7 @@ public class Playfield extends AppCompatActivity {
                     owner.removeView(v);
                     layoutPlayer1.addView(v);
                     v.setVisibility(View.VISIBLE);
+                    v.setClickable(true);
                     for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
                         if (v != null && v.equals(getCardfieldCardlistDB().get(i).getCardUI())) {
                             playerHandPrimaryPlayer.add(getCardfieldCardlistDB().get(i));
@@ -882,6 +883,7 @@ public class Playfield extends AppCompatActivity {
                     layoutPlayer1.addView(v);
                     v.setVisibility(View.VISIBLE);
                     v.setOnTouchListener(new ChoiceTouchListener());
+                    v.setClickable(true);
                 } else {
                     doubleClickLastTime = System.currentTimeMillis();
                     View v = view;
@@ -1310,7 +1312,9 @@ public class Playfield extends AppCompatActivity {
         playerlist.add(playerCardsID);
         String cardField = "";
         for (Cards c : player.getCardField()) {
-            cardField += (c.getID() + " ");
+            if(c != null) {
+                cardField += (c.getID() + " ");
+            }
         }
         playerlist.add(cardField);
         playerlist.add(String.valueOf(player.abgelegt));
@@ -1478,6 +1482,7 @@ public class Playfield extends AppCompatActivity {
                 }
             }
             btnCheckPhase.setVisibility(View.VISIBLE);
+            setPhasenTextTextView();
         }
     }
 

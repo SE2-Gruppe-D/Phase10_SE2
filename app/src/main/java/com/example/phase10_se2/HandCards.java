@@ -117,7 +117,9 @@ public class HandCards {
         list.addAll(cards);
 
         for (Cards card : cards) {
-            linearLayout.addView(card.getCardUI());
+            if(card.getCardUI().getParent()==null){
+                linearLayout.addView(card.getCardUI());
+            }
         }
 
         //Karten nur fuer primary player sichtbar
