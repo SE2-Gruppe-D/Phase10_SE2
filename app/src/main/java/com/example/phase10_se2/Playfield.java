@@ -64,10 +64,6 @@ public class Playfield extends AppCompatActivity {
     LinearLayout layoutPlayer2CardField;
     LinearLayout layoutPlayer3CardField;
     LinearLayout layoutPlayer4CardField;
-    int idLayoutPlayerBlue;
-    int idLayoutPlayerRed;
-    int idLayoutPlayerYellow;
-    int idLayoutPlayerGreen;
     CardUIManager cardUIManager;
     CardDrawer cardDrawer;
     CardsPrimaryPlayer cardsPrimaryPlayer;
@@ -392,9 +388,12 @@ public class Playfield extends AppCompatActivity {
         }
 
         //entfernt die label Leiste (Actionbar) auf dem Playfield
+        /*
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.hide();
+
+         */
 
         //show dice
         diceFragment = DiceFragment.newInstance();
@@ -464,7 +463,7 @@ public class Playfield extends AppCompatActivity {
                     layoutPlayer1.addView(v);
                     v.setVisibility(View.VISIBLE);
                     for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
-                        if (v.equals(getCardfieldCardlistDB().get(i).getCardUI())) {
+                        if (v != null && v.equals(getCardfieldCardlistDB().get(i).getCardUI())) {
                             playerHandPrimaryPlayer.add(getCardfieldCardlistDB().get(i));
                             getCardfieldCardlistDB().remove(getCardfieldCardlistDB().get(i));
                         }
@@ -501,18 +500,6 @@ public class Playfield extends AppCompatActivity {
 
         //Auslegefelder werden zugeteilt
         currentPlayer.getCardsLayOut(layoutPlayer1CardField, layoutPlayer2CardField, layoutPlayer3CardField, layoutPlayer4CardField, playerBlue, playerGreen, playerYellow, playerRed, primaryPlayer);
-        if (playerBlue != null) {
-            idLayoutPlayerBlue = playerBlue.getLinearLayout().getId();
-        }
-        if (playerRed != null) {
-            idLayoutPlayerRed = playerRed.getLinearLayout().getId();
-        }
-        if (playerGreen != null) {
-            idLayoutPlayerGreen = playerGreen.getLinearLayout().getId();
-        }
-        if (playerYellow != null) {
-            idLayoutPlayerYellow = playerYellow.getLinearLayout().getId();
-        }
 
         //Player Blue, Red, Yellow, Green
         deckcard.setOnClickListener(view ->
@@ -828,10 +815,6 @@ public class Playfield extends AppCompatActivity {
                 actionfield.pinkFieldColor();
                 break;
         }
-        Log.e("Position", String.valueOf(getCurrentPositionDB()));
-        Log.e("PositionAB", String.valueOf(actionfield.cardToPullBoth));
-        Log.e("PositionA", String.valueOf(actionfield.cardToPullCardlist));
-        Log.e("PositionB", String.valueOf(actionfield.cardToPullDiscardpileList));
     }
 
     //Karte ziehen
@@ -913,12 +896,7 @@ public class Playfield extends AppCompatActivity {
                                 break;
                             }
                         }
-                        Log.e("Phase", String.valueOf(helper));
-                        Log.e("Phase", String.valueOf(helper.getValue()));
-                        Log.e("Phase", String.valueOf(currentPlayer.isAbgelegt()));
-                        Log.e("Phase", String.valueOf(phase.getRightPhaseOtherPlayer(getPhasenumberDB()-1, helper, playerHandPrimaryPlayer)));
-                        Log.e("Phase", String.valueOf(getPhasenumberDB()-1));
-
+                        //Wenn Phase nocht nicht beendet wurde Karten auslegen
                         if(!currentPlayer.isAbgelegt()) {
                             getCardfieldCardlistDB().add(helper);
                             playerHandPrimaryPlayer.remove(helper);
@@ -926,12 +904,14 @@ public class Playfield extends AppCompatActivity {
                             layoutPlayer1CardField.addView(v);
                             v.setOnTouchListener(null);
                         }
-                        else if(currentPlayer.isAbgelegt() && phase.getRightPhaseOtherPlayer(getPhasenumberDB()-1, helper, playerHandPrimaryPlayer)) {
+                        //Nach Phasenende bei eigenen Handkarten dazulegen
+                        else if(currentPlayer.isAbgelegt() && phase.getRightPhaseOtherPlayer(getPhasenumberDB()-1, helper, getCardfieldCardlistDB())) {
                             getCardfieldCardlistDB().add(helper);
                             playerHandPrimaryPlayer.remove(helper);
                             owner.removeView(v);
                             layoutPlayer1CardField.addView(v);
                             v.setOnTouchListener(null);
+                            v.setClickable(false);
                         }
                     }
                 }
@@ -1039,37 +1019,32 @@ public class Playfield extends AppCompatActivity {
                     case DragEvent.ACTION_DROP: //Action 3
                         View v = (View) dragEvent.getLocalState();
                         ViewGroup owner = (ViewGroup) v.getParent();
-                        if(true) { // --> getPhaseAusgelegtDB(currentPlayer) currentPlayer hat Phase ausgelegt
+                        if(currentPlayer.isAbgelegt()) { //currentPlayer hat Phase ausgelegt
                             //richtigen Spieler herausfinden
-                            if (playerBlue != null && idLayoutPlayerBlue == layoutPlayer2CardField.getId()) {
+                            if (playerBlue != null && playerBlue.getLinearLayout().getId() == layoutPlayer2CardField.getId()) {
                                 player = playerBlue;
-                            } else if (playerGreen != null && idLayoutPlayerGreen == layoutPlayer2CardField.getId()) {
+                            } else if (playerGreen != null && playerGreen.getLinearLayout().getId() == layoutPlayer2CardField.getId()) {
                                 player = playerGreen;
-
-                            } else if (playerYellow != null && idLayoutPlayerYellow == layoutPlayer2CardField.getId()) {
+                            } else if (playerYellow != null && playerYellow.getLinearLayout().getId() == layoutPlayer2CardField.getId()) {
                                 player = playerYellow;
-
-                            } else if (playerRed != null && idLayoutPlayerRed == layoutPlayer2CardField.getId()) {
+                            } else if (playerRed != null && playerRed.getLinearLayout().getId() == layoutPlayer2CardField.getId()) {
                                 player = playerRed;
                             }
-                            if (true) { //-> getPhaseAusgelegtDB(player) vom Mitspieler
-                                Log.e("Feld Spieler1", String.valueOf(getCardfieldCardlistPlayersDB(player)));
+                            if (player.isAbgelegt()) {
                                 playerHandPrimaryPlayer = getHandCardsDB(); //Handkarten vom Currentplayer
                                 if (playerHandPrimaryPlayer.size() != 0) {
                                     for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
-                                        if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
-                                            //if  --> phase.getRightPhaseOtherPlayer((getPhasenumberPlayersDB(player)-1), playerHandPrimaryPlayer.get(i), getCardfieldCardlistPlayersDB(player))) {
-                                                Log.e("Feld Spieler2", String.valueOf(getCardfieldCardlistPlayersDB(player)));
-                                                getCardfieldCardlistPlayersDB(player).add(playerHandPrimaryPlayer.get(i)); // in DB aktualisieren
+                                        if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI()) && phase.getRightPhaseOtherPlayer((getPhasenumberPlayersDB(player)-1), playerHandPrimaryPlayer.get(i), getCardfieldCardlistPlayersDB(player))) {
+                                                getCardfieldCardlistPlayersDB(player).add(playerHandPrimaryPlayer.get(i));
                                                 playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
-                                                Log.e("Feld Spieler3", String.valueOf(getCardfieldCardlistPlayersDB(player)));
+                                                owner.removeView(v);
+                                                layoutPlayer2CardField.addView(v);
+                                                v.setVisibility(View.VISIBLE);
+                                                v.setClickable(false);
                                                 break;
                                         }
                                     }
-                                    owner.removeView(v);
-                                    layoutPlayer2CardField.addView(v);
-                                    v.setVisibility(View.VISIBLE);
-                                    v.setClickable(false);
+
                                 }
                             }
                         }
@@ -1107,19 +1082,34 @@ public class Playfield extends AppCompatActivity {
                     case DragEvent.ACTION_DROP: //Action 3
                         View v = (View) dragEvent.getLocalState();
                         ViewGroup owner = (ViewGroup) v.getParent();
-                        playerHandPrimaryPlayer = getHandCardsDB();
-                        if (playerHandPrimaryPlayer.size() != 0) {
-                            for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
-                                if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
-                                    getCardfieldCardlistPlayersDB(player).add(playerHandPrimaryPlayer.get(i));
-                                    playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                        if(currentPlayer.isAbgelegt()) { //currentPlayer hat Phase ausgelegt
+                            //richtigen Spieler herausfinden
+                            if (playerBlue != null && playerBlue.getLinearLayout().getId() == layoutPlayer3CardField.getId()) {
+                                player = playerBlue;
+                            } else if (playerGreen != null && playerGreen.getLinearLayout().getId() == layoutPlayer3CardField.getId()) {
+                                player = playerGreen;
+                            } else if (playerYellow != null && playerYellow.getLinearLayout().getId() == layoutPlayer3CardField.getId()) {
+                                player = playerYellow;
+                            } else if (playerRed != null && playerRed.getLinearLayout().getId() == layoutPlayer3CardField.getId()) {
+                                player = playerRed;
+                            }
+                            if (player.isAbgelegt()) {
+                                playerHandPrimaryPlayer = getHandCardsDB(); //Handkarten vom Currentplayer
+                                if (playerHandPrimaryPlayer.size() != 0) {
+                                    for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
+                                        if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI()) && phase.getRightPhaseOtherPlayer((getPhasenumberPlayersDB(player)-1), playerHandPrimaryPlayer.get(i), getCardfieldCardlistPlayersDB(player))) {
+                                            getCardfieldCardlistPlayersDB(player).add(playerHandPrimaryPlayer.get(i));
+                                            playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                                            owner.removeView(v);
+                                            layoutPlayer3CardField.addView(v);
+                                            v.setVisibility(View.VISIBLE);
+                                            v.setClickable(false);
+                                            break;
+                                        }
+                                    }
+
                                 }
                             }
-                            owner.removeView(v);
-                            layoutPlayer3CardField.addView(v);
-                            v.setRotation(90);
-                            v.setVisibility(View.VISIBLE);
-                            v.setClickable(false);
                         }
                         break;
 
@@ -1155,19 +1145,33 @@ public class Playfield extends AppCompatActivity {
                     case DragEvent.ACTION_DROP: //Action 3
                         View v = (View) dragEvent.getLocalState();
                         ViewGroup owner = (ViewGroup) v.getParent();
-                        playerHandPrimaryPlayer = getHandCardsDB();
-                        if (playerHandPrimaryPlayer.size() != 0) {
-                            for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
-                                if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI())) {
-                                    getCardfieldCardlistPlayersDB(player).add(playerHandPrimaryPlayer.get(i));
-                                    playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                        if(currentPlayer.isAbgelegt()) { //currentPlayer hat Phase ausgelegt
+                            //richtigen Spieler herausfinden
+                            if (playerBlue != null && playerBlue.getLinearLayout().getId() == layoutPlayer4CardField.getId()) {
+                                player = playerBlue;
+                            } else if (playerGreen != null && playerGreen.getLinearLayout().getId() == layoutPlayer4CardField.getId()) {
+                                player = playerGreen;
+                            } else if (playerYellow != null && playerYellow.getLinearLayout().getId() == layoutPlayer4CardField.getId()) {
+                                player = playerYellow;
+                            } else if (playerRed != null && playerRed.getLinearLayout().getId() == layoutPlayer4CardField.getId()) {
+                                player = playerRed;
+                            }
+                            if (player.isAbgelegt()) {
+                                playerHandPrimaryPlayer = getHandCardsDB(); //Handkarten vom Currentplayer
+                                if (playerHandPrimaryPlayer.size() != 0) {
+                                    for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
+                                        if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI()) && phase.getRightPhaseOtherPlayer((getPhasenumberPlayersDB(player)-1), playerHandPrimaryPlayer.get(i), getCardfieldCardlistPlayersDB(player))) {
+                                            getCardfieldCardlistPlayersDB(player).add(playerHandPrimaryPlayer.get(i));
+                                            playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+                                            owner.removeView(v);
+                                            layoutPlayer4CardField.addView(v);
+                                            v.setVisibility(View.VISIBLE);
+                                            v.setClickable(false);
+                                            break;
+                                        }
+                                    }
                                 }
                             }
-                            owner.removeView(v);
-                            layoutPlayer4CardField.addView(v);
-                            v.setRotation(-90);
-                            v.setVisibility(View.VISIBLE);
-                            v.setClickable(false);
                         }
                         break;
 
