@@ -567,7 +567,7 @@ public class Playfield extends AppCompatActivity {
                                             ArrayList player = (ArrayList) document.get(playerDB);
 
 
-                                            int phaseplayer = Math.max(( Integer.parseInt(String.valueOf(player.get(3))) - 1), 1);
+                                            int phaseplayer = Math.max((Integer.parseInt(String.valueOf(player.get(3))) - 1), 1);
                                             player.set(3, phaseplayer);
                                             document.getReference().update(playerDB, player);
                                             Toast.makeText(Playfield.this, "Player " + lastCurrentPlayerColor + " cheated, you were right!", Toast.LENGTH_SHORT).show();
@@ -827,7 +827,7 @@ public class Playfield extends AppCompatActivity {
     //Karte ziehen
     private void addCard() {
         //only currentPlayer kann ziehen
-        if ((actionfield.cardToPullBoth > 0 && actionfield.cardToPullDiscardpileList < 1 && actionfield.cardToPullCardlist < 1) || (actionfield.cardToPullBoth < 1 && actionfield.cardToPullDiscardpileList < 1 && actionfield.cardToPullCardlist > 0)) {
+        if (((actionfield.cardToPullBoth > 0 && actionfield.cardToPullDiscardpileList < 1 && actionfield.cardToPullCardlist < 1) || (actionfield.cardToPullBoth < 1 && actionfield.cardToPullDiscardpileList < 1 && actionfield.cardToPullCardlist > 0)) && !diceFragment.getMoved())  {
             cardlist.get(0).getCardUI().setVisibility(View.VISIBLE);
             cardlist.get(0).getCardUI().setOnClickListener(listener);
             cardlist.get(0).getCardUI().setOnTouchListener(new ChoiceTouchListener());
