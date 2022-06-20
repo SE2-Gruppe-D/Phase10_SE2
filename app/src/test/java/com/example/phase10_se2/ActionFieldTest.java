@@ -46,11 +46,23 @@ public class ActionFieldTest {
     }
 
     @Test
+    public void testGreyFieldColorRandomCard (){
+        actionfield.greyFieldColor();
+        Assertions.assertFalse(actionfield.randomCard);
+    }
+
+    @Test
     public void testGreenFieldColor (){
         actionfield.greenFieldColor();
         Assertions.assertEquals(0,actionfield.cardToPullBoth);
         Assertions.assertEquals(0,actionfield.cardToPullCardlist);
         Assertions.assertEquals(1,actionfield.cardToPullDiscardpileList);
+    }
+
+    @Test
+    public void testGreenFieldColorRandomCard (){
+        actionfield.greenFieldColor();
+        Assertions.assertTrue(actionfield.randomCard);
     }
 
     @Test
@@ -62,11 +74,23 @@ public class ActionFieldTest {
     }
 
     @Test
+    public void testOrangeFieldColorRandomCard (){
+        actionfield.orangeFieldColor();
+        Assertions.assertFalse(actionfield.randomCard);
+    }
+
+    @Test
     public void testBlueFieldColor (){
         actionfield.blueFieldColor();
         Assertions.assertEquals(0,actionfield.cardToPullBoth);
         Assertions.assertEquals(1,actionfield.cardToPullCardlist);
         Assertions.assertEquals(0,actionfield.cardToPullDiscardpileList);
+    }
+
+    @Test
+    public void testBlueFieldColorRandomCard (){
+        actionfield.blueFieldColor();
+        Assertions.assertFalse(actionfield.randomCard);
     }
 
     @Test
@@ -78,12 +102,51 @@ public class ActionFieldTest {
     }
 
     @Test
+    public void testRedFieldColorRandomCard (){
+        actionfield.redFieldColor();
+        Assertions.assertFalse(actionfield.randomCard);
+    }
+
+    @Test
     public void testPurpleFieldColor (){
         actionfield.purpleFieldColor();
         Assertions.assertEquals(0,actionfield.cardToPullBoth);
         Assertions.assertEquals(0,actionfield.cardToPullCardlist);
         Assertions.assertEquals(0,actionfield.cardToPullDiscardpileList);
     }
+
+    @Test
+    public void testPurpleFieldColorRandomCard (){
+        actionfield.purpleFieldColor();
+        Assertions.assertFalse(actionfield.randomCard);
+    }
+
+    @Test
+    public void testPinkFieldColorCardToPullBoth (){
+        actionfield.pinkFieldColor();
+        Assertions.assertEquals(1,actionfield.cardToPullBoth);
+    }
+
+    @Test
+    public void testPinkFieldColorCardToPullCardList (){
+        actionfield.pinkFieldColor();
+        Assertions.assertEquals(0,actionfield.cardToPullCardlist);
+    }
+
+    @Test
+    public void testPinkFieldColorCardToPullDiscardpileList (){
+        actionfield.pinkFieldColor();
+        Assertions.assertEquals(0,actionfield.cardToPullDiscardpileList);
+    }
+
+    @Test
+    public void testPinkFieldColorRandomCard (){
+        actionfield.pinkFieldColor();
+        Assertions.assertFalse(actionfield.randomCard);
+    }
+
+
+
 
 
 }
