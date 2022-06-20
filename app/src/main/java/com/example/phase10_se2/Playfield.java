@@ -567,7 +567,7 @@ public class Playfield extends AppCompatActivity {
                                             ArrayList player = (ArrayList) document.get(playerDB);
 
 
-                                            int phaseplayer = Math.max(((int) player.get(3) - 1), 1);
+                                            int phaseplayer = Math.max(( Integer.parseInt(String.valueOf(player.get(3))) - 1), 1);
                                             player.set(3, phaseplayer);
                                             document.getReference().update(playerDB, player);
                                             Toast.makeText(Playfield.this, "Player " + lastCurrentPlayerColor + " cheated, you were right!", Toast.LENGTH_SHORT).show();
@@ -578,21 +578,21 @@ public class Playfield extends AppCompatActivity {
                                             if (document.get("PlayerBlue") != null) {
                                                 if (primaryPlayer.getColor().equals(PlayerColor.BLUE)) {
                                                     player = (ArrayList) document.get("PlayerBlue");
-                                                    int minusPoints = (int) player.get(4) + 10;
+                                                    int minusPoints = Integer.parseInt(String.valueOf(player.get(4))) + 10;
                                                     player.set(4, minusPoints);
                                                     document.getReference().update("PlayerBlue", player);
                                                 }
                                             } else if (document.get("PlayerRed") != null) {
                                                 if (primaryPlayer.getColor().equals(PlayerColor.RED)) {
                                                     player = (ArrayList) document.get("PlayerRed");
-                                                    int minusPoints = (int) player.get(4) + 10;
+                                                    int minusPoints = Integer.parseInt(String.valueOf(player.get(4))) + 10;
                                                     player.set(4, minusPoints);
                                                     document.getReference().update("PlayerRed", player);
                                                 }
                                             } else if (document.get("PlayerYellow") != null) {
                                                 if (primaryPlayer.getColor().equals(PlayerColor.YELLOW)) {
                                                     player = (ArrayList) document.get("PlayerYellow");
-                                                    int minusPoints = (int) player.get(4) + 10;
+                                                    int minusPoints = Integer.parseInt(String.valueOf(player.get(4))) + 10;
                                                     player.set(4, minusPoints);
                                                     document.getReference().update("PlayerYellow", player);
 
@@ -600,7 +600,7 @@ public class Playfield extends AppCompatActivity {
                                             } else if (document.get("PlayerGreen") != null) {
                                                 if (primaryPlayer.getColor().equals(PlayerColor.GREEN)) {
                                                     player = (ArrayList) document.get("PlayerGreen");
-                                                    int minusPoints = (int) player.get(4) + 10;
+                                                    int minusPoints = Integer.parseInt(String.valueOf(player.get(4))) + 10;
                                                     player.set(4, minusPoints);
                                                     document.getReference().update("PlayerGreen", player);
 
@@ -630,10 +630,11 @@ public class Playfield extends AppCompatActivity {
     }
 
     public void setNextCurrentPlayer() {
-            String color = playerList.get((playerList.indexOf(currentPlayer.getColorAsString()) + 1) % playerList.size());
-            Player player = getPlayerFromColor(color);
-            updatePlayers();
-            setCurrentPlayerInDB(player);
+        String color = playerList.get((playerList.indexOf(currentPlayer.getColorAsString()) + 1) % playerList.size());
+        Player player = getPlayerFromColor(color);
+        updateCheated(false);
+        updatePlayers();
+        setCurrentPlayerInDB(player);
     }
 
     private Player getPlayerFromColor(String color) {
@@ -982,12 +983,13 @@ public class Playfield extends AppCompatActivity {
                                     defaultcard.setImageDrawable(createCardUI(playerHandPrimaryPlayer.get(i)).imageView.getDrawable());
                                     playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
 
-                                    if (!diceFragment.getMoved()) {
-                                        updateCheated();
-                                    }
-
                                     nextRoundCards();
                                     setNextCurrentPlayer();
+
+                                    if (!diceFragment.getMoved()) {
+                                        updateCheated(true);
+                                    }
+
                                     updateDiscardpileListDB();
                                     break; //break, because you can only drag one card
                                 }
@@ -1353,14 +1355,14 @@ public class Playfield extends AppCompatActivity {
     }
 
     //currentPlayer cheats
-    private void updateCheated() {
+    private void updateCheated(boolean bool) {
         database.collection("gameInfo")
                 .whereEqualTo("RoomName", currentRoom)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            document.getReference().update("Cheated", true);
+                            document.getReference().update("Cheated", bool);
                         }
                     }
                 });
