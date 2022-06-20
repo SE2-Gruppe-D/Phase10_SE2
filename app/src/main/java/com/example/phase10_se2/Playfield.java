@@ -549,7 +549,7 @@ public class Playfield extends AppCompatActivity {
 
         //Alert dialog accuse someone of cheating
         builder.setTitle("Found a cheater?")
-                .setMessage("Are you sure, you want to accuse 'CurrentPlayer' of cheating?")
+                .setMessage("Are you sure, you want to accuse the last player of cheating?")
                 .setCancelable(false)
                 .setPositiveButton("YES", (dialog, which) -> {
                     //check if cheating == true
@@ -558,14 +558,19 @@ public class Playfield extends AppCompatActivity {
                             .addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
+                                        String lastCurrentPlayerColor = playerList.get((playerList.indexOf(currentPlayer.getColorAsString()) - 1) < 0 ? playerList.size()-1 : playerList.indexOf(currentPlayer.getColorAsString()) - 1);
+
                                         if (document.getBoolean("Cheated")) {
                                             //give consequences
                                             //if accused right:
-                                            ArrayList player = (ArrayList) document.get("CurrentPlayer");
-                                            int Phaseplayer = (int) player.get(3) - 1;
-                                            player.set(3, Phaseplayer);
-                                            document.getReference().update("CurrentPlayer", player);
-                                            Toast.makeText(Playfield.this, "Player " + currentPlayer + " cheated, you were right!", Toast.LENGTH_SHORT).show();
+                                            String playerDB = "Player" + lastCurrentPlayerColor.charAt(0) + lastCurrentPlayerColor.substring(1).toLowerCase();
+                                            ArrayList player = (ArrayList) document.get(playerDB);
+
+
+                                            int phaseplayer = Math.max(((int) player.get(3) - 1), 1);
+                                            player.set(3, phaseplayer);
+                                            document.getReference().update(playerDB, player);
+                                            Toast.makeText(Playfield.this, "Player " + lastCurrentPlayerColor + " cheated, you were right!", Toast.LENGTH_SHORT).show();
 
                                         } else {
                                             //if accused wrong:
@@ -602,7 +607,7 @@ public class Playfield extends AppCompatActivity {
                                                 }
                                             }
 
-                                            Toast.makeText(Playfield.this, "Player " + currentPlayer + " did not cheat, you were wrong!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(Playfield.this, "Player " + lastCurrentPlayerColor + " did not cheat, you were wrong!", Toast.LENGTH_SHORT).show();
                                             dialog.dismiss();
                                         }
                                     }
