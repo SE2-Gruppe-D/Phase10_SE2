@@ -288,8 +288,6 @@ public class PhaseTest {
     }
 
 
-
-
     @Test
     public void whenCheckingPhase7AndListLengthIsWrong_ThenReturnFalse() {
         list.add(cft.card1y);

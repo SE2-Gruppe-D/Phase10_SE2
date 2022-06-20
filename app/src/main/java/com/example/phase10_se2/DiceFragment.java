@@ -220,12 +220,6 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                 p.move(lastDiceValue);
                 playfield.getActionfield();
             }
-
-            if (p != null && moved && lastDiceValue == diceValueBeforeStart) {
-                p.move(lastDiceValue);
-                updateCheatedToTrue();
-                playfield.getActionfield();
-            }
         }).start();
     }
 
