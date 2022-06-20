@@ -337,9 +337,6 @@ public class Phase {
         return helplist.isEmpty();
     }
 
-
-    //-------------------------------Ab hier nicht Testen ----------------
-
     //zur Überprüfung, ob der currentplayer bei einem Mitspieler eine richtige Karte dazu gelegt hat
     public boolean getRightPhaseOtherPlayer(int phasenumber, Cards cards, List<Cards> list){
         switch (phasenumber){
