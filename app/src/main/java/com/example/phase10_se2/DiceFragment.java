@@ -220,7 +220,27 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                 p.move(lastDiceValue);
                 playfield.getActionfield();
             }
+
+            if (p != null && moved && lastDiceValue == diceValueBeforeStart) {
+                p.move(lastDiceValue);
+                updateCheatedToTrue();
+                playfield.getActionfield();
+            }
         }).start();
+    }
+
+    //currentPlayer cheats
+    private void updateCheatedToTrue() {
+        database.collection("gameInfo")
+                .whereEqualTo("RoomName", room)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            document.getReference().update("Cheated", true);
+                        }
+                    }
+                });
     }
 
     private Player getPlayer(PlayerColor playerColor) {

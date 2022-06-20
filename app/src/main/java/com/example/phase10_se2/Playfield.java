@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -624,6 +625,14 @@ public class Playfield extends AppCompatActivity {
         //aktualisiert den Text für die Phase
         setPhasenTextTextView();
 
+        //entfernt die label Leiste (Actionbar) auf dem Playfield
+        try {
+            ActionBar actionBar = getSupportActionBar();
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.hide();
+        } catch (Exception ignored) {
+        }
+
         //Spiel verlassen
         exitGame = findViewById(R.id.leaveGame);
         exitGame.setOnClickListener(view -> leaveGame());
@@ -985,11 +994,6 @@ public class Playfield extends AppCompatActivity {
 
                                     nextRoundCards();
                                     setNextCurrentPlayer();
-
-                                    if (!diceFragment.getMoved()) {
-                                        updateCheated(true);
-                                    }
-
                                     updateDiscardpileListDB();
                                     break; //break, because you can only drag one card
                                 }
