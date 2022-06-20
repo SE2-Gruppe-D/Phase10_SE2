@@ -76,7 +76,7 @@ public class CardUIManager {
     //ID zuweisung Karten
     public int cardID(Cards cards) { //TODO
         List<String> key = new ArrayList<>();
-        key.add(String.valueOf((cards.getID()%12)+1));
+        key.add(String.valueOf(cards.getValue()));
         key.add(cards.getColor());
         int drawableID = cardIds.get(key);
         return drawableID;
