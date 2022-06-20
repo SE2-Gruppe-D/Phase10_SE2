@@ -2,12 +2,10 @@ package com.example.phase10_se2;
 
 import static org.mockito.Mockito.mock;
 
-import com.example.phase10_se2.ENUM.PlayerColor;
+import com.example.phase10_se2.enums.PlayerColor;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;

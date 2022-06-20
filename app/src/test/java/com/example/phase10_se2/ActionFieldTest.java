@@ -1,6 +1,6 @@
 package com.example.phase10_se2;
 
-import com.example.phase10_se2.ENUM.FieldColor;
+import com.example.phase10_se2.enums.FieldColor;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

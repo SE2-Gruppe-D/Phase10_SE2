@@ -1,6 +1,5 @@
 package com.example.phase10_se2;
 
-import android.content.res.Resources;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
@@ -10,6 +9,10 @@ import java.util.List;
 
 public class CardUIManager {
     private HashMap<List<String>, Integer> cardIds = new HashMap<>();
+    private final String BLUE = "blue";
+    private final String RED = "red";
+    private final String YELLOW = "yellow";
+    private final String GREEN = "green";
 
     public CardUIManager() {
         initHashMap();
@@ -20,65 +23,64 @@ public class CardUIManager {
     }
 
     private void initHashMap() {
-        cardIds.put(Arrays.asList("1", "blue"), R.drawable.blau1);
-        cardIds.put(Arrays.asList("2", "blue"), R.drawable.blau2);
-        cardIds.put(Arrays.asList("3", "blue"), R.drawable.blau3);
-        cardIds.put(Arrays.asList("4", "blue"), R.drawable.blau4);
-        cardIds.put(Arrays.asList("5", "blue"), R.drawable.blau5);
-        cardIds.put(Arrays.asList("6", "blue"), R.drawable.blau6);
-        cardIds.put(Arrays.asList("7", "blue"), R.drawable.blau7);
-        cardIds.put(Arrays.asList("8", "blue"), R.drawable.blau8);
-        cardIds.put(Arrays.asList("9", "blue"), R.drawable.blau9);
-        cardIds.put(Arrays.asList("10", "blue"), R.drawable.blau10);
-        cardIds.put(Arrays.asList("11", "blue"), R.drawable.blau11);
-        cardIds.put(Arrays.asList("12", "blue"), R.drawable.blau12);
+        cardIds.put(Arrays.asList("1", BLUE), R.drawable.blau1);
+        cardIds.put(Arrays.asList("2", BLUE), R.drawable.blau2);
+        cardIds.put(Arrays.asList("3", BLUE), R.drawable.blau3);
+        cardIds.put(Arrays.asList("4", BLUE), R.drawable.blau4);
+        cardIds.put(Arrays.asList("5", BLUE), R.drawable.blau5);
+        cardIds.put(Arrays.asList("6", BLUE), R.drawable.blau6);
+        cardIds.put(Arrays.asList("7", BLUE), R.drawable.blau7);
+        cardIds.put(Arrays.asList("8", BLUE), R.drawable.blau8);
+        cardIds.put(Arrays.asList("9", BLUE), R.drawable.blau9);
+        cardIds.put(Arrays.asList("10", BLUE), R.drawable.blau10);
+        cardIds.put(Arrays.asList("11", BLUE), R.drawable.blau11);
+        cardIds.put(Arrays.asList("12", BLUE), R.drawable.blau12);
 
-        cardIds.put(Arrays.asList("1", "red"), R.drawable.rot1);
-        cardIds.put(Arrays.asList("2", "red"), R.drawable.rot2);
-        cardIds.put(Arrays.asList("3", "red"), R.drawable.rot3);
-        cardIds.put(Arrays.asList("4", "red"), R.drawable.rot4);
-        cardIds.put(Arrays.asList("5", "red"), R.drawable.rot5);
-        cardIds.put(Arrays.asList("6", "red"), R.drawable.rot6);
-        cardIds.put(Arrays.asList("7", "red"), R.drawable.rot7);
-        cardIds.put(Arrays.asList("8", "red"), R.drawable.rot8);
-        cardIds.put(Arrays.asList("9", "red"), R.drawable.rot9);
-        cardIds.put(Arrays.asList("10", "red"), R.drawable.rot10);
-        cardIds.put(Arrays.asList("11", "red"), R.drawable.rot11);
-        cardIds.put(Arrays.asList("12", "red"), R.drawable.rot12);
+        cardIds.put(Arrays.asList("1", RED), R.drawable.rot1);
+        cardIds.put(Arrays.asList("2", RED), R.drawable.rot2);
+        cardIds.put(Arrays.asList("3", RED), R.drawable.rot3);
+        cardIds.put(Arrays.asList("4", RED), R.drawable.rot4);
+        cardIds.put(Arrays.asList("5", RED), R.drawable.rot5);
+        cardIds.put(Arrays.asList("6", RED), R.drawable.rot6);
+        cardIds.put(Arrays.asList("7", RED), R.drawable.rot7);
+        cardIds.put(Arrays.asList("8", RED), R.drawable.rot8);
+        cardIds.put(Arrays.asList("9", RED), R.drawable.rot9);
+        cardIds.put(Arrays.asList("10", RED), R.drawable.rot10);
+        cardIds.put(Arrays.asList("11", RED), R.drawable.rot11);
+        cardIds.put(Arrays.asList("12", RED), R.drawable.rot12);
 
-        cardIds.put(Arrays.asList("1", "yellow"), R.drawable.gelb1);
-        cardIds.put(Arrays.asList("2", "yellow"), R.drawable.gelb2);
-        cardIds.put(Arrays.asList("3", "yellow"), R.drawable.gelb3);
-        cardIds.put(Arrays.asList("4", "yellow"), R.drawable.gelb4);
-        cardIds.put(Arrays.asList("5", "yellow"), R.drawable.gelb5);
-        cardIds.put(Arrays.asList("6", "yellow"), R.drawable.gelb6);
-        cardIds.put(Arrays.asList("7", "yellow"), R.drawable.gelb7);
-        cardIds.put(Arrays.asList("8", "yellow"), R.drawable.gelb8);
-        cardIds.put(Arrays.asList("9", "yellow"), R.drawable.gelb9);
-        cardIds.put(Arrays.asList("10", "yellow"), R.drawable.gelb10);
-        cardIds.put(Arrays.asList("11", "yellow"), R.drawable.gelb11);
-        cardIds.put(Arrays.asList("12", "yellow"), R.drawable.gelb12);
+        cardIds.put(Arrays.asList("1", YELLOW), R.drawable.gelb1);
+        cardIds.put(Arrays.asList("2", YELLOW), R.drawable.gelb2);
+        cardIds.put(Arrays.asList("3", YELLOW), R.drawable.gelb3);
+        cardIds.put(Arrays.asList("4", YELLOW), R.drawable.gelb4);
+        cardIds.put(Arrays.asList("5", YELLOW), R.drawable.gelb5);
+        cardIds.put(Arrays.asList("6", YELLOW), R.drawable.gelb6);
+        cardIds.put(Arrays.asList("7", YELLOW), R.drawable.gelb7);
+        cardIds.put(Arrays.asList("8", YELLOW), R.drawable.gelb8);
+        cardIds.put(Arrays.asList("9", YELLOW), R.drawable.gelb9);
+        cardIds.put(Arrays.asList("10", YELLOW), R.drawable.gelb10);
+        cardIds.put(Arrays.asList("11", YELLOW), R.drawable.gelb11);
+        cardIds.put(Arrays.asList("12", YELLOW), R.drawable.gelb12);
 
-        cardIds.put(Arrays.asList("1", "green"), R.drawable.gruen1);
-        cardIds.put(Arrays.asList("2", "green"), R.drawable.gruen2);
-        cardIds.put(Arrays.asList("3", "green"), R.drawable.gruen3);
-        cardIds.put(Arrays.asList("4", "green"), R.drawable.gruen4);
-        cardIds.put(Arrays.asList("5", "green"), R.drawable.gruen5);
-        cardIds.put(Arrays.asList("6", "green"), R.drawable.gruen6);
-        cardIds.put(Arrays.asList("7", "green"), R.drawable.gruen7);
-        cardIds.put(Arrays.asList("8", "green"), R.drawable.gruen8);
-        cardIds.put(Arrays.asList("9", "green"), R.drawable.gruen9);
-        cardIds.put(Arrays.asList("10", "green"), R.drawable.gruen10);
-        cardIds.put(Arrays.asList("11", "green"), R.drawable.gruen11);
-        cardIds.put(Arrays.asList("12", "green"), R.drawable.gruen12);
+        cardIds.put(Arrays.asList("1", GREEN), R.drawable.gruen1);
+        cardIds.put(Arrays.asList("2", GREEN), R.drawable.gruen2);
+        cardIds.put(Arrays.asList("3", GREEN), R.drawable.gruen3);
+        cardIds.put(Arrays.asList("4", GREEN), R.drawable.gruen4);
+        cardIds.put(Arrays.asList("5", GREEN), R.drawable.gruen5);
+        cardIds.put(Arrays.asList("6", GREEN), R.drawable.gruen6);
+        cardIds.put(Arrays.asList("7", GREEN), R.drawable.gruen7);
+        cardIds.put(Arrays.asList("8", GREEN), R.drawable.gruen8);
+        cardIds.put(Arrays.asList("9", GREEN), R.drawable.gruen9);
+        cardIds.put(Arrays.asList("10", GREEN), R.drawable.gruen10);
+        cardIds.put(Arrays.asList("11", GREEN), R.drawable.gruen11);
+        cardIds.put(Arrays.asList("12", GREEN), R.drawable.gruen12);
     }
 
     //ID zuweisung Karten
-    public int cardID(Cards cards) { //TODO
+    public int cardID(Cards cards) {
         List<String> key = new ArrayList<>();
         key.add(String.valueOf(cards.getValue()));
         key.add(cards.getColor());
-        int drawableID = cardIds.get(key);
-        return drawableID;
+        return cardIds.get(key);
     }
 }

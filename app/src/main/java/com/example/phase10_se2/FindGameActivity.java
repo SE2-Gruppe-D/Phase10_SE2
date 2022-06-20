@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.phase10_se2.ENUM.PlayerColor;
+import com.example.phase10_se2.enums.PlayerColor;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -26,6 +26,7 @@ import java.util.Map;
 public class FindGameActivity extends AppCompatActivity {
     final String[] color = new String[1];
     String roomName = "";
+    final String userPath = "users";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +67,7 @@ public class FindGameActivity extends AppCompatActivity {
                     }
                 });
         //get all information from database
-        database.collection("users")
+        database.collection(userPath)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -100,7 +101,7 @@ public class FindGameActivity extends AppCompatActivity {
 
             adapter.notifyDataSetChanged(); //update LV
 
-            database.collection("users")
+            database.collection(userPath)
                     .whereEqualTo("Room", roomName)
                     .get()
                     .addOnCompleteListener(task -> {
@@ -164,7 +165,7 @@ public class FindGameActivity extends AppCompatActivity {
                     user.put("Handcards", player.getPlayerHand());
                     user.put("CardsField", player.getCardField());
 
-                    database.collection("users")
+                    database.collection(userPath)
                             .add(user)
                             .addOnSuccessListener(documentReference -> {
                                 Toast.makeText(FindGameActivity.this, "joining game...", Toast.LENGTH_SHORT).show();

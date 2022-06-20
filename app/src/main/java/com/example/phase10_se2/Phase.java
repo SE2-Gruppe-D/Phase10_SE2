@@ -276,16 +276,14 @@ public class Phase {
         int counter = 0;
         for (int i = 0; i < list.size() - 1; i++) {
             helpCard = list.get(i);
-            if ((helpCard.getValue()) == (list.get(i + 1).getValue()) && helpCard.getColor().equals(list.get(i + 1).getColor())) {
-                continue;
-            } else if ((helpCard.getValue() + 1) == (list.get(i + 1).getValue()) && helpCard.getColor().equals(list.get(i + 1).getColor())) {
+            if ((helpCard.getValue() + 1) == (list.get(i + 1).getValue()) && helpCard.getColor().equals(list.get(i + 1).getColor())) {
                 helplist2.add(helpCard);
                 counter++;
                 if (counter == 3) {
                     helplist2.add(list.get(i + 1));
                     helplist.removeAll(helplist2);
                 }
-            } else {
+            } else if (!((helpCard.getValue()) == (list.get(i + 1).getValue()) && helpCard.getColor().equals(list.get(i + 1).getColor()))){
                 counter = 0;
             }
         }
@@ -317,16 +315,14 @@ public class Phase {
         int counter = 0;
         for (int i = 0; i < list.size() - 1; i++) {
             helpCard = list.get(i);
-            if ((helpCard.getValue()) == (list.get(i + 1).getValue()) && helpCard.getColor().equals(list.get(i + 1).getColor())) {
-                continue;
-            } else if ((helpCard.getValue() + 1) == (list.get(i + 1).getValue()) && helpCard.getColor().equals(list.get(i + 1).getColor())) {
+            if ((helpCard.getValue() + 1) == (list.get(i + 1).getValue()) && helpCard.getColor().equals(list.get(i + 1).getColor())) {
                 helplist2.add(helpCard);
                 counter++;
                 if (counter == 2) {
                     helplist2.add(list.get(i + 1));
                     helplist.removeAll(helplist2);
                 }
-            } else {
+            } else if (!((helpCard.getValue()) == (list.get(i + 1).getValue()) && helpCard.getColor().equals(list.get(i + 1).getColor()))) {
                 counter = 0;
             }
         }
