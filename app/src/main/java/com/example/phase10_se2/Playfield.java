@@ -976,6 +976,11 @@ public class Playfield extends AppCompatActivity {
                                     discardpileList.add(playerHandPrimaryPlayer.get(i));
                                     defaultcard.setImageDrawable(createCardUI(playerHandPrimaryPlayer.get(i)).imageView.getDrawable());
                                     playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
+
+                                    if (!diceFragment.getMoved()) {
+                                        updateCheated();
+                                    }
+
                                     nextRoundCards();
                                     setNextCurrentPlayer();
                                     updateDiscardpileListDB();

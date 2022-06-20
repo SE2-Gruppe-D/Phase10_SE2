@@ -288,4 +288,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
     public void setMoved(boolean moved) {
         this.moved = moved;
     }
+    public boolean getMoved() {
+        return moved;
+    }
 }
