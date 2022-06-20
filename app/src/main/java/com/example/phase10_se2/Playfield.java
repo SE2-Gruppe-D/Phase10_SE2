@@ -462,7 +462,8 @@ public class Playfield extends AppCompatActivity {
                     v.setVisibility(View.VISIBLE);
                     v.setClickable(true);
                     for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
-                        if (v != null && v.equals(getCardfieldCardlistDB().get(i).getCardUI())) {
+                        Cards card = getCardfieldCardlistDB().get(i);
+                        if (card.getCardUI() != null && v.equals(card.getCardUI())) {
                             playerHandPrimaryPlayer.add(getCardfieldCardlistDB().get(i));
                             getCardfieldCardlistDB().remove(getCardfieldCardlistDB().get(i));
                         }
