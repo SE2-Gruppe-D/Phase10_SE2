@@ -371,9 +371,6 @@ public class Phase {
         return false;
     }
 
-
-
-
     //Phase 2: 6 Karten einer Farbe
     //Phase 5: 7 Karten einer Farbe
     private boolean checkEqualColorOneCard(Cards cards, List<Cards> list){
@@ -391,7 +388,6 @@ public class Phase {
         list.sort(Comparator.comparing(Cards::getValue));//2. nach Wert sortieren
         return cards.getValue() + 1 == list.get(0).getValue() || cards.getValue() - 1 == list.get(list.size() - 1).getValue();
     }
-
 
     //Phase 3: 1 Vierling + 1 Viererfolge
     private boolean checkPhase3FromOtherPlayer(Cards cards, List<Cards> list){
@@ -416,7 +412,6 @@ public class Phase {
         }
         return checkFirstOrLastValue(cards, helplist2) || checkEqualValueOneCard(cards, helplist);
     }
-
 
     //Phase 8: 1 Viererfolge einer Farbe + 1 Drilling
     private boolean checkPhase8FromOtherPlayer(Cards cards, List<Cards> list){
