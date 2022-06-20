@@ -1,6 +1,6 @@
 package com.example.phase10_se2;
 
-import com.example.phase10_se2.ENUM.FieldColor;
+import com.example.phase10_se2.enums.FieldColor;
 
 public class Actionfield {
 

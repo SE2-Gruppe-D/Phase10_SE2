@@ -2,8 +2,8 @@ package com.example.phase10_se2;
 
 import org.junit.jupiter.api.*;
 
-import com.example.phase10_se2.ENUM.PlayerColor;
-import com.example.phase10_se2.ENUM.PlayerState;
+import com.example.phase10_se2.enums.PlayerColor;
+import com.example.phase10_se2.enums.PlayerState;
 
 import java.util.ArrayList;
 

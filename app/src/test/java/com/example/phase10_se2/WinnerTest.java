@@ -1,6 +1,6 @@
 package com.example.phase10_se2;
 
-import com.example.phase10_se2.ENUM.PlayerColor;
+import com.example.phase10_se2.enums.PlayerColor;
 
 import org.junit.jupiter.api.*;
 
