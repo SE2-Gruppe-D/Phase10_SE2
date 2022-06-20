@@ -890,6 +890,7 @@ public class Playfield extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             view.setClickable(true);
+            view.setOnTouchListener(new ChoiceTouchListener());
             if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
                 //Karte zurück
                 if (System.currentTimeMillis() - doubleClickLastTime < 700) {
@@ -1062,7 +1063,7 @@ public class Playfield extends AppCompatActivity {
                                 playerHandPrimaryPlayer = getHandCardsDB(); //Handkarten vom Currentplayer
                                 if (playerHandPrimaryPlayer.size() != 0) {
                                     for (int i = 0; i < playerHandPrimaryPlayer.size(); i++) {
-                                        if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI()) && phase.getRightPhaseOtherPlayer((getPhasenumberPlayersDB(player)-1), playerHandPrimaryPlayer.get(i), getCardfieldCardlistPlayersDB(player))) {
+                                        if (v.equals(playerHandPrimaryPlayer.get(i).getCardUI()) && phase.getRightPhaseOtherPlayer(getPhasenumberPlayersDB(player)-1, playerHandPrimaryPlayer.get(i), getCardfieldCardlistPlayersDB(player))) {
                                                 getCardfieldCardlistPlayersDB(player).add(playerHandPrimaryPlayer.get(i));
                                                 playerHandPrimaryPlayer.remove(playerHandPrimaryPlayer.get(i));
                                                 owner.removeView(v);
