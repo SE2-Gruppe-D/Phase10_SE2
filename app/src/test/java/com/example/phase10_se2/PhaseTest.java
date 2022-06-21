@@ -498,6 +498,216 @@ public class PhaseTest {
             Assertions.assertFalse(phaseCheck.getRightPhase(player.getPhaseNumber(), list));
     }
 
+    //Tests für 1 Karte zur abgelegten Phase dazulegen
+
+    //Zwilling, Drilling, Vierling dazulegen -> Phase 1,7,9
+    @Test
+    public void afterCheckingPhase1AndAddOneCard_ThenReturnTrue() {
+        System.out.println(cft.card2g.getValue());
+        list.add(cft.card2g);
+        list.add(cft.card2y);
+        list.add(cft.card4b);
+        list.add(cft.card4r);
+        list.add(cft.card7y);
+        list.add(cft.card7b);
+        list.add(cft.card8g);
+        list.add(cft.card8r);
+        Assertions.assertTrue(phaseCheck.getRightPhaseOtherPlayer(player.getPhaseNumber(), cft.card4y, list));
+    }
+
+    @Test
+    public void afterCheckingPhase1AndAddOneCard_ThenReturnFalse() {
+        System.out.println(cft.card2g.getValue());
+        list.add(cft.card2g);
+        list.add(cft.card2y);
+        list.add(cft.card4b);
+        list.add(cft.card4r);
+        list.add(cft.card7y);
+        list.add(cft.card7b);
+        list.add(cft.card8g);
+        list.add(cft.card8r);
+        Assertions.assertFalse(phaseCheck.getRightPhaseOtherPlayer(player.getPhaseNumber(), cft.card12y, list));
+    }
+
+    //Gleiche Farbe dazulegen Phase 2,5
+    @Test
+    public void afterCheckingPhase2AndAddOneCard_ThenReturnTrue() {
+        list.add(cft.card1y);
+        list.add(cft.card5y);
+        list.add(cft.card10y);
+        list.add(cft.card7y);
+        list.add(cft.card12y);
+        list.add(cft.card2y);
+        player.setPhaseNumber(2);
+        Assertions.assertTrue(phaseCheck.getRightPhaseOtherPlayer(player.getPhaseNumber(), cft.card4y, list));
+    }
+
+
+    @Test
+    public void afterCheckingPhase2AndAddOneCard_ThenReturnFalse() {
+        list.add(cft.card1y);
+        list.add(cft.card5y);
+        list.add(cft.card10y);
+        list.add(cft.card7y);
+        list.add(cft.card12y);
+        list.add(cft.card2y);
+        player.setPhaseNumber(2);
+        Assertions.assertFalse(phaseCheck.getRightPhaseOtherPlayer(player.getPhaseNumber(), cft.card2g, list));
+    }
+
+    //Bei der Folge dazulegen, Phase 4,6
+    @Test
+    public void afterCheckingPhase4AndAddOneHigherCard_ThenReturnTrue() {
+        list.add(cft.card1y);
+        list.add(cft.card5y);
+        list.add(cft.card2y);
+        list.add(cft.card3g);
+        list.add(cft.card6g);
+        list.add(cft.card4b);
+        list.add(cft.card7b);
+        list.add(cft.card8b);
+        player.setPhaseNumber(4);
+        Assertions.assertTrue(phaseCheck.getRightPhaseOtherPlayer(player.getPhaseNumber(), cft.card9r, list));
+    }
+
+    @Test
+    public void afterCheckingPhase4AndAddOneLowerCard_ThenReturnTrue() {
+        list.add(cft.card9r);
+        list.add(cft.card5y);
+        list.add(cft.card2y);
+        list.add(cft.card3g);
+        list.add(cft.card6g);
+        list.add(cft.card4b);
+        list.add(cft.card7b);
+        list.add(cft.card8b);
+        player.setPhaseNumber(4);
+        Assertions.assertTrue(phaseCheck.getRightPhaseOtherPlayer(player.getPhaseNumber(), cft.card1y, list));
+    }
+
+    @Test
+    public void afterCheckingPhase4AndAddOneCard_ThenReturnFalse() {
+        list.add(cft.card1y);
+        list.add(cft.card5y);
+        list.add(cft.card2y);
+        list.add(cft.card3g);
+        list.add(cft.card6g);
+        list.add(cft.card4b);
+        list.add(cft.card7b);
+        list.add(cft.card8b);
+        player.setPhaseNumber(4);
+        Assertions.assertFalse(phaseCheck.getRightPhaseOtherPlayer(player.getPhaseNumber(), cft.card12y, list));
+    }
+
+    @Test
+    public void afterCheckingPhase4AndAddOneCardSameValue_ThenReturnFalse() {
+        list.add(cft.card1y);
+        list.add(cft.card5y);
+        list.add(cft.card2y);
+        list.add(cft.card3g);
+        list.add(cft.card6g);
+        list.add(cft.card4b);
+        list.add(cft.card7b);
+        list.add(cft.card8b);
+        player.setPhaseNumber(4);
+        Assertions.assertFalse(phaseCheck.getRightPhaseOtherPlayer(player.getPhaseNumber(), cft.card4y, list));
+    }
+
+    //Phase 3
+    @Test
+    public void afterCheckingPhase3AndAddOneEqualCard_ThenReturnTrue() {
+        list.add(cft.card1y);
+        list.add(cft.card8r);
+        list.add(cft.card2y);
+        list.add(cft.card3g);
+        list.add(cft.card8y);
+        list.add(cft.card4b);
+        list.add(cft.card8g);
+        list.add(cft.card8b);
+        player.setPhaseNumber(3);
+        Assertions.assertTrue(phaseCheck.getRightPhaseOtherPlayer(player.getPhaseNumber(), cft.card8b2, list));
+    }
+
+    @Test
+    public void afterCheckingPhase3AndAddOneCardForRowLastCard_ThenReturnTrue() {
+        list.add(cft.card1y);
+        list.add(cft.card8r);
+        list.add(cft.card2y);
+        list.add(cft.card3g);
+        list.add(cft.card8y);
+        list.add(cft.card4b);
+        list.add(cft.card8g);
+        list.add(cft.card8b);
+        player.setPhaseNumber(3);
+        Assertions.assertTrue(phaseCheck.getRightPhaseOtherPlayer(player.getPhaseNumber(), cft.card5y, list));
+    }
+
+    @Test
+    public void afterCheckingPhase3AndAddOneCardForRowFirstCard_ThenReturnTrue() {
+        list.add(cft.card5y);
+        list.add(cft.card8r);
+        list.add(cft.card2y);
+        list.add(cft.card3g);
+        list.add(cft.card8y);
+        list.add(cft.card4b);
+        list.add(cft.card8g);
+        list.add(cft.card8b);
+        player.setPhaseNumber(3);
+        Assertions.assertTrue(phaseCheck.getRightPhaseOtherPlayer(player.getPhaseNumber(), cft.card1y, list));
+    }
+
+    @Test
+    public void afterCheckingPhase3AndAddOneCardForRowAndSameValue_ThenReturnTrue() {
+        list.add(cft.card5y);
+        list.add(cft.card8r);
+        list.add(cft.card7b);
+        list.add(cft.card6g);
+        list.add(cft.card8y);
+        list.add(cft.card8g2);
+        list.add(cft.card8g);
+        list.add(cft.card8b);
+        player.setPhaseNumber(3);
+        Assertions.assertTrue(phaseCheck.getRightPhaseOtherPlayer(player.getPhaseNumber(), cft.card8b2, list));
+    }
+
+    @Test
+    public void afterCheckingPhase3AndAddOneCardForRowAndSameValue2_ThenReturnTrue() {
+        list.add(cft.card5y);
+        list.add(cft.card4b);
+        list.add(cft.card7b);
+        list.add(cft.card6g);
+        list.add(cft.card8y);
+        list.add(cft.card8g2);
+        list.add(cft.card8g);
+        list.add(cft.card8b);
+        player.setPhaseNumber(3);
+        Assertions.assertTrue(phaseCheck.getRightPhaseOtherPlayer(player.getPhaseNumber(), cft.card8b2, list));
+    }
+
+    @Test
+    public void afterCheckingPhase3AndAddOneCardForRow_ThenReturnFalse() {
+        list.add(cft.card1y);
+        list.add(cft.card8r);
+        list.add(cft.card2y);
+        list.add(cft.card3g);
+        list.add(cft.card8y);
+        list.add(cft.card4b);
+        list.add(cft.card8g);
+        list.add(cft.card8b);
+        player.setPhaseNumber(3);
+        Assertions.assertFalse(phaseCheck.getRightPhaseOtherPlayer(player.getPhaseNumber(), cft.card6g, list));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
