@@ -3,15 +3,17 @@
     package="com.example.phase10_se2">
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Phase10_SE2"
         android:requestLegacyExternalStorage="true"
-        >
-        <activity
+        android:usesCleartextTraffic="false"
+        android:dataExtractionRules="@xml/data_extraction_rules">
+
+    <activity
             android:name=".FindGameActivity"
             android:exported="false" />
         <activity
