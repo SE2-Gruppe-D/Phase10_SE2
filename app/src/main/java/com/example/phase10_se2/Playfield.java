@@ -251,6 +251,7 @@ public class Playfield extends AppCompatActivity {
 
                                                     if (playerBlue.getColor().equals(primaryPlayer.getColor())) {
                                                         handCards.updateHandCompletely(playerBlue.getPlayerHand(), newHandCards, layoutPlayer1);
+                                                        resetCardListeners(newHandCards);
                                                         playerBlue.updateCardfieldCompletely(newCardField, layoutPlayer1CardField);
                                                     } else if (playerBlue.abgelegt){
                                                         playerBlue.updateCardfieldCompletely(newCardField, playerBlue.getLinearLayout());
@@ -276,6 +277,7 @@ public class Playfield extends AppCompatActivity {
 
                                                     if (playerRed.getColor().equals(primaryPlayer.getColor())) {
                                                         handCards.updateHandCompletely(playerRed.getPlayerHand(), newHandCards, layoutPlayer1);
+                                                        resetCardListeners(newHandCards);
                                                         playerRed.updateCardfieldCompletely(newCardField, layoutPlayer1CardField);
                                                     } else if (playerRed.abgelegt){
                                                         playerRed.updateCardfieldCompletely(newCardField, playerRed.getLinearLayout());
@@ -301,6 +303,7 @@ public class Playfield extends AppCompatActivity {
 
                                                     if (playerYellow.getColor().equals(primaryPlayer.getColor())) {
                                                         handCards.updateHandCompletely(playerYellow.getPlayerHand(), newHandCards, layoutPlayer1);
+                                                        resetCardListeners(newHandCards);
                                                         playerYellow.updateCardfieldCompletely(newCardField, layoutPlayer1CardField);
                                                     } else if (playerYellow.abgelegt){
                                                         playerYellow.updateCardfieldCompletely(newCardField, playerYellow.getLinearLayout());
@@ -326,6 +329,7 @@ public class Playfield extends AppCompatActivity {
 
                                                     if (playerGreen.getColor().equals(primaryPlayer.getColor())) {
                                                         handCards.updateHandCompletely(playerGreen.getPlayerHand(), newHandCards, layoutPlayer1);
+                                                        resetCardListeners(newHandCards);
                                                         playerGreen.updateCardfieldCompletely(newCardField, layoutPlayer1CardField);
                                                     } else if (playerGreen.abgelegt){
                                                         playerGreen.updateCardfieldCompletely(newCardField, playerGreen.getLinearLayout());
@@ -391,6 +395,16 @@ public class Playfield extends AppCompatActivity {
                                 });
                     }
                 });
+    }
+
+    private void resetCardListeners(ArrayList<Cards> newHandCards) {
+        for (Cards card : newHandCards) {
+            if (card != null && card.getCardUI() != null) {
+                card.getCardUI().setClickable(true);
+                card.getCardUI().setOnClickListener(listener);
+                card.getCardUI().setOnTouchListener(new ChoiceTouchListener());
+            }
+        }
     }
 
     private void goToMainMenu() {
@@ -891,7 +905,7 @@ public class Playfield extends AppCompatActivity {
     //Karte ziehen
     private void addCard() {
         //only currentPlayer kann ziehen
-        if (((actionfield.cardToPullBoth > 0 && actionfield.cardToPullDiscardpileList < 1 && actionfield.cardToPullCardlist < 1) || (actionfield.cardToPullBoth < 1 && actionfield.cardToPullDiscardpileList < 1 && actionfield.cardToPullCardlist > 0)) && !diceFragment.getMoved())  {
+        if (((actionfield.cardToPullBoth > 0 && actionfield.cardToPullDiscardpileList < 1 && actionfield.cardToPullCardlist < 1) || (actionfield.cardToPullBoth < 1 && actionfield.cardToPullDiscardpileList < 1 && actionfield.cardToPullCardlist > 0)))  {
             cardlist.get(0).getCardUI().setVisibility(View.VISIBLE);
             cardlist.get(0).getCardUI().setOnClickListener(listener);
             cardlist.get(0).getCardUI().setOnTouchListener(new ChoiceTouchListener());

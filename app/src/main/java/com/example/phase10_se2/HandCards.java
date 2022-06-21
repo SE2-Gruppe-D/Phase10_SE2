@@ -1,5 +1,9 @@
 package com.example.phase10_se2;
 
+import android.content.ClipData;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
@@ -119,7 +123,6 @@ public class HandCards {
         for (Cards card : cards) {
             if(card.getCardUI().getParent()==null){
                 linearLayout.addView(card.getCardUI());
-                card.getCardUI().setClickable(true);
             }
         }
 

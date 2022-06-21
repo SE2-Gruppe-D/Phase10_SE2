@@ -133,10 +133,6 @@ public class DiceFragment extends Fragment implements SensorEventListener {
         return sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
     }
 
-    public void unregister() {
-        sensorManager.unregisterListener(this);
-    }
-
     private void initViews() {
         this.diceView = getView().findViewById(R.id.DiceView);
     }
@@ -287,14 +283,5 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                 diceView.setImageResource(R.drawable.dice_1);
                 break;
         }
-    }
-
-
-    //GETTER AND SETTER
-    public void setMoved(boolean moved) {
-        this.moved = moved;
-    }
-    public boolean getMoved() {
-        return moved;
     }
 }

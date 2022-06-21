@@ -28,8 +28,8 @@ public class FindPlayer extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     ArrayList<String> playerList = new ArrayList<>();
     Map<String, Object> currentRoomMap = new HashMap<>();
-    final static String colorConst = "Color";
-    final static String activeGamesConst = "activeGames";
+    final static String COLOR_CONST = "Color";
+    final static String ACTIVE_GAMES_CONST = "activeGames";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class FindPlayer extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         currentRoom = getIntent().getExtras().getString("CurrentRoom");
-        color[0] = getIntent().getExtras().getString(colorConst);
+        color[0] = getIntent().getExtras().getString(COLOR_CONST);
         roomName.setText(currentRoom);
         database.collection("users").addSnapshotListener((snapshot, e) -> {
 
@@ -63,13 +63,13 @@ public class FindPlayer extends AppCompatActivity {
             }
         });
 
-        database.collection(activeGamesConst).addSnapshotListener((value, error) -> {
+        database.collection(ACTIVE_GAMES_CONST).addSnapshotListener((value, error) -> {
             if (error != null) {
                 Log.w(TAG, "Listen failed.", error);
                 return;
             }
             if (value != null) {
-                database.collection(activeGamesConst)
+                database.collection(ACTIVE_GAMES_CONST)
                         .get()
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
@@ -100,7 +100,7 @@ public class FindPlayer extends AppCompatActivity {
                 currentRoomMap.put("RoomName", currentRoom);
 
                 //eventlistener for startGame clicked -> all players go to playfield
-                database.collection(activeGamesConst)
+                database.collection(ACTIVE_GAMES_CONST)
                         .add(currentRoomMap)
                         .addOnSuccessListener(documentReference -> {
                         }).addOnFailureListener(e -> Toast.makeText(FindPlayer.this, e.getMessage(), Toast.LENGTH_SHORT).show());
@@ -123,7 +123,7 @@ public class FindPlayer extends AppCompatActivity {
     public void goToPlayfield() {
         Intent intent = new Intent(FindPlayer.this, Playfield.class);
         intent.putExtra("CurrentRoom", currentRoom);
-        intent.putExtra(colorConst, color[0]);
+        intent.putExtra(COLOR_CONST, color[0]);
         startActivity(intent);
     }
 
@@ -134,7 +134,7 @@ public class FindPlayer extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            if (!playerList.contains(document.getString(colorConst)) && !playerList.contains(document.getString("Name"))) {
+                            if (!playerList.contains(document.getString(COLOR_CONST)) && !playerList.contains(document.getString("Name"))) {
                                 playerList.add(document.getString("Name"));
 
                                 adapter.notifyDataSetChanged();
