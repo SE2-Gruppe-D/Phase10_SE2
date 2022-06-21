@@ -281,6 +281,7 @@ public class Player {
             case (10):
                 phaseText = "1 Fünfling + 1 Dreierfolge einer Farbe";
                 break;
+            default: phaseText ="-";
         }
 
     }

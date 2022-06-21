@@ -236,6 +236,28 @@ public class PlayerTest {
         player.setCardField(null);
         Assertions.assertEquals(null, player.getCardField());
         }
+
+
+    @Test
+    public void ifPhaseNumberIs0_ThenAssignTheRightText() {
+        player.setPhaseNumber(0);
+        player.setPhaseText();
+        Assertions.assertEquals("-", player.getPhaseText());
     }
+
+    @Test
+    public void testForPlayerGetterAndSetterAbgelegt () {
+        player.setAbgelegt(true);
+        Assertions.assertTrue(player.isAbgelegt());
+    }
+
+
+
+
+
+}
+
+
+
 
 
