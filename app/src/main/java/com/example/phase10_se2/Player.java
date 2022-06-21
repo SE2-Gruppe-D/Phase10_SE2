@@ -109,7 +109,7 @@ public class Player {
         cardField = cards;
 
         for (Cards card : cards) {
-            if(card.getCardUI().getParent() != null) {
+            if(card != null && card.getCardUI() != null && card.getCardUI().getParent() != null) {
                 ((ViewGroup) card.getCardUI().getParent()).removeView(card.getCardUI());
             }
             linearLayout.addView(card.getCardUI());

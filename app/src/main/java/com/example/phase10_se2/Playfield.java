@@ -293,7 +293,7 @@ public class Playfield extends AppCompatActivity {
 
                                                     //make player cardfield cards visible
                                                     for (Cards card : playerYellow.getCardField()) {
-                                                        if (card.getCardUI() != null) {
+                                                        if (card != null && card.getCardUI() != null) {
                                                             card.getCardUI().setClickable(false);
                                                             card.getCardUI().setVisibility(View.VISIBLE);
                                                         }
@@ -1020,7 +1020,9 @@ public class Playfield extends AppCompatActivity {
                                     break; //break, because you can only drag one card
                                 }
                             }
-                            owner.removeView(v);
+                            if (owner != null) {
+                                owner.removeView(v);
+                            }
                             v.setVisibility(View.INVISIBLE);
                             leererAblagestapel.setVisibility(View.INVISIBLE);
                         }
