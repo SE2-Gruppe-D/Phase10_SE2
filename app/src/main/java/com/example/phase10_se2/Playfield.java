@@ -562,7 +562,7 @@ public class Playfield extends AppCompatActivity {
 
         //Alert dialog accuse someone of cheating
         builder.setTitle("Found a cheater?")
-                .setMessage("Are you sure, you want to accuse the last player of cheating?")
+                .setMessage("Are you sure, you want to accuse the current player of cheating?")
                 .setCancelable(false)
                 .setPositiveButton("YES", (dialog, which) -> {
                     //check if cheating == true
@@ -571,7 +571,7 @@ public class Playfield extends AppCompatActivity {
                             .addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                        String lastCurrentPlayerColor = playerList.get((playerList.indexOf(currentPlayer.getColorAsString()) - 1) < 0 ? playerList.size()-1 : playerList.indexOf(currentPlayer.getColorAsString()) - 1);
+                                        String lastCurrentPlayerColor = playerList.get((playerList.indexOf(currentPlayer.getColorAsString())));
 
                                         if (document.getBoolean("Cheated")) {
                                             //give consequences
@@ -1227,8 +1227,8 @@ public class Playfield extends AppCompatActivity {
 
     //Aktuelle in Player zugewiesene Phase wird in Textview am Spielfeld angezeigt
     private void setPhasenTextTextView() {
-        primaryPlayer.setPhaseText();
-        tvAktuellePhase.setText(primaryPlayer.getPhaseText());
+        getPlayerFromColor(primaryPlayer.getColorAsString()).setPhaseText();
+        tvAktuellePhase.setText(getPlayerFromColor(primaryPlayer.getColorAsString()).getPhaseText());
     }
 
     //Getter und Setter
