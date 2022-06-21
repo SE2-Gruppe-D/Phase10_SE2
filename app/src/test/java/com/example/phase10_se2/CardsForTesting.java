@@ -32,6 +32,7 @@ public class CardsForTesting {
         protected Cards card8g2 = new Cards("GREEN", 8, null, 92);
         protected Cards card8y2 = new Cards("YELLOW", 8, null, 68);
         protected Cards card2y2 = new Cards("YELLOW", 2, null, 62);
+        protected Cards card9y = new Cards("YELLOW", 9, null, 57);
 
 
 }
