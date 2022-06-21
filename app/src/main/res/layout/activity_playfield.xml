@@ -283,7 +283,6 @@
             android:layout_gravity="end"
             android:background="#4D000000"
             android:text="Hide"
-            android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:visibility="invisible" />
 
