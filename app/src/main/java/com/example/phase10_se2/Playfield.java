@@ -1522,7 +1522,9 @@ public class Playfield extends AppCompatActivity {
 
             //calc minuspunkte
             for (Player p : playerArrayList) {
-                p.updateMinusPoints(p.getPlayerHand());
+                if (p != null) {
+                    p.updateMinusPoints(p.getPlayerHand());
+                }
             }
 
             //handcards
