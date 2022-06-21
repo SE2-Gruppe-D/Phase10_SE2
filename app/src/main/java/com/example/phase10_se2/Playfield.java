@@ -290,7 +290,6 @@ public class Playfield extends AppCompatActivity {
                                                             card.getCardUI().setVisibility(View.VISIBLE);
                                                         }
                                                     }
-
                                                     playerRed.setPlayerHand(newHandCards);
                                                 }
                                                 if (playerYellowArr != null) {
@@ -305,6 +304,7 @@ public class Playfield extends AppCompatActivity {
                                                         handCards.updateHandCompletely(playerYellow.getPlayerHand(), newHandCards, layoutPlayer1);
                                                         resetCardListeners(newHandCards);
                                                         playerYellow.updateCardfieldCompletely(newCardField, layoutPlayer1CardField);
+
                                                     } else if (playerYellow.abgelegt){
                                                         playerYellow.updateCardfieldCompletely(newCardField, playerYellow.getLinearLayout());
                                                     }
@@ -1455,6 +1455,7 @@ public class Playfield extends AppCompatActivity {
                             ArrayList playerl = (ArrayList) document.get("CurrentPlayer"); //welchen playerl du haben möchtest
                             playerl.set(3, (getPhasenumberDB() + 1)); //du setzt nun bei playerl index 3 einen neuen wert, und zwar der alte + 1
                             currentPlayer.setPhaseNumber((getPhasenumberDB() + 1));
+                            setPhasenTextTextView();
                             playerl.set(7, true);
                             currentPlayer.setAbgelegt(true);
                             document.getReference().update("CurrentPlayer", playerl); //hier updatest den playerl in der DB mit den neu gesetzten werten, falls du was geändert hast
@@ -1577,7 +1578,6 @@ public class Playfield extends AppCompatActivity {
                     p.setAbgelegt(false);
                 }
             }
-            setPhasenTextTextView();
         }
     }
 
@@ -1636,6 +1636,9 @@ public class Playfield extends AppCompatActivity {
                                     if (playerBlue.abgelegt) {
                                         playerBlue.updateCardfieldCompletely(playerBlue.getCardField(), playerBlue.getLinearLayout());
                                     }
+                                    if (playerBlue.getColor().equals(currentPlayer.getColor())) {
+                                        setPhasenTextTextView();
+                                    }
                                 }
                             } else if (Objects.equals(color, "RED")) {
                                 tempPlayerList = (ArrayList) document.get("PlayerRed");
@@ -1649,6 +1652,9 @@ public class Playfield extends AppCompatActivity {
 
                                     if (playerRed.abgelegt) {
                                         playerRed.updateCardfieldCompletely(playerRed.getCardField(), playerRed.getLinearLayout());
+                                    }
+                                    if (playerRed.getColor().equals(currentPlayer.getColor())) {
+                                        setPhasenTextTextView();
                                     }
                                 }
                             } else if (Objects.equals(color, "YELLOW")) {
@@ -1664,6 +1670,9 @@ public class Playfield extends AppCompatActivity {
                                     if (playerYellow.abgelegt) {
                                         playerYellow.updateCardfieldCompletely(playerYellow.getCardField(), playerYellow.getLinearLayout());
                                     }
+                                    if (playerYellow.getColor().equals(currentPlayer.getColor())) {
+                                        setPhasenTextTextView();
+                                    }
                                 }
                             } else if (Objects.equals(color, "GREEN")) {
                                 tempPlayerList = (ArrayList) document.get("PlayerGreen");
@@ -1677,6 +1686,9 @@ public class Playfield extends AppCompatActivity {
 
                                     if (playerGreen.abgelegt) {
                                         playerGreen.updateCardfieldCompletely(playerGreen.getCardField(), playerGreen.getLinearLayout());
+                                    }
+                                    if (playerGreen.getColor().equals(currentPlayer.getColor())) {
+                                        setPhasenTextTextView();
                                     }
                                 }
                             }
