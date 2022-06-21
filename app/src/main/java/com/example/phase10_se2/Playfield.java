@@ -76,6 +76,7 @@ public class Playfield extends AppCompatActivity {
     Button exitGame;        //Spiel verlassen Button
     Button btnHideAktionskarte;
     Button btnShowAktionskarte;
+    Button btnCheat;
     ImageView ivShowAktionskarte;
     TextView tvAktuellePhase;
     Button btnCheckPhase;
@@ -407,18 +408,27 @@ public class Playfield extends AppCompatActivity {
         ivShowAktionskarte = findViewById(R.id.ivShowAk);
         tvAktuellePhase = findViewById(R.id.tvAP);
         btnCheckPhase = findViewById(R.id.buttonCheckPhase);
+        btnCheat = findViewById(R.id.buttonCheat);
 
         //Aktionskarte einblenden Show und Hide button tauschen
         btnShowAktionskarte.setOnClickListener(view -> {
             ivShowAktionskarte.setVisibility(View.VISIBLE);
+            btnCheat.setVisibility(View.INVISIBLE);
             btnHideAktionskarte.setVisibility(View.VISIBLE);
             btnShowAktionskarte.setVisibility(View.INVISIBLE);
         });
         //Aktionskarte ausblenden Hide und Show button austauschen
         btnHideAktionskarte.setOnClickListener(view -> {
             ivShowAktionskarte.setVisibility(View.INVISIBLE);
+            btnCheat.setVisibility(View.VISIBLE);
             btnHideAktionskarte.setVisibility(View.INVISIBLE);
             btnShowAktionskarte.setVisibility(View.VISIBLE);
+        });
+        //cheatbutton listener
+        btnCheat.setOnClickListener(view -> {
+            if (currentPlayer.getColor().equals(primaryPlayer.getColor())) {
+               updateCheated(true);
+            }
         });
 
         discardpileList = new ArrayList<>();
@@ -465,7 +475,7 @@ public class Playfield extends AppCompatActivity {
                         v.setClickable(true);
                         for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
                             Cards card = getCardfieldCardlistDB().get(i);
-                            if (card.getCardUI() != null && v.equals(card.getCardUI())) {
+                            if (card != null && card.getCardUI() != null && v.equals(card.getCardUI())) {
                                 playerHandPrimaryPlayer.add(getCardfieldCardlistDB().get(i));
                                 getCardfieldCardlistDB().remove(getCardfieldCardlistDB().get(i));
                             }
@@ -900,7 +910,7 @@ public class Playfield extends AppCompatActivity {
                     //Handkarte zurück nehmen
                     playerHandPrimaryPlayer = getHandCardsDB();
                     for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
-                        if (getCardfieldCardlistDB().get(i).getCardUI() != null && v.equals(getCardfieldCardlistDB().get(i).getCardUI())) {
+                        if (getCardfieldCardlistDB().get(i) != null && getCardfieldCardlistDB().get(i).getCardUI() != null && v.equals(getCardfieldCardlistDB().get(i).getCardUI())) {
                             playerHandPrimaryPlayer.add(getCardfieldCardlistDB().get(i));
                             getCardfieldCardlistDB().remove(getCardfieldCardlistDB().get(i));
                             break;

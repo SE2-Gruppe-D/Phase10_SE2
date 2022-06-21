@@ -74,6 +74,11 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                                         for (QueryDocumentSnapshot document : task.getResult()) {
                                             //CurrentPlayer for dice throwing
                                             ArrayList currentPlayer = (ArrayList) document.get("CurrentPlayer");
+                                            boolean cheated = Boolean.parseBoolean(String.valueOf(document.get("Cheated")));
+                                            if (cheated) {
+                                                moved = false;
+                                            }
+
                                             if ((currentPlayer != null && currentPlayerColor == null) || (currentPlayer != null && !currentPlayerColor.equals(definePlayerColor((String) currentPlayer.get(1))))) {
                                                 currentPlayerColor = definePlayerColor((String) currentPlayer.get(1));
                                                 moved = false;
