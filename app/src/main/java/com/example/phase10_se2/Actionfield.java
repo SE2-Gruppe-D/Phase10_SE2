@@ -95,6 +95,5 @@ public class Actionfield {
         cardToPullBoth = 1;
         cardToPullCardlist = 0;
         cardToPullDiscardpileList = 0;
-//        diceFragment.setMoved(false); //TODO: FIX
     }
 }

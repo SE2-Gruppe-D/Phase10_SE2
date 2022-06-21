@@ -41,6 +41,8 @@ public class DiceFragment extends Fragment implements SensorEventListener {
     private String room;
     private FirebaseFirestore database;
     private Playfield playfield;
+    private static final String GAME_INFO = "gameInfo";
+    private static final String ROOM_NAME = "RoomName";
 
 
     public static DiceFragment newInstance() {
@@ -56,8 +58,8 @@ public class DiceFragment extends Fragment implements SensorEventListener {
         playerColor = definePlayerColor(playfield.getUserColor());
         database = createDBConnection();
 
-        database.collection("gameInfo")
-                .whereEqualTo("RoomName", room)
+        database.collection(GAME_INFO)
+                .whereEqualTo(ROOM_NAME, room)
                 .addSnapshotListener((value, error) -> {
 
                     if (error != null) {
@@ -66,14 +68,19 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                     }
 
                     if (value != null) {
-                        database.collection("gameInfo")
-                                .whereEqualTo("RoomName", room)
+                        database.collection(GAME_INFO)
+                                .whereEqualTo(ROOM_NAME, room)
                                 .get()
                                 .addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot document : task.getResult()) {
                                             //CurrentPlayer for dice throwing
                                             ArrayList currentPlayer = (ArrayList) document.get("CurrentPlayer");
+                                            boolean cheated = Boolean.parseBoolean(String.valueOf(document.get("Cheated")));
+                                            if (cheated) {
+                                                moved = false;
+                                            }
+
                                             if ((currentPlayer != null && currentPlayerColor == null) || (currentPlayer != null && !currentPlayerColor.equals(definePlayerColor((String) currentPlayer.get(1))))) {
                                                 currentPlayerColor = definePlayerColor((String) currentPlayer.get(1));
                                                 moved = false;
@@ -125,10 +132,6 @@ public class DiceFragment extends Fragment implements SensorEventListener {
     public boolean register() {
         initAccelerometer();
         return sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
-    }
-
-    public void unregister() {
-        sensorManager.unregisterListener(this);
     }
 
     private void initViews() {
@@ -191,8 +194,8 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                 }
 
 
-                database.collection("gameInfo")
-                        .whereEqualTo("RoomName", room)
+                database.collection(GAME_INFO)
+                        .whereEqualTo(ROOM_NAME, room)
                         .get()
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
@@ -221,20 +224,6 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                 playfield.getActionfield();
             }
         }).start();
-    }
-
-    //currentPlayer cheats
-    private void updateCheatedToTrue() {
-        database.collection("gameInfo")
-                .whereEqualTo("RoomName", room)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            document.getReference().update("Cheated", true);
-                        }
-                    }
-                });
     }
 
     private Player getPlayer(PlayerColor playerColor) {
@@ -295,14 +284,5 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                 diceView.setImageResource(R.drawable.dice_1);
                 break;
         }
-    }
-
-
-    //GETTER AND SETTER
-    public void setMoved(boolean moved) {
-        this.moved = moved;
-    }
-    public boolean getMoved() {
-        return moved;
     }
 }

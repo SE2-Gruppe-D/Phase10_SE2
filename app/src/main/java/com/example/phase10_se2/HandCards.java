@@ -109,7 +109,7 @@ public class HandCards {
         linearLayout.removeAllViews();
 
         for (Cards card : cards) {
-            if(card.getCardUI().getParent() != null) {
+            if(card != null && card.getCardUI() != null && card.getCardUI().getParent() != null) {
                 ((ViewGroup)card.getCardUI().getParent()).removeView(card.getCardUI());
             }
         }

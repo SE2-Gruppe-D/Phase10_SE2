@@ -51,7 +51,7 @@ import java.util.Objects;
 
 public class Playfield extends AppCompatActivity {
     private static final long START_TIMER = 120000;  //Timer wird in milli Skunden gestartet
-    private final long leftTime = START_TIMER;
+    private static final long LEFT_TIME = START_TIMER;
     DiceFragment diceFragment;
     String currentRoom = "";
     ImageView deckcard;
@@ -76,6 +76,7 @@ public class Playfield extends AppCompatActivity {
     Button exitGame;        //Spiel verlassen Button
     Button btnHideAktionskarte;
     Button btnShowAktionskarte;
+    Button btnCheat;
     ImageView ivShowAktionskarte;
     TextView tvAktuellePhase;
     Button btnCheckPhase;
@@ -92,6 +93,8 @@ public class Playfield extends AppCompatActivity {
     ArrayList<Cards> playerHandYellow;
     ArrayList<Cards> playerHandGreen;
     List<Cards> playerHandPrimaryPlayer;
+    ArrayList<Player> playerArrayList;
+    WinnerDecision wd;
     Player player;
     Actionfield actionfield;
     private boolean initToastShown = false;
@@ -236,13 +239,19 @@ public class Playfield extends AppCompatActivity {
                                                     defaultcard.setImageDrawable(discardpileList.get(discardpileList.size() - 1).getCardUI().getDrawable());
                                                 }
 
+
                                                 //sync handcards and cardfield
                                                 if (playerBlueArr != null) {
                                                     ArrayList<Cards> newHandCards = addCardsToList(String.valueOf(playerBlueArr.get(5)));
                                                     ArrayList<Cards> newCardField = addCardsToList(String.valueOf(playerBlueArr.get(6)));
 
+                                                    if (Integer.parseInt(String.valueOf(playerBlueArr.get(3))) > 10) {
+                                                        Toast.makeText(Playfield.this, "Player " + wd.getWinner().get(0).getColorAsString() + " won!", Toast.LENGTH_LONG).show();
+                                                    }
+
                                                     if (playerBlue.getColor().equals(primaryPlayer.getColor())) {
                                                         handCards.updateHandCompletely(playerBlue.getPlayerHand(), newHandCards, layoutPlayer1);
+                                                        resetCardListeners(newHandCards);
                                                         playerBlue.updateCardfieldCompletely(newCardField, layoutPlayer1CardField);
                                                     } else if (playerBlue.abgelegt){
                                                         playerBlue.updateCardfieldCompletely(newCardField, playerBlue.getLinearLayout());
@@ -250,7 +259,7 @@ public class Playfield extends AppCompatActivity {
 
                                                     //make player cardfield cards visible
                                                     for (Cards card : playerBlue.getCardField()) {
-                                                        if (card.getCardUI() != null) {
+                                                        if (card != null && card.getCardUI() != null) {
                                                             card.getCardUI().setClickable(false);
                                                             card.getCardUI().setVisibility(View.VISIBLE);
                                                         }
@@ -262,8 +271,13 @@ public class Playfield extends AppCompatActivity {
                                                     ArrayList<Cards> newHandCards = addCardsToList(String.valueOf(playerRedArr.get(5)));
                                                     ArrayList<Cards> newCardField = addCardsToList(String.valueOf(playerRedArr.get(6)));
 
+                                                    if (Integer.parseInt(String.valueOf(playerRedArr.get(3))) > 10) {
+                                                        Toast.makeText(Playfield.this, "Player " + wd.getWinner().get(0).getColorAsString() + " won!", Toast.LENGTH_LONG).show();
+                                                    }
+
                                                     if (playerRed.getColor().equals(primaryPlayer.getColor())) {
                                                         handCards.updateHandCompletely(playerRed.getPlayerHand(), newHandCards, layoutPlayer1);
+                                                        resetCardListeners(newHandCards);
                                                         playerRed.updateCardfieldCompletely(newCardField, layoutPlayer1CardField);
                                                     } else if (playerRed.abgelegt){
                                                         playerRed.updateCardfieldCompletely(newCardField, playerRed.getLinearLayout());
@@ -276,23 +290,28 @@ public class Playfield extends AppCompatActivity {
                                                             card.getCardUI().setVisibility(View.VISIBLE);
                                                         }
                                                     }
-
                                                     playerRed.setPlayerHand(newHandCards);
                                                 }
                                                 if (playerYellowArr != null) {
                                                     ArrayList<Cards> newHandCards = addCardsToList(String.valueOf(playerYellowArr.get(5)));
                                                     ArrayList<Cards> newCardField = addCardsToList(String.valueOf(playerYellowArr.get(6)));
 
+                                                    if (Integer.parseInt(String.valueOf(playerYellowArr.get(3))) > 10) {
+                                                        Toast.makeText(Playfield.this, "Player " + wd.getWinner().get(0).getColorAsString() + " won!", Toast.LENGTH_LONG).show();
+                                                    }
+
                                                     if (playerYellow.getColor().equals(primaryPlayer.getColor())) {
                                                         handCards.updateHandCompletely(playerYellow.getPlayerHand(), newHandCards, layoutPlayer1);
+                                                        resetCardListeners(newHandCards);
                                                         playerYellow.updateCardfieldCompletely(newCardField, layoutPlayer1CardField);
+
                                                     } else if (playerYellow.abgelegt){
                                                         playerYellow.updateCardfieldCompletely(newCardField, playerYellow.getLinearLayout());
                                                     }
 
                                                     //make player cardfield cards visible
                                                     for (Cards card : playerYellow.getCardField()) {
-                                                        if (card.getCardUI() != null) {
+                                                        if (card != null && card.getCardUI() != null) {
                                                             card.getCardUI().setClickable(false);
                                                             card.getCardUI().setVisibility(View.VISIBLE);
                                                         }
@@ -304,8 +323,13 @@ public class Playfield extends AppCompatActivity {
                                                     ArrayList<Cards> newHandCards = addCardsToList(String.valueOf(playerGreenArr.get(5)));
                                                     ArrayList<Cards> newCardField = addCardsToList(String.valueOf(playerGreenArr.get(6)));
 
+                                                    if (Integer.parseInt(String.valueOf(playerGreenArr.get(3))) > 10) {
+                                                        Toast.makeText(Playfield.this, "Player " + wd.getWinner().get(0).getColorAsString() + " won!", Toast.LENGTH_LONG).show();
+                                                    }
+
                                                     if (playerGreen.getColor().equals(primaryPlayer.getColor())) {
                                                         handCards.updateHandCompletely(playerGreen.getPlayerHand(), newHandCards, layoutPlayer1);
+                                                        resetCardListeners(newHandCards);
                                                         playerGreen.updateCardfieldCompletely(newCardField, layoutPlayer1CardField);
                                                     } else if (playerGreen.abgelegt){
                                                         playerGreen.updateCardfieldCompletely(newCardField, playerGreen.getLinearLayout());
@@ -373,6 +397,16 @@ public class Playfield extends AppCompatActivity {
                 });
     }
 
+    private void resetCardListeners(ArrayList<Cards> newHandCards) {
+        for (Cards card : newHandCards) {
+            if (card != null && card.getCardUI() != null) {
+                card.getCardUI().setClickable(true);
+                card.getCardUI().setOnClickListener(listener);
+                card.getCardUI().setOnTouchListener(new ChoiceTouchListener());
+            }
+        }
+    }
+
     private void goToMainMenu() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -407,18 +441,27 @@ public class Playfield extends AppCompatActivity {
         ivShowAktionskarte = findViewById(R.id.ivShowAk);
         tvAktuellePhase = findViewById(R.id.tvAP);
         btnCheckPhase = findViewById(R.id.buttonCheckPhase);
+        btnCheat = findViewById(R.id.buttonCheat);
 
         //Aktionskarte einblenden Show und Hide button tauschen
         btnShowAktionskarte.setOnClickListener(view -> {
             ivShowAktionskarte.setVisibility(View.VISIBLE);
+            btnCheat.setVisibility(View.INVISIBLE);
             btnHideAktionskarte.setVisibility(View.VISIBLE);
             btnShowAktionskarte.setVisibility(View.INVISIBLE);
         });
         //Aktionskarte ausblenden Hide und Show button austauschen
         btnHideAktionskarte.setOnClickListener(view -> {
             ivShowAktionskarte.setVisibility(View.INVISIBLE);
+            btnCheat.setVisibility(View.VISIBLE);
             btnHideAktionskarte.setVisibility(View.INVISIBLE);
             btnShowAktionskarte.setVisibility(View.VISIBLE);
+        });
+        //cheatbutton listener
+        btnCheat.setOnClickListener(view -> {
+            if (currentPlayer.getColor().equals(primaryPlayer.getColor())) {
+               updateCheated(true);
+            }
         });
 
         discardpileList = new ArrayList<>();
@@ -465,7 +508,7 @@ public class Playfield extends AppCompatActivity {
                         v.setClickable(true);
                         for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
                             Cards card = getCardfieldCardlistDB().get(i);
-                            if (card.getCardUI() != null && v.equals(card.getCardUI())) {
+                            if (card != null && card.getCardUI() != null && v.equals(card.getCardUI())) {
                                 playerHandPrimaryPlayer.add(getCardfieldCardlistDB().get(i));
                                 getCardfieldCardlistDB().remove(getCardfieldCardlistDB().get(i));
                             }
@@ -528,7 +571,7 @@ public class Playfield extends AppCompatActivity {
 
         //Timer
         TextView timer = findViewById(R.id.Timer);
-        classTimer = new Timer(timer, timerturn, leftTime, this);
+        classTimer = new Timer(timer, timerturn, LEFT_TIME, this);
         classTimer.startTimer();
 
         //light sensor to accuse of cheating
@@ -552,7 +595,7 @@ public class Playfield extends AppCompatActivity {
 
         //Alert dialog accuse someone of cheating
         builder.setTitle("Found a cheater?")
-                .setMessage("Are you sure, you want to accuse the last player of cheating?")
+                .setMessage("Are you sure, you want to accuse the current player of cheating?")
                 .setCancelable(false)
                 .setPositiveButton("YES", (dialog, which) -> {
                     //check if cheating == true
@@ -561,51 +604,51 @@ public class Playfield extends AppCompatActivity {
                             .addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                        String lastCurrentPlayerColor = playerList.get((playerList.indexOf(currentPlayer.getColorAsString()) - 1) < 0 ? playerList.size()-1 : playerList.indexOf(currentPlayer.getColorAsString()) - 1);
+                                        String lastCurrentPlayerColor = playerList.get((playerList.indexOf(currentPlayer.getColorAsString())));
 
                                         if (document.getBoolean("Cheated")) {
                                             //give consequences
                                             //if accused right:
                                             String playerDB = "Player" + lastCurrentPlayerColor.charAt(0) + lastCurrentPlayerColor.substring(1).toLowerCase();
-                                            ArrayList player = (ArrayList) document.get(playerDB);
+                                            ArrayList playerTemp = (ArrayList) document.get(playerDB);
 
 
-                                            int phaseplayer = Math.max((Integer.parseInt(String.valueOf(player.get(3))) - 1), 1);
-                                            player.set(3, phaseplayer);
-                                            document.getReference().update(playerDB, player);
+                                            int phaseplayer = Math.max((Integer.parseInt(String.valueOf(playerTemp.get(3))) - 1), 1);
+                                            playerTemp.set(3, phaseplayer);
+                                            document.getReference().update(playerDB, playerTemp);
                                             Toast.makeText(Playfield.this, "Player " + lastCurrentPlayerColor + " cheated, you were right!", Toast.LENGTH_SHORT).show();
 
                                         } else {
                                             //if accused wrong:
-                                            ArrayList player;
+                                            ArrayList playerTemp;
                                             if (document.get("PlayerBlue") != null) {
                                                 if (primaryPlayer.getColor().equals(PlayerColor.BLUE)) {
-                                                    player = (ArrayList) document.get("PlayerBlue");
-                                                    int minusPoints = Integer.parseInt(String.valueOf(player.get(4))) + 10;
-                                                    player.set(4, minusPoints);
-                                                    document.getReference().update("PlayerBlue", player);
+                                                    playerTemp = (ArrayList) document.get("PlayerBlue");
+                                                    int minusPoints = Integer.parseInt(String.valueOf(playerTemp.get(4))) + 10;
+                                                    playerTemp.set(4, minusPoints);
+                                                    document.getReference().update("PlayerBlue", playerTemp);
                                                 }
                                             } else if (document.get("PlayerRed") != null) {
                                                 if (primaryPlayer.getColor().equals(PlayerColor.RED)) {
-                                                    player = (ArrayList) document.get("PlayerRed");
-                                                    int minusPoints = Integer.parseInt(String.valueOf(player.get(4))) + 10;
-                                                    player.set(4, minusPoints);
-                                                    document.getReference().update("PlayerRed", player);
+                                                    playerTemp = (ArrayList) document.get("PlayerRed");
+                                                    int minusPoints = Integer.parseInt(String.valueOf(playerTemp.get(4))) + 10;
+                                                    playerTemp.set(4, minusPoints);
+                                                    document.getReference().update("PlayerRed", playerTemp);
                                                 }
                                             } else if (document.get("PlayerYellow") != null) {
                                                 if (primaryPlayer.getColor().equals(PlayerColor.YELLOW)) {
-                                                    player = (ArrayList) document.get("PlayerYellow");
-                                                    int minusPoints = Integer.parseInt(String.valueOf(player.get(4))) + 10;
-                                                    player.set(4, minusPoints);
-                                                    document.getReference().update("PlayerYellow", player);
+                                                    playerTemp = (ArrayList) document.get("PlayerYellow");
+                                                    int minusPoints = Integer.parseInt(String.valueOf(playerTemp.get(4))) + 10;
+                                                    playerTemp.set(4, minusPoints);
+                                                    document.getReference().update("PlayerYellow", playerTemp);
 
                                                 }
                                             } else if (document.get("PlayerGreen") != null) {
                                                 if (primaryPlayer.getColor().equals(PlayerColor.GREEN)) {
-                                                    player = (ArrayList) document.get("PlayerGreen");
-                                                    int minusPoints = Integer.parseInt(String.valueOf(player.get(4))) + 10;
-                                                    player.set(4, minusPoints);
-                                                    document.getReference().update("PlayerGreen", player);
+                                                    playerTemp = (ArrayList) document.get("PlayerGreen");
+                                                    int minusPoints = Integer.parseInt(String.valueOf(playerTemp.get(4))) + 10;
+                                                    playerTemp.set(4, minusPoints);
+                                                    document.getReference().update("PlayerGreen", playerTemp);
 
                                                 }
                                             }
@@ -634,6 +677,23 @@ public class Playfield extends AppCompatActivity {
             actionBar.hide();
         } catch (Exception ignored) {
         }
+
+        ArrayList<Player> playerArrayList = new ArrayList<>();
+        if (playerBlue != null) {
+            playerArrayList.add(playerBlue);
+        }
+        if (playerYellow != null) {
+            playerArrayList.add(playerYellow);
+        }
+        if (playerRed != null) {
+            playerArrayList.add(playerRed);
+        }
+        if (playerGreen != null) {
+            playerArrayList.add(playerGreen);
+        }
+
+
+        wd = new WinnerDecision(playerArrayList);
 
         //Spiel verlassen
         exitGame = findViewById(R.id.leaveGame);
@@ -845,7 +905,7 @@ public class Playfield extends AppCompatActivity {
     //Karte ziehen
     private void addCard() {
         //only currentPlayer kann ziehen
-        if (((actionfield.cardToPullBoth > 0 && actionfield.cardToPullDiscardpileList < 1 && actionfield.cardToPullCardlist < 1) || (actionfield.cardToPullBoth < 1 && actionfield.cardToPullDiscardpileList < 1 && actionfield.cardToPullCardlist > 0)) && !diceFragment.getMoved())  {
+        if (((actionfield.cardToPullBoth > 0 && actionfield.cardToPullDiscardpileList < 1 && actionfield.cardToPullCardlist < 1) || (actionfield.cardToPullBoth < 1 && actionfield.cardToPullDiscardpileList < 1 && actionfield.cardToPullCardlist > 0)))  {
             cardlist.get(0).getCardUI().setVisibility(View.VISIBLE);
             cardlist.get(0).getCardUI().setOnClickListener(listener);
             cardlist.get(0).getCardUI().setOnTouchListener(new ChoiceTouchListener());
@@ -900,7 +960,7 @@ public class Playfield extends AppCompatActivity {
                     //Handkarte zurück nehmen
                     playerHandPrimaryPlayer = getHandCardsDB();
                     for (int i = 0; i < getCardfieldCardlistDB().size(); i++) {
-                        if (getCardfieldCardlistDB().get(i).getCardUI() != null && v.equals(getCardfieldCardlistDB().get(i).getCardUI())) {
+                        if (getCardfieldCardlistDB().get(i) != null && getCardfieldCardlistDB().get(i).getCardUI() != null && v.equals(getCardfieldCardlistDB().get(i).getCardUI())) {
                             playerHandPrimaryPlayer.add(getCardfieldCardlistDB().get(i));
                             getCardfieldCardlistDB().remove(getCardfieldCardlistDB().get(i));
                             break;
@@ -1010,7 +1070,9 @@ public class Playfield extends AppCompatActivity {
                                     break; //break, because you can only drag one card
                                 }
                             }
-                            owner.removeView(v);
+                            if (owner != null) {
+                                owner.removeView(v);
+                            }
                             v.setVisibility(View.INVISIBLE);
                             leererAblagestapel.setVisibility(View.INVISIBLE);
                         }
@@ -1217,8 +1279,8 @@ public class Playfield extends AppCompatActivity {
 
     //Aktuelle in Player zugewiesene Phase wird in Textview am Spielfeld angezeigt
     private void setPhasenTextTextView() {
-        primaryPlayer.setPhaseText();
-        tvAktuellePhase.setText(primaryPlayer.getPhaseText());
+        Objects.requireNonNull(getPlayerFromColor(primaryPlayer.getColorAsString())).setPhaseText();
+        tvAktuellePhase.setText(Objects.requireNonNull(getPlayerFromColor(primaryPlayer.getColorAsString())).getPhaseText());
     }
 
     //Getter und Setter
@@ -1393,6 +1455,7 @@ public class Playfield extends AppCompatActivity {
                             ArrayList playerl = (ArrayList) document.get("CurrentPlayer"); //welchen playerl du haben möchtest
                             playerl.set(3, (getPhasenumberDB() + 1)); //du setzt nun bei playerl index 3 einen neuen wert, und zwar der alte + 1
                             currentPlayer.setPhaseNumber((getPhasenumberDB() + 1));
+                            setPhasenTextTextView();
                             playerl.set(7, true);
                             currentPlayer.setAbgelegt(true);
                             document.getReference().update("CurrentPlayer", playerl); //hier updatest den playerl in der DB mit den neu gesetzten werten, falls du was geändert hast
@@ -1452,15 +1515,22 @@ public class Playfield extends AppCompatActivity {
 
     public void nextRoundCards() {
         if (getHandCardsDB().size() == 0) {
-            //handcards
-            cardlist = new ArrayList<>(allCards);
-            cardDrawer.shuffleCards(cardlist);
-
             ArrayList<Player> playerArrayList = new ArrayList<>();
             playerArrayList.add(playerBlue);
             playerArrayList.add(playerYellow);
             playerArrayList.add(playerRed);
             playerArrayList.add(playerGreen);
+
+            //calc minuspunkte
+            for (Player p : playerArrayList) {
+                if (p != null) {
+                    p.updateMinusPoints(p.getPlayerHand());
+                }
+            }
+
+            //handcards
+            cardlist = new ArrayList<>(allCards);
+            cardDrawer.shuffleCards(cardlist);
 
             for (Player p : playerArrayList) {
                 if (p != null) {
@@ -1508,7 +1578,6 @@ public class Playfield extends AppCompatActivity {
                     p.setAbgelegt(false);
                 }
             }
-            setPhasenTextTextView();
         }
     }
 
@@ -1556,56 +1625,72 @@ public class Playfield extends AppCompatActivity {
 
                             if (Objects.equals(color, "BLUE")) {
                                 tempPlayerList = (ArrayList) document.get("PlayerBlue");
-                                lol = is(tempPlayerList);
-                                playerBlue.setPhaseNumber(Integer.parseInt(tempPlayerList.get(3).toString()));
-                                playerBlue.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
-                                playerBlue.setPlayerHand((ArrayList<Cards>) lol.get(0));
-                                playerBlue.setCardField((ArrayList<Cards>) lol.get(1));
-                                playerBlue.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
+                                if (tempPlayerList != null) {
+                                    lol = is(tempPlayerList);
+                                    playerBlue.setPhaseNumber(Integer.parseInt(tempPlayerList.get(3).toString()));
+                                    playerBlue.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
+                                    playerBlue.setPlayerHand((ArrayList<Cards>) lol.get(0));
+                                    playerBlue.setCardField((ArrayList<Cards>) lol.get(1));
+                                    playerBlue.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
 
-                                if (playerBlue.abgelegt) {
-                                    playerBlue.updateCardfieldCompletely(playerBlue.getCardField(), playerBlue.getLinearLayout());
+                                    if (playerBlue.abgelegt) {
+                                        playerBlue.updateCardfieldCompletely(playerBlue.getCardField(), playerBlue.getLinearLayout());
+                                    }
+                                    if (playerBlue.getColor().equals(currentPlayer.getColor())) {
+                                        setPhasenTextTextView();
+                                    }
                                 }
-
                             } else if (Objects.equals(color, "RED")) {
                                 tempPlayerList = (ArrayList) document.get("PlayerRed");
-                                lol = is(tempPlayerList);
-                                playerRed.setPhaseNumber(Integer.parseInt(tempPlayerList.get(3).toString()));
-                                playerRed.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
-                                playerRed.setPlayerHand((ArrayList<Cards>) lol.get(0));
-                                playerRed.setCardField((ArrayList<Cards>) lol.get(1));
-                                playerRed.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
+                                if (tempPlayerList != null) {
+                                    lol = is(tempPlayerList);
+                                    playerRed.setPhaseNumber(Integer.parseInt(tempPlayerList.get(3).toString()));
+                                    playerRed.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
+                                    playerRed.setPlayerHand((ArrayList<Cards>) lol.get(0));
+                                    playerRed.setCardField((ArrayList<Cards>) lol.get(1));
+                                    playerRed.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
 
-                                if (playerRed.abgelegt) {
-                                    playerRed.updateCardfieldCompletely(playerRed.getCardField(), playerRed.getLinearLayout());
+                                    if (playerRed.abgelegt) {
+                                        playerRed.updateCardfieldCompletely(playerRed.getCardField(), playerRed.getLinearLayout());
+                                    }
+                                    if (playerRed.getColor().equals(currentPlayer.getColor())) {
+                                        setPhasenTextTextView();
+                                    }
                                 }
-
                             } else if (Objects.equals(color, "YELLOW")) {
                                 tempPlayerList = (ArrayList) document.get("PlayerYellow");
-                                lol = is(tempPlayerList);
-                                playerYellow.setPhaseNumber(Integer.parseInt(tempPlayerList.get(3).toString()));
-                                playerYellow.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
-                                playerYellow.setPlayerHand((ArrayList<Cards>) lol.get(0));
-                                playerYellow.setCardField((ArrayList<Cards>) lol.get(1));
-                                playerYellow.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
+                                if (tempPlayerList != null) {
+                                    lol = is(tempPlayerList);
+                                    playerYellow.setPhaseNumber(Integer.parseInt(tempPlayerList.get(3).toString()));
+                                    playerYellow.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
+                                    playerYellow.setPlayerHand((ArrayList<Cards>) lol.get(0));
+                                    playerYellow.setCardField((ArrayList<Cards>) lol.get(1));
+                                    playerYellow.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
 
-                                if (playerYellow.abgelegt) {
-                                    playerYellow.updateCardfieldCompletely(playerYellow.getCardField(), playerYellow.getLinearLayout());
+                                    if (playerYellow.abgelegt) {
+                                        playerYellow.updateCardfieldCompletely(playerYellow.getCardField(), playerYellow.getLinearLayout());
+                                    }
+                                    if (playerYellow.getColor().equals(currentPlayer.getColor())) {
+                                        setPhasenTextTextView();
+                                    }
                                 }
-
                             } else if (Objects.equals(color, "GREEN")) {
                                 tempPlayerList = (ArrayList) document.get("PlayerGreen");
-                                lol = is(tempPlayerList);
-                                playerGreen.setPhaseNumber(Integer.parseInt(tempPlayerList.get(3).toString()));
-                                playerGreen.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
-                                playerGreen.setPlayerHand((ArrayList<Cards>) lol.get(0));
-                                playerGreen.setCardField((ArrayList<Cards>) lol.get(1));
-                                playerGreen.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
+                                if (tempPlayerList != null) {
+                                    lol = is(tempPlayerList);
+                                    playerGreen.setPhaseNumber(Integer.parseInt(tempPlayerList.get(3).toString()));
+                                    playerGreen.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
+                                    playerGreen.setPlayerHand((ArrayList<Cards>) lol.get(0));
+                                    playerGreen.setCardField((ArrayList<Cards>) lol.get(1));
+                                    playerGreen.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
 
-                                if (playerGreen.abgelegt) {
-                                    playerGreen.updateCardfieldCompletely(playerGreen.getCardField(), playerGreen.getLinearLayout());
+                                    if (playerGreen.abgelegt) {
+                                        playerGreen.updateCardfieldCompletely(playerGreen.getCardField(), playerGreen.getLinearLayout());
+                                    }
+                                    if (playerGreen.getColor().equals(currentPlayer.getColor())) {
+                                        setPhasenTextTextView();
+                                    }
                                 }
-
                             }
                         }
                     }

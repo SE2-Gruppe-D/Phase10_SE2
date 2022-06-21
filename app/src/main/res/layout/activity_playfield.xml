@@ -277,29 +277,26 @@
             android:textColor="#FFFFFF" />
 
         <Button
+            android:id="@+id/btnHideAk"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_gravity="end"
+            android:background="#4D000000"
+            android:text="Hide"
+            android:textColor="#FFFFFF"
+            android:visibility="invisible" />
+
+        <Button
             android:id="@+id/btnShowAk"
             android:layout_width="46dp"
             android:layout_height="46dp"
-           android:layout_gravity="end"
+            android:layout_gravity="end"
             android:layout_margin="2sp"
             android:background="#4D000000"
             android:text="Show"
             android:textColor="#FFFFFF"
             android:visibility="visible"
             tools:ignore="TouchTargetSizeCheck" />
-
-        <Button
-            android:id="@+id/btnHideAk"
-            android:layout_width="46dp"
-            android:layout_height="46dp"
-            android:layout_marginStart="164dp"
-            android:layout_marginBottom="365dp"
-            android:background="#4D000000"
-            android:text="Hide"
-            android:textColor="#FFFFFF"
-            android:visibility="invisible" />
-
-
 
 
     </FrameLayout>
@@ -315,20 +312,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <ImageView
-        android:id="@+id/ivShowAk"
-        android:layout_width="248dp"
-        android:layout_height="375dp"
-        android:layout_marginEnd="249dp"
-        android:foreground="@drawable/aktionenkarte2neu"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/fl_playfield"
-        app:layout_constraintHorizontal_bias="0.416"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
     <Button
         android:id="@+id/buttonCheckPhase"
         android:layout_width="84dp"
@@ -340,7 +323,34 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/player1PhaseAblegen"
         app:layout_constraintEnd_toStartOf="@+id/player4"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/buttonCheat"
+        android:layout_width="84dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginBottom="16dp"
+        android:text="cheat"
+        android:textSize="10sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/player1PhaseAblegen"
+        app:layout_constraintStart_toEndOf="@+id/player3"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/ivShowAk"
+        android:layout_width="248dp"
+        android:layout_height="360dp"
+        android:layout_marginEnd="249dp"
+        android:foreground="@drawable/aktionskartefinal"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fl_playfield"
+        app:layout_constraintHorizontal_bias="0.416"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

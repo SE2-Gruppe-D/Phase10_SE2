@@ -40,13 +40,13 @@ public class PlayfieldTest {
         testGameInfo.put("Round", "1");
         testGameInfo.put("CurrentPlayer", testPlayerCurr);
 
-            testGameInfo.put("PlayerYellow", testPlayerYellow);
-            testGameInfo.put("PlayerBlue",testPlayerBlue);
+        testGameInfo.put("PlayerYellow", testPlayerYellow);
+        testGameInfo.put("PlayerBlue",testPlayerBlue);
 
-            testGameInfo.put("PlayerRed", testPlayerRed);
+        testGameInfo.put("PlayerRed", testPlayerRed);
 
-            testGameInfo.put("PlayerGreen", testPlayerGreen);
-            testGameInfo.put("StartOrder", new ArrayList<>());
+        testGameInfo.put("PlayerGreen", testPlayerGreen);
+        testGameInfo.put("StartOrder", new ArrayList<>());
 
 
         testGameInfo.put("DiceRoll", 2);
