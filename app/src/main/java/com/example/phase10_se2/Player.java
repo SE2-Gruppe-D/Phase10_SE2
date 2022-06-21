@@ -112,6 +112,9 @@ public class Player {
             if(card != null && card.getCardUI() != null && card.getCardUI().getParent() != null) {
                 ((ViewGroup) card.getCardUI().getParent()).removeView(card.getCardUI());
             }
+            if (card != null && card.getCardUI() != null) {
+                linearLayout.addView(card.getCardUI());
+            }
             linearLayout.addView(card.getCardUI());
         }
     }
