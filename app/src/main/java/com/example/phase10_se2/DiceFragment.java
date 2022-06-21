@@ -41,6 +41,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
     private String room;
     private FirebaseFirestore database;
     private Playfield playfield;
+    private final static String GAME_INFO = "gameInfo";
 
 
     public static DiceFragment newInstance() {
@@ -56,7 +57,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
         playerColor = definePlayerColor(playfield.getUserColor());
         database = createDBConnection();
 
-        database.collection("gameInfo")
+        database.collection(GAME_INFO)
                 .whereEqualTo("RoomName", room)
                 .addSnapshotListener((value, error) -> {
 
@@ -66,7 +67,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                     }
 
                     if (value != null) {
-                        database.collection("gameInfo")
+                        database.collection(GAME_INFO)
                                 .whereEqualTo("RoomName", room)
                                 .get()
                                 .addOnCompleteListener(task -> {
@@ -196,7 +197,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                 }
 
 
-                database.collection("gameInfo")
+                database.collection(GAME_INFO)
                         .whereEqualTo("RoomName", room)
                         .get()
                         .addOnCompleteListener(task -> {
@@ -226,20 +227,6 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                 playfield.getActionfield();
             }
         }).start();
-    }
-
-    //currentPlayer cheats
-    private void updateCheatedToTrue() {
-        database.collection("gameInfo")
-                .whereEqualTo("RoomName", room)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            document.getReference().update("Cheated", true);
-                        }
-                    }
-                });
     }
 
     private Player getPlayer(PlayerColor playerColor) {

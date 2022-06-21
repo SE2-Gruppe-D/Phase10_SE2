@@ -26,7 +26,8 @@ import java.util.Map;
 public class FindGameActivity extends AppCompatActivity {
     final String[] color = new String[1];
     String roomName = "";
-    final static String userPath = "users";
+    final static String USERPATH = "users";
+    final static String COLOR = "Color";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,18 +68,15 @@ public class FindGameActivity extends AppCompatActivity {
                     }
                 });
         //get all information from database
-        database.collection(userPath)
+        database.collection(USERPATH)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             //add all available rooms to gameRoomsList
-                            if (!gameRoomsList.contains(document.getString("Room"))) {
-                                if (!activeGames.contains(document.getString("Room"))) {
-                                    gameRoomsList.add(document.getString("Room"));
-                                    adapter.notifyDataSetChanged();
-                                }
-
+                            if (!gameRoomsList.contains(document.getString("Room")) && !activeGames.contains(document.getString("Room"))) {
+                                gameRoomsList.add(document.getString("Room"));
+                                adapter.notifyDataSetChanged();
                             }
                         }
                     } else {
@@ -101,14 +99,14 @@ public class FindGameActivity extends AppCompatActivity {
 
             adapter.notifyDataSetChanged(); //update LV
 
-            database.collection(userPath)
+            database.collection(USERPATH)
                     .whereEqualTo("Room", roomName)
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //add all takenColors
-                                takenColors.add(document.getString("Color"));
+                                takenColors.add(document.getString(COLOR));
                             }
                         }
                         if (takenColors.contains("RED")) {
@@ -158,14 +156,14 @@ public class FindGameActivity extends AppCompatActivity {
                     //create user
                     Map<String, Object> user = new HashMap<>();
                     user.put("Name", player.getName());
-                    user.put("Color", player.getColor());
+                    user.put(COLOR, player.getColor());
                     user.put("Room", roomName);
                     user.put("Phase", player.getPhaseNumber());
                     user.put("Points", player.getMinusPoints());
                     user.put("Handcards", player.getPlayerHand());
                     user.put("CardsField", player.getCardField());
 
-                    database.collection(userPath)
+                    database.collection(USERPATH)
                             .add(user)
                             .addOnSuccessListener(documentReference -> {
                                 Toast.makeText(FindGameActivity.this, "joining game...", Toast.LENGTH_SHORT).show();
@@ -179,7 +177,7 @@ public class FindGameActivity extends AppCompatActivity {
     public void goToFindPlayer() {
         Intent intent = new Intent(FindGameActivity.this, FindPlayer.class);
         intent.putExtra("CurrentRoom", roomName);
-        intent.putExtra("Color", color[0]);
+        intent.putExtra(COLOR, color[0]);
         startActivity(intent);
     }
 }

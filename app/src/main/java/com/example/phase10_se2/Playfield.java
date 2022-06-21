@@ -93,6 +93,8 @@ public class Playfield extends AppCompatActivity {
     ArrayList<Cards> playerHandYellow;
     ArrayList<Cards> playerHandGreen;
     List<Cards> playerHandPrimaryPlayer;
+    ArrayList<Player> playerArrayList;
+    WinnerDecision wd;
     Player player;
     Actionfield actionfield;
     private boolean initToastShown = false;
@@ -237,10 +239,15 @@ public class Playfield extends AppCompatActivity {
                                                     defaultcard.setImageDrawable(discardpileList.get(discardpileList.size() - 1).getCardUI().getDrawable());
                                                 }
 
+
                                                 //sync handcards and cardfield
                                                 if (playerBlueArr != null) {
                                                     ArrayList<Cards> newHandCards = addCardsToList(String.valueOf(playerBlueArr.get(5)));
                                                     ArrayList<Cards> newCardField = addCardsToList(String.valueOf(playerBlueArr.get(6)));
+
+                                                    if (Integer.parseInt(String.valueOf(playerBlueArr.get(3))) > 10) {
+                                                        Toast.makeText(Playfield.this, "Player " + wd.getWinner().get(0).getColorAsString() + " won!", Toast.LENGTH_LONG).show();
+                                                    }
 
                                                     if (playerBlue.getColor().equals(primaryPlayer.getColor())) {
                                                         handCards.updateHandCompletely(playerBlue.getPlayerHand(), newHandCards, layoutPlayer1);
@@ -263,6 +270,10 @@ public class Playfield extends AppCompatActivity {
                                                     ArrayList<Cards> newHandCards = addCardsToList(String.valueOf(playerRedArr.get(5)));
                                                     ArrayList<Cards> newCardField = addCardsToList(String.valueOf(playerRedArr.get(6)));
 
+                                                    if (Integer.parseInt(String.valueOf(playerRedArr.get(3))) > 10) {
+                                                        Toast.makeText(Playfield.this, "Player " + wd.getWinner().get(0).getColorAsString() + " won!", Toast.LENGTH_LONG).show();
+                                                    }
+
                                                     if (playerRed.getColor().equals(primaryPlayer.getColor())) {
                                                         handCards.updateHandCompletely(playerRed.getPlayerHand(), newHandCards, layoutPlayer1);
                                                         playerRed.updateCardfieldCompletely(newCardField, layoutPlayer1CardField);
@@ -284,6 +295,10 @@ public class Playfield extends AppCompatActivity {
                                                     ArrayList<Cards> newHandCards = addCardsToList(String.valueOf(playerYellowArr.get(5)));
                                                     ArrayList<Cards> newCardField = addCardsToList(String.valueOf(playerYellowArr.get(6)));
 
+                                                    if (Integer.parseInt(String.valueOf(playerYellowArr.get(3))) > 10) {
+                                                        Toast.makeText(Playfield.this, "Player " + wd.getWinner().get(0).getColorAsString() + " won!", Toast.LENGTH_LONG).show();
+                                                    }
+
                                                     if (playerYellow.getColor().equals(primaryPlayer.getColor())) {
                                                         handCards.updateHandCompletely(playerYellow.getPlayerHand(), newHandCards, layoutPlayer1);
                                                         playerYellow.updateCardfieldCompletely(newCardField, layoutPlayer1CardField);
@@ -304,6 +319,10 @@ public class Playfield extends AppCompatActivity {
                                                 if (playerGreenArr != null) {
                                                     ArrayList<Cards> newHandCards = addCardsToList(String.valueOf(playerGreenArr.get(5)));
                                                     ArrayList<Cards> newCardField = addCardsToList(String.valueOf(playerGreenArr.get(6)));
+
+                                                    if (Integer.parseInt(String.valueOf(playerGreenArr.get(3))) > 10) {
+                                                        Toast.makeText(Playfield.this, "Player " + wd.getWinner().get(0).getColorAsString() + " won!", Toast.LENGTH_LONG).show();
+                                                    }
 
                                                     if (playerGreen.getColor().equals(primaryPlayer.getColor())) {
                                                         handCards.updateHandCompletely(playerGreen.getPlayerHand(), newHandCards, layoutPlayer1);
@@ -644,6 +663,23 @@ public class Playfield extends AppCompatActivity {
             actionBar.hide();
         } catch (Exception ignored) {
         }
+
+        ArrayList<Player> playerArrayList = new ArrayList<>();
+        if (playerBlue != null) {
+            playerArrayList.add(playerBlue);
+        }
+        if (playerYellow != null) {
+            playerArrayList.add(playerYellow);
+        }
+        if (playerRed != null) {
+            playerArrayList.add(playerRed);
+        }
+        if (playerGreen != null) {
+            playerArrayList.add(playerGreen);
+        }
+
+
+        wd = new WinnerDecision(playerArrayList);
 
         //Spiel verlassen
         exitGame = findViewById(R.id.leaveGame);
@@ -1464,15 +1500,20 @@ public class Playfield extends AppCompatActivity {
 
     public void nextRoundCards() {
         if (getHandCardsDB().size() == 0) {
-            //handcards
-            cardlist = new ArrayList<>(allCards);
-            cardDrawer.shuffleCards(cardlist);
-
             ArrayList<Player> playerArrayList = new ArrayList<>();
             playerArrayList.add(playerBlue);
             playerArrayList.add(playerYellow);
             playerArrayList.add(playerRed);
             playerArrayList.add(playerGreen);
+
+            //calc minuspunkte
+            for (Player p : playerArrayList) {
+                p.updateMinusPoints(p.getPlayerHand());
+            }
+
+            //handcards
+            cardlist = new ArrayList<>(allCards);
+            cardDrawer.shuffleCards(cardlist);
 
             for (Player p : playerArrayList) {
                 if (p != null) {
