@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="visible"
-    tools:context=".Playfield">
+    tools:context=".Playfield"
+    android:background="@drawable/playfieldbackground">
 
     <TextView
         android:id="@+id/Timer"
@@ -272,14 +273,15 @@
             android:layout_height="20dp"
             android:background="#4D000000"
             android:text="Spiel verlassen"
+            android:layout_margin="2sp"
             android:textColor="#FFFFFF" />
 
         <Button
             android:id="@+id/btnShowAk"
             android:layout_width="46dp"
             android:layout_height="46dp"
-            android:layout_marginStart="164dp"
-            android:layout_marginBottom="365dp"
+           android:layout_gravity="end"
+            android:layout_margin="2sp"
             android:background="#4D000000"
             android:text="Show"
             android:textColor="#FFFFFF"

@@ -75,7 +75,7 @@ public class TestHandCards {
         handCards=null;
     }
 
-    @Test
+   /* @Test
     public void PrimaryPlayerBlue(){
         primary=playerBlue;
         handCards.handCardsPlayer(linearLayout1, linearLayout2, linearLayout3, linearLayout4, cardList, playerBlue, playerGreen, playerYellow, playerRed, primary);
@@ -110,7 +110,7 @@ public class TestHandCards {
         Assertions.assertEquals(56, cardList.size());
         Assertions.assertEquals(10, primary.getPlayerHand().size());
     }
-
+*/
     @Test
     public void testVisibilityCards(){
         ArrayList<Cards> cardlist= new ArrayList<>();
