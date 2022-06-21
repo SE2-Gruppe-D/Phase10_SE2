@@ -1,5 +1,7 @@
 package com.example.phase10_se2;
 
+import android.widget.LinearLayout;
+
 import org.junit.jupiter.api.*;
 
 import com.example.phase10_se2.enums.PlayerColor;
@@ -15,6 +17,7 @@ public class PlayerTest {
     private Player playerCon4;
     private CardsForTesting cfg = new CardsForTesting();
     private ArrayList<Cards> cards;
+    private LinearLayout linearLayout;
 
     @BeforeEach
     public void init() {
@@ -82,6 +85,11 @@ public class PlayerTest {
             cards.add(cfg.card11y);
             player.updateMinusPoints(cards);
             Assertions.assertEquals(15, player.getMinusPoints());
+    }
+
+    @Test
+    public void ifNoCardsAreLeft_ThenMinusPointsShouldBe0(){
+        Assertions.assertEquals(0, player.getMinusPoints());
     }
 
     @Test
@@ -181,6 +189,12 @@ public class PlayerTest {
     }
 
 
+    @Test
+    public void ifGetColorAsStringIsUsedNothing_ThenReturnNull () {
+        Assertions.assertNull(player.getColor());
+    }
+
+
     //Funktionalität von setStartingOrder wirkt komisch...
     @Test
     public void testForPlayerGetterAndSetterStartingOrder () {
@@ -249,6 +263,12 @@ public class PlayerTest {
     public void testForPlayerGetterAndSetterAbgelegt () {
         player.setAbgelegt(true);
         Assertions.assertTrue(player.isAbgelegt());
+    }
+
+    @Test
+    public void testForPlayerGetterAndSetterLinearLayout () {
+        player.setLinearLayout(linearLayout);
+        Assertions.assertEquals(linearLayout, player.getLinearLayout());
     }
 
 
