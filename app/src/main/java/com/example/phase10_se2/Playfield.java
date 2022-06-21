@@ -1625,56 +1625,60 @@ public class Playfield extends AppCompatActivity {
 
                             if (Objects.equals(color, "BLUE")) {
                                 tempPlayerList = (ArrayList) document.get("PlayerBlue");
-                                lol = is(tempPlayerList);
-                                playerBlue.setPhaseNumber(Integer.parseInt(tempPlayerList.get(3).toString()));
-                                playerBlue.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
-                                playerBlue.setPlayerHand((ArrayList<Cards>) lol.get(0));
-                                playerBlue.setCardField((ArrayList<Cards>) lol.get(1));
-                                playerBlue.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
+                                if (tempPlayerList != null) {
+                                    lol = is(tempPlayerList);
+                                    playerBlue.setPhaseNumber(Integer.parseInt(tempPlayerList.get(3).toString()));
+                                    playerBlue.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
+                                    playerBlue.setPlayerHand((ArrayList<Cards>) lol.get(0));
+                                    playerBlue.setCardField((ArrayList<Cards>) lol.get(1));
+                                    playerBlue.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
 
-                                if (playerBlue.abgelegt) {
-                                    playerBlue.updateCardfieldCompletely(playerBlue.getCardField(), playerBlue.getLinearLayout());
+                                    if (playerBlue.abgelegt) {
+                                        playerBlue.updateCardfieldCompletely(playerBlue.getCardField(), playerBlue.getLinearLayout());
+                                    }
                                 }
-
                             } else if (Objects.equals(color, "RED")) {
                                 tempPlayerList = (ArrayList) document.get("PlayerRed");
-                                lol = is(tempPlayerList);
-                                playerRed.setPhaseNumber(Integer.parseInt(tempPlayerList.get(3).toString()));
-                                playerRed.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
-                                playerRed.setPlayerHand((ArrayList<Cards>) lol.get(0));
-                                playerRed.setCardField((ArrayList<Cards>) lol.get(1));
-                                playerRed.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
+                                if (tempPlayerList != null) {
+                                    lol = is(tempPlayerList);
+                                    playerRed.setPhaseNumber(Integer.parseInt(tempPlayerList.get(3).toString()));
+                                    playerRed.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
+                                    playerRed.setPlayerHand((ArrayList<Cards>) lol.get(0));
+                                    playerRed.setCardField((ArrayList<Cards>) lol.get(1));
+                                    playerRed.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
 
-                                if (playerRed.abgelegt) {
-                                    playerRed.updateCardfieldCompletely(playerRed.getCardField(), playerRed.getLinearLayout());
+                                    if (playerRed.abgelegt) {
+                                        playerRed.updateCardfieldCompletely(playerRed.getCardField(), playerRed.getLinearLayout());
+                                    }
                                 }
-
                             } else if (Objects.equals(color, "YELLOW")) {
                                 tempPlayerList = (ArrayList) document.get("PlayerYellow");
-                                lol = is(tempPlayerList);
-                                playerYellow.setPhaseNumber(Integer.parseInt(tempPlayerList.get(3).toString()));
-                                playerYellow.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
-                                playerYellow.setPlayerHand((ArrayList<Cards>) lol.get(0));
-                                playerYellow.setCardField((ArrayList<Cards>) lol.get(1));
-                                playerYellow.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
+                                if (tempPlayerList != null) {
+                                    lol = is(tempPlayerList);
+                                    playerYellow.setPhaseNumber(Integer.parseInt(tempPlayerList.get(3).toString()));
+                                    playerYellow.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
+                                    playerYellow.setPlayerHand((ArrayList<Cards>) lol.get(0));
+                                    playerYellow.setCardField((ArrayList<Cards>) lol.get(1));
+                                    playerYellow.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
 
-                                if (playerYellow.abgelegt) {
-                                    playerYellow.updateCardfieldCompletely(playerYellow.getCardField(), playerYellow.getLinearLayout());
+                                    if (playerYellow.abgelegt) {
+                                        playerYellow.updateCardfieldCompletely(playerYellow.getCardField(), playerYellow.getLinearLayout());
+                                    }
                                 }
-
                             } else if (Objects.equals(color, "GREEN")) {
                                 tempPlayerList = (ArrayList) document.get("PlayerGreen");
-                                lol = is(tempPlayerList);
-                                playerGreen.setPhaseNumber(Integer.parseInt(tempPlayerList.get(3).toString()));
-                                playerGreen.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
-                                playerGreen.setPlayerHand((ArrayList<Cards>) lol.get(0));
-                                playerGreen.setCardField((ArrayList<Cards>) lol.get(1));
-                                playerGreen.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
+                                if (tempPlayerList != null) {
+                                    lol = is(tempPlayerList);
+                                    playerGreen.setPhaseNumber(Integer.parseInt(tempPlayerList.get(3).toString()));
+                                    playerGreen.setMinusPoints(Integer.parseInt(tempPlayerList.get(4).toString()));
+                                    playerGreen.setPlayerHand((ArrayList<Cards>) lol.get(0));
+                                    playerGreen.setCardField((ArrayList<Cards>) lol.get(1));
+                                    playerGreen.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
 
-                                if (playerGreen.abgelegt) {
-                                    playerGreen.updateCardfieldCompletely(playerGreen.getCardField(), playerGreen.getLinearLayout());
+                                    if (playerGreen.abgelegt) {
+                                        playerGreen.updateCardfieldCompletely(playerGreen.getCardField(), playerGreen.getLinearLayout());
+                                    }
                                 }
-
                             }
                         }
                     }
