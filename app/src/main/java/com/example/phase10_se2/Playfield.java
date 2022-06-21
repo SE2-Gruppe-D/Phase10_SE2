@@ -337,7 +337,7 @@ public class Playfield extends AppCompatActivity {
 
                                                     //make player cardfield cards visible
                                                     for (Cards card : playerGreen.getCardField()) {
-                                                        if (card.getCardUI() != null) {
+                                                        if (card != null && card.getCardUI() != null) {
                                                             card.getCardUI().setClickable(false);
                                                             card.getCardUI().setVisibility(View.VISIBLE);
                                                         }
@@ -488,7 +488,7 @@ public class Playfield extends AppCompatActivity {
         btnCheckPhase.setVisibility(View.VISIBLE);
 
         btnCheckPhase.setOnClickListener(view -> {
-            if(!currentPlayer.isAbgelegt()) {
+            if(!currentPlayer.isAbgelegt() && addEnoughCards()) {
                 if (phase.getRightPhase(getPhasenumberDB(), getCardfieldCardlistDB())) {
                     if (getPhasenumberDB() != 10) {
                         setPhasenumberDB(); //Phase wird um 1 erhöht und abgelegt wird auf true gesetzt

@@ -1,5 +1,7 @@
 package com.example.phase10_se2;
 
+import android.widget.LinearLayout;
+
 import org.junit.jupiter.api.*;
 
 import com.example.phase10_se2.enums.PlayerColor;
@@ -15,6 +17,7 @@ public class PlayerTest {
     private Player playerCon4;
     private CardsForTesting cfg = new CardsForTesting();
     private ArrayList<Cards> cards;
+    private LinearLayout linearLayout;
 
     @BeforeEach
     public void init() {
@@ -82,6 +85,11 @@ public class PlayerTest {
             cards.add(cfg.card11y);
             player.updateMinusPoints(cards);
             Assertions.assertEquals(15, player.getMinusPoints());
+    }
+
+    @Test
+    public void ifNoCardsAreLeft_ThenMinusPointsShouldBe0(){
+        Assertions.assertEquals(0, player.getMinusPoints());
     }
 
     @Test
@@ -181,6 +189,12 @@ public class PlayerTest {
     }
 
 
+    @Test
+    public void ifGetColorAsStringIsUsedNothing_ThenReturnNull () {
+        Assertions.assertNull(player.getColor());
+    }
+
+
     //Funktionalität von setStartingOrder wirkt komisch...
     @Test
     public void testForPlayerGetterAndSetterStartingOrder () {
@@ -222,4 +236,48 @@ public class PlayerTest {
         Assertions.assertEquals(null, playerCon1.getCardField());
     }
 
+    @Test
+    public void testForPlayerAddCardToCardField () {
+        if(player!=null && player.getCardField()!=null) {
+            player.addCardField(cfg.card2g);
+            int lastCard = player.getCardField().size() - 1;
+            Assertions.assertEquals(cfg.card2g, player.getCardField().get(lastCard));
+        }
+    }
+
+    @Test
+    public void testForPlayerupdateCardfieldCompletelyEmptyCardsList () {
+        player.setCardField(null);
+        Assertions.assertEquals(null, player.getCardField());
+        }
+
+
+    @Test
+    public void ifPhaseNumberIs0_ThenAssignTheRightText() {
+        player.setPhaseNumber(0);
+        player.setPhaseText();
+        Assertions.assertEquals("-", player.getPhaseText());
+    }
+
+    @Test
+    public void testForPlayerGetterAndSetterAbgelegt () {
+        player.setAbgelegt(true);
+        Assertions.assertTrue(player.isAbgelegt());
+    }
+
+    @Test
+    public void testForPlayerGetterAndSetterLinearLayout () {
+        player.setLinearLayout(linearLayout);
+        Assertions.assertEquals(linearLayout, player.getLinearLayout());
+    }
+
+
+
+
+
 }
+
+
+
+
+
