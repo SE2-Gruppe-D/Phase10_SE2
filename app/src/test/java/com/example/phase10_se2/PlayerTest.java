@@ -224,11 +224,18 @@ public class PlayerTest {
 
     @Test
     public void testForPlayerAddCardToCardField () {
-        player.addCardField(cfg.card2g);
-        int lastCard = player.getCardField().size()-1;
-        Assertions.assertEquals(cfg.card2g, player.getCardField().get(lastCard));
+        if(player!=null && player.getCardField()!=null) {
+            player.addCardField(cfg.card2g);
+            int lastCard = player.getCardField().size() - 1;
+            Assertions.assertEquals(cfg.card2g, player.getCardField().get(lastCard));
+        }
+    }
+
+    @Test
+    public void testForPlayerupdateCardfieldCompletelyEmptyCardsList () {
+        player.setCardField(null);
+        Assertions.assertEquals(null, player.getCardField());
+        }
     }
 
 
-
-}

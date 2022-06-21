@@ -102,7 +102,7 @@ public class Player {
     public void updateCardfieldCompletely(List<Cards> cards, LinearLayout linearLayout) {
         linearLayout.removeAllViews();
 
-        if (cards.size() == 0) {
+        if (cards.isEmpty()) {
             return;
         }
 
@@ -302,7 +302,7 @@ public class Player {
     }
 
     public List<Cards> getCardField() {
-        return cardField;
+            return cardField;
     }
 
     public void setCardField(List<Cards> cardField) {
