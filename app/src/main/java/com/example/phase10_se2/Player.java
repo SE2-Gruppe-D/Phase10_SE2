@@ -116,7 +116,6 @@ public class Player {
             if (card != null && card.getCardUI() != null) {
                 linearLayout.addView(card.getCardUI());
             }
-            linearLayout.addView(card.getCardUI());
         }
     }
 
