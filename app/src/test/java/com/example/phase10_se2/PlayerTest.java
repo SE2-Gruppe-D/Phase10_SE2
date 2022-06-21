@@ -222,4 +222,13 @@ public class PlayerTest {
         Assertions.assertEquals(null, playerCon1.getCardField());
     }
 
+    @Test
+    public void testForPlayerAddCardToCardField () {
+        player.addCardField(cfg.card2g);
+        int lastCard = player.getCardField().size()-1;
+        Assertions.assertEquals(cfg.card2g, player.getCardField().get(lastCard));
+    }
+
+
+
 }
