@@ -51,7 +51,7 @@ import java.util.Objects;
 
 public class Playfield extends AppCompatActivity {
     private static final long START_TIMER = 120000;  //Timer wird in milli Skunden gestartet
-    private final long leftTime = START_TIMER;
+    private static final long LEFT_TIME = START_TIMER;
     DiceFragment diceFragment;
     String currentRoom = "";
     ImageView deckcard;
@@ -571,7 +571,7 @@ public class Playfield extends AppCompatActivity {
 
         //Timer
         TextView timer = findViewById(R.id.Timer);
-        classTimer = new Timer(timer, timerturn, leftTime, this);
+        classTimer = new Timer(timer, timerturn, LEFT_TIME, this);
         classTimer.startTimer();
 
         //light sensor to accuse of cheating
@@ -610,45 +610,45 @@ public class Playfield extends AppCompatActivity {
                                             //give consequences
                                             //if accused right:
                                             String playerDB = "Player" + lastCurrentPlayerColor.charAt(0) + lastCurrentPlayerColor.substring(1).toLowerCase();
-                                            ArrayList player = (ArrayList) document.get(playerDB);
+                                            ArrayList playerTemp = (ArrayList) document.get(playerDB);
 
 
-                                            int phaseplayer = Math.max((Integer.parseInt(String.valueOf(player.get(3))) - 1), 1);
-                                            player.set(3, phaseplayer);
-                                            document.getReference().update(playerDB, player);
+                                            int phaseplayer = Math.max((Integer.parseInt(String.valueOf(playerTemp.get(3))) - 1), 1);
+                                            playerTemp.set(3, phaseplayer);
+                                            document.getReference().update(playerDB, playerTemp);
                                             Toast.makeText(Playfield.this, "Player " + lastCurrentPlayerColor + " cheated, you were right!", Toast.LENGTH_SHORT).show();
 
                                         } else {
                                             //if accused wrong:
-                                            ArrayList player;
+                                            ArrayList playerTemp;
                                             if (document.get("PlayerBlue") != null) {
                                                 if (primaryPlayer.getColor().equals(PlayerColor.BLUE)) {
-                                                    player = (ArrayList) document.get("PlayerBlue");
-                                                    int minusPoints = Integer.parseInt(String.valueOf(player.get(4))) + 10;
-                                                    player.set(4, minusPoints);
-                                                    document.getReference().update("PlayerBlue", player);
+                                                    playerTemp = (ArrayList) document.get("PlayerBlue");
+                                                    int minusPoints = Integer.parseInt(String.valueOf(playerTemp.get(4))) + 10;
+                                                    playerTemp.set(4, minusPoints);
+                                                    document.getReference().update("PlayerBlue", playerTemp);
                                                 }
                                             } else if (document.get("PlayerRed") != null) {
                                                 if (primaryPlayer.getColor().equals(PlayerColor.RED)) {
-                                                    player = (ArrayList) document.get("PlayerRed");
-                                                    int minusPoints = Integer.parseInt(String.valueOf(player.get(4))) + 10;
-                                                    player.set(4, minusPoints);
-                                                    document.getReference().update("PlayerRed", player);
+                                                    playerTemp = (ArrayList) document.get("PlayerRed");
+                                                    int minusPoints = Integer.parseInt(String.valueOf(playerTemp.get(4))) + 10;
+                                                    playerTemp.set(4, minusPoints);
+                                                    document.getReference().update("PlayerRed", playerTemp);
                                                 }
                                             } else if (document.get("PlayerYellow") != null) {
                                                 if (primaryPlayer.getColor().equals(PlayerColor.YELLOW)) {
-                                                    player = (ArrayList) document.get("PlayerYellow");
-                                                    int minusPoints = Integer.parseInt(String.valueOf(player.get(4))) + 10;
-                                                    player.set(4, minusPoints);
-                                                    document.getReference().update("PlayerYellow", player);
+                                                    playerTemp = (ArrayList) document.get("PlayerYellow");
+                                                    int minusPoints = Integer.parseInt(String.valueOf(playerTemp.get(4))) + 10;
+                                                    playerTemp.set(4, minusPoints);
+                                                    document.getReference().update("PlayerYellow", playerTemp);
 
                                                 }
                                             } else if (document.get("PlayerGreen") != null) {
                                                 if (primaryPlayer.getColor().equals(PlayerColor.GREEN)) {
-                                                    player = (ArrayList) document.get("PlayerGreen");
-                                                    int minusPoints = Integer.parseInt(String.valueOf(player.get(4))) + 10;
-                                                    player.set(4, minusPoints);
-                                                    document.getReference().update("PlayerGreen", player);
+                                                    playerTemp = (ArrayList) document.get("PlayerGreen");
+                                                    int minusPoints = Integer.parseInt(String.valueOf(playerTemp.get(4))) + 10;
+                                                    playerTemp.set(4, minusPoints);
+                                                    document.getReference().update("PlayerGreen", playerTemp);
 
                                                 }
                                             }
@@ -1279,8 +1279,8 @@ public class Playfield extends AppCompatActivity {
 
     //Aktuelle in Player zugewiesene Phase wird in Textview am Spielfeld angezeigt
     private void setPhasenTextTextView() {
-        getPlayerFromColor(primaryPlayer.getColorAsString()).setPhaseText();
-        tvAktuellePhase.setText(getPlayerFromColor(primaryPlayer.getColorAsString()).getPhaseText());
+        Objects.requireNonNull(getPlayerFromColor(primaryPlayer.getColorAsString())).setPhaseText();
+        tvAktuellePhase.setText(Objects.requireNonNull(getPlayerFromColor(primaryPlayer.getColorAsString())).getPhaseText());
     }
 
     //Getter und Setter

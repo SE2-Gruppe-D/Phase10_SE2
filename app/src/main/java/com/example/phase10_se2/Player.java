@@ -111,8 +111,8 @@ public class Player {
         for (Cards card : cards) {
             if(card != null && card.getCardUI() != null && card.getCardUI().getParent() != null) {
                 ((ViewGroup) card.getCardUI().getParent()).removeView(card.getCardUI());
+                linearLayout.addView(card.getCardUI());
             }
-            linearLayout.addView(card.getCardUI());
         }
     }
 
@@ -278,8 +278,9 @@ public class Player {
             case (10):
                 phaseText = "1 Fünfling + 1 Dreierfolge einer Farbe";
                 break;
+            default:
+                phaseText = "-";
         }
-
     }
 
     public int getPhaseNumber() {

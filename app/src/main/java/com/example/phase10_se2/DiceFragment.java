@@ -41,7 +41,8 @@ public class DiceFragment extends Fragment implements SensorEventListener {
     private String room;
     private FirebaseFirestore database;
     private Playfield playfield;
-    private final static String GAME_INFO = "gameInfo";
+    private static final String GAME_INFO = "gameInfo";
+    private static final String ROOM_NAME = "RoomName";
 
 
     public static DiceFragment newInstance() {
@@ -58,7 +59,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
         database = createDBConnection();
 
         database.collection(GAME_INFO)
-                .whereEqualTo("RoomName", room)
+                .whereEqualTo(ROOM_NAME, room)
                 .addSnapshotListener((value, error) -> {
 
                     if (error != null) {
@@ -68,7 +69,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
 
                     if (value != null) {
                         database.collection(GAME_INFO)
-                                .whereEqualTo("RoomName", room)
+                                .whereEqualTo(ROOM_NAME, room)
                                 .get()
                                 .addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
@@ -194,7 +195,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
 
 
                 database.collection(GAME_INFO)
-                        .whereEqualTo("RoomName", room)
+                        .whereEqualTo(ROOM_NAME, room)
                         .get()
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {

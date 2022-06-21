@@ -26,8 +26,8 @@ import java.util.Map;
 public class FindGameActivity extends AppCompatActivity {
     final String[] color = new String[1];
     String roomName = "";
-    final static String USERPATH = "users";
-    final static String COLOR = "Color";
+    static final String USERPATH = "users";
+    static final String COLOR_CONST = "Color";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +106,7 @@ public class FindGameActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //add all takenColors
-                                takenColors.add(document.getString(COLOR));
+                                takenColors.add(document.getString(COLOR_CONST));
                             }
                         }
                         if (takenColors.contains("RED")) {
@@ -156,7 +156,7 @@ public class FindGameActivity extends AppCompatActivity {
                     //create user
                     Map<String, Object> user = new HashMap<>();
                     user.put("Name", player.getName());
-                    user.put(COLOR, player.getColor());
+                    user.put(COLOR_CONST, player.getColor());
                     user.put("Room", roomName);
                     user.put("Phase", player.getPhaseNumber());
                     user.put("Points", player.getMinusPoints());
@@ -177,7 +177,7 @@ public class FindGameActivity extends AppCompatActivity {
     public void goToFindPlayer() {
         Intent intent = new Intent(FindGameActivity.this, FindPlayer.class);
         intent.putExtra("CurrentRoom", roomName);
-        intent.putExtra(COLOR, color[0]);
+        intent.putExtra(COLOR_CONST, color[0]);
         startActivity(intent);
     }
 }
