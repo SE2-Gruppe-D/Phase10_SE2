@@ -1,9 +1,5 @@
 package com.example.phase10_se2;
 
-import android.content.ClipData;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
