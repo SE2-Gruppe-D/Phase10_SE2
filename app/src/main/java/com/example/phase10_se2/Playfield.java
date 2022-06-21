@@ -251,7 +251,7 @@ public class Playfield extends AppCompatActivity {
 
                                                     //make player cardfield cards visible
                                                     for (Cards card : playerBlue.getCardField()) {
-                                                        if (card.getCardUI() != null) {
+                                                        if (card != null && card.getCardUI() != null) {
                                                             card.getCardUI().setClickable(false);
                                                             card.getCardUI().setVisibility(View.VISIBLE);
                                                         }

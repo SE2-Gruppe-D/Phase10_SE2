@@ -110,11 +110,8 @@ public class Player {
 
         for (Cards card : cards) {
             if(card.getCardUI().getParent() != null) {
-                ((ViewGroup)card.getCardUI().getParent()).removeView(card.getCardUI());
+                ((ViewGroup) card.getCardUI().getParent()).removeView(card.getCardUI());
             }
-        }
-
-        for (Cards card : cards) {
             linearLayout.addView(card.getCardUI());
         }
     }
