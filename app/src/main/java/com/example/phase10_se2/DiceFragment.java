@@ -86,6 +86,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
 
                                             if ((currentPlayer != null && currentPlayerColor == null) || (currentPlayer != null && !currentPlayerColor.equals(definePlayerColor((String) currentPlayer.get(1))))) {
                                                 currentPlayerColor = definePlayerColor((String) currentPlayer.get(1));
+                                                cheatUsed = false;
                                                 moved = false;
                                             }
 
@@ -165,7 +166,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
 
             float acceleration = (float) (Math.sqrt(x * x + y * y + z * z) - SensorManager.GRAVITY_EARTH);
 
-            if (acceleration > 0.5) {
+            if (acceleration > 2) {
                 Log.i("DiceActivity", "sensor has been activated. Trying to set dice image");
 
                 switch (dice.roll()) {
@@ -225,7 +226,6 @@ public class DiceFragment extends Fragment implements SensorEventListener {
             int diceValueBeforeStart = lastDiceValue;
             SystemClock.sleep(3000);
             Player p = getPlayer(currentPlayerColor);
-
 
             if (p != null && !moved && lastDiceValue == diceValueBeforeStart && playerColor.equals(currentPlayerColor)) {
                 moved = true;
