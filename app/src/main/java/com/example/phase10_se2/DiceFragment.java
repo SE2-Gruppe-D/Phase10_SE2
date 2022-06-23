@@ -162,7 +162,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
 
             float acceleration = (float) (Math.sqrt(x * x + y * y + z * z) - SensorManager.GRAVITY_EARTH);
 
-            if (acceleration > shakeThreshold) {
+            if (acceleration > 0.5) {
                 Log.i("DiceActivity", "sensor has been activated. Trying to set dice image");
 
                 switch (dice.roll()) {
