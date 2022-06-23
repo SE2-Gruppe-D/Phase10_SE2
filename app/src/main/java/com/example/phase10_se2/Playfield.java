@@ -876,6 +876,7 @@ public class Playfield extends AppCompatActivity {
     }
 
     public void getActionfield() {
+        updatePlayers();
         switch (actionfield.getRightFieldColor(getCurrentPositionDB())) {
             case GREY:
                 actionfield.greyFieldColor();
@@ -1632,6 +1633,7 @@ public class Playfield extends AppCompatActivity {
                                     playerBlue.setPlayerHand((ArrayList<Cards>) lol.get(0));
                                     playerBlue.setCardField((ArrayList<Cards>) lol.get(1));
                                     playerBlue.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
+                                    playerBlue.setCurrentPosition(Integer.parseInt(tempPlayerList.get(8).toString()));
 
                                     if (playerBlue.abgelegt) {
                                         playerBlue.updateCardfieldCompletely(playerBlue.getCardField(), playerBlue.getLinearLayout());
@@ -1649,6 +1651,7 @@ public class Playfield extends AppCompatActivity {
                                     playerRed.setPlayerHand((ArrayList<Cards>) lol.get(0));
                                     playerRed.setCardField((ArrayList<Cards>) lol.get(1));
                                     playerRed.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
+                                    playerRed.setCurrentPosition(Integer.parseInt(tempPlayerList.get(8).toString()));
 
                                     if (playerRed.abgelegt) {
                                         playerRed.updateCardfieldCompletely(playerRed.getCardField(), playerRed.getLinearLayout());
@@ -1666,6 +1669,7 @@ public class Playfield extends AppCompatActivity {
                                     playerYellow.setPlayerHand((ArrayList<Cards>) lol.get(0));
                                     playerYellow.setCardField((ArrayList<Cards>) lol.get(1));
                                     playerYellow.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
+                                    playerYellow.setCurrentPosition(Integer.parseInt(tempPlayerList.get(8).toString()));
 
                                     if (playerYellow.abgelegt) {
                                         playerYellow.updateCardfieldCompletely(playerYellow.getCardField(), playerYellow.getLinearLayout());
@@ -1683,6 +1687,7 @@ public class Playfield extends AppCompatActivity {
                                     playerGreen.setPlayerHand((ArrayList<Cards>) lol.get(0));
                                     playerGreen.setCardField((ArrayList<Cards>) lol.get(1));
                                     playerGreen.setAbgelegt(Boolean.parseBoolean(tempPlayerList.get(7).toString()));
+                                    playerGreen.setCurrentPosition(Integer.parseInt(tempPlayerList.get(8).toString()));
 
                                     if (playerGreen.abgelegt) {
                                         playerGreen.updateCardfieldCompletely(playerGreen.getCardField(), playerGreen.getLinearLayout());
