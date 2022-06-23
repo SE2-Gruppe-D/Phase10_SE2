@@ -224,14 +224,16 @@ public class DiceFragment extends Fragment implements SensorEventListener {
     private void startCheatTimer() {
         new Thread(() -> {
             int diceValueBeforeStart = lastDiceValue;
-            SystemClock.sleep(3000);
-            Player p = getPlayer(currentPlayerColor);
+            if (playerColor.equals(currentPlayerColor)) {
+                SystemClock.sleep(3000);
+                Player p = getPlayer(currentPlayerColor);
 
-            if (p != null && !moved && lastDiceValue == diceValueBeforeStart && playerColor.equals(currentPlayerColor)) {
-                moved = true;
+                if (p != null && !moved && lastDiceValue == diceValueBeforeStart) {
+                    moved = true;
 
-                p.move(lastDiceValue);
-                playfield.getActionfield();
+                    p.move(lastDiceValue);
+                    playfield.getActionfield();
+                }
             }
         }).start();
     }
