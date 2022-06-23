@@ -162,7 +162,7 @@ public class Playfield extends AppCompatActivity {
                                         if (task.isSuccessful()) {
                                             for (QueryDocumentSnapshot document : task.getResult()) {
                                                 //show current player on init
-                                                if (!initToastShown) {
+                                                if (!initToastShown && currentPlayer != null) {
                                                     currentPlayerToast(currentPlayer.getColorAsString());
                                                     initToastShown = true;
                                                 }
