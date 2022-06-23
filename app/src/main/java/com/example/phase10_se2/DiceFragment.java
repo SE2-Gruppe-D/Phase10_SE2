@@ -8,6 +8,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,7 @@ public class DiceFragment extends Fragment implements SensorEventListener {
     private float shakeThreshold;  //Threshold for the acceleration sensor to trigger dice generation
     private ImageView diceView;
     private boolean moved = false;
+    private boolean cheatUsed = false;
     private Dice dice;
     private SensorManager sensorManager;
     private Sensor accelerometer;
@@ -77,8 +79,9 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                                             //CurrentPlayer for dice throwing
                                             ArrayList currentPlayer = (ArrayList) document.get("CurrentPlayer");
                                             boolean cheated = Boolean.parseBoolean(String.valueOf(document.get("Cheated")));
-                                            if (cheated) {
+                                            if (cheated && ! cheatUsed) {
                                                 moved = false;
+                                                cheatUsed = true;
                                             }
 
                                             if ((currentPlayer != null && currentPlayerColor == null) || (currentPlayer != null && !currentPlayerColor.equals(definePlayerColor((String) currentPlayer.get(1))))) {
@@ -88,10 +91,10 @@ public class DiceFragment extends Fragment implements SensorEventListener {
 
                                             //last dice value for cheating
                                             int diceRoll = document.get("DiceRoll", Integer.class);
-                                            if (diceRoll != 0 && lastDiceValue != diceRoll) {
+
+                                            if (diceRoll != 0 && lastDiceValue != diceRoll && !playerColor.equals(currentPlayerColor)) {
                                                 lastDiceValue = diceRoll;
                                                 setDiceView(diceRoll);
-
                                                 startCheatTimer();
                                             }
                                         }
@@ -170,29 +173,34 @@ public class DiceFragment extends Fragment implements SensorEventListener {
                     case (2):
                         diceView.setImageResource(R.drawable.dice_2);
                         lastDiceValue = 2;
+                        startCheatTimer();
                         break;
                     case (3):
                         diceView.setImageResource(R.drawable.dice_3);
                         lastDiceValue = 3;
+                        startCheatTimer();
                         break;
                     case (4):
                         diceView.setImageResource(R.drawable.dice_4);
                         lastDiceValue = 4;
+                        startCheatTimer();
                         break;
                     case (5):
                         diceView.setImageResource(R.drawable.dice_5);
                         lastDiceValue = 5;
+                        startCheatTimer();
                         break;
                     case (6):
                         diceView.setImageResource(R.drawable.dice_6);
                         lastDiceValue = 6;
+                        startCheatTimer();
                         break;
                     default:
                         diceView.setImageResource(R.drawable.dice_1);
                         lastDiceValue = 1;
+                        startCheatTimer();
                         break;
                 }
-
 
                 database.collection(GAME_INFO)
                         .whereEqualTo(ROOM_NAME, room)
@@ -215,11 +223,13 @@ public class DiceFragment extends Fragment implements SensorEventListener {
     private void startCheatTimer() {
         new Thread(() -> {
             int diceValueBeforeStart = lastDiceValue;
-            android.os.SystemClock.sleep(3000);
+            SystemClock.sleep(3000);
             Player p = getPlayer(currentPlayerColor);
 
-            if (p != null && !moved && lastDiceValue == diceValueBeforeStart) {
+
+            if (p != null && !moved && lastDiceValue == diceValueBeforeStart && playerColor.equals(currentPlayerColor)) {
                 moved = true;
+
                 p.move(lastDiceValue);
                 playfield.getActionfield();
             }

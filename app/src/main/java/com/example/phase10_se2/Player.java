@@ -1,5 +1,8 @@
 package com.example.phase10_se2;
 
+import static android.content.ContentValues.TAG;
+
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -7,6 +10,8 @@ import android.widget.LinearLayout;
 
 import com.example.phase10_se2.enums.PlayerColor;
 import com.example.phase10_se2.enums.PlayerState;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -134,6 +139,7 @@ public class Player {
             positionX = 0;
             positionY = 16 - currentPosition;
         }
+
         updateMapPosition();
     }
 
@@ -197,6 +203,22 @@ public class Player {
 
     public void setCurrentPosition(int currentPosition) {
         this.currentPosition = currentPosition;
+
+        if (currentPosition <= 3) {
+            positionX = currentPosition;
+            positionY = 0;
+        } else if (currentPosition <= 7) {
+            positionX = 3;
+            positionY = currentPosition - 3;
+        } else if (currentPosition <= 11) {
+            positionX = 11 - currentPosition;
+            positionY = 5;
+        } else {
+            positionX = 0;
+            positionY = 16 - currentPosition;
+        }
+
+        updateMapPosition();
     }
 
     public PlayerColor getColor() {
