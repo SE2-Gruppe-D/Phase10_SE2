@@ -1515,7 +1515,7 @@ public class Playfield extends AppCompatActivity {
     }
 
     public void nextRoundCards() {
-        if (getHandCardsDB().size() == 0) {
+        if (getHandCardsDB().size() == 0 || layoutPlayer1.getChildCount() == 0) {
             ArrayList<Player> playerArrayList = new ArrayList<>();
             playerArrayList.add(playerBlue);
             playerArrayList.add(playerYellow);
