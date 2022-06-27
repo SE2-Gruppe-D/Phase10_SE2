@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CreateGameActivity extends AppCompatActivity {
-    final String[] color = {""};
+    String color = "RED";
     String roomName = "";
 
     @Override
@@ -34,17 +34,15 @@ public class CreateGameActivity extends AppCompatActivity {
         RadioGroup rg = findViewById(R.id.radioGroup);
         Button createGame = findViewById(R.id.createGameRoomBtn);
 
-        final PlayerColor[] playerColor = {null};
-
+        PlayerColor[] playerColor = {PlayerColor.RED};
         FirebaseFirestore database = FirebaseFirestore.getInstance();
-        playerColor[0] = PlayerColor.RED;
 
         rg.setOnCheckedChangeListener((radioGroup, checkedID) -> {
-            color[0] = ((RadioButton) findViewById(rg.getCheckedRadioButtonId()))
+              color = ((RadioButton) findViewById(rg.getCheckedRadioButtonId()))
                     .getText().toString();
 
 
-            switch (color[0]) {
+            switch (color) {
                 case "RED":
                     playerColor[0] = PlayerColor.RED;
                     break;
@@ -97,7 +95,7 @@ public class CreateGameActivity extends AppCompatActivity {
     public void goToFindPlayer() {
         Intent intent = new Intent(CreateGameActivity.this, FindPlayer.class);
         intent.putExtra("CurrentRoom", roomName);
-        intent.putExtra("Color", color[0]);
+        intent.putExtra("Color", color);
         startActivity(intent);
     }
 }
