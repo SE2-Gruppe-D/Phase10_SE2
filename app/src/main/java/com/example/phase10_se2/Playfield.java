@@ -125,12 +125,12 @@ public class Playfield extends AppCompatActivity {
         setContentView(R.layout.activity_playfield);
         builder = new AlertDialog.Builder(Playfield.this);
 
-        currentRoom = getIntent().getExtras().getString("CurrentRoom");
-        userColor = getIntent().getExtras().getString("Color");
+        currentRoom = getIntent().getExtras().getString("CurrentRoom");  //from find Player
+        userColor = getIntent().getExtras().getString("Color"); //from find Player
         database = FirebaseFirestore.getInstance();    //verknuepfung
         FirebaseFirestore.setLoggingEnabled(true);
 
-        database.collection("users")
+        database.collection("users")  //only get called once
                 .whereEqualTo("Room", currentRoom)
                 .get()
                 .addOnCompleteListener(task -> {
@@ -198,11 +198,11 @@ public class Playfield extends AppCompatActivity {
                                                 ArrayList playerGreenArr = (ArrayList) document.get("PlayerGreen");
 
                                                 int playercount = 4;
-                                                if (playerRedArr == null) {
-                                                    playercount--;
-                                                    if (playerRed != null) {
-                                                        playerRed.getPlayerview().setVisibility(View.INVISIBLE);
-                                                        playerRed.getLinearLayout().setVisibility(View.INVISIBLE);
+                                                if (playerRedArr == null) { //if no player Red in DB
+                                                    playercount--; //reduce number of active players by 1
+                                                    if (playerRed != null) { //if we still have a local instance of playerRed (was once in the game)
+                                                        playerRed.getPlayerview().setVisibility(View.INVISIBLE); //set playerview invisible, so noone can see him anymore
+                                                        playerRed.getLinearLayout().setVisibility(View.INVISIBLE); //set his cards invisible, because he left
                                                     }
                                                 }
                                                 if (playerYellowArr == null) {
@@ -1015,7 +1015,7 @@ public class Playfield extends AppCompatActivity {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if (primaryPlayer.getColor().equals(currentPlayer.getColor())) {
-                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) { //to see card when dragging it on the display
                     case MotionEvent.ACTION_MOVE:
                         ClipData data = ClipData.newPlainText("", "");
                         View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
